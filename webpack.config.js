@@ -2,6 +2,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin;
+
 const path = require('path');
 
 const mode = process.env.NODE_ENV || 'development';
@@ -15,18 +18,27 @@ module.exports = {
     extensions: ['.mjs', '.js', '.svelte', '.css']
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'public'),
     filename: '[name].[contenthash].js'
   },
   optimization: {
     moduleIds: 'hashed',
-    runtimeChunk: 'single',
+    runtimeChunk: { name: 'runtime' },
     splitChunks: {
+      chunks: 'all',
+      minSize: 0,
+      minChunks: 1,
+      automaticNameDelimiter: '_',
       cacheGroups: {
-        vendor: {
+        vendors: false,
+        libs: {
           test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all'
+          priority: -10
+        },
+        polyfills: {
+          test: /core-js/,
+          name: 'polyfills',
+          priority: 10
         }
       }
     }
@@ -35,37 +47,18 @@ module.exports = {
     rules: [
       {
         test: /(\.m?js?$)|(\.svelte$)/,
-        exclude: /\bcore-js\b/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              [
-                '@babel/preset-env',
-                {
-                  useBuiltIns: 'usage',
-                  corejs: 3
-                }
-              ]
-            ],
-            plugins: [
-              [
-                '@babel/plugin-transform-runtime',
-                { corejs: 3, useESModules: true }
-              ]
-            ],
-            sourceType: 'unambiguous'
-          }
-        }
+        include: [path.resolve(__dirname, 'src'), /svelte/],
+        use: ['babel-loader']
       },
       {
         test: /\.svelte$/,
-        exclude: /node_modules/,
+        include: [path.resolve(__dirname, 'src'), /svelte/],
         use: {
           loader: 'svelte-loader',
           options: {
             emitCss: true,
-            hotReload: true
+            immutable: true,
+            legacy: true
           }
         }
       },
@@ -89,7 +82,9 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css'
     }),
-    new HtmlWebpackPlugin({ title: 'ETP - public' })
+    new HtmlWebpackPlugin({ title: 'ETP - public' }),
+    // uncomment to see treeview of generated bundle after build
+    new BundleAnalyzerPlugin()
   ],
   devtool: prod ? false : 'source-map'
 };
