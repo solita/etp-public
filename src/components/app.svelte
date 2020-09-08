@@ -1,5 +1,8 @@
 <script>
+  import EtHakuImage from '@Asset/ethaku.jpg';
+  import LaatijaHakuImage from '@Asset/laatijahaku.jpg';
 
+  import BorderImage from '@Component/border-image/border-image';
 </script>
 
 <style>
@@ -14,38 +17,72 @@
     @apply max-w-screen-xl m-auto;
   }
 
+  h1 {
+    @apply text-ashblue uppercase font-extrabold;
+  }
+
+  h2 {
+    @apply uppercase;
+  }
+
   .hero {
     height: 555px;
+    background-image: url('@Asset/hero.jpg?{fit:"inside",height:1000,width:2000}');
+    background-position: right -175px bottom -200px;
+  }
+
+  .mainnavigation {
+    background: rgb(197, 225, 145);
+    background: linear-gradient(
+      90deg,
+      rgba(197, 225, 145, 1) 50%,
+      rgba(46, 80, 83, 1) 50%
+    );
+  }
+
+  .navcontainer {
+    flex-basis: 100%;
+    @apply flex flex-grow justify-center px-8 py-4;
+  }
+
+  .offsetimage {
+    position: absolute;
+    top: -20px;
+    left: -20px;
   }
 </style>
 
-<header class="px-16 flex flex-col bg-green-200">
+<header class="flex flex-col">
   <div class="flex justify-between px-8 py-2">
-    <img src="images/logo.png" alt="Energiatodistusrekisteri" />
+    <div class="flex">
+      <img src="images/logo.png" alt="Energiatodistusrekisteri" />
+      <h1>Energiatodistusrekisteri</h1>
+    </div>
     <nav>
       <span>suomeksi</span>
       /
       <span>på svenska</span>
     </nav>
   </div>
-  <nav class="flex">
-    <div class="flex-grow flex justify-center px-8 py-4">
-      <a href="#">Etusivu</a>
-    </div>
-    <div class="flex-grow flex justify-center px-8 py-4">
-      <a href="#">Energiatodistushaku</a>
-    </div>
-    <div class="flex-grow flex justify-center px-8 py-4">
-      <a href="#">Todistustenlaatijahaku</a>
-    </div>
-    <div class="flex-grow flex justify-center px-8 py-4">
-      <a href="#">Laatijan kirjautuminen</a>
-    </div>
+  <nav class="px-16 mainnavigation flex">
+    <a class="navcontainer bg-lime text-black" href="#">Etusivu</a>
+    <a class="navcontainer bg-green text-white" href="#">Energiatodistushaku</a>
+    <a class="navcontainer bg-darkgreen text-white" href="#">
+      Todistustenlaatijahaku
+    </a>
+    <a class="navcontainer bg-ashblue text-white" href="#">
+      Laatijan kirjautuminen
+    </a>
   </nav>
 </header>
-<div class="hero bg-red-300 flex items-center" role="presentation">
-  <section class="w-1/3 ml-16">
+<div class="hero px-16 flex items-center bg-beige" role="presentation">
+  <section class="w-1/3 ml-16 bg-white text-ashblue font-bold">
     <h2 class="mb-4">Energiatodistusrekisteri</h2>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a mi vel ex
+      vulputate porttitor. Ut rutrum sapien ut lacus blandit lobortis. Aenean
+      sit amet mollis urna. Nam posuere sed lorem in aliquet.
+    </p>
     <p>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a mi vel ex
       vulputate porttitor. Ut rutrum sapien ut lacus blandit lobortis. Aenean
@@ -53,10 +90,10 @@
     </p>
   </section>
 </div>
-<main class="px-16 bg-teal-200">
-  <article class="flex">
-    <section class="mr-16">
-      <img src="images/ethaku.png" alt="" />
+<main>
+  <article class="flex px-16 bg-beige">
+    <section class="relative mr-16">
+      <BorderImage src={EtHakuImage} />
       <h2 class="mb-4">Hae rakennuksen energiatodistus</h2>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a mi vel
@@ -64,8 +101,8 @@
         Aenean sit amet mollis urna. Nam posuere sed lorem in aliquet.
       </p>
     </section>
-    <section class="mr-16">
-      <img src="images/laatijahaku.png" alt="" />
+    <section class="relative mr-16">
+      <BorderImage src={LaatijaHakuImage} />
       <h2 class="mb-4">Tarvitsetko energiatodistuksen? Löydä laatija!</h2>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a mi vel
@@ -74,8 +111,8 @@
       </p>
     </section>
   </article>
-  <section class="flex justify-center py-16">
-    <div class="flex flex-col w-7/12">
+  <section class="flex justify-center p-16 bg-ashblue">
+    <div class="text-white flex flex-col w-7/12">
       <h2 class="mb-4">
         Energiatodistus auttaa vertailemaan rakennusten energiankulutusta
       </h2>
@@ -86,8 +123,8 @@
       </p>
     </div>
   </section>
-  <article class="flex py-16">
-    <section class="mr-8">
+  <article class="flex bg-white">
+    <section class="pl-16 mr-8 bg-beige">
       <h2 class="mb-4">Käytä vain virallista energiatodistusta</h2>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a mi vel
@@ -114,7 +151,7 @@
   </article>
 </main>
 
-<footer class="flex flex-col bg-indigo-300 pt-16 px-16">
+<footer class="flex flex-col bg-grey pt-16 px-16">
   <article class="flex">
     <section class="mr-8">
       <h2 class="mb-4">
