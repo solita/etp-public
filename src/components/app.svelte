@@ -1,6 +1,7 @@
 <script>
   import EtHakuImage from '@Asset/ethaku.jpg';
   import LaatijaHakuImage from '@Asset/laatijahaku.jpg';
+  import Logo from '@Asset/logo.svg';
 
   import BorderImage from '@Component/border-image/border-image';
 </script>
@@ -54,9 +55,9 @@
 
 <header class="flex flex-col">
   <div class="flex justify-between px-8 py-2">
-    <div class="flex">
-      <img src="images/logo.png" alt="Energiatodistusrekisteri" />
-      <h1>Energiatodistusrekisteri</h1>
+    <div class="flex items-center">
+      <img src={Logo} alt="Energiatodistusrekisterin logo" />
+      <h1 class="pl-2">Energiatodistusrekisteri</h1>
     </div>
     <nav>
       <span>suomeksi</span>
@@ -77,7 +78,10 @@
 </header>
 <div class="hero px-16 flex items-center bg-beige" role="presentation">
   <section class="w-1/3 ml-16 bg-white text-ashblue font-bold">
-    <h2 class="mb-4">Energiatodistusrekisteri</h2>
+    <div class="flex items-center">
+      <img src={Logo} alt="Energiatodistusrekisterin logo" />
+      <h2 class="pl-2 font-extrabold">Energiatodistusrekisteri</h2>
+    </div>
     <p>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a mi vel ex
       vulputate porttitor. Ut rutrum sapien ut lacus blandit lobortis. Aenean
@@ -124,7 +128,7 @@
     </div>
   </section>
   <article class="flex bg-white">
-    <section class="pl-16 mr-8 bg-beige">
+    <section class="mr-8 bg-beige pl-16">
       <h2 class="mb-4">Käytä vain virallista energiatodistusta</h2>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a mi vel
@@ -140,7 +144,7 @@
         Aenean sit amet mollis urna. Nam posuere sed lorem in aliquet.
       </p>
     </section>
-    <section class="mr-8">
+    <section class="mr-8 pr-16">
       <h2 class="mb-4">Tilastot rakennusten energiatodistuksista</h2>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a mi vel

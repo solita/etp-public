@@ -81,13 +81,28 @@ module.exports = {
         ]
       },
       {
-        test: /\.(gif|png|jpe?g|svg)$/i,
+        test: /\.(png|jpe?g|webp|tiff?)$/i,
         use: [
           {
             loader: 'webpack-image-resize-loader',
             options: {
-              width: 400,
-              format: 'jpeg'
+              width: 400
+            }
+          }
+        ]
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          'file-loader',
+          {
+            loader: 'svgo-loader',
+            options: {
+              plugins: [
+                { removeTitle: true },
+                { convertColors: { shorthex: false } },
+                { convertPathData: false }
+              ]
             }
           }
         ]
