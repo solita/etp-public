@@ -43,7 +43,7 @@
 
   .navcontainer {
     flex-basis: 100%;
-    @apply flex flex-grow justify-center px-8 py-4;
+    @apply flex flex-grow py-4;
   }
 
   .offsetimage {
@@ -54,7 +54,7 @@
 </style>
 
 <header class="flex flex-col">
-  <div class="flex justify-between px-8 py-2">
+  <div class="flex justify-between px-16 py-2">
     <div class="flex items-center">
       <img src={Logo} alt="Energiatodistusrekisterin logo" />
       <h1 class="pl-2">Energiatodistusrekisteri</h1>
@@ -77,7 +77,7 @@
   </nav>
 </header>
 <div class="hero px-16 flex items-center bg-beige" role="presentation">
-  <section class="w-1/3 ml-16 bg-white text-ashblue font-bold">
+  <section class="w-1/3 bg-white text-ashblue font-bold">
     <div class="flex items-center">
       <img src={Logo} alt="Energiatodistusrekisterin logo" />
       <h2 class="pl-2 font-extrabold">Energiatodistusrekisteri</h2>
@@ -128,7 +128,7 @@
     </div>
   </section>
   <article class="flex bg-white">
-    <section class="mr-8 bg-beige pl-16">
+    <section class="mr-8 bg-beige pl-16 w-1/3">
       <h2 class="mb-4">Käytä vain virallista energiatodistusta</h2>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a mi vel
@@ -136,21 +136,26 @@
         Aenean sit amet mollis urna. Nam posuere sed lorem in aliquet.
       </p>
     </section>
-    <section class="mr-8">
-      <h2 class="mb-4">Motiva Oy:n energiatodistuspavelu</h2>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a mi vel
-        ex vulputate porttitor. Ut rutrum sapien ut lacus blandit lobortis.
-        Aenean sit amet mollis urna. Nam posuere sed lorem in aliquet.
-      </p>
-    </section>
-    <section class="mr-8 pr-16">
-      <h2 class="mb-4">Tilastot rakennusten energiatodistuksista</h2>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a mi vel
-        ex vulputate porttitor. Ut rutrum sapien ut lacus blandit lobortis.
-        Aenean sit amet mollis urna. Nam posuere sed lorem in aliquet.
-      </p>
+    <section class="w-2/3">
+      <h2>Lisätietoa energiatodistuksista</h2>
+      <section class="mr-8">
+        <h2 class="mb-4">Motiva Oy:n energiatodistuspavelu</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a mi
+          vel ex vulputate porttitor. Ut rutrum sapien ut lacus blandit
+          lobortis. Aenean sit amet mollis urna. Nam posuere sed lorem in
+          aliquet.
+        </p>
+      </section>
+      <section class="mr-8 pr-16">
+        <h2 class="mb-4">Tilastot rakennusten energiatodistuksista</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a mi
+          vel ex vulputate porttitor. Ut rutrum sapien ut lacus blandit
+          lobortis. Aenean sit amet mollis urna. Nam posuere sed lorem in
+          aliquet.
+        </p>
+      </section>
     </section>
   </article>
 </main>
