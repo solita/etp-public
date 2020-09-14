@@ -15,7 +15,13 @@ module.exports = {
     bundle: ['./src/main.js']
   },
   resolve: {
-    extensions: ['.mjs', '.js', '.svelte', '.css']
+    extensions: ['.mjs', '.js', '.svelte', '.css'],
+    alias: {
+      '@Component': path.resolve(__dirname, 'src/components'),
+      '@Asset': path.resolve(__dirname, 'assets'),
+      '@': path.resolve(__dirname, 'src'),
+      svelte: path.resolve('node_modules', 'svelte')
+    }
   },
   output: {
     path: path.resolve(__dirname, 'public'),
@@ -73,6 +79,33 @@ module.exports = {
           'css-loader',
           'postcss-loader'
         ]
+      },
+      {
+        test: /\.(png|jpe?g|webp|tiff?)$/i,
+        use: [
+          {
+            loader: 'webpack-image-resize-loader',
+            options: {
+              width: 400
+            }
+          }
+        ]
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          'file-loader',
+          {
+            loader: 'svgo-loader',
+            options: {
+              plugins: [
+                { removeTitle: true },
+                { convertColors: { shorthex: false } },
+                { convertPathData: false }
+              ]
+            }
+          }
+        ]
       }
     ]
   },
@@ -82,9 +115,9 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css'
     }),
-    new HtmlWebpackPlugin({ title: 'ETP - public' }),
+    new HtmlWebpackPlugin({ title: 'ETP - public' })
     // uncomment to see treeview of generated bundle after build
-    new BundleAnalyzerPlugin()
+    // new BundleAnalyzerPlugin()
   ],
   devtool: prod ? false : 'source-map'
 };
