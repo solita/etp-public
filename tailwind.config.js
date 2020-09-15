@@ -5,7 +5,7 @@ module.exports = {
       black: '#000000',
       grey: '#eaeded',
       white: '#ffffff',
-      lime: '#c5e191',
+      lightgreen: '#c5e191',
       green: '#538000',
       darkgreen: '#345000',
       ashblue: '#2e5053',
@@ -19,7 +19,7 @@ module.exports = {
       }
     }
   },
-  variants: {},
+  variants: { backgroundColor: ['responsive', 'hover', 'focus'] },
   plugins: [],
   future: {
     removeDeprecatedGapUtilities: true
