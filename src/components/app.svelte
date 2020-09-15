@@ -5,6 +5,7 @@
 
   import BorderImage from '@Component/border-image/border-image';
   import Header from '@Component/header/header';
+  import { locale, _ } from '@Component/localization/localization';
 </script>
 
 <style>
