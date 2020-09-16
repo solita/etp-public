@@ -1,5 +1,10 @@
 <script>
   import Logo from '@Asset/logo.svg';
+  import IconHome from '@Asset/icons/home.svg';
+  import IconSearchFile from '@Asset/icons/search_file.svg';
+  import IconSearchPerson from '@Asset/icons/search_person.svg';
+  import IconLogin from '@Asset/icons/login.svg';
+  import IconNext from '@Asset/icons/back.svg';
 </script>
 
 <style>
@@ -22,10 +27,13 @@
   }
 
   .icon {
-    width: 25px;
-    height: 33px;
-    border: 1px solid white;
+    width: 35px;
+    height: auto;
+    overflow: hidden;
     @apply flex-none mx-auto mx-1;
+  }
+  .icon.light{
+    filter: invert(1);
   }
 </style>
 
@@ -42,9 +50,9 @@
     </div>
   </div>
   <div class="mainnavigation">
-    <nav class="px-3 max-w-screen-xl m-auto flex">
+    <nav class="px-1 max-w-screen-xl m-auto flex">
       <a class="navcontainer bg-lime text-black" href="/">
-        <div class="icon" />
+        <img class="icon" src={IconHome} alt="Icon">
         <div class="flex flex-col flex-grow self-start px-1">
           <span class="uppercase">Etusivu</span>
           <span class="text-sm italic font-light">Tervetuloa
@@ -52,7 +60,7 @@
         </div>
       </a>
       <a class="navcontainer bg-green text-white" href="/">
-        <div class="icon" />
+        <img class="icon light" src={IconSearchFile} alt="Icon">
         <div class="flex flex-col flex-grow self-start px-1">
           <span class="uppercase">Energiatodistushaku</span>
           <span class="text-sm italic font-light">Täältä löydät tarvitsemasi
@@ -60,7 +68,7 @@
         </div>
       </a>
       <a class="navcontainer bg-darkgreen text-white" href="/">
-        <div class="icon" />
+        <img class="icon light" src={IconSearchPerson} alt="Icon">
         <div class="flex flex-col flex-grow self-start px-1">
           <span class="uppercase">Todistustenlaatijahaku</span>
           <span class="text-sm italic font-light">Täältä löydät
@@ -68,13 +76,13 @@
         </div>
       </a>
       <a class="navcontainer bg-ashblue text-white" href="/">
-        <div class="icon" />
+        <img class="icon light" src={IconLogin} alt="Icon">
         <div class="flex flex-col flex-grow self-start px-1">
           <span class="uppercase">Laatijan kirjautuminen</span>
           <span class="text-sm italic font-light">Energiatodistusten
             laatijoille.</span>
         </div>
-        <div class="icon" />
+        <img class="icon light" src={IconNext} alt="Icon">
       </a>
     </nav>
   </div>
