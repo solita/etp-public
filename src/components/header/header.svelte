@@ -32,7 +32,7 @@
     overflow: hidden;
     @apply flex-none mx-auto mx-1;
   }
-  .icon.light{
+  .icon.light {
     filter: invert(1);
   }
 </style>
@@ -45,44 +45,52 @@
         <h1 class="pl-2">Energiatodistusrekisteri</h1>
       </div>
       <nav class="font-semibold text-ashblue">
-        <span>suomeksi</span> | <span>på svenska</span>
+        <span>suomeksi</span>
+        |
+        <span>på svenska</span>
       </nav>
     </div>
   </div>
   <div class="mainnavigation">
     <nav class="px-1 max-w-screen-xl m-auto flex">
       <a class="navcontainer bg-lime text-black" href="/">
-        <img class="icon" src={IconHome} alt="Icon">
+        <img class="icon" src={IconHome} alt="Icon" />
         <div class="flex flex-col flex-grow self-start px-1">
           <span class="uppercase">Etusivu</span>
-          <span class="text-sm italic font-light">Tervetuloa
-            energiatodistusrekisteriin</span>
+          <span class="text-sm italic font-light">
+            Tervetuloa energiatodistusrekisteriin
+          </span>
         </div>
       </a>
-      <a class="navcontainer bg-green text-white" href="/">
-        <img class="icon light" src={IconSearchFile} alt="Icon">
+      <a class="navcontainer bg-green text-white" href="/ethaku">
+        <img class="icon light" src={IconSearchFile} alt="Icon" />
         <div class="flex flex-col flex-grow self-start px-1">
           <span class="uppercase">Energiatodistushaku</span>
-          <span class="text-sm italic font-light">Täältä löydät tarvitsemasi
-            energiatodistukset</span>
+          <span class="text-sm italic font-light">
+            Täältä löydät tarvitsemasi energiatodistukset
+          </span>
         </div>
       </a>
-      <a class="navcontainer bg-darkgreen text-white" href="/">
-        <img class="icon light" src={IconSearchPerson} alt="Icon">
+      <a class="navcontainer bg-darkgreen text-white" href="/laatijahaku">
+        <img class="icon light" src={IconSearchPerson} alt="Icon" />
         <div class="flex flex-col flex-grow self-start px-1">
           <span class="uppercase">Todistustenlaatijahaku</span>
-          <span class="text-sm italic font-light">Täältä löydät
-            energiatodistusten pätevät laatijat</span>
+          <span class="text-sm italic font-light">
+            Täältä löydät energiatodistusten pätevät laatijat
+          </span>
         </div>
       </a>
-      <a class="navcontainer bg-ashblue text-white" href="/">
-        <img class="icon light" src={IconLogin} alt="Icon">
+      <a
+        class="navcontainer bg-ashblue text-white"
+        href="/laatijankirjautuminen">
+        <img class="icon light" src={IconLogin} alt="Icon" />
         <div class="flex flex-col flex-grow self-start px-1">
           <span class="uppercase">Laatijan kirjautuminen</span>
-          <span class="text-sm italic font-light">Energiatodistusten
-            laatijoille.</span>
+          <span class="text-sm italic font-light">
+            Energiatodistusten laatijoille.
+          </span>
         </div>
-        <img class="icon light" src={IconNext} alt="Icon">
+        <img class="icon light" src={IconNext} alt="Icon" />
       </a>
     </nav>
   </div>

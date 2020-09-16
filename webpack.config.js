@@ -119,5 +119,8 @@ module.exports = {
     // uncomment to see treeview of generated bundle after build
     // new BundleAnalyzerPlugin()
   ],
-  devtool: prod ? false : 'source-map'
+  devtool: prod ? false : 'source-map',
+  devServer: {
+    historyApiFallback: true
+  }
 };
