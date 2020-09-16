@@ -4,6 +4,7 @@
   import Logo from '@Asset/logo.svg';
 
   import BorderImage from '@Component/border-image/border-image';
+  import Header from '@Component/header/header';
 </script>
 
 <style>
@@ -11,15 +12,10 @@
     @apply font-body;
   }
 
-  header,
   main,
   footer,
   .hero {
     @apply max-w-screen-xl m-auto;
-  }
-
-  h1 {
-    @apply text-ashblue uppercase font-extrabold;
   }
 
   h2 {
@@ -31,51 +27,10 @@
     background-image: url('@Asset/hero.jpg?{fit:"inside",height:1000,width:2000}');
     background-position: right -175px bottom -200px;
   }
-
-  .mainnavigation {
-    background: rgb(197, 225, 145);
-    background: linear-gradient(
-      90deg,
-      rgba(197, 225, 145, 1) 50%,
-      rgba(46, 80, 83, 1) 50%
-    );
-  }
-
-  .navcontainer {
-    flex-basis: 100%;
-    @apply flex flex-grow py-4;
-  }
-
-  .offsetimage {
-    position: absolute;
-    top: -20px;
-    left: -20px;
-  }
 </style>
 
-<header class="flex flex-col">
-  <div class="flex justify-between px-16 py-2">
-    <div class="flex items-center">
-      <img src={Logo} alt="Energiatodistusrekisterin logo" />
-      <h1 class="pl-2">Energiatodistusrekisteri</h1>
-    </div>
-    <nav>
-      <span>suomeksi</span>
-      /
-      <span>på svenska</span>
-    </nav>
-  </div>
-  <nav class="px-16 mainnavigation flex">
-    <a class="navcontainer bg-lime text-black" href="#">Etusivu</a>
-    <a class="navcontainer bg-green text-white" href="#">Energiatodistushaku</a>
-    <a class="navcontainer bg-darkgreen text-white" href="#">
-      Todistustenlaatijahaku
-    </a>
-    <a class="navcontainer bg-ashblue text-white" href="#">
-      Laatijan kirjautuminen
-    </a>
-  </nav>
-</header>
+<Header />
+
 <div class="hero px-16 flex items-center bg-beige" role="presentation">
   <section class="w-1/3 bg-white text-ashblue font-bold">
     <div class="flex items-center">
