@@ -8,6 +8,10 @@
 </script>
 
 <style>
+  header {
+    @apply max-w-screen-xl m-auto;
+  }
+
   .mainnavigation {
     background: rgb(197, 225, 145);
     background: linear-gradient(
@@ -21,7 +25,6 @@
     flex-basis: 100%;
     @apply flex flex-grow py-3 flex-row items-center px-1;
   }
-
   .icon {
     max-height: 33px;
   }
@@ -31,10 +34,15 @@
 </style>
 
 <header class="flex flex-col">
-  <div class="flex justify-between px-16 py-4">
-    <div class="flex items-center">
-      <img src={Logo} alt="Energiatodistusrekisterin logo" />
-      <h1 class="pl-2">Energiatodistusrekisteri</h1>
+  <div>
+    <div class="flex justify-between px-3 py-2">
+      <div class="flex items-center">
+        <img src={Logo} alt="Energiatodistusrekisterin logo" />
+        <h1 class="pl-2">Energiatodistusrekisteri</h1>
+      </div>
+      <nav class="font-semibold text-ashblue">
+        <span>suomeksi</span> | <span>på svenska</span>
+      </nav>
     </div>
     <nav class="font-semibold text-ashblue">
       <span>suomeksi</span>
@@ -42,8 +50,8 @@
       <span>på svenska</span>
     </nav>
   </div>
-  <div class="mainnavigation px-16">
-    <nav class="flex">
+  <div class="mainnavigation">
+    <nav class="px-1 flex">
       <a class="navcontainer bg-lime text-black" href="/">
         <img class="icon" src={IconHome} alt="Icon" />
         <div class="flex flex-col flex-grow self-start px-1">
