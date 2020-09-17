@@ -8,10 +8,6 @@
 </script>
 
 <style>
-  header {
-    @apply max-w-full m-auto;
-  }
-
   .mainnavigation {
     background: rgb(197, 225, 145);
     background: linear-gradient(
@@ -27,32 +23,27 @@
   }
 
   .icon {
-    width: 35px;
-    height: auto;
-    overflow: hidden;
-    @apply flex-none mx-auto mx-1;
+    max-height: 33px;
   }
-  .icon.light {
+  .invert {
     filter: invert(1);
   }
 </style>
 
 <header class="flex flex-col">
-  <div>
-    <div class="flex justify-between max-w-screen-xl m-auto px-3 py-2">
-      <div class="flex items-center">
-        <img src={Logo} alt="Energiatodistusrekisterin logo" />
-        <h1 class="pl-2">Energiatodistusrekisteri</h1>
-      </div>
-      <nav class="font-semibold text-ashblue">
-        <span>suomeksi</span>
-        |
-        <span>på svenska</span>
-      </nav>
+  <div class="flex justify-between px-16 py-4">
+    <div class="flex items-center">
+      <img src={Logo} alt="Energiatodistusrekisterin logo" />
+      <h1 class="pl-2">Energiatodistusrekisteri</h1>
     </div>
+    <nav class="font-semibold text-ashblue">
+      <span>suomeksi</span>
+      |
+      <span>på svenska</span>
+    </nav>
   </div>
-  <div class="mainnavigation">
-    <nav class="px-1 max-w-screen-xl m-auto flex">
+  <div class="mainnavigation px-16">
+    <nav class="flex">
       <a class="navcontainer bg-lime text-black" href="/">
         <img class="icon" src={IconHome} alt="Icon" />
         <div class="flex flex-col flex-grow self-start px-1">
@@ -63,7 +54,7 @@
         </div>
       </a>
       <a class="navcontainer bg-green text-white" href="/ethaku">
-        <img class="icon light" src={IconSearchFile} alt="Icon" />
+        <img class="icon invert" src={IconSearchFile} alt="Icon" />
         <div class="flex flex-col flex-grow self-start px-1">
           <span class="uppercase">Energiatodistushaku</span>
           <span class="text-sm italic font-light">
@@ -72,7 +63,7 @@
         </div>
       </a>
       <a class="navcontainer bg-darkgreen text-white" href="/laatijahaku">
-        <img class="icon light" src={IconSearchPerson} alt="Icon" />
+        <img class="icon invert" src={IconSearchPerson} alt="Icon" />
         <div class="flex flex-col flex-grow self-start px-1">
           <span class="uppercase">Todistustenlaatijahaku</span>
           <span class="text-sm italic font-light">
@@ -83,14 +74,14 @@
       <a
         class="navcontainer bg-ashblue text-white"
         href="/laatijankirjautuminen">
-        <img class="icon light" src={IconLogin} alt="Icon" />
+        <img class="icon invert" src={IconLogin} alt="Icon" />
         <div class="flex flex-col flex-grow self-start px-1">
           <span class="uppercase">Laatijan kirjautuminen</span>
           <span class="text-sm italic font-light">
             Energiatodistusten laatijoille.
           </span>
         </div>
-        <img class="icon light" src={IconNext} alt="Icon" />
+        <img class="icon invert" src={IconNext} alt="Icon" />
       </a>
     </nav>
   </div>
