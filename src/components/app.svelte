@@ -10,81 +10,85 @@
 </script>
 
 <style>
-  * {
-    @apply font-body;
-  }
-
-  main,
-  footer {
-    @apply max-w-screen-xl m-auto;
-  }
-
-  h2 {
-    @apply uppercase;
-  }
-
   :global(h1) {
     @apply text-ashblue uppercase font-bold;
   }
 
   :global(h2) {
-    @apply uppercase;
+    @apply uppercase tracking-widest font-bold;
   }
 
-  .mainnavigation {
-    background: rgb(197, 225, 145);
-    background: linear-gradient(
-      90deg,
-      rgba(197, 225, 145, 1) 50%,
-      rgba(46, 80, 83, 1) 50%
-    );
-  }
-
-  .navcontainer {
-    flex-basis: 100%;
-    @apply flex flex-grow py-4;
+  .applicationcontainer {
+    max-width: 1440px;
   }
 </style>
 
-<Header />
+<div class="applicationcontainer m-auto font-body font-medium">
+  <Header />
 
-<main>
-  <Router />
-</main>
+  <main class="w-full">
+    <Router />
+  </main>
 
-<footer class="flex flex-col bg-grey pt-16 px-16">
-  <article class="flex">
-    <section class="mr-8">
-      <h2 class="mb-4">
-        Energiatodistukset sekä niiden käyttö perustuu lakiin ja sitä valvotaan
-      </h2>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a mi vel
-        ex vulputate porttitor. Ut rutrum sapien ut lacus blandit lobortis.
-        Aenean sit amet mollis urna. Nam posuere sed lorem in aliquet.
-      </p>
-    </section>
-    <section class="mr-8">
-      <h2 class="mb-4">Ota yhteyttä</h2>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a mi vel
-        ex vulputate porttitor. Ut rutrum sapien ut lacus blandit lobortis.
-        Aenean sit amet mollis urna. Nam posuere sed lorem in aliquet.
-      </p>
-    </section>
-    <section class="mr-8">
-      <h2 class="mb-4">Laatijoiden pavelu</h2>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a mi vel
-        ex vulputate porttitor. Ut rutrum sapien ut lacus blandit lobortis.
-        Aenean sit amet mollis urna. Nam posuere sed lorem in aliquet.
-      </p>
-    </section>
-  </article>
+  <footer class="w-full flex flex-col bg-grey px-16 py-16">
+    <article class="flex -mx-4">
+      <section class="w-1/3 px-4">
+        <h2 class="mb-4">
+          Energiatodistukset sekä niiden käyttö perustuu lakiin ja sitä
+          valvotaan
+        </h2>
+        <p>
+          Asumisen rahoitus- ja kehittämiskeskus (ARA) on valtion viranomainen,
+          joka valvoo todistusten käyttöä ja oikeellisuutta. Vastaamme myös
+          tämän palvelun ylläpidosta. Palvelua ja valvontaa hoitavat rautaiset
+          energia-ammattilaisemme. Jos sinulla on kysyttävää, otathan yhteyttä!
+        </p>
+        <a href="#" class="underline text-green">Siirry ARA.fi</a>
+      </section>
+      <section class="w-1/3 flex flex-col justify-between px-4">
+        <h2 class="mb-4">Ota yhteyttä</h2>
+        <address class="not-italic">
+          <span>Sähköposti:</span>
+          <a href="#" class="underline text-green">energiatodistus@ara.fi</a>
+        </address>
+        <address class="not-italic">
+          <ol>
+            <li>Asumisen rahoitus- ja kehittämiskeskus</li>
+            <li>PL 30</li>
+            <li>15141</li>
+            <li>LAHTI</li>
+          </ol>
+        </address>
+        <address class="not-italic">
+          <span>Puhelinvaihde:</span>
+          <a href="#" class="underline text-green">029 525 0800</a>
+        </address>
+        <a href="#" class="block underline text-green">Tietoa sivustosta</a>
+      </section>
+      <div class="w-1/3 flex flex-col justify px-4 -my-4">
+        <section class="py-4">
+          <h2 class="mb-4">Laatijoiden pavelu</h2>
+          <button
+            class="bg-ashblue text-white uppercase text-sm font-bold
+            tracking-wider rounded-full px-8 py-4">
+            Kirjaudu
+          </button>
+        </section>
+        <section class="py-4">
+          <h2 class="mb-4">palaute on aina tervetullutta</h2>
+          <button
+            class="bg-green text-white uppercase text-sm font-bold
+            tracking-wider rounded-full px-8 py-4">
+            Lähetä palautetta
+          </button>
+        </section>
+      </div>
+    </article>
 
-  <div class="my-8 border-t-2 border-gray-400">
-    <img
-      src="images/ara-logo.png"
-      alt="ARA - asumisen rakennus- ja kehityskeskus" />
-  </div>
-</footer>
+    <div class="my-8 border-t-2 border-gray-400">
+      <img
+        src="images/ara-logo.png"
+        alt="ARA - asumisen rakennus- ja kehityskeskus" />
+    </div>
+  </footer>
+</div>
