@@ -26,7 +26,7 @@
     filter: invert(1);
     @apply flex-none mx-auto mx-1;
   }
-  .text-dark .dark {
+  .text-black .icon {
     filter: invert(0);
   }
 </style>
