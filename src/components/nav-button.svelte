@@ -13,11 +13,14 @@
 <style>
   .navcontainer {
     flex-basis: 100%;
-    @apply flex flex-grow px-1 py-3 flex-row items-center;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    @apply flex flex-grow px-1 py-2 flex-row items-center;
   }
   .active {
-    box-shadow: 0px 5px 0px 0px black;
+    /* box-shadow: 0px 5px 0px 0px black; */
     z-index: 1;
+    border-bottom: 5px solid rgba(0, 0, 0, 0.5);
   }
   .icon {
     width: 2vw;
