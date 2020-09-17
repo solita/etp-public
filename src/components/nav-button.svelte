@@ -20,7 +20,7 @@
     z-index: 1;
   }
   .icon {
-    width: 35px;
+    width: 2vw;
     height: auto;
     overflow: hidden;
     filter: invert(1);
@@ -28,6 +28,12 @@
   }
   .text-black .icon {
     filter: invert(0);
+  }
+  .text-base{
+    font-size: 1.2vw;
+  }
+  .text-sm{
+    font-size: 1.1vw;
   }
 </style>
 
@@ -43,7 +49,7 @@
       alt="Icon" />
   {/if}
   <div class="flex flex-col flex-grow self-start px-1">
-    <span class="uppercase">{title}</span>
+    <span class="uppercase text-base">{title}</span>
     <span class="text-sm italic font-light"> {subtitle} </span>
   </div>
   {#if iconRight}
