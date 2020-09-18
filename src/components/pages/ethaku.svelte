@@ -1,5 +1,5 @@
 <script>
-
+  import Button, { styles as buttonStyles } from '@Component/button';
 </script>
 
 <style>
@@ -54,7 +54,7 @@
           hover:bg-beige">
           <input
             id="aluehaku"
-            class="w-full border-black bg-white focus:outline-none"
+            class="w-full bg-white focus:outline-none"
             placeholder="Hae alueella" />
         </div>
         <a class="inline-flex items-center ml-4 text-green" href="#">
@@ -63,16 +63,8 @@
         </a>
       </div>
       <div class="mt-2">
-        <button
-          class="bg-green text-white uppercase font-bold tracking-widest text-xs
-          rounded-full px-8 py-3 mr-2 focus:outline-none">
-          Hae
-        </button>
-        <button
-          class="bg-ashblue text-white uppercase font-bold tracking-widest
-          text-xs rounded-full px-8 py-3 focus:outline-none">
-          Tyhjennä hakuehdot
-        </button>
+        <Button {...buttonStyles.green}>Hae</Button>
+        <Button {...buttonStyles.green}>Tyhjennä hakuehdot</Button>
       </div>
     </div>
     <aside
