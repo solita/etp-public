@@ -6,7 +6,6 @@
   import IconNext from '@Asset/icons/back.svg';
 
   import NavButton from '@Component/nav-button';
-  import { activePath } from '@Component/router/router';
 </script>
 
 <style>
@@ -18,6 +17,13 @@
       rgba(46, 80, 83, 1) 50%
     );
   }
+
+  .title {
+    font-size: 1.2vw;
+  }
+  .subtitle {
+    font-size: 1.1vw;
+  }
 </style>
 
 <nav class="mainnavigation flex">
@@ -27,27 +33,36 @@
     subtitle="Tervetuloa energiatodistusrekisteriin"
     colorText="text-black"
     colorBackground="bg-lightgreen"
-    iconLeft={IconHome} />
+    iconLeft={IconHome}>
+    <span class="title uppercase">Etusivu</span>
+    <span class="subtitle italic font-light">Tervetuloa
+      energiatodistusrekisteriin</span>
+  </NavButton>
   <NavButton
     link="/ethaku"
-    title="Energiatodistushaku"
-    subtitle="Täältä löydät tarvitsemasi energiatodistukset"
     colorText="text-white"
     colorBackground="bg-green"
-    iconLeft={IconSearchFile} />
+    iconLeft={IconSearchFile}>
+    <span class="title uppercase">Energiatodistushaku</span>
+    <span class="subtitle italic font-light">Täältä löydät tarvitsemasi
+      energiatodistukset</span>
+  </NavButton>
   <NavButton
     link="/laatijahaku"
-    title="Todistustenlaatijahaku"
-    subtitle="Täältä löydät energiatodistusten pätevät laatijat"
     colorText="text-white"
     colorBackground="bg-darkgreen"
-    iconLeft={IconSearchPerson} />
+    iconLeft={IconSearchPerson}>
+    <span class="title uppercase">Todistustenlaatijahaku</span>
+    <span class="subtitle italic font-light">Täältä löydät energiatodistusten
+      pätevät laatijat</span>
+  </NavButton>
   <NavButton
     link="/laatijankirjautuminen"
-    title="Laatijan kirjautuminen"
-    subtitle="Energiatodistusten laatijoille"
     colorText="text-white"
     colorBackground="bg-ashblue"
     iconLeft={IconLogin}
-    iconRight={IconNext} />
+    iconRight={IconNext}>
+    <span class="title uppercase">Laatijan kirjautuminen</span>
+    <span class="subtitle italic font-light">Energiatodistusten laatijoille</span>
+  </NavButton>
 </nav>

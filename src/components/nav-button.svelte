@@ -1,7 +1,5 @@
 <script>
   export let link;
-  export let title;
-  export let subtitle;
   export let colorText;
   export let colorBackground;
   export let iconLeft;
@@ -32,32 +30,28 @@
   .text-black .icon {
     filter: invert(0);
   }
-  .text-base{
-    font-size: 1.2vw;
-  }
-  .text-sm{
-    font-size: 1.1vw;
-  }
 </style>
 
+<!-- purgecss: active -->
+<!-- purgecss: dark -->
 <a
-  class="navcontainer {colorBackground}
-    {colorText}
-    {$activePath === link ? 'active' : ''}"
+  class="navcontainer {colorBackground} {colorText}"
+  class:active={$activePath === link}
   href={link}>
   {#if iconLeft}
     <img
-      class="icon {colorText === 'black' ? 'dark' : ''}"
+      class="icon"
+      class:dark={colorText === 'black'}
       src={iconLeft}
       alt="Icon" />
   {/if}
   <div class="flex flex-col flex-grow self-start px-1">
-    <span class="uppercase text-base">{title}</span>
-    <span class="text-sm italic font-light"> {subtitle} </span>
+    <slot />
   </div>
   {#if iconRight}
     <img
-      class="icon {colorText === 'black' ? 'dark' : ''}"
+      class="icon"
+      class:dark={colorText === 'black'}
       src={iconRight}
       alt="Icon" />
   {/if}
