@@ -7,6 +7,8 @@
   import Header from '@Component/header/header';
   import { locale, _ } from '@Component/localization/localization';
   import Router, { activePath } from '@Component/router/router';
+
+  import Button, { styles as buttonStyles } from '@Component/button';
 </script>
 
 <style>
@@ -68,19 +70,15 @@
       <div class="w-1/3 flex flex-col justify px-4 -my-4">
         <section class="py-4">
           <h2 class="mb-4">Laatijoiden pavelu</h2>
-          <button
-            class="bg-ashblue text-white uppercase text-sm font-bold
-            tracking-wider rounded-full px-8 py-4">
+          <Button
+            on:click={() => console.log('click')}
+            {...buttonStyles.ashblue}>
             Kirjaudu
-          </button>
+          </Button>
         </section>
         <section class="py-4">
           <h2 class="mb-4">palaute on aina tervetullutta</h2>
-          <button
-            class="bg-green text-white uppercase text-sm font-bold
-            tracking-wider rounded-full px-8 py-4">
-            Lähetä palautetta
-          </button>
+          <Button {...buttonStyles.green}>Lähetä palautetta</Button>
         </section>
       </div>
     </article>

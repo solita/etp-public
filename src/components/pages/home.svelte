@@ -5,11 +5,20 @@
   import BorderImage from '@Component/border-image/border-image';
 
   import Hero from '@Component/hero/hero';
+  import Button, { styles as buttonStyles } from '@Component/button';
 </script>
 
 <style>
   h3 {
     @apply text-green uppercase tracking-wider font-bold;
+  }
+
+  input {
+    background-color: transparent;
+  }
+
+  input::placeholder {
+    @apply text-black;
   }
 </style>
 
@@ -17,23 +26,64 @@
 
 <article class="flex bg-beige pb-16 px-16">
   <div class="flex -mx-16">
-    <section class="w-1/2 relative px-16">
+    <section class="w-1/2 relative px-16 flex flex-col">
       <BorderImage src={EtHakuImage} />
-      <h2 class="mb-4">Hae rakennuksen energiatodistus</h2>
-      <p>
-        Palvelusta pystyt nopeasti tarkistamaan onko rakennukselle laadittu
-        energiatodistus. Rekisteristä löydät 1.5.2015 alkaen laaditut
-        todistukset.
-      </p>
+      <div>
+        <h2 class="mb-4">Hae rakennuksen energiatodistus</h2>
+        <p>
+          Palvelusta pystyt nopeasti tarkistamaan onko rakennukselle laadittu
+          energiatodistus. Rekisteristä löydät 1.5.2015 alkaen laaditut
+          todistukset.
+        </p>
+      </div>
+      <div class="flex flex-col items-start -my-4">
+        <strong class="block py-4">Hae energiatodistusta</strong>
+        <div
+          class="w-full inline-block bg-white rounded-full border-2 px-4 py-2
+          my-4 border-black hover:bg-beige">
+          <input
+            placeholder="Hae todistustunnuksella"
+            class="w-full focus:outline-none" />
+        </div>
+        <aside class="italic text-sm font-normal">
+          Voit hakea hallintoalueella, kunnalla, postinumerolla, toimipaikalla
+          tai katuosoitteella
+        </aside>
+        <div
+          class="w-full inline-block bg-white rounded-full border-2 px-2 py-2
+          border-black hover:bg-beige">
+          <input placeholder="Hae alueella" class="w-full focus:outline-none" />
+        </div>
+        <Button {...buttonStyles.green}>Hae</Button>
+      </div>
     </section>
-    <section class="w-1/2 relative px-16">
+    <section class="w-1/2 relative px-16 flex flex-col">
       <BorderImage src={LaatijaHakuImage} />
-      <h2 class="mb-4">Tarvitsetko energiatodistuksen? Löydä laatija!</h2>
-      <p>
-        Jos olet myymässä tai vuokraamassa rakennusta tai asuntoa, löydät
-        laatijarekisteristä ne henkilöt, joilla on lainmukainen, virallinen
-        pätevyys energiatodistusten tekoon.
-      </p>
+      <div>
+        <h2 class="mb-4">Tarvitsetko energiatodistuksen? Löydä laatija!</h2>
+        <p>
+          Jos olet myymässä tai vuokraamassa rakennusta tai asuntoa, löydät
+          laatijarekisteristä ne henkilöt, joilla on lainmukainen, virallinen
+          pätevyys energiatodistusten tekoon.
+        </p>
+      </div>
+      <div class="flex flex-col items-start -my-4">
+        <strong class="block py-4">Hae todistusten laatijoita</strong>
+        <div
+          class="w-full inline-block bg-white rounded-full border-2 px-4 py-2
+          my-4 border-black hover:bg-beige">
+          <input placeholder="Hae nimellä" class="w-full focus:outline-none" />
+        </div>
+        <aside class="italic text-sm font-normal">
+          Voit hakea maakunnalla, kunnalla, postinumerolla tai -toimipaikalla.
+        </aside>
+        <div
+          class="w-full inline-block bg-white rounded-full border-2 px-4 py-2
+          border-black hover:bg-beige">
+          <input placeholder="Hae alueella" class="w-full focus:outline-none" />
+        </div>
+        <Button {...buttonStyles.green}>Hae</Button>
+      </div>
     </section>
   </div>
 </article>
@@ -50,11 +100,7 @@
       10 vuotta. Myös aiempi ”vihreä energiatodistus” voi olla virallinen.
       Todistuksessa mainitaan aina sen viimeinen voimassaolopäivä.
     </p>
-    <button
-      class="bg-white rounded-full text-green uppercase px-6 py-3 font-bold
-      tracking-wider text-sm mt-8">
-      Katso energiatodistusmalli
-    </button>
+    <Button {...buttonStyles.white}>Katso energiatodistusmalli</Button>
   </section>
   <section class="bg-white w-2/3 pl-8 pr-16 py-16">
     <h2 class="mb-4 text-ashblue text-lg">Lisätietoa energiatodistuksista</h2>

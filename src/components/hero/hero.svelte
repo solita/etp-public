@@ -1,5 +1,7 @@
 <script>
   import Logo from '@Asset/logo.svg';
+
+  import Button, { styles as buttonStyles } from '@Component/button';
 </script>
 
 <style>
@@ -21,10 +23,6 @@
       (ARA) tietopalvelu, josta voit hakea laadittuja energiatodistuksia ja
       pätevöityneitä energiatodistusten laatijoita.
     </strong>
-    <button
-      class="block rounded-full bg-green text-white uppercase px-6 py-3
-      font-bold tracking-wider text-sm">
-      Aloita
-    </button>
+    <Button {...buttonStyles.green}>Aloita</Button>
   </section>
 </div>
