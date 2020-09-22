@@ -19,7 +19,7 @@
 
 <article class="flex bg-beige pb-16 px-16">
   <div class="flex -mx-16">
-    <section class="w-1/2 relative px-16 flex flex-col">
+    <section class="w-1/2 justify-between relative px-16 flex flex-col">
       <BorderImage src={EtHakuImage} />
       <div>
         <h2 class="mb-4">Hae rakennuksen energiatodistus</h2>
@@ -40,7 +40,7 @@
         <Button {...buttonStyles.green}>Hae</Button>
       </div>
     </section>
-    <section class="w-1/2 relative px-16 flex flex-col">
+    <section class="w-1/2 justify-between relative px-16 flex flex-col">
       <BorderImage src={LaatijaHakuImage} />
       <div>
         <h2 class="mb-4">Tarvitsetko energiatodistuksen? Löydä laatija!</h2>
