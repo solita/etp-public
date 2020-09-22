@@ -5,7 +5,7 @@
   export let iconLeft;
   export let iconRight;
 
-  import { activePath } from '@Component/router/router';
+  import { activePath } from '@Router/router';
 </script>
 
 <style>

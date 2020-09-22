@@ -3,10 +3,10 @@
   import EtHakuImage from '@Asset/ethaku.jpg';
   import LaatijaHakuImage from '@Asset/laatijahaku.jpg';
 
-  import BorderImage from '@Component/border-image/border-image';
-  import Header from '@Component/header/header';
-  import { locale, _ } from '@Component/localization/localization';
-  import Router, { activePath } from '@Component/router/router';
+  import BorderImage from '@Component/border-image';
+  import Header from '@Component/header';
+  import { locale, _ } from '@Localization/localization';
+  import Router, { activePath } from '@Router/router';
 
   import Button, { styles as buttonStyles } from '@Component/button';
 </script>

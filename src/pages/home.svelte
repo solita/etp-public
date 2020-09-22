@@ -2,9 +2,9 @@
   import EtHakuImage from '@Asset/ethaku.jpg';
   import LaatijaHakuImage from '@Asset/laatijahaku.jpg';
 
-  import BorderImage from '@Component/border-image/border-image';
+  import BorderImage from '@Component/border-image';
 
-  import Hero from '@Component/hero/hero';
+  import Hero from '@Component/hero';
   import Button, { styles as buttonStyles } from '@Component/button';
   import Input from '@Component/input';
 </script>

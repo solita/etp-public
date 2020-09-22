@@ -8,10 +8,10 @@
   import router from 'page';
   import { parse } from 'qs';
 
-  import Home from '@Component/pages/home';
-  import EnergiatodistusHaku from '@Component/pages/ethaku';
-  import LaatijaHaku from '@Component/pages/laatijahaku';
-  import LaatijanKirjautuminen from '@Component/pages/laatijankirjautuminen';
+  import Home from '@Pages/home';
+  import EnergiatodistusHaku from '@Pages/ethaku';
+  import LaatijaHaku from '@Pages/laatijahaku';
+  import LaatijanKirjautuminen from '@Pages/laatijankirjautuminen';
 
   let page;
   let params;
