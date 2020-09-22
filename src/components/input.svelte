@@ -25,9 +25,8 @@
 </style>
 
 <label for={id} class="sr-only">{label}</label>
-<div
-  {id}
+<div 
   class="w-full inline-block bg-white rounded-full border-2 px-4 py-2
   border-black hover:bg-lightgray">
-  <input bind:value placeholder={label} class="w-full focus:outline-none" />
+  <input {id} bind:value placeholder={label} class="w-full focus:outline-none" />
 </div>
