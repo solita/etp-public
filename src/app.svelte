@@ -1,12 +1,7 @@
 <script>
-  import Logo from '@Asset/logo.svg';
-  import EtHakuImage from '@Asset/ethaku.jpg';
-  import LaatijaHakuImage from '@Asset/laatijahaku.jpg';
-
-  import BorderImage from '@Component/border-image';
   import Header from '@Component/header';
-  import { locale, _ } from '@Localization/localization';
-  import Router, { activePath } from '@Router/router';
+  import { _ } from '@Localization/localization';
+  import Router  from '@Router/router';
 
   import Button, { styles as buttonStyles } from '@Component/button';
 </script>
