@@ -1,16 +1,7 @@
 <script>
   import Button, { styles as buttonStyles } from '@Component/button';
+  import Input from '@Component/input';
 </script>
-
-<style>
-  input {
-    background-color: transparent;
-  }
-
-  input::placeholder {
-    @apply text-black;
-  }
-</style>
 
 <article class="flex flex-col bg-white">
   <section
@@ -33,29 +24,15 @@
   </section>
   <div class="px-16 py-8 flex items-start">
     <div class="flex flex-col w-9/12">
-      <label for="todistustunnushaku" class="sr-only">
-        Hae todistustunnuksella
-      </label>
-      <div
-        class="mb-4 w-1/2 rounded-full border-2 px-4 py-2 bg-white border-black
-        hover:bg-beige">
-        <input
-          id="todistustunnushaku"
-          class="w-full focus:outline-none"
-          placeholder="Hae todistustunnuksella" />
+      <div class="w-1/2">
+        <Input label={'Hae todistustunnuksella'} value={''} />
       </div>
-      <div>
-        <label for="aluehaku" class="sr-only">Hae alueella</label>
-        <aside class="text-xs italic">
-          Voit hakea maakunnalla, kunnalla, postinumerolla tai -toimipaikalla.
-        </aside>
-        <div
-          class="inline-block w-1/2 rounded-full border-2 px-4 py-2 border-black
-          hover:bg-beige">
-          <input
-            id="aluehaku"
-            class="w-full bg-white focus:outline-none"
-            placeholder="Hae alueella" />
+      <aside class="font-normal text-xs italic mt-4">
+        Voit hakea maakunnalla, kunnalla, postinumerolla tai -toimipaikalla.
+      </aside>
+      <div class="flex">
+        <div class="w-1/2">
+          <Input label="Hae alueella" value={''} />
         </div>
         <a class="inline-flex items-center ml-4 text-green" href="#">
           <span class="uppercase font-bold">Lisää hakuehtoja</span>
