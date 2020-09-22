@@ -20,7 +20,7 @@ module.exports = {
       '@Component': path.resolve(__dirname, 'src/components'),
       '@Localization': path.resolve(__dirname, 'src/localization'),
       '@Router': path.resolve(__dirname, 'src/router'),
-      '@Pages': path.resolve(__dirname, 'src/pages'),
+      '@Page': path.resolve(__dirname, 'src/pages'),
       '@Asset': path.resolve(__dirname, 'assets'),
       '@': path.resolve(__dirname, 'src'),
       svelte: path.resolve('node_modules', 'svelte')
