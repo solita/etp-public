@@ -6,19 +6,12 @@
 
   import Hero from '@Component/hero/hero';
   import Button, { styles as buttonStyles } from '@Component/button';
+  import Input from '@Component/input';
 </script>
 
 <style>
   h3 {
     @apply text-green uppercase tracking-wider font-bold;
-  }
-
-  input {
-    background-color: transparent;
-  }
-
-  input::placeholder {
-    @apply text-black;
   }
 </style>
 
@@ -38,22 +31,12 @@
       </div>
       <div class="flex flex-col items-start -my-4">
         <strong class="block py-4">Hae energiatodistusta</strong>
-        <div
-          class="w-full inline-block bg-white rounded-full border-2 px-4 py-2
-          my-4 border-black hover:bg-beige">
-          <input
-            placeholder="Hae todistustunnuksella"
-            class="w-full focus:outline-none" />
-        </div>
-        <aside class="italic text-sm font-normal">
+        <Input label={'Hae todistustunnuksella'} value={''} />
+        <aside class="italic text-sm font-normal mt-4">
           Voit hakea hallintoalueella, kunnalla, postinumerolla, toimipaikalla
           tai katuosoitteella
         </aside>
-        <div
-          class="w-full inline-block bg-white rounded-full border-2 px-2 py-2
-          border-black hover:bg-beige">
-          <input placeholder="Hae alueella" class="w-full focus:outline-none" />
-        </div>
+        <Input label={'Hae alueella'} value={''} />
         <Button {...buttonStyles.green}>Hae</Button>
       </div>
     </section>
@@ -69,19 +52,11 @@
       </div>
       <div class="flex flex-col items-start -my-4">
         <strong class="block py-4">Hae todistusten laatijoita</strong>
-        <div
-          class="w-full inline-block bg-white rounded-full border-2 px-4 py-2
-          my-4 border-black hover:bg-beige">
-          <input placeholder="Hae nimellä" class="w-full focus:outline-none" />
-        </div>
-        <aside class="italic text-sm font-normal">
+        <Input label={'Hae nimellä'} value={''} />
+        <aside class="italic text-sm font-normal mt-4">
           Voit hakea maakunnalla, kunnalla, postinumerolla tai -toimipaikalla.
         </aside>
-        <div
-          class="w-full inline-block bg-white rounded-full border-2 px-4 py-2
-          border-black hover:bg-beige">
-          <input placeholder="Hae alueella" class="w-full focus:outline-none" />
-        </div>
+        <Input label={'Hae alueella'} value={''} />
         <Button {...buttonStyles.green}>Hae</Button>
       </div>
     </section>
