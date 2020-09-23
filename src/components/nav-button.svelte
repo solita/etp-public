@@ -1,7 +1,28 @@
+<script context="module">
+  export const styles = {
+    lightgreen: {
+      text: 'black',
+      background: 'lightgreen'
+    },
+    green: {
+      text: 'white',
+      background: 'green'
+    },
+    darkgreen: {
+      text: 'white',
+      background: 'darkgreen'
+    },
+    ashblue: {
+      text: 'white',
+      background: 'ashblue'
+    }
+  };
+</script>
+
 <script>
   export let link;
-  export let colorText;
-  export let colorBackground;
+  export let text;
+  export let background;
   export let iconLeft;
   export let iconRight;
 
@@ -9,49 +30,52 @@
 </script>
 
 <style>
-  .navcontainer {
-    flex-basis: 100%;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    @apply flex flex-grow px-1 py-2 flex-row items-center;
-  }
-  .active {
-    /* box-shadow: 0px 5px 0px 0px black; */
-    z-index: 1;
-    border-bottom: 5px solid rgba(0, 0, 0, 0.5);
+  a {
+    transition: box-shadow 0.1s;
   }
   .icon {
-    width: 2vw;
+    width: 3.5em;
     height: auto;
-    overflow: hidden;
-    filter: invert(1);
-    @apply flex-none mx-auto mx-1;
-  }
-  .text-black .icon {
-    filter: invert(0);
   }
 </style>
 
-<!-- purgecss: active -->
-<!-- purgecss: dark -->
+<!-- purgecss: 
+dark active 
+bg-lightgreen 
+bg-green 
+bg-darkgreen 
+bg-ashblue
+text-white
+text-black
+hover:shadow-lightgreen
+hover:shadow-green
+hover:shadow-darkgreen
+hover:shadow-ashblue
+focus:shadow-lightgreen
+focus:shadow-green
+focus:shadow-darkgreen
+focus:shadow-ashblue -->
 <a
-  class="navcontainer {colorBackground} {colorText}"
+  class="flex flex-full items-center py-4 px-1 navcontainer bg-{background}
+  text-{text} focus:shadow-{background} focus:z-10 hover:shadow-{background}
+  hover:z-10 focus:outline-none xl:flex-row flex-col"
   class:active={$activePath === link}
   href={link}>
   {#if iconLeft}
     <img
-      class="icon"
-      class:dark={colorText === 'black'}
+      class="icon inline-block flex-none"
+      class:dark={text === 'black'}
       src={iconLeft}
       alt="Icon" />
   {/if}
-  <div class="flex flex-col flex-grow self-start px-1">
-    <slot />
+  <div class="inline-flex flex-full flex-col items-center xl:items-start">
+    <slot name="title" />
+    <slot name="subtitle" />
   </div>
   {#if iconRight}
     <img
-      class="icon"
-      class:dark={colorText === 'black'}
+      class="icon inline-block flex-none"
+      class:dark={text === 'black'}
       src={iconRight}
       alt="Icon" />
   {/if}

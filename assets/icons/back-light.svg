@@ -11,22 +11,23 @@
    height="100pt"
    version="1.1"
    viewBox="0 0 100 100"
-   id="svg3736"
-   sodipodi:docname="home.svg"
+   id="svg5703"
+   sodipodi:docname="back-light.svg"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
   <metadata
-     id="metadata3742">
+     id="metadata5709">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <defs
-     id="defs3740" />
+     id="defs5707" />
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -38,7 +39,7 @@
      inkscape:pageshadow="2"
      inkscape:window-width="2547"
      inkscape:window-height="1368"
-     id="namedview3738"
+     id="namedview5705"
      showgrid="false"
      inkscape:zoom="1.77"
      inkscape:cx="-25.141243"
@@ -46,9 +47,9 @@
      inkscape:window-x="1268"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg3736" />
+     inkscape:current-layer="svg5703" />
   <path
-     d="m89.688 47.812-37.5-37.5c-1.25-1.25-3.125-1.25-4.375 0l-37.5 37.5c-0.9375 0.9375-1.25 2.1875-0.625 3.4375 0.3125 1.25 1.5625 1.875 2.8125 1.875h6.25v28.125c0 5.3125 4.0625 9.375 9.375 9.375h15.625c1.875 0 3.125-1.25 3.125-3.125v-18.75c0-1.875 1.25-3.125 3.125-3.125s3.125 1.25 3.125 3.125v18.75c0 1.875 1.25 3.125 3.125 3.125h15.625c5.3125 0 9.375-4.0625 9.375-9.375v-28.125h6.25c1.25 0 2.5-0.625 2.8125-1.875 0.625-1.25 0.3125-2.5-0.625-3.4375zm-17.812 36.562h-12.5v-15.625c0-5.3125-4.0625-9.375-9.375-9.375s-9.375 4.0625-9.375 9.375v15.625h-12.5c-1.875 0-3.125-1.25-3.125-3.125v-31.25c0-1.875-1.25-3.125-3.125-3.125h-1.875l30-30 30 30h-1.875c-1.875 0-3.125 1.25-3.125 3.125v31.25c0 1.875-1.25 3.125-3.125 3.125z"
-     id="path3734"
-     style="stroke:#000000;stroke-opacity:1;fill:#000000;fill-opacity:1;stroke-width:0.99975004;stroke-miterlimit:4;stroke-dasharray:none" />
+     d="m97.301 60.602c0 15.5-12.602 28-28 28v-13c8.3008 0 15-6.6992 15-15 0-8.3008-6.6992-15-15-15h-41.699l11.898 11.898-9.1992 9.1992-27.602-27.699 27.602-27.602 9.1992 9.1992-11.898 11.902h41.602c15.496 0 28.098 12.602 28.098 28.102z"
+     id="path5701"
+     style="fill:#ffffff;fill-opacity:1" />
 </svg>
