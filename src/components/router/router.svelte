@@ -12,6 +12,7 @@
   import EnergiatodistusHaku from '@Component/pages/ethaku';
   import LaatijaHaku from '@Component/pages/laatijahaku';
   import LaatijanKirjautuminen from '@Component/pages/laatijankirjautuminen';
+  import NotFound from '@Component/pages/notfound';
 
   let page;
   let params;
@@ -31,6 +32,8 @@
     page = LaatijanKirjautuminen;
   });
   router('/', () => (page = Home));
+
+  router('*', () => (page = NotFound));
 
   router.start();
 </script>

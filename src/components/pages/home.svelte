@@ -99,7 +99,7 @@
               <li>Kiinnostaako energiatodistuksen laatijan pätevyys?</li>
             </ul>
           </div>
-          <a href="#" class="block py-2 underline text-green">
+          <a href="/notimplemented" class="block py-2 underline text-green">
             Siirry Motivan Energiatodistuspalveluun
           </a>
         </div>
@@ -113,7 +113,7 @@
             erilaisten asuinrakennusten lisäksi muun muassa koulut ja päiväkodit
             sekä toimistorakennukset.
           </p>
-          <a href="#" class="block py-2 underline text-green">
+          <a href="/notimplemented" class="block py-2 underline text-green">
             Siirry tutustumaan ARAn energiatodistustilastoihin
           </a>
         </div>
