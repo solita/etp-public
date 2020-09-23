@@ -34,7 +34,7 @@
         <div class="w-1/2">
           <Input label="Hae alueella" value={''} />
         </div>
-        <a class="inline-flex items-center ml-4 text-green" href="#">
+        <a class="inline-flex items-center ml-4 text-green" href="/">
           <span class="uppercase font-bold">Lisää hakuehtoja</span>
           <span class="font-icon text-4xl">expand_more</span>
         </a>

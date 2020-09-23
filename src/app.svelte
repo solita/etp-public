@@ -1,12 +1,7 @@
 <script>
-  import Logo from '@Asset/logo.svg';
-  import EtHakuImage from '@Asset/ethaku.jpg';
-  import LaatijaHakuImage from '@Asset/laatijahaku.jpg';
-
-  import BorderImage from '@Component/border-image/border-image';
-  import Header from '@Component/header/header';
-  import { locale, _ } from '@Component/localization/localization';
-  import Router, { activePath } from '@Component/router/router';
+  import Header from '@Component/header';
+  import { _ } from '@Localization/localization';
+  import Router  from '@Router/router';
 
   import Button, { styles as buttonStyles } from '@Component/button';
 </script>
@@ -45,13 +40,13 @@
           tämän palvelun ylläpidosta. Palvelua ja valvontaa hoitavat rautaiset
           energia-ammattilaisemme. Jos sinulla on kysyttävää, otathan yhteyttä!
         </p>
-        <a href="#" class="underline text-green">Siirry ARA.fi</a>
+        <a href="/" class="underline text-green">Siirry ARA.fi</a>
       </section>
       <section class="w-1/3 flex flex-col justify-between px-4">
         <h2 class="mb-4">Ota yhteyttä</h2>
         <address class="not-italic">
           <span>Sähköposti:</span>
-          <a href="#" class="underline text-green">energiatodistus@ara.fi</a>
+          <a href="/" class="underline text-green">energiatodistus@ara.fi</a>
         </address>
         <address class="not-italic">
           <ol>
@@ -63,9 +58,9 @@
         </address>
         <address class="not-italic">
           <span>Puhelinvaihde:</span>
-          <a href="#" class="underline text-green">029 525 0800</a>
+          <a href="/" class="underline text-green">029 525 0800</a>
         </address>
-        <a href="#" class="block underline text-green">Tietoa sivustosta</a>
+        <a href="/" class="block underline text-green">Tietoa sivustosta</a>
       </section>
       <div class="w-1/3 flex flex-col justify px-4 -my-4">
         <section class="py-4">

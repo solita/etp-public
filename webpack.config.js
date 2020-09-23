@@ -18,6 +18,9 @@ module.exports = {
     extensions: ['.mjs', '.js', '.svelte', '.css'],
     alias: {
       '@Component': path.resolve(__dirname, 'src/components'),
+      '@Localization': path.resolve(__dirname, 'src/localization'),
+      '@Router': path.resolve(__dirname, 'src/router'),
+      '@Page': path.resolve(__dirname, 'src/pages'),
       '@Asset': path.resolve(__dirname, 'assets'),
       '@': path.resolve(__dirname, 'src'),
       svelte: path.resolve('node_modules', 'svelte')

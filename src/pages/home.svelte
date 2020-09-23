@@ -2,9 +2,9 @@
   import EtHakuImage from '@Asset/ethaku.jpg';
   import LaatijaHakuImage from '@Asset/laatijahaku.jpg';
 
-  import BorderImage from '@Component/border-image/border-image';
+  import BorderImage from '@Component/border-image';
 
-  import Hero from '@Component/hero/hero';
+  import Hero from '@Component/hero';
   import Button, { styles as buttonStyles } from '@Component/button';
   import Input from '@Component/input';
 </script>
@@ -99,7 +99,7 @@
               <li>Kiinnostaako energiatodistuksen laatijan pätevyys?</li>
             </ul>
           </div>
-          <a href="#" class="block py-2 underline text-green">
+          <a href="/" class="block py-2 underline text-green">
             Siirry Motivan Energiatodistuspalveluun
           </a>
         </div>
@@ -113,7 +113,7 @@
             erilaisten asuinrakennusten lisäksi muun muassa koulut ja päiväkodit
             sekä toimistorakennukset.
           </p>
-          <a href="#" class="block py-2 underline text-green">
+          <a href="/" class="block py-2 underline text-green">
             Siirry tutustumaan ARAn energiatodistustilastoihin
           </a>
         </div>
