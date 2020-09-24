@@ -19,7 +19,7 @@
   }
 </style>
 
-<nav class="mainnavigation flex px-16">
+<nav class="mainnavigation flex xl:px-16 flex-col lg:flex-row">
   <NavButton link="/" {...navbuttonStyles.lightgreen} iconLeft={IconHome}>
     <span slot="title" class="uppercase">Etusivu</span>
     <span slot="subtitle" class="italic font-light">
@@ -52,6 +52,9 @@
     <span slot="title" class="uppercase">Laatijan kirjautuminen</span>
     <span slot="subtitle" class="italic font-light">
       Energiatodistusten laatijoille
+    </span>
+    <span slot="iconright" class="font-icon lg:text-6xl text-4xl">
+      chevron_right
     </span>
   </NavButton>
 </nav>
