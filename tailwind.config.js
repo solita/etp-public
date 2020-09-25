@@ -1,5 +1,4 @@
 module.exports = {
-  purge: false,
   theme: {
     colors: {
       black: '#000000',
@@ -37,5 +36,9 @@ module.exports = {
   plugins: [],
   future: {
     removeDeprecatedGapUtilities: true
+  },
+  purge: {
+    content: ['./src/**/*.css', './src/**/*.svelte'],
+    options: { safelist: { standard: /svelte-/ } }
   }
 };
