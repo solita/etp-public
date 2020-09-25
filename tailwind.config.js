@@ -17,10 +17,23 @@ module.exports = {
         display: ['Montserrat', 'sans-serif'],
         body: ['Montserrat', 'sans-serif'],
         icon: 'Material Icons'
+      },
+      flex: {
+        full: '1 1 100%'
+      },
+      boxShadow: {
+        lightgreen: '0px 6px 0px 6px #c5e191',
+        green: '0px 6px 0px 6px #538000',
+        darkgreen: '0px 6px 0px 6px #345000',
+        ashblue: '0px 6px 0px 6px #2e5053'
       }
     }
   },
-  variants: { backgroundColor: ['responsive', 'hover', 'focus'] },
+  variants: {
+    backgroundColor: ['responsive', 'hover', 'focus'],
+    boxShadow: ['responsive', 'hover', 'focus'],
+    zIndex: ['responsive', 'hover', 'focus']
+  },
   plugins: [],
   future: {
     removeDeprecatedGapUtilities: true
