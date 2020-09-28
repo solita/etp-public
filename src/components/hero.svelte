@@ -13,7 +13,7 @@
   }
 </style>
 
-<Container {...containerStyles.white}>
+<Container {...containerStyles.hero}>
   <div class="hero flex items-center bg-beige" role="presentation">
     <section class="w-1/3 bg-white text-ashblue ml-16 py-8 px-12">
       <div class="flex items-center mb-8">

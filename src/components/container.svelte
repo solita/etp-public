@@ -4,7 +4,8 @@
     mainnavigation: { background: 'mainnavigation' },
     ashbluewhite: { background: 'ashbluewhite' },
     grey: { background: 'grey' },
-    white: { background: 'white' }
+    white: { background: 'white' },
+    hero: { background: 'heroblurred' }
   };
 </script>
 
@@ -33,6 +34,11 @@
       rgba(46, 80, 83, 1) 33%,
       rgba(255, 255, 255, 1) 33%
     );
+  }
+
+  .bg-heroblurred {
+    background-image: url('@Asset/heroblurred.jpg?{fit:"inside",height:555,width:1440}');
+    background-size: 100% auto;
   }
 </style>
 
