@@ -2,7 +2,48 @@
   import Button, { styles as buttonStyles } from '@Component/button';
   import Input from '@Component/input';
   import InfoBlock from '@Component/info-block';
+  import TableLaatijahaku from '@Component/table-laatijahaku';
+
+  const demoData = [
+    {
+      nimi: "Teemu Testaaja",
+      patevyys: "Perustaso",
+      alue: "Pirkanmaa",
+      postinum: "33200 Tampere",
+      link: "google.com",
+      email: "test@email.fi",
+      puh: "050 555 5555"
+    },
+    {
+      nimi: "Testi Tamminen",
+      patevyys: "Perustaso",
+      alue: "Pirkanmaa",
+      postinum: "33200 Tampere",
+      link: "google.com",
+      email: "test@email.fi",
+      puh: "050 555 5555"
+    },
+    {
+      nimi: "Tarja Testeri",
+      patevyys: "Perustaso",
+      alue: "Pirkanmaa",
+      postinum: "33200 Tampere",
+      link: "google.com",
+      email: "test@email.fi",
+      puh: "050 555 5555"
+    },
+    {
+      nimi: "Tapio Testi",
+      patevyys: "Perustaso",
+      alue: "Pirkanmaa",
+      postinum: "33200 Tampere",
+      link: "google.com",
+      email: "test@email.fi",
+      puh: "050 555 5555"
+    },
+    ];
 </script>
+
 
 <article class="flex flex-col bg-white">
   <InfoBlock
@@ -20,10 +61,6 @@
         <div class="w-1/2">
           <Input label="Hae alueella" value={''} />
         </div>
-        <a class="inline-flex items-center ml-4 text-green" href="/">
-          <span class="uppercase font-bold">Lisää hakuehtoja</span>
-          <span class="font-icon text-4xl">expand_more</span>
-        </a>
       </div>
       <div class="mt-2">
         <Button {...buttonStyles.green}>Hae</Button>
@@ -39,5 +76,8 @@
     </aside>
   </div>
 
-  <div class="px-16 py-8 flex items-start">Tuloksia</div>
+  <div class="px-16 py-8 flex flex-col items-start">
+    <h2>Tuloksia</h2>
+    <TableLaatijahaku data={demoData} />
+  </div>
 </article>
