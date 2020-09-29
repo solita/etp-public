@@ -1,11 +1,11 @@
 <script>
   import Button, { styles as buttonStyles } from '@Component/button';
   import Input from '@Component/input';
+  import Container, { styles as containerStyles } from '@Component/container';
 </script>
 
-<article class="flex flex-col bg-white">
-  <section
-    class="px-16 flex flex-col justify-center items-center bg-beige py-8">
+<Container {...containerStyles.beige}>
+  <section class="px-16 flex flex-col justify-center items-center py-8">
     <h2 class="font-bold text-ashblue text-xl tracking-widest mb-4">
       Tarvitset energiatodistuksen myydessä, vuokratessa ja rakennuslupaa
       hakiessa
@@ -22,6 +22,8 @@
       </p>
     </div>
   </section>
+</Container>
+<Container {...containerStyles.white}>
   <div class="px-16 py-8 flex items-start">
     <div class="flex flex-col w-9/12">
       <div class="w-1/2">
@@ -51,4 +53,4 @@
       kohteista).
     </aside>
   </div>
-</article>
+</Container>

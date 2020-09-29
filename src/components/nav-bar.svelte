@@ -6,55 +6,47 @@
   import IconNext from '@Asset/icons/back-light.svg';
 
   import NavButton, { styles as navbuttonStyles } from '@Component/nav-button';
+  import Container, { styles as containerStyles } from '@Component/container';
 </script>
 
-<style>
-  .mainnavigation {
-    background: rgb(197, 225, 145);
-    background: linear-gradient(
-      90deg,
-      rgba(197, 225, 145, 1) 50%,
-      rgba(46, 80, 83, 1) 50%
-    );
-  }
-</style>
-
-<nav class="mainnavigation flex xl:px-16 flex-col lg:flex-row">
-  <NavButton link="/" {...navbuttonStyles.lightgreen} iconLeft={IconHome}>
-    <span slot="title" class="uppercase">Etusivu</span>
-    <span slot="subtitle" class="italic font-light">
-      Tervetuloa energiatodistusrekisteriin
-    </span>
-  </NavButton>
-  <NavButton
-    link="/ethaku"
-    {...navbuttonStyles.green}
-    iconLeft={IconSearchFile}>
-    <span slot="title" class="uppercase">Energiatodistushaku</span>
-    <span slot="subtitle" class="italic font-light">
-      Täältä löydät tarvitsemasi energiatodistukset
-    </span>
-  </NavButton>
-  <NavButton
-    link="/laatijahaku"
-    {...navbuttonStyles.darkgreen}
-    iconLeft={IconSearchPerson}>
-    <span slot="title" class="uppercase">Todistustenlaatijahaku</span>
-    <span slot="subtitle" class="italic font-light">
-      Täältä löydät energiatodistusten pätevät laatijat
-    </span>
-  </NavButton>
-  <NavButton
-    link="/laatijankirjautuminen"
-    {...navbuttonStyles.ashblue}
-    iconLeft={IconLogin}
-    iconRight={IconNext}>
-    <span slot="title" class="uppercase">Laatijan kirjautuminen</span>
-    <span slot="subtitle" class="italic font-light">
-      Energiatodistusten laatijoille
-    </span>
-    <span slot="iconright" class="font-icon lg:text-6xl text-4xl">
-      chevron_right
-    </span>
-  </NavButton>
-</nav>
+<Container {...containerStyles.mainnavigation}>
+  <nav class="flex xl:px-16 flex-col lg:flex-row">
+    <NavButton link="/" {...navbuttonStyles.lightgreen} iconLeft={IconHome}>
+      <span slot="title" class="uppercase">Etusivu</span>
+      <span slot="subtitle" class="italic font-light">
+        Tervetuloa energiatodistusrekisteriin
+      </span>
+    </NavButton>
+    <NavButton
+      link="/ethaku"
+      {...navbuttonStyles.green}
+      iconLeft={IconSearchFile}>
+      <span slot="title" class="uppercase">Energiatodistushaku</span>
+      <span slot="subtitle" class="italic font-light">
+        Täältä löydät tarvitsemasi energiatodistukset
+      </span>
+    </NavButton>
+    <NavButton
+      link="/laatijahaku"
+      {...navbuttonStyles.darkgreen}
+      iconLeft={IconSearchPerson}>
+      <span slot="title" class="uppercase">Todistustenlaatijahaku</span>
+      <span slot="subtitle" class="italic font-light">
+        Täältä löydät energiatodistusten pätevät laatijat
+      </span>
+    </NavButton>
+    <NavButton
+      link="/laatijankirjautuminen"
+      {...navbuttonStyles.ashblue}
+      iconLeft={IconLogin}
+      iconRight={IconNext}>
+      <span slot="title" class="uppercase">Laatijan kirjautuminen</span>
+      <span slot="subtitle" class="italic font-light">
+        Energiatodistusten laatijoille
+      </span>
+      <span slot="iconright" class="font-icon lg:text-6xl text-4xl">
+        chevron_right
+      </span>
+    </NavButton>
+  </nav>
+</Container>
