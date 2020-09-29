@@ -53,12 +53,18 @@ hover:shadow-ashblue
 focus:shadow-lightgreen
 focus:shadow-green
 focus:shadow-darkgreen
-focus:shadow-ashblue -->
+focus:shadow-ashblue 
+border-lightgreen
+border-green
+border-darkgreen
+border-ashblue
+border-black
+-->
 <a
-  class="flex flex-full py-4 px-1 navcontainer bg-{background} text-{text}
-  focus:shadow-{background} focus:z-10 hover:shadow-{background} hover:z-10
-  focus:outline-none xl:flex-row lg:flex-col flex-row px-2 lg:items-center
-  xl:items-start md:items-start"
+  class="flex box-border lg:flex-full flex-auto py-4 px-1 navcontainer bg-{background}
+  text-{text} focus:shadow-{background} focus:z-10 hover:shadow-{background}
+  hover:z-10 focus:outline-none xl:flex-row lg:flex-col flex-row px-2
+  lg:items-center xl:items-start md:items-start border-b-4 border-{$activePath === link ? 'black' : background}"
   class:active={$activePath === link}
   href={link}>
   {#if iconLeft}
@@ -68,7 +74,7 @@ focus:shadow-ashblue -->
       src={iconLeft}
       alt="Icon" />
   {/if}
-  <div class="flex flex-col ml-2">
+  <div class="flex flex-col ml-2 flex-1">
     <slot name="title" />
     <slot name="subtitle" />
   </div>

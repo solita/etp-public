@@ -39,7 +39,9 @@
             tai katuosoitteella
           </aside>
           <Input label={'Hae alueella'} value={''} />
-          <Button {...buttonStyles.green}>Hae</Button>
+          <div class="mt-4">
+            <Button {...buttonStyles.green}>Hae</Button>
+          </div>
         </div>
       </section>
       <section class="w-1/2 justify-between relative px-16 flex flex-col">
@@ -59,7 +61,9 @@
             Voit hakea maakunnalla, kunnalla, postinumerolla tai -toimipaikalla.
           </aside>
           <Input label={'Hae alueella'} value={''} />
-          <Button {...buttonStyles.green}>Hae</Button>
+          <div class="mt-4">
+            <Button {...buttonStyles.green}>Hae</Button>
+          </div>
         </div>
       </section>
     </div>
@@ -79,7 +83,9 @@
         olla virallinen. Todistuksessa mainitaan aina sen viimeinen
         voimassaolopäivä.
       </p>
-      <Button {...buttonStyles.white}>Katso energiatodistusmalli</Button>
+      <div class="mt-4">
+        <Button {...buttonStyles.white}>Katso energiatodistusmalli</Button>
+      </div>
     </section>
     <section class="bg-white w-2/3 pl-8 pr-16 py-16">
       <h2 class="mb-4 text-ashblue text-lg">Lisätietoa energiatodistuksista</h2>
