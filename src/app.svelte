@@ -26,9 +26,9 @@
   </main>
 
   <Container {...containerStyles.grey}>
-    <footer class="flex flex-col bg-grey px-16 py-16">
-      <article class="flex -mx-4">
-        <section class="w-1/3 px-4">
+    <footer class="flex flex-col bg-grey px-2 sm:px-16 py-4 sm:py-16">
+      <article class="flex flex-col md:flex-row -mx-4 -my-4 md:my-0">
+        <section class="md:w-1/3 px-4 py-4 md:py-0">
           <h2 class="mb-4">
             Energiatodistukset sekä niiden käyttö perustuu lakiin ja sitä
             valvotaan
@@ -42,7 +42,8 @@
           </p>
           <a href="/" class="underline text-green">Siirry ARA.fi</a>
         </section>
-        <section class="w-1/3 flex flex-col justify-between px-4">
+        <section
+          class="md:w-1/3 flex flex-col justify-between px-4 py-4 md:py-0">
           <h2 class="mb-4">Ota yhteyttä</h2>
           <address class="not-italic">
             <span>Sähköposti:</span>
@@ -62,14 +63,10 @@
           </address>
           <a href="/" class="block underline text-green">Tietoa sivustosta</a>
         </section>
-        <div class="w-1/3 flex flex-col justify px-4 -my-4">
+        <div class="md:w-1/3 flex flex-col justify px-4 -my-4 py-4 md:py-0">
           <section class="py-4">
             <h2 class="mb-4">Laatijoiden pavelu</h2>
-            <Button
-              on:click={() => console.log('click')}
-              {...buttonStyles.ashblue}>
-              Kirjaudu
-            </Button>
+            <Button {...buttonStyles.ashblue}>Kirjaudu</Button>
           </section>
           <section class="py-4">
             <h2 class="mb-4">palaute on aina tervetullutta</h2>

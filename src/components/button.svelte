@@ -13,6 +13,6 @@
 
 <button
   on:click
-  class={`uppercase text-sm font-bold tracking-wider rounded-full px-8 py-2 focus:outline-none text-${text} bg-${bg}`}>
+  class={`uppercase text-sm font-bold tracking-wider rounded-full px-8 py-3 focus:outline-none text-${text} bg-${bg}`}>
   <slot />
 </button>
