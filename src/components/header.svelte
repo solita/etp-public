@@ -6,7 +6,7 @@
 
 <header>
   <Container {...containerStyles.white}>
-    <div class="flex justify-between items-center px-3 py-2">
+    <div class="flex justify-between items-center xl:px-16 py-2">
       <div class="flex items-center">
         <img src={Logo} alt="Energiatodistusrekisterin logo" />
         <h1 class="pl-2">Energiatodistusrekisteri</h1>
