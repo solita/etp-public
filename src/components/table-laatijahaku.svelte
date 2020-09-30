@@ -51,20 +51,65 @@
   .pages span:last-child {
     border-right: 1px solid #979797;
   }
+
+  .info-popup {
+    display: none;
+  }
+
+  .icon-container:hover .info-popup {
+    display: block;
+    position: absolute;
+    bottom: 135%;
+    left: -1rem;
+    z-index: 1;
+    @apply bg-white text-black border border-black rounded-lg p-2;
+  }
+
+  .info-popup::after{
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 10px 10px 0;
+    border-color: black transparent;
+    display: block;
+    width: 0;
+    z-index: 1;
+    bottom: -10px;
+    left: 1rem;
+  }
 </style>
 
 <div>
   <div class="flex">
-    <div class="flex mr-3">
+    <div class="flex items-center space-x-1 mr-3">
       <input base type="checkbox" />
       <label for="base">Perustaso</label>
-      <img class="icon" src={IconInfo} alt="Info icon" />
+      <div class="icon-container relative">
+        <img class="icon" src={IconInfo} alt="Info icon"/>
+        <div class="info-popup">
+          <strong>Perustaso:</strong>
+          <p>
+            Voi laatia energiatodistuksen rakennukselle tai rakennuksen osalle,
+            jossa laskennallisen kokonaisenergiankulutuksen laskemiseen
+            käytetään kuukausitason laskentamenetelmää. Tyypillinen tällainen
+            rakennus on esimerkiksi omakotitalo.
+          </p>
+        </div>
+      </div>
     </div>
 
-    <div class="flex">
-      <input uppe type="checkbox" />
-      <label for="upper">Ylempitaso</label>
-      <img class="icon" src={IconInfo} alt="Info icon" />
+    <div class="flex items-center space-x-1">
+      <input upper type="checkbox" />
+      <label for="upper">Ylempi taso</label>
+      <div class="icon-container relative">
+        <img class="icon" src={IconInfo} alt="Info icon"/>
+        <div class="info-popup">
+          <strong>Ylempi taso:</strong>
+          <p>
+            ???
+          </p>
+        </div>
+      </div>
     </div>
   </div>
   {#if data.length < 1}
