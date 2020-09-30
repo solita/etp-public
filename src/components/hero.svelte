@@ -14,19 +14,24 @@
 
   @media screen and (max-width: 1024px) {
     .hero {
-      height: 555px;
-      background-image: url('@Asset/hero.jpg?{fit:"inside",height:1000,width:1440}');
-      background-position: left -400px bottom -150px;
+      background-position: left -200px bottom -150px;
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    .hero {
+      height: inherit;
+      background-image: none;
     }
   }
 </style>
 
 <Container {...containerStyles.hero}>
-  <div class="hero flex items-center bg-beige" role="presentation">
+  <div class="hero flex items-center" role="presentation">
     <section
-      class="xl:w-1/3 lg:w-5/12 bg-white text-ashblue sm:mx-16 py-8 px-2
-      sm:px-12">
-      <div class="flex items-center mb-8">
+      class="xl:w-1/3 lg:w-5/12 sm:w-7/12 bg-white text-ashblue sm:mx-16 py-8
+      px-2 sm:px-12">
+      <div class="items-center mb-8 hidden sm:flex">
         <img src={Logo} alt="Energiatodistusrekisterin logo" />
         <h2 class="pl-2 font-bold">Energiatodistusrekisteri</h2>
       </div>

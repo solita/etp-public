@@ -20,9 +20,9 @@
 
 <Container {...containerStyles.beige}>
   <article class="flex pb-16 px-2 sm:px-16">
-    <div class="flex -mx-16 flex-col lg:flex-row">
+    <div class="flex sm:-mx-16 flex-col lg:flex-row">
       <section
-        class="lg:w-1/2 justify-between relative px-16 flex flex-col flex-auto">
+        class="lg:w-1/2 justify-between sm:px-16 flex flex-col flex-auto">
         <div class="flex justify-center lg:justify-start">
           <BorderImage src={EtHakuImage} />
         </div>
@@ -48,8 +48,8 @@
         </div>
       </section>
       <section
-        class="lg:w-1/2 justify-between relative px-16 flex flex-col flex-auto
-        mt-16 lg:mt-0">
+        class="lg:w-1/2 justify-between sm:px-16 flex flex-col flex-auto mt-16
+        lg:mt-0">
         <div class="flex justify-center lg:justify-start">
           <BorderImage src={LaatijaHakuImage} />
         </div>

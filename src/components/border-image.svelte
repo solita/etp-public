@@ -9,8 +9,11 @@
 </script>
 
 <style>
-  .offset {
+  .offset-t {
     top: -15px;
+  }
+
+  .offset-l {
     left: 15px;
   }
 </style>
@@ -21,11 +24,11 @@
     height = image.height;
   }} />
 
-<div class="offset relative inline-block">
+<div class="offset-t relative block mr-2">
   <div
     bind:this={box}
     style={`width:${width}px;height:${height}px;`}
-    class="absolute offset border-4 border-white" />
+    class="absolute offset-t offset-l border-4 border-white" />
   <img
     bind:this={image}
     on:load={evt => {

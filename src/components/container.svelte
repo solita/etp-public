@@ -38,7 +38,7 @@
 
   .bg-heroblurred {
     background-image: url('@Asset/heroblurred.jpg?{fit:"inside",height:555,width:1440}');
-    background-size: 100% auto;
+    background-size: cover;
   }
 </style>
 
