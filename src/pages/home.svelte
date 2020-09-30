@@ -19,7 +19,7 @@
 <Hero />
 
 <Container {...containerStyles.beige}>
-  <article class="flex pb-16 px-16">
+  <article class="flex pb-16 px-2 sm:px-16">
     <div class="flex -mx-16 flex-col lg:flex-row">
       <section
         class="lg:w-1/2 justify-between relative px-16 flex flex-col flex-auto">
@@ -78,7 +78,8 @@
 </Container>
 <Container {...containerStyles.ashbluewhite}>
   <article class="flex lg:flex-row flex-col">
-    <section class="text-white bg-ashblue lg:w-1/3 py-16 pl-16 lg:pr-4 pr-16">
+    <section
+      class="text-white bg-ashblue lg:w-1/3 py-4 sm:py-16 px-2 sm:px-16 lg:pr-4">
       <span class="font-icon text-6xl">info</span>
       <h2 class="mb-4 text-white">Käytä vain virallista energiatodistusta</h2>
       <p>
@@ -94,7 +95,7 @@
         <Button {...buttonStyles.white}>Katso energiatodistusmalli</Button>
       </div>
     </section>
-    <section class="bg-white lg:w-2/3 pl-16 lg:pl-8 pr-16 py-16">
+    <section class="bg-white lg:w-2/3 lg:pl-8 px-2 sm:px-16 py-4 sm:py-16">
       <h2 class="mb-4 text-ashblue text-lg">Lisätietoa energiatodistuksista</h2>
       <div class="flex -mx-4 flex-col md:flex-row -my-4 md:my-0">
         <section class="px-4 md:w-1/2 py-4 md:py-0">

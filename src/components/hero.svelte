@@ -11,11 +11,21 @@
     background-image: url('@Asset/hero.jpg?{fit:"inside",height:1000,width:1440}');
     background-position: right 0 bottom -150px;
   }
+
+  @media screen and (max-width: 1024px) {
+    .hero {
+      height: 555px;
+      background-image: url('@Asset/hero.jpg?{fit:"inside",height:1000,width:1440}');
+      background-position: left -400px bottom -150px;
+    }
+  }
 </style>
 
 <Container {...containerStyles.hero}>
   <div class="hero flex items-center bg-beige" role="presentation">
-    <section class="xl:w-1/3 lg:w-5/12 bg-white text-ashblue mx-16 py-8 px-12">
+    <section
+      class="xl:w-1/3 lg:w-5/12 bg-white text-ashblue sm:mx-16 py-8 px-2
+      sm:px-12">
       <div class="flex items-center mb-8">
         <img src={Logo} alt="Energiatodistusrekisterin logo" />
         <h2 class="pl-2 font-bold">Energiatodistusrekisteri</h2>

@@ -26,7 +26,7 @@
   </main>
 
   <Container {...containerStyles.grey}>
-    <footer class="flex flex-col bg-grey px-16 py-16">
+    <footer class="flex flex-col bg-grey px-2 sm:px-16 py-4 sm:py-16">
       <article class="flex flex-col md:flex-row -mx-4 -my-4 md:my-0">
         <section class="md:w-1/3 px-4 py-4 md:py-0">
           <h2 class="mb-4">
