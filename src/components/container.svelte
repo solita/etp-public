@@ -5,7 +5,8 @@
     ashbluewhite: { background: 'ashbluewhite' },
     grey: { background: 'grey' },
     white: { background: 'white' },
-    hero: { background: 'heroblurred' }
+    hero: { background: 'heroblurred' },
+    red: { background: 'red' }
   };
 </script>
 
@@ -39,6 +40,10 @@
   .bg-heroblurred {
     background-image: url('@Asset/heroblurred.jpg?{fit:"inside",height:555,width:1440}');
     background-size: cover;
+  }
+
+  .bg-red {
+    background-color: #ff0000;
   }
 </style>
 

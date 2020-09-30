@@ -5,6 +5,7 @@
 
   import Button, { styles as buttonStyles } from '@Component/button';
   import Container, { styles as containerStyles } from '@Component/container';
+  import Disclaimer from '@Component/disclaimer';
 </script>
 
 <style>
@@ -18,6 +19,11 @@
 </style>
 
 <div class="applicationcontainer font-body font-medium w-full">
+  <Container {...containerStyles.red}>
+    <Disclaimer>
+      Energiatodistuspavelua uudistetaan. Tämä on uuden palvelun kehitysversio.
+    </Disclaimer>
+  </Container>
 
   <Header />
 
@@ -82,4 +88,10 @@
       </div>
     </footer>
   </Container>
+
+  <div class="sticky bottom-0">
+    <Container {...containerStyles.red}>
+      <Disclaimer />
+    </Container>
+  </div>
 </div>
