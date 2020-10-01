@@ -1,6 +1,5 @@
 <script>
   export let title;
-  export let text;
 </script>
 
 <style>
@@ -10,6 +9,8 @@
   <h2 class="font-bold text-ashblue text-xl tracking-widest mb-4">{title}</h2>
   <div class="flex items-center">
     <span class="font-icon text-6xl mr-4 text-ashblue">info</span>
-    <p class="font-medium">{text}</p>
+    <p class="font-medium">
+      <slot></slot>
+    </p>
   </div>
 </section>

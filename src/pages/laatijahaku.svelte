@@ -6,49 +6,50 @@
 
   const demoData = [
     {
-      nimi: "Teemu Testaaja",
-      patevyys: "Perustaso",
-      alue: "Pirkanmaa",
-      postinum: "33200 Tampere",
-      link: "google.com",
-      email: "test@email.fi",
-      puh: "050 555 5555"
+      nimi: 'Teemu Testaaja',
+      patevyys: 'Perustaso',
+      alue: 'Pirkanmaa',
+      postinum: '33200 Tampere',
+      link: 'google.com',
+      email: 'test@email.fi',
+      puh: '050 555 5555'
     },
     {
-      nimi: "Testi Tamminen",
-      patevyys: "Perustaso",
-      alue: "Pirkanmaa",
-      postinum: "33200 Tampere",
-      link: "google.com",
-      email: "test@email.fi",
-      puh: "050 555 5555"
+      nimi: 'Testi Tamminen',
+      patevyys: 'Perustaso',
+      alue: 'Pirkanmaa',
+      postinum: '33200 Tampere',
+      link: 'google.com',
+      email: 'test@email.fi',
+      puh: '050 555 5555'
     },
     {
-      nimi: "Tarja Testeri",
-      patevyys: "Perustaso",
-      alue: "Pirkanmaa",
-      postinum: "33200 Tampere",
-      link: "google.com",
-      email: "test@email.fi",
-      puh: "050 555 5555"
+      nimi: 'Tarja Testeri',
+      patevyys: 'Perustaso',
+      alue: 'Pirkanmaa',
+      postinum: '33200 Tampere',
+      link: 'google.com',
+      email: 'test@email.fi',
+      puh: '050 555 5555'
     },
     {
-      nimi: "Tapio Testi",
-      patevyys: "Perustaso",
-      alue: "Pirkanmaa",
-      postinum: "33200 Tampere",
-      link: "google.com",
-      email: "test@email.fi",
-      puh: "050 555 5555"
-    },
-    ];
+      nimi: 'Tapio Testi',
+      patevyys: 'Perustaso',
+      alue: 'Pirkanmaa',
+      postinum: '33200 Tampere',
+      link: 'google.com',
+      email: 'test@email.fi',
+      puh: '050 555 5555'
+    }
+  ];
 </script>
 
-
 <article class="flex flex-col bg-white">
-  <InfoBlock
-    title="Laatijalla pitää olla pätevyys"
-    text="Energiatodistuksen voi laatia vain siihen pätevöitynyt tekniikan alan ammattilainen. He ovat suorittaneet virallisen pätevyystentin. Jos laatijaa ei löydy haustamme, hänellä ei ole pätevyyttä todistuksen tekoon." />
+  <InfoBlock title="Laatijalla pitää olla pätevyys">
+    Energiatodistuksen voi laatia vain siihen pätevöitynyt tekniikan alan
+    ammattilainen. He ovat suorittaneet virallisen pätevyystentin. Jos laatijaa
+    ei löydy haustamme, hänellä ei ole pätevyyttä todistuksen tekoon.
+  </InfoBlock>
   <div class="px-16 py-8 flex items-start">
     <div class="flex flex-col w-9/12">
       <div class="w-1/2">
@@ -78,6 +79,6 @@
 
   <div class="px-16 py-8 flex flex-col items-start">
     <h2>Tuloksia</h2>
-    <TableLaatijahaku data={demoData} />
+    <TableLaatijahaku laatijat={demoData} />
   </div>
 </article>
