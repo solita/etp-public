@@ -1,27 +1,20 @@
 <script>
   import Button, { styles as buttonStyles } from '@Component/button';
   import Input from '@Component/input';
+  import InfoBlock from '@Component/info-block';
   import Container, { styles as containerStyles } from '@Component/container';
 </script>
 
 <Container {...containerStyles.beige}>
-  <section class="px-16 flex flex-col justify-center items-center py-8">
-    <h2 class="font-bold text-ashblue text-xl tracking-widest mb-4">
-      Tarvitset energiatodistuksen myydessä, vuokratessa ja rakennuslupaa
-      hakiessa
-    </h2>
-    <div class="flex items-center">
-      <span class="font-icon text-6xl mr-4 text-ashblue">info</span>
-      <p class="font-medium">
-        Energiatodistus tarvitaan lähes aina myytäessä asuntoa tai rakennusta.
-        Se on hyvä hankkia jo ennen myyntiin laittoa. Lain mukaan
-        energiatehokkuusluokan pitää näkyä myynti-ilmoituksessa ja
-        energiatodistuksen olla nähtävillä asunnon tai talon esittelyssä.
-        Energiatodistus tarvitaan myös lähes aina haettaessa rakennuslupaa ja
-        päivitettävä, kun rakennus otetaan käyttöön.
-      </p>
-    </div>
-  </section>
+  <InfoBlock
+    title="Tarvitset energiatodistuksen myydessä, vuokratessa ja rakennuslupaa
+  hakiessa">
+    Energiatodistus tarvitaan lähes aina myytäessä asuntoa tai rakennusta. Se on
+    hyvä hankkia jo ennen myyntiin laittoa. Lain mukaan energiatehokkuusluokan
+    pitää näkyä myynti-ilmoituksessa ja energiatodistuksen olla nähtävillä
+    asunnon tai talon esittelyssä. Energiatodistus tarvitaan myös lähes aina
+    haettaessa rakennuslupaa ja päivitettävä, kun rakennus otetaan käyttöön.
+  </InfoBlock>
 </Container>
 <Container {...containerStyles.white}>
   <div class="px-16 py-8 flex items-start">
