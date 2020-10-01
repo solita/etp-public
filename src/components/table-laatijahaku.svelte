@@ -3,53 +3,16 @@
   import IconWeb from '@Asset/icons/web.svg';
   import IconMail from '@Asset/icons/mail.svg';
   import IconPhone from '@Asset/icons/phone.svg';
-  export let data;
+  export let laatijat;
 </script>
 
 <style>
-  th {
-    @apply uppercase text-green;
-  }
-
-  th,
-  td {
-    border: 1px solid #979797;
-  }
-
-  th:first-child,
-  td:first-child,
-  th:last-child,
-  td:last-child {
-    border: none;
-  }
-
-  tr,
-  th,
-  td {
-    border-top: none;
-    border-bottom: none;
-  }
-
-  tr:nth-child(even) {
-    @apply bg-grey;
-  }
-
-  td:first-child {
-    @apply text-green;
-  }
-
   .icon {
-    width: 25px;
+    width: 1.6em;
     height: auto;
   }
   .icon.smaller {
-    width: 20px;
-  }
-  .pages span {
-    border-left: 1px solid #979797;
-  }
-  .pages span:last-child {
-    border-right: 1px solid #979797;
+    width: 1.3em;
   }
 
   .info-popup {
@@ -57,15 +20,12 @@
   }
 
   .icon-container:hover .info-popup {
-    display: block;
-    position: absolute;
     bottom: 135%;
     left: -1rem;
-    z-index: 1;
-    @apply bg-white text-black border border-black rounded-lg p-2;
+    @apply block absolute z-10 bg-white text-black border border-black rounded-lg p-2;
   }
 
-  .info-popup::after{
+  .info-popup::after {
     content: '';
     position: absolute;
     border-style: solid;
@@ -82,10 +42,10 @@
 <div>
   <div class="flex">
     <div class="flex items-center space-x-1 mr-3">
-      <input base type="checkbox" />
-      <label for="base">Perustaso</label>
+      <input id="perustaso" type="checkbox" />
+      <label for="perustaso">Perustaso</label>
       <div class="icon-container relative">
-        <img class="icon" src={IconInfo} alt="Info icon"/>
+        <img class="icon" src={IconInfo} alt="Info icon" />
         <div class="info-popup">
           <strong>Perustaso:</strong>
           <p>
@@ -99,42 +59,40 @@
     </div>
 
     <div class="flex items-center space-x-1">
-      <input upper type="checkbox" />
-      <label for="upper">Ylempi taso</label>
+      <input id="ylempitaso" type="checkbox" />
+      <label for="ylempitaso">Ylempi taso</label>
       <div class="icon-container relative">
-        <img class="icon" src={IconInfo} alt="Info icon"/>
+        <img class="icon" src={IconInfo} alt="Info icon" />
         <div class="info-popup">
           <strong>Ylempi taso:</strong>
-          <p>
-            ???
-          </p>
+          <p>???</p>
         </div>
       </div>
     </div>
   </div>
-  {#if data.length < 1}
+  {#if laatijat.length < 1}
     <span>Ei tuloksia.</span>
   {:else}
-    <table class="table-auto text-left">
+    <table class="table-auto text-left my-2">
       <thead>
         <tr>
-          <th class="px-4 py-2">Nimi</th>
-          <th class="px-4 py-2">Pätevyys</th>
-          <th class="px-4 py-2">Päätoiminta-alue</th>
-          <th class="px-4 py-2">Postitoimipaikka</th>
-          <th class="px-4 py-2">WWW</th>
-          <th class="px-4 py-2">Email</th>
-          <th class="px-4 py-2">Puhelinnumero</th>
+          <th>Nimi</th>
+          <th>Pätevyys</th>
+          <th>Päätoiminta-alue</th>
+          <th>Postitoimipaikka</th>
+          <th>WWW</th>
+          <th>Email</th>
+          <th>Puhelinnumero</th>
         </tr>
       </thead>
       <tbody>
-        {#each data as laatija}
+        {#each laatijat as laatija}
           <tr>
-            <td class="border px-4 py-2">{laatija.nimi}</td>
-            <td class="border px-4 py-2">{laatija.patevyys}</td>
-            <td class="border px-4 py-2">{laatija.alue}</td>
-            <td class="border px-4 py-2">{laatija.postinum}</td>
-            <td class="border px-4 py-2">
+            <td>{laatija.nimi}</td>
+            <td>{laatija.patevyys}</td>
+            <td>{laatija.alue}</td>
+            <td>{laatija.postinum}</td>
+            <td>
               <a href={laatija.link} title={laatija.link}>
                 <img
                   class="icon mx-auto"
@@ -142,12 +100,12 @@
                   alt="Website link icon" />
               </a>
             </td>
-            <td class="border px-4 py-2">
+            <td>
               <a href="mailto:{laatija.email}" title={laatija.email}>
                 <img class="icon mx-auto" src={IconMail} alt="Email icon" />
               </a>
             </td>
-            <td class="border px-4 py-2 flex flex-no-wrap">
+            <td class="flex flex-no-wrap">
               <img class="icon smaller mr-1" src={IconPhone} alt="Phone icon" />
               <span>{laatija.puh}</span>
             </td>
@@ -156,9 +114,9 @@
       </tbody>
     </table>
     <div class="flex w-full justify-start my-3">
-      <div class="counter">Tuloksia {data.length}</div>
+      <div class="counter">Tuloksia {laatijat.length}</div>
       <div
-        class="flex self-center mx-auto text-green text-center font-semibold">
+        class="pagination flex self-center mx-auto text-green text-center font-semibold">
         <span class="cursor-pointer uppercase mr-2">edellinen</span>
         <div class="flex pages">
           <span class="cursor-pointer uppercase px-1">1</span>
