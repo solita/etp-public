@@ -6,12 +6,7 @@
 
   let id;
 
-  onMount(
-    () =>
-      (id = Math.random()
-        .toString(36)
-        .substr(2, 9))
-  );
+  onMount(() => (id = Math.random().toString(36).substr(2, 9)));
 </script>
 
 <style>
@@ -27,7 +22,7 @@
 <label for={id} class="sr-only">{label}</label>
 <div
   class="w-full inline-block bg-white rounded-full border-4 px-4 py-2
-  border-black hover:bg-lightgray">
+  border-black hover:bg-lightgrey">
   <input
     {id}
     bind:value
