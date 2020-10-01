@@ -40,8 +40,9 @@ td:first-child {
 }
 
 .pagination .pages span {
-  border-left: 1px solid #979797;
+  border-left: 1px solid;
+  @apply border-darkgrey;
 }
 .pagination .pages span:last-child {
-  border-right: 1px solid #979797;
+  border-right: 1px solid;
 }
