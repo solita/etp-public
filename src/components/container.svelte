@@ -15,10 +15,6 @@
 </script>
 
 <style>
-  .w-1440 {
-    max-width: 1440px;
-  }
-
   .bg-mainnavigation {
     background: rgb(197, 225, 145);
     background: linear-gradient(
@@ -47,8 +43,18 @@
   }
 </style>
 
+<!-- purgecss: 
+    bg-beige
+    bg-mainnavigation
+    bg-ashbluewhite
+    bg-grey
+    bg-white
+    bg-heroblurred
+    bg-red
+-->
+
 <div class="bg-{background}">
-  <div class="w-1440 m-auto">
+  <div class="mx-auto xxl:container">
     <slot />
   </div>
 </div>

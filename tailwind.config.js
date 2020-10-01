@@ -25,6 +25,9 @@ module.exports = {
         green: '0px 6px 0px 6px #538000',
         darkgreen: '0px 6px 0px 6px #345000',
         ashblue: '0px 6px 0px 6px #2e5053'
+      },
+      screens: {
+        xxl: '1440px'
       }
     }
   },
