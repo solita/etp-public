@@ -2,7 +2,7 @@ module.exports = {
   theme: {
     colors: {
       black: '#000000',
-      grey: '#eaeded',
+      gray: '#eaeded',
       white: '#ffffff',
       lightgreen: '#c5e191',
       green: '#538000',
@@ -10,7 +10,7 @@ module.exports = {
       ashblue: '#2e5053',
       beige: '#f2f8e7',
       lightgray: '#e0e0e0',
-      darkgrey: '#979797'
+      darkgray: '#979797'
     },
     extend: {
       fontFamily: {

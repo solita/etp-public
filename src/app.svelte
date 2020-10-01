@@ -27,7 +27,7 @@
     <Router />
   </main>
 
-  <footer class="w-full flex flex-col bg-grey px-16 py-16">
+  <footer class="w-full flex flex-col bg-gray px-16 py-16">
     <article class="flex -mx-4">
       <section class="w-1/3 px-4">
         <h2 class="mb-4">

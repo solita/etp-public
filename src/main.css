@@ -14,7 +14,7 @@ th {
 
 th,
 td {
-  @apply px-4 py-2 border border-solid border-darkgrey;
+  @apply px-4 py-2 border border-solid border-darkgray;
 }
 
 th:first-child,
@@ -32,7 +32,7 @@ td {
 }
 
 tbody tr:nth-child(odd) {
-  @apply bg-grey;
+  @apply bg-gray;
 }
 
 td:first-child {
@@ -40,8 +40,9 @@ td:first-child {
 }
 
 .pagination .pages span {
-  border-left: 1px solid #979797;
+  border-left: 1px solid;
+  @apply border-darkgray;
 }
 .pagination .pages span:last-child {
-  border-right: 1px solid #979797;
+  border-right: 1px solid;
 }
