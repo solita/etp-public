@@ -4,7 +4,9 @@
   "license": "EUPL v1.2",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
-    "dev": "webpack-dev-server --content-base public"
+    "dev": "webpack-dev-server --content-base public",
+    "test": "mocha './src/**/*_test.js' --require @babel/register --reporter dot",
+    "tdd": "mocha './src/**/*_test.js' --require @babel/register --reporter dot --watch"
   },
   "browserslist": [
     "defaults"
@@ -13,8 +15,10 @@
     "@babel/core": "^7.11.4",
     "@babel/plugin-transform-runtime": "^7.11.5",
     "@babel/preset-env": "^7.11.0",
+    "@babel/register": "^7.11.5",
     "autoprefixer": "^9.8.6",
     "babel-loader": "^8.1.0",
+    "chai": "^4.2.0",
     "clean-webpack-plugin": "^3.0.0",
     "cross-env": "^5.2.0",
     "css-loader": "^4.2.2",
@@ -22,6 +26,7 @@
     "file-loader": "^6.1.0",
     "html-webpack-plugin": "^4.3.0",
     "mini-css-extract-plugin": "^0.10.0",
+    "mocha": "^8.1.3",
     "postcss": "^7.0.35",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
