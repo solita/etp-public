@@ -11,6 +11,10 @@ html {
 
 @tailwind utilities;
 
+.applicationcontainer{
+  min-width: 300px;
+}
+
 /* Table */
 th {
   @apply uppercase text-green;
@@ -49,4 +53,49 @@ td:first-child {
 }
 .pagination .pages span:last-child {
   border-right: 1px solid;
+}
+
+@media screen and (max-width: 768px) {
+  td:first-child {
+    @apply text-black;
+  }
+
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr {
+    @apply border border-darkgrey
+  }
+
+  td {
+    padding-left: 50%;
+    text-align: left;
+    @apply relative border-0 border-b border-darkgrey whitespace-normal;
+  }
+
+  td:before {
+    top: 6px;
+    left: 6px;
+    /* width: 45%; */
+    /* padding-right: 10px; */
+    text-align: left;
+
+    @apply text-green absolute font-bold whitespace-no-wrap pr-1 w-1/2;
+  }
+
+  td:before {
+    content: attr(data-title);
+  }
 }
