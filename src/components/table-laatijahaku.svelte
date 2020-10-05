@@ -114,16 +114,16 @@
       </tbody>
     </table>
   </div>
-  <div class="flex w-full justify-start my-3">
-    <div class="counter">Tuloksia {laatijat.length}</div>
+  <div class="flex w-full align-center md:justify-start my-3 flex-col md:flex-row">
+    <div class="counter mx-auto md:mx-0">Tuloksia {laatijat.length}</div>
     <div
-      class="pagination flex self-center mx-auto text-green text-center font-semibold">
+      class="pagination">
       <span class="cursor-pointer uppercase mr-2">edellinen</span>
       <div class="flex pages">
         <span class="cursor-pointer uppercase px-1">1</span>
         <span class="cursor-pointer uppercase px-1">2</span>
         <span class="cursor-pointer uppercase px-1">3</span>
-        <span class="px-2">-</span>
+        <span class="px-2 font-normal">-</span>
         <span class="cursor-pointer uppercase px-1">18</span>
         <span class="cursor-pointer uppercase px-1">19</span>
         <span class="cursor-pointer uppercase px-1">20</span>

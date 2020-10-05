@@ -11,7 +11,7 @@ html {
 
 @tailwind utilities;
 
-.applicationcontainer{
+.applicationcontainer {
   min-width: 300px;
 }
 
@@ -46,13 +46,15 @@ tbody tr:nth-child(odd) {
 td:first-child {
   @apply text-green;
 }
+.pagination {
+  @apply flex self-center mx-auto text-green text-center font-semibold;
+}
 
 .pagination .pages span {
-  border-left: 1px solid;
-  @apply border-darkgrey;
+  @apply border-darkgrey border-l px-1;
 }
 .pagination .pages span:last-child {
-  border-right: 1px solid;
+  @apply border-r;
 }
 
 @media screen and (max-width: 768px) {
@@ -76,7 +78,7 @@ td:first-child {
   }
 
   tr {
-    @apply border border-darkgrey
+    @apply border border-darkgrey;
   }
 
   td {

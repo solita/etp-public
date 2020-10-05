@@ -3,6 +3,7 @@
   import Input from '@Component/input';
   import InfoBlock from '@Component/info-block';
   import TableLaatijahaku from '@Component/table-laatijahaku';
+  import Container, { styles as containerStyles } from '@Component/container';
 
   const demoData = [
     {
@@ -44,14 +45,16 @@
   ];
 </script>
 
-<article class="flex flex-col bg-white w-full">
+<Container {...containerStyles.beige}>
   <InfoBlock title="Laatijalla pitää olla pätevyys">
     Energiatodistuksen voi laatia vain siihen pätevöitynyt tekniikan alan
     ammattilainen. He ovat suorittaneet virallisen pätevyystentin. Jos laatijaa
     ei löydy haustamme, hänellä ei ole pätevyyttä todistuksen tekoon.
   </InfoBlock>
+</Container>
+<Container {...containerStyles.white}>
   <div
-    class="px-3 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto flex flex-col md:flex-row items-center md:items-start">
+    class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto flex flex-col md:flex-row items-center md:items-start">
     <div class="flex flex-col w-full md:w-9/12">
       <div class="w-full md:w-11/12">
         <Input label={'Hae nimellä'} value={''} />
@@ -64,7 +67,7 @@
           <Input label="Hae alueella" value={''} />
         </div>
       </div>
-      <div class="w-full md:w-11/12 mt-2 flex flex-col sm:flex-row">
+      <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
         <Button {...buttonStyles.green}>Hae</Button>
         <Button {...buttonStyles.green}>Tyhjennä hakuehdot</Button>
       </div>
@@ -82,4 +85,4 @@
     <h2>Tuloksia</h2>
     <TableLaatijahaku laatijat={demoData} />
   </div>
-</article>
+</Container>
