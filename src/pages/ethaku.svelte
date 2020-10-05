@@ -30,7 +30,7 @@
           <Input label="Hae alueella" value={''} />
         </div>
       </div>
-      <div class="w-full md:w-11/12 flex flex-col sm:flex-row">
+      <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
         <Button {...buttonStyles.green}>Hae</Button>
         <Button {...buttonStyles.green}>Tyhjennä hakuehdot</Button>
         <a class="inline-flex items-center self-center ml-4 text-green order-first md:order-none" href="/">
