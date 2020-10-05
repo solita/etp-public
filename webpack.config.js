@@ -125,6 +125,13 @@ module.exports = {
   devtool: prod ? false : 'source-map',
   devServer: {
     port: 5050,
-    historyApiFallback: true
+    historyApiFallback: true,
+    proxy: {
+      '/api': {
+        target: `http://localhost:8080`,
+        secure: false,
+        changeOrigin: true
+      }
+    }
   }
 };
