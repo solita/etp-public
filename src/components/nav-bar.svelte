@@ -9,12 +9,6 @@
   import Container, { styles as containerStyles } from '@Component/container';
 </script>
 
-<style>
-  span {
-    max-width: 18em;
-  }
-</style>
-
 <Container {...containerStyles.mainnavigation}>
   <nav class="flex xl:px-16 flex-col lg:flex-row">
     <NavButton link="/" {...navbuttonStyles.lightgreen} iconLeft={IconHome}>

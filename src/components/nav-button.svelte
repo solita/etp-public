@@ -62,9 +62,9 @@ border-black
 -->
 <a
   class="flex box-border lg:flex-full flex-auto py-4 px-2 navcontainer bg-{background}
-  text-{text} focus:shadow-{background} focus:z-10 hover:shadow-{background}
+  text-{text} focus:z-10
   hover:z-10 focus:outline-none xl:flex-row lg:flex-col flex-row
-  lg:items-center xl:items-center md:items-start border-t-4 border-{$activePath === link ? 'white' : background}"
+  lg:items-center xl:items-center md:items-start border-l-4 lg:border-l-0 lg:border-t-4 border-{$activePath === link ? 'white' : background}"
   class:active={$activePath === link}
   href={link}>
   {#if iconLeft}
@@ -74,11 +74,11 @@ border-black
       src={iconLeft}
       alt="Icon" />
   {/if}
-  <div class="flex flex-col ml-2 flex-1">
+  <div class="flex flex-col ml-2 flex-1 flex-grow">
     <slot name="title" />
     <slot name="subtitle" />
   </div>
-  <div class="inline-flex flex-grow items-start justify-end">
+  <div class="inline-flex items-start justify-end flex-shrink lg:hidden xl:block">
     <slot name="iconright" />
   </div>
 </a>
