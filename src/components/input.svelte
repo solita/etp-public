@@ -6,7 +6,12 @@
 
   let id;
 
-  onMount(() => (id = Math.random().toString(36).substr(2, 9)));
+  onMount(
+    () =>
+      (id = Math.random()
+        .toString(36)
+        .substr(2, 9))
+  );
 </script>
 
 <style>
@@ -27,5 +32,6 @@
     {id}
     bind:value
     placeholder={label}
+    on:keydown
     class="w-full focus:outline-none" />
 </div>

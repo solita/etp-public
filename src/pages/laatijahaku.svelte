@@ -1,6 +1,9 @@
 <script>
   import * as LaatijaApi from '@/api/laatija-api';
   import * as GeoApi from '@/api/geo-api';
+  import * as LaatijaUtils from '@/utilities/laatija';
+  import * as GeoUtils from '@/utilities/geo';
+
   import { locale, labelLocale } from '@Localization/localization';
 
   import Button, { styles as buttonStyles } from '@Component/button';
@@ -9,62 +12,21 @@
   import TableLaatijahaku from '@Component/table-laatijahaku';
   import Container, { styles as containerStyles } from '@Component/container';
 
-  const demoData = [
-    {
-      nimi: 'Teemu Testaaja',
-      patevyys: 'Perustaso',
-      alue: 'Pirkanmaa',
-      postinum: '33200 Tampere',
-      link: 'google.com',
-      email: 'test@email.fi',
-      puh: '050 555 5555'
-    },
-    {
-      nimi: 'Testi Tamminen',
-      patevyys: 'Perustaso',
-      alue: 'Pirkanmaa',
-      postinum: '33200 Tampere',
-      link: 'google.com',
-      email: 'test@email.fi',
-      puh: '050 555 5555'
-    },
-    {
-      nimi: 'Tarja Testeri',
-      patevyys: 'Perustaso',
-      alue: 'Pirkanmaa',
-      postinum: '33200 Tampere',
-      link: 'google.com',
-      email: 'test@email.fi',
-      puh: '050 555 5555'
-    },
-    {
-      nimi: 'Tapio Testi',
-      patevyys: 'Perustaso',
-      alue: 'Pirkanmaa',
-      postinum: '33200 Tampere',
-      link: 'google.com',
-      email: 'test@email.fi',
-      puh: '050 555 5555'
-    }
-  ];
+  let nimihaku = '';
+  let aluehaku = '';
+  
+  let laatijat = [];
+  let shownLaatijat = [];
 
-  const findPatevyys = (patevyydet, laatija) =>
-    patevyydet.find(patevyys => patevyys.id === laatija.patevyystaso);
-
-  const findToimintaalue = (toimintaalueet, laatija) =>
-    toimintaalueet.find(
-      toimintaalue => toimintaalue.id === laatija.toimintaalue
-    );
-
-  const deserialize = ([laatijat, patevyydet, toimintaalueet]) =>
-    laatijat.reduce((acc, laatija) =>  [
+  const deserialize = ([laatijat, patevyydet, toimintaalueet]) => laatijat.reduce((acc, laatija) => [
         ...acc,
         {
+          id: laatija.id,
           nimi: `${laatija.etunimi} ${laatija.sukunimi}`,
-          patevyystaso: labelLocale($locale, findPatevyys(patevyydet, laatija)),
+          patevyystaso: labelLocale($locale, LaatijaUtils.findPatevyys(patevyydet, laatija)),
           toimintaalue: labelLocale(
             $locale,
-            findToimintaalue(toimintaalueet, laatija)
+            GeoUtils.findToimintaalue(toimintaalueet, laatija.toimintaalue)
           ) ?? '',
           postitoimipaikka: laatija.postitoimipaikka ?? '',
           wwwosoite: laatija.wwwosoite && !laatija.wwwosoite?.match(/^https+:\/\//) ? `//${laatija.wwwosoite}` : laatija.wwwosoite,
@@ -78,7 +40,11 @@
     LaatijaApi.patevyydet(fetch),
     GeoApi.toimintaalueet(fetch)
   ])
-    .then(deserialize);
+    .then(deserialize)
+    .then(l => {
+      laatijat = l;
+      shownLaatijat = l;
+    });
 </script>
 
 <Container {...containerStyles.beige}>
@@ -87,25 +53,30 @@
     ammattilainen. He ovat suorittaneet virallisen pätevyystentin. Jos laatijaa
     ei löydy haustamme, hänellä ei ole pätevyyttä todistuksen tekoon.
   </InfoBlock>
-</Container>
-<Container {...containerStyles.white}>
-  <div
-    class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto flex flex-col md:flex-row items-center md:items-start">
+  <div class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto flex flex-col md:flex-row items-center md:items-start">
     <div class="flex flex-col w-full md:w-9/12">
       <div class="w-full md:w-11/12">
-        <Input label={'Hae nimellä'} value={''} />
+        <Input label={'Hae nimellä'} bind:value={nimihaku} on:keydown={evt => {
+          if (evt.keyCode === 13) {
+            shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, laatijat);
+          }
+        }} />
       </div>
       <aside class="font-normal text-xs italic mt-4">
         Voit hakea maakunnalla, kunnalla, postinumerolla tai -toimipaikalla.
       </aside>
       <div class="flex">
         <div class="w-full md:w-11/12">
-          <Input label="Hae alueella" value={''} />
+          <Input label="Hae alueella" bind:value={aluehaku} on:keydown={evt => {
+            if (evt.keyCode === 13) {
+              shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, laatijat);
+            }
+          }} />
         </div>
       </div>
       <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
-        <Button {...buttonStyles.green}>Hae</Button>
-        <Button {...buttonStyles.green}>Tyhjennä hakuehdot</Button>
+        <Button {...buttonStyles.green} on:click={_ => shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, laatijat)}>Hae</Button>
+        <Button {...buttonStyles.green} on:click={_ => {nimihaku = ''; aluehaku = ''; shownLaatijat = laatijat}}>Tyhjennä hakuehdot</Button>
       </div>
     </div>
     <aside
@@ -116,13 +87,12 @@
       uudisrakennukset.
     </aside>
   </div>
-
-  {#await data}
-  {:then laatijat}
+  
+  {#if shownLaatijat}
     <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col items-center w-full">
       <h2>Tuloksia</h2>
-      <TableLaatijahaku {laatijat} />
+      <TableLaatijahaku laatijat={shownLaatijat} />
     </div>
-  {/await}
+  {/if}
 
 </Container>

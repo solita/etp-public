@@ -1,6 +1,4 @@
 <script>
-  import { locale } from '@Localization/localization';
-
   import IconInfo from '@Asset/icons/info.svg';
   import IconWeb from '@Asset/icons/web.svg';
   import IconMail from '@Asset/icons/mail.svg';
