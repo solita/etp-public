@@ -16,78 +16,78 @@ html {
 }
 
 /* Table */
-th {
+.table-container th {
   @apply uppercase text-green;
 }
 
-th,
-td {
+.table-container th,
+.table-container td {
   @apply px-4 py-2 border border-solid border-darkgrey;
 }
 
-th:first-child,
-td:first-child,
-th:last-child,
-td:last-child {
+.table-container th:first-child,
+.table-container td:first-child,
+.table-container th:last-child,
+.table-container td:last-child {
   border: none;
 }
 
-tr,
-th,
-td {
+.table-container tr,
+.table-container th,
+.table-container td {
   border-top: none;
   border-bottom: none;
 }
 
-tbody tr:nth-child(odd) {
+.table-container tbody tr:nth-child(odd) {
   @apply bg-grey;
 }
 
-td:first-child {
+.table-container td:first-child {
   @apply text-green;
 }
-.pagination {
+.table-container .pagination {
   @apply flex self-center mx-auto text-green text-center font-semibold;
 }
 
-.pagination .pages span {
+.table-container .pagination .pages span {
   @apply border-darkgrey border-l px-1;
 }
-.pagination .pages span:last-child {
+.table-container .pagination .pages span:last-child {
   @apply border-r;
 }
 
 @media screen and (max-width: 768px) {
-  td:first-child {
+  .table-container td:first-child {
     @apply text-black;
   }
 
-  table,
-  thead,
-  tbody,
-  th,
-  td,
-  tr {
+  .table-container table,
+  .table-container thead,
+  .table-container tbody,
+  .table-container th,
+  .table-container td,
+  .table-container tr {
     display: block;
   }
 
-  thead tr {
+  .table-container thead tr {
     position: absolute;
     top: -9999px;
     left: -9999px;
   }
 
-  tr {
+  .table-container tr {
     @apply border border-darkgrey;
   }
 
-  td {
+  .table-container td {
     padding-left: 50%;
     text-align: left;
     @apply relative border-0 border-b border-darkgrey whitespace-normal;
   }
 
-  td:before {
+  .table-container td:before {
     top: 6px;
     left: 6px;
     /* width: 45%; */
@@ -97,7 +97,7 @@ td:first-child {
     @apply text-green absolute font-bold whitespace-no-wrap pr-1 w-1/2;
   }
 
-  td:before {
+  .table-container td:before {
     content: attr(data-title);
   }
 }
