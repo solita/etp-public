@@ -39,7 +39,7 @@
   }
 </style>
 
-<div>
+<div class="table-container">
   <div class="flex">
     <div class="flex items-center space-x-1 mr-3">
       <input id="perustaso" type="checkbox" />
@@ -73,56 +73,64 @@
   {#if laatijat.length < 1}
     <span>Ei tuloksia.</span>
   {:else}
-    <table class="table-auto text-left my-2">
-      <thead>
-        <tr>
-          <th>Nimi</th>
-          <th>Pätevyys</th>
-          <th>Päätoiminta-alue</th>
-          <th>Postitoimipaikka</th>
-          <th>WWW</th>
-          <th>Email</th>
-          <th>Puhelinnumero</th>
-        </tr>
-      </thead>
-      <tbody>
-        {#each laatijat as laatija}
+    <div class="w-full overflow-x-scroll lg:overflow-auto">
+      <table class="w-full table-auto text-left my-2">
+        <thead>
           <tr>
-            <td>{laatija.nimi}</td>
-            <td>{laatija.patevyys}</td>
-            <td>{laatija.alue}</td>
-            <td>{laatija.postinum}</td>
-            <td>
-              <a href={laatija.link} title={laatija.link}>
-                <img
-                  class="icon mx-auto"
-                  src={IconWeb}
-                  alt="Website link icon" />
-              </a>
-            </td>
-            <td>
-              <a href="mailto:{laatija.email}" title={laatija.email}>
-                <img class="icon mx-auto" src={IconMail} alt="Email icon" />
-              </a>
-            </td>
-            <td class="flex flex-no-wrap">
-              <img class="icon smaller mr-1" src={IconPhone} alt="Phone icon" />
-              <span>{laatija.puh}</span>
-            </td>
+            <th>Nimi</th>
+            <th>Pätevyys</th>
+            <th>Päätoiminta-alue</th>
+            <th>Postitoimipaikka</th>
+            <th>WWW</th>
+            <th>Email</th>
+            <th>Puhelinnumero</th>
           </tr>
-        {/each}
-      </tbody>
-    </table>
-    <div class="flex w-full justify-start my-3">
-      <div class="counter">Tuloksia {laatijat.length}</div>
-      <div
-        class="pagination flex self-center mx-auto text-green text-center font-semibold">
+        </thead>
+        <tbody>
+          {#each laatijat as laatija}
+            <tr>
+              <td data-title="Nimi">{laatija.nimi}</td>
+              <td data-title="Pätevyys">{laatija.patevyys}</td>
+              <td data-title="Päätoiminta">{laatija.alue}</td>
+              <td data-title="Postitoimipaikka">{laatija.postinum}</td>
+              <td data-title="WWW">
+                <a href={laatija.link} title={laatija.link}>
+                  <img
+                    class="icon md:mx-auto"
+                    src={IconWeb}
+                    alt="Website link icon" />
+                </a>
+              </td>
+              <td data-title="Email">
+                <a href="mailto:{laatija.email}" title={laatija.email}>
+                  <img
+                    class="icon md:mx-auto"
+                    src={IconMail}
+                    alt="Email icon" />
+                </a>
+              </td>
+              <td data-title="Puhelinnumero" class="flex flex-no-wrap">
+                <img
+                  class="icon smaller mr-1"
+                  src={IconPhone}
+                  alt="Phone icon" />
+                <span>{laatija.puh}</span>
+              </td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+    <div
+      class="flex w-full align-center md:justify-start my-3 flex-col md:flex-row">
+      <div class="counter mx-auto md:mx-0">Tuloksia {laatijat.length}</div>
+      <div class="pagination">
         <span class="cursor-pointer uppercase mr-2">edellinen</span>
         <div class="flex pages">
           <span class="cursor-pointer uppercase px-1">1</span>
           <span class="cursor-pointer uppercase px-1">2</span>
           <span class="cursor-pointer uppercase px-1">3</span>
-          <span class="px-2">-</span>
+          <span class="px-2 font-normal">-</span>
           <span class="cursor-pointer uppercase px-1">18</span>
           <span class="cursor-pointer uppercase px-1">19</span>
           <span class="cursor-pointer uppercase px-1">20</span>

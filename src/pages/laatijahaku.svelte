@@ -3,6 +3,7 @@
   import Input from '@Component/input';
   import InfoBlock from '@Component/info-block';
   import TableLaatijahaku from '@Component/table-laatijahaku';
+  import Container, { styles as containerStyles } from '@Component/container';
 
   const demoData = [
     {
@@ -44,32 +45,35 @@
   ];
 </script>
 
-<article class="flex flex-col bg-white">
+<Container {...containerStyles.beige}>
   <InfoBlock title="Laatijalla pitää olla pätevyys">
     Energiatodistuksen voi laatia vain siihen pätevöitynyt tekniikan alan
     ammattilainen. He ovat suorittaneet virallisen pätevyystentin. Jos laatijaa
     ei löydy haustamme, hänellä ei ole pätevyyttä todistuksen tekoon.
   </InfoBlock>
-  <div class="px-16 py-8 flex items-start">
-    <div class="flex flex-col w-9/12">
-      <div class="w-1/2">
+</Container>
+<Container {...containerStyles.white}>
+  <div
+    class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto flex flex-col md:flex-row items-center md:items-start">
+    <div class="flex flex-col w-full md:w-9/12">
+      <div class="w-full md:w-11/12">
         <Input label={'Hae nimellä'} value={''} />
       </div>
       <aside class="font-normal text-xs italic mt-4">
         Voit hakea maakunnalla, kunnalla, postinumerolla tai -toimipaikalla.
       </aside>
       <div class="flex">
-        <div class="w-1/2">
+        <div class="w-full md:w-11/12">
           <Input label="Hae alueella" value={''} />
         </div>
       </div>
-      <div class="mt-2">
+      <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
         <Button {...buttonStyles.green}>Hae</Button>
         <Button {...buttonStyles.green}>Tyhjennä hakuehdot</Button>
       </div>
     </div>
     <aside
-      class="w-3/12 pl-4 border-l-8 border-ashblue text-ashblue italic text-sm">
+      class="mt-4 md:mt-0 md:w-3/12 lg:pl-4 border-t-4 md:border-t-0 md:border-l-8 border-ashblue text-ashblue italic text-sm">
       Ylempi pätevyystaso vaaditaan kun lämmönsiirron kokonaisenergiankulutuksen
       laskennassa tulee ottaa huomioon rakenteiden lämmönvarausominaisuus ajasta
       riippuvaisenna. Käytännössä näitä kohteita ovat jäähdytetyt
@@ -77,8 +81,8 @@
     </aside>
   </div>
 
-  <div class="px-16 py-8 flex flex-col items-start">
+  <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col intems-center w-full">
     <h2>Tuloksia</h2>
     <TableLaatijahaku laatijat={demoData} />
   </div>
-</article>
+</Container>

@@ -61,10 +61,10 @@ border-ashblue
 border-black
 -->
 <a
-  class="flex box-border lg:flex-full flex-auto py-4 px-1 navcontainer bg-{background}
+  class="flex box-border lg:flex-full flex-auto py-4 px-2 navcontainer bg-{background}
   text-{text} focus:shadow-{background} focus:z-10 hover:shadow-{background}
-  hover:z-10 focus:outline-none xl:flex-row lg:flex-col flex-row px-2
-  lg:items-center xl:items-center md:items-start border-b-4 border-{$activePath === link ? 'black' : background}"
+  hover:z-10 focus:outline-none xl:flex-row lg:flex-col flex-row
+  lg:items-center xl:items-center md:items-start border-t-4 border-{$activePath === link ? 'white' : background}"
   class:active={$activePath === link}
   href={link}>
   {#if iconLeft}

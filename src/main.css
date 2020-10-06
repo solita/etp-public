@@ -11,42 +11,93 @@ html {
 
 @tailwind utilities;
 
+.applicationcontainer {
+  min-width: 300px;
+}
+
 /* Table */
-th {
+.table-container th {
   @apply uppercase text-green;
 }
 
-th,
-td {
+.table-container th,
+.table-container td {
   @apply px-4 py-2 border border-solid border-darkgrey;
 }
 
-th:first-child,
-td:first-child,
-th:last-child,
-td:last-child {
+.table-container th:first-child,
+.table-container td:first-child,
+.table-container th:last-child,
+.table-container td:last-child {
   border: none;
 }
 
-tr,
-th,
-td {
+.table-container tr,
+.table-container th,
+.table-container td {
   border-top: none;
   border-bottom: none;
 }
 
-tbody tr:nth-child(odd) {
+.table-container tbody tr:nth-child(odd) {
   @apply bg-grey;
 }
 
-td:first-child {
+.table-container td:first-child {
   @apply text-green;
 }
-
-.pagination .pages span {
-  border-left: 1px solid;
-  @apply border-darkgrey;
+.table-container .pagination {
+  @apply flex self-center mx-auto text-green text-center font-semibold;
 }
-.pagination .pages span:last-child {
-  border-right: 1px solid;
+
+.table-container .pagination .pages span {
+  @apply border-darkgrey border-l px-1;
+}
+.table-container .pagination .pages span:last-child {
+  @apply border-r;
+}
+
+@media screen and (max-width: 768px) {
+  .table-container td:first-child {
+    @apply text-black;
+  }
+
+  .table-container table,
+  .table-container thead,
+  .table-container tbody,
+  .table-container th,
+  .table-container td,
+  .table-container tr {
+    display: block;
+  }
+
+  .table-container thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .table-container tr {
+    @apply border border-darkgrey;
+  }
+
+  .table-container td {
+    padding-left: 50%;
+    text-align: left;
+    @apply relative border-0 border-b border-darkgrey whitespace-normal;
+  }
+
+  .table-container td:before {
+    top: 6px;
+    left: 6px;
+    /* width: 45%; */
+    /* padding-right: 10px; */
+    text-align: left;
+
+    @apply text-green absolute font-bold whitespace-no-wrap pr-1 w-1/2;
+  }
+
+  .table-container td:before {
+    content: attr(data-title);
+  }
 }
