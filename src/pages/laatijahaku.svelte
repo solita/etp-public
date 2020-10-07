@@ -87,7 +87,9 @@
       uudisrakennukset.
     </aside>
   </div>
-  
+  </Container>
+
+  <Container {...containerStyles.white}>  
   {#if shownLaatijat}
     <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col items-center w-full">
       <h2>Tuloksia</h2>
