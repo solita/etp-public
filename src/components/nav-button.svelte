@@ -63,9 +63,8 @@ border-black
 <a
   class="flex box-border lg:flex-full flex-auto py-4 px-2 navcontainer bg-{background}
   text-{text} focus:z-10
-  hover:z-10 focus:outline-none xl:flex-row lg:flex-col flex-row
-  lg:items-center xl:items-center md:items-start border-l-4 lg:border-l-0 lg:border-t-4 border-{$activePath === link ? 'white' : background}"
-  class:active={$activePath === link}
+  hover:z-10 hover:underline focus:outline-none xl:flex-row lg:flex-col flex-row
+  lg:items-center xl:items-center md:items-start border-l-4 lg:border-l-0 border-{$activePath === link ? text : background} lg:border-{background} lg:shadow-{$activePath === link ? background : 'none'} focus:underline"
   href={link}>
   {#if iconLeft}
     <img
