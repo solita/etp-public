@@ -91,7 +91,7 @@
 
   <Container {...containerStyles.white}>  
   {#if shownLaatijat}
-    <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col items-center w-full">
+    <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
       <h2>Tuloksia</h2>
       <TableLaatijahaku laatijat={shownLaatijat} />
     </div>

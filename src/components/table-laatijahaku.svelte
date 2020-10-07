@@ -74,7 +74,7 @@
   {#if laatijat.length < 1}
     <span>Ei tuloksia.</span>
   {:else}
-    <div class="w-full overflow-x-scroll lg:overflow-auto">
+    <div class="w-full overflow-auto">
       <table class="w-full table-auto text-left my-2">
         <thead>
           <tr>
@@ -92,7 +92,7 @@
             <tr>
               <td data-title="Nimi">{laatija.nimi}</td>
               <td data-title="Pätevyys">{laatija.patevyystaso}</td>
-              <td data-title="Päätoiminta">{laatija.toimialue}</td>
+              <td data-title="Päätoiminta-alue">{laatija.toimialue}</td>
               <td data-title="Postitoimipaikka">{laatija.postitoimipaikka}</td>
               <td data-title="WWW">
                 {#if laatija.wwwosoite}
@@ -114,7 +114,7 @@
                   </a>
                 {/if}
               </td>
-              <td data-title="Puhelinnumero" class="flex flex-no-wrap">
+              <td data-title="Puhelinnumero">
                 {#if laatija.puhelin}
                   <a
                     class="inline-flex"
