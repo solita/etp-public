@@ -1,3 +1,5 @@
+import 'whatwg-fetch';
+
 import './main.css';
 
 import App from './app.svelte';

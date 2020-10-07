@@ -49,6 +49,7 @@
     "core-js": "^3.6.5",
     "page": "^1.11.6",
     "qs": "^6.9.4",
-    "tailwindcss": "^1.7.5"
+    "tailwindcss": "^1.7.5",
+    "whatwg-fetch": "^3.4.1"
   }
 }
