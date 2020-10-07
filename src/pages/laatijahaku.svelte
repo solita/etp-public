@@ -5,6 +5,7 @@
   import * as GeoUtils from '@/utilities/geo';
 
   import { locale, labelLocale } from '@Localization/localization';
+  import { navigate } from '@/router/router';
 
   import Button, { styles as buttonStyles } from '@Component/button';
   import Input from '@Component/input';
@@ -12,8 +13,8 @@
   import TableLaatijahaku from '@Component/table-laatijahaku';
   import Container, { styles as containerStyles } from '@Component/container';
 
-  let nimihaku = '';
-  let aluehaku = '';
+  export let nimihaku = '';
+  export let aluehaku = '';
   
   let laatijat = [];
   let shownLaatijat = [];
@@ -43,9 +44,21 @@
     .then(deserialize)
     .then(l => {
       laatijat = l;
-      shownLaatijat = l;
+      if (nimihaku.length > 0 || aluehaku.length > 0) {
+        shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, l);
+      } else {
+        shownLaatijat = l;
+      }
     });
+
+  const commitSearch = (nimihaku, aluehaku, laatijat) => {
+    const qs = [...(nimihaku.length > 0 ? [['nimihaku', nimihaku].join('=')] : []), ...(aluehaku.length > 0 ? [['aluehaku', aluehaku].join('=')] : [])].join('&');
+    navigate(`/laatijahaku${qs ? '?'+qs : ''}`); 
+    shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, laatijat);
+  };
 </script>
+
+<svelte:window on:popstate={_ => shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, laatijat)} />
 
 <Container {...containerStyles.beige}>
   <InfoBlock title="Laatijalla pitää olla pätevyys">
@@ -58,7 +71,7 @@
       <div class="w-full md:w-11/12">
         <Input label={'Hae nimellä'} bind:value={nimihaku} on:keydown={evt => {
           if (evt.keyCode === 13) {
-            shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, laatijat);
+            commitSearch(nimihaku, aluehaku, laatijat);
           }
         }} />
       </div>
@@ -69,14 +82,14 @@
         <div class="w-full md:w-11/12">
           <Input label="Hae alueella" bind:value={aluehaku} on:keydown={evt => {
             if (evt.keyCode === 13) {
-              shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, laatijat);
+              commitSearch(nimihaku, aluehaku, laatijat);
             }
           }} />
         </div>
       </div>
       <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
-        <Button {...buttonStyles.green} on:click={_ => shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, laatijat)}>Hae</Button>
-        <Button {...buttonStyles.green} on:click={_ => {nimihaku = ''; aluehaku = ''; shownLaatijat = laatijat}}>Tyhjennä hakuehdot</Button>
+        <Button {...buttonStyles.green} on:click={_ => commitSearch(nimihaku, aluehaku, laatijat)}>Hae</Button>
+        <Button {...buttonStyles.green} on:click={_ => commitSearch('', '', laatijat)}>Tyhjennä hakuehdot</Button>
       </div>
     </div>
     <aside

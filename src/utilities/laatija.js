@@ -33,14 +33,18 @@ export const weightByActivity = (datenow, login) => {
 export const findPatevyys = (patevyydet, laatija) =>
   patevyydet.find(patevyys => patevyys.id === laatija.patevyystaso);
 
-export const laatijatByNimihaku = (nimihaku, laatijat) =>
-  new Set(
+export const laatijatByNimihaku = (nimihaku, laatijat) => {
+  if (!nimihaku) {
+    return new Set(laatijat.map(laatija => laatija.id));
+  }
+  return new Set(
     laatijat
       .filter(laatija =>
         laatija.nimi.toUpperCase().includes(nimihaku.toUpperCase())
       )
       .map(laatija => laatija.id)
   );
+};
 
 export const laatijatByAluehaku = (aluehaku, laatijat) => {
   return new Set();
