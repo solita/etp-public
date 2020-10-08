@@ -22,10 +22,10 @@ module.exports = {
         full: '1 1 100%'
       },
       boxShadow: {
-        lightgreen: '0px 6px 0px 6px #c5e191',
-        green: '0px 6px 0px 6px #538000',
-        darkgreen: '0px 6px 0px 6px #345000',
-        ashblue: '0px 6px 0px 6px #2e5053'
+        lightgreen: '0px 6px 0px 0px #c5e191',
+        green: '0px 6px 0px 0px #538000',
+        darkgreen: '0px 6px 0px 0px #345000',
+        ashblue: '0px 6px 0px 0px #2e5053'
       },
       screens: {
         xxl: '1440px'
