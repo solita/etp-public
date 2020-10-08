@@ -29,3 +29,32 @@ export const weightByActivity = (datenow, login) => {
 
   return days <= Math.floor(365 / 2) ? 1 : 0;
 };
+
+export const findPatevyys = (patevyydet, laatija) =>
+  patevyydet.find(patevyys => patevyys.id === laatija.patevyystaso);
+
+export const laatijatByNimihaku = (nimihaku, laatijat) => {
+  if (!nimihaku) {
+    return new Set(laatijat.map(laatija => laatija.id));
+  }
+  return new Set(
+    laatijat
+      .filter(laatija =>
+        laatija.nimi.toUpperCase().includes(nimihaku.toUpperCase())
+      )
+      .map(laatija => laatija.id)
+  );
+};
+
+export const laatijatByAluehaku = (aluehaku, laatijat) => {
+  return new Set();
+};
+
+export const laatijatByHakukriteerit = (nimihaku, aluehaku, laatijat) => {
+  const nimet = laatijatByNimihaku(nimihaku, laatijat);
+  const alueet = laatijatByAluehaku(aluehaku, laatijat);
+
+  const passingLaatijaIds = new Set([...nimet, ...alueet]);
+
+  return laatijat.filter(laatija => passingLaatijaIds.has(laatija.id));
+};

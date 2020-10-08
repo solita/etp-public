@@ -13,4 +13,6 @@
   export const _ = derived(locale, $locale => str =>
     translations[$locale][str] || str
   );
+
+  export const labelLocale = (locale, obj) => obj?.[`label-${locale}`];
 </script>

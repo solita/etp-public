@@ -3,6 +3,7 @@
   import IconWeb from '@Asset/icons/web.svg';
   import IconMail from '@Asset/icons/mail.svg';
   import IconPhone from '@Asset/icons/phone.svg';
+
   export let laatijat;
 </script>
 
@@ -73,7 +74,7 @@
   {#if laatijat.length < 1}
     <span>Ei tuloksia.</span>
   {:else}
-    <div class="w-full overflow-x-scroll lg:overflow-auto">
+    <div class="w-full overflow-auto">
       <table class="w-full table-auto text-left my-2">
         <thead>
           <tr>
@@ -90,31 +91,42 @@
           {#each laatijat as laatija}
             <tr>
               <td data-title="Nimi">{laatija.nimi}</td>
-              <td data-title="Pätevyys">{laatija.patevyys}</td>
-              <td data-title="Päätoiminta">{laatija.alue}</td>
-              <td data-title="Postitoimipaikka">{laatija.postinum}</td>
+              <td data-title="Pätevyys">{laatija.patevyystaso}</td>
+              <td data-title="Päätoiminta-alue">{laatija.toimialue}</td>
+              <td data-title="Postitoimipaikka">{laatija.postitoimipaikka}</td>
               <td data-title="WWW">
-                <a href={laatija.link} title={laatija.link}>
-                  <img
-                    class="icon md:mx-auto"
-                    src={IconWeb}
-                    alt="Website link icon" />
-                </a>
+                {#if laatija.wwwosoite}
+                  <a href={laatija.wwwosoite} title={laatija.wwwosoite}>
+                    <img
+                      class="icon md:mx-auto"
+                      src={IconWeb}
+                      alt="Website link icon" />
+                  </a>
+                {/if}
               </td>
               <td data-title="Email">
-                <a href="mailto:{laatija.email}" title={laatija.email}>
-                  <img
-                    class="icon md:mx-auto"
-                    src={IconMail}
-                    alt="Email icon" />
-                </a>
+                {#if laatija.email}
+                  <a href="mailto:{laatija.email}" title={laatija.email}>
+                    <img
+                      class="icon md:mx-auto"
+                      src={IconMail}
+                      alt="Email icon" />
+                  </a>
+                {/if}
               </td>
-              <td data-title="Puhelinnumero" class="flex flex-no-wrap">
-                <img
-                  class="icon smaller mr-1"
-                  src={IconPhone}
-                  alt="Phone icon" />
-                <span>{laatija.puh}</span>
+              <td data-title="Puhelinnumero">
+                {#if laatija.puhelin}
+                  <a
+                    class="inline-flex"
+                    href="tel:{laatija.puhelin}"
+                    title={laatija.puhelin}>
+                    <img
+                      class="icon smaller mr-1"
+                      src={IconPhone}
+                      alt="Phone icon" />
+                    <span>{laatija.puhelin}</span>
+                  </a>
+                {/if}
               </td>
             </tr>
           {/each}

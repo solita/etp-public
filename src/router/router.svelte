@@ -1,11 +1,13 @@
 <script context="module">
+  import router from 'page';
   import { writable } from 'svelte/store';
 
   export const activePath = writable(location.pathname);
+
+  export const navigate = path => router(path);
 </script>
 
 <script>
-  import router from 'page';
   import { parse } from 'qs';
 
   import Home from '@Page/home';

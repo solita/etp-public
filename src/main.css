@@ -62,6 +62,14 @@ html {
     @apply text-black;
   }
 
+  .table-container tbody {
+    @apply border-t border-b;
+  }
+
+  .table-container tr {
+    @apply py-1;
+  }
+
   .table-container table,
   .table-container thead,
   .table-container tbody,
@@ -84,14 +92,13 @@ html {
   .table-container td {
     padding-left: 50%;
     text-align: left;
+    min-height: 2.5em;
     @apply relative border-0 border-b border-darkgrey whitespace-normal;
   }
 
   .table-container td:before {
-    top: 6px;
-    left: 6px;
-    /* width: 45%; */
-    /* padding-right: 10px; */
+    top: 0.5em;
+    left: 0.5em;
     text-align: left;
 
     @apply text-green absolute font-bold whitespace-no-wrap pr-1 w-1/2;
