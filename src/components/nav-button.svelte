@@ -39,32 +39,32 @@
 </style>
 
 <!-- purgecss: 
-dark active 
+dark 
 bg-lightgreen 
 bg-green 
 bg-darkgreen 
 bg-ashblue
 text-white
 text-black
-hover:shadow-lightgreen
-hover:shadow-green
-hover:shadow-darkgreen
-hover:shadow-ashblue
-focus:shadow-lightgreen
-focus:shadow-green
-focus:shadow-darkgreen
-focus:shadow-ashblue 
+shadow-lightgreen
+shadow-green
+shadow-darkgreen
+shadow-ashblue 
+shadow-none 
 border-lightgreen
 border-green
 border-darkgreen
 border-ashblue
 border-black
+border-white
 -->
 <a
-  class="flex box-border lg:flex-full flex-auto py-4 px-2 navcontainer bg-{background}
-  text-{text} focus:z-10
-  hover:z-10 hover:underline focus:outline-none xl:flex-row lg:flex-col flex-row
-  lg:items-center xl:items-center md:items-start border-l-4 lg:border-l-0 border-{$activePath === link ? text : background} lg:border-{background} lg:shadow-{$activePath === link ? background : 'none'} focus:underline"
+  class="flex box-border lg:flex-full flex-auto py-4 px-2 navcontainer 
+  bg-{background} text-{text} focus:z-10 hover:z-10 hover:underline 
+  focus:outline-none xl:flex-row lg:flex-col flex-row lg:items-center 
+  xl:items-center md:items-start border-l-4 lg:border-l-0 
+  border-{$activePath === link ? text : background} lg:border-{background} 
+  lg:shadow-{$activePath === link ? background : 'none'} focus:underline"
   href={link}>
   {#if iconLeft}
     <img
