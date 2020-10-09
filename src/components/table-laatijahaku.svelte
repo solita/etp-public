@@ -92,7 +92,7 @@
             <tr>
               <td data-title="Nimi">{laatija.nimi}</td>
               <td data-title="Pätevyys">{laatija.patevyystaso}</td>
-              <td data-title="Päätoiminta-alue">{laatija.toimialue}</td>
+              <td data-title="Päätoiminta-alue">{laatija.toimintaalue}</td>
               <td data-title="Postitoimipaikka">{laatija.postitoimipaikka}</td>
               <td data-title="WWW">
                 {#if laatija.wwwosoite}

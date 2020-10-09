@@ -7,6 +7,8 @@
   import { locale, labelLocale } from '@Localization/localization';
   import { navigate } from '@/router/router';
 
+  import {laatijat as laatijatStore, patevyydet, toimintaalueet, postinumerot, kunnat} from '@/stores';
+
   import Button, { styles as buttonStyles } from '@Component/button';
   import Input from '@Component/input';
   import InfoBlock from '@Component/info-block';
@@ -29,36 +31,45 @@
             $locale,
             GeoUtils.findToimintaalue(toimintaalueet, laatija.toimintaalue)
           ) ?? '',
+          ['toimintaalue-id']: laatija.toimintaalue,
+          muuttoimintaalueet: laatija.muuttoimintaalueet,
           postitoimipaikka: laatija.postitoimipaikka ?? '',
           wwwosoite: laatija.wwwosoite && !laatija.wwwosoite?.match(/^https+:\/\//) ? `//${laatija.wwwosoite}` : laatija.wwwosoite,
           email: laatija.email,
           puhelin: laatija.puhelin
         }
       ], []);
+    
 
-  let data = Promise.all([
-    LaatijaApi.laatijat(fetch),
-    LaatijaApi.patevyydet(fetch),
-    GeoApi.toimintaalueet(fetch)
+  const laatijatPromise = Promise.all([
+    $laatijatStore,
+    $patevyydet,
+    $toimintaalueet
   ])
-    .then(deserialize)
-    .then(l => {
+    .then(deserialize);
+
+  Promise.all([
+    laatijatPromise,
+    $toimintaalueet,
+    $postinumerot,
+    $kunnat
+  ]).then(([l, toimintaalueet, postinumerot, kunnat]) => {
       laatijat = l;
       if (nimihaku.length > 0 || aluehaku.length > 0) {
-        shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, l);
+        shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, l, toimintaalueet, postinumerot, kunnat);
       } else {
         shownLaatijat = l;
       }
     });
 
-  const commitSearch = (nimihaku, aluehaku, laatijat) => {
-    const qs = [...(nimihaku.length > 0 ? [['nimihaku', nimihaku].join('=')] : []), ...(aluehaku.length > 0 ? [['aluehaku', aluehaku].join('=')] : [])].join('&');
+  const commitSearch = async (nimihaku, aluehaku, laatijat) => {
+    const qs = [...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []), ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : [])].join('&');
     navigate(`/laatijahaku${qs ? '?'+qs : ''}`); 
-    shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, laatijat);
+    shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, laatijat, ...await Promise.all([$toimintaalueet, $postinumerot, $kunnat]));
   };
 </script>
 
-<svelte:window on:popstate={_ => shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, laatijat)} />
+<svelte:window on:popstate={async _ => shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, laatijat, ...await Promise.all([$toimintaalueet, $postinumerot, $kunnat]))} />
 
 <Container {...containerStyles.beige}>
   <InfoBlock title="Laatijalla pitää olla pätevyys">
