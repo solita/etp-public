@@ -40,7 +40,7 @@
       </div>
     </div>
     <aside
-      class="mt-4 md:mt-0 md:w-3/12 lg:pl-4 border-t-4 md:border-t-0 md:border-l-8 border-ashblue text-ashblue italic text-sm">
+      class="mt-4 md:mt-0 md:w-3/12 md:pl-4 md:border-l-8 border-ashblue text-ashblue italic text-sm">
       Energiatodistuksesta saa nähtäväksi koosteen eli kahden ensimmäisen sivun
       tiedot (henkilötietosuojan vuoksi ei kuitenkaan 1-2 huoneistoa koskevista
       kohteista).
