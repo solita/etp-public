@@ -46,49 +46,25 @@ export const laatijatByNimihaku = (nimihaku, laatijat) => {
   );
 };
 
-export const laatijatByAluehaku = (
-  aluehaku,
-  laatijat,
-  toimintaalueet,
-  kunnat,
-  postinumerot
-) => {
-  if (!aluehaku) return new Set(laatijat.map(laatija => laatija.id));
-
-  const t = Geo.findToimintaalueIds(
-    aluehaku,
-    toimintaalueet,
-    kunnat,
-    postinumerot
-  );
-
-  return new Set(
+export const laatijatByAluehaku = (laatijat, toimintaalueet) =>
+  new Set(
     laatijat
       .filter(
         laatija =>
-          t.has(laatija['toimintaalue-id']) ||
-          laatija.muuttoimintaalueet.some(toimintaalue => t.has(toimintaalue))
+          toimintaalueet.has(laatija['toimintaalue-id']) ||
+          laatija.muuttoimintaalueet.some(toimintaalue =>
+            toimintaalueet.has(toimintaalue)
+          )
       )
       .map(laatija => laatija.id)
   );
-};
 
-export const laatijatByHakukriteerit = (
-  nimihaku,
-  aluehaku,
-  laatijat,
-  toimintaalueet,
-  kunnat,
-  postinumerot
-) => {
+export const laatijatByHakukriteerit = (nimihaku, laatijat, toimintaalueet) => {
   const nimet = laatijatByNimihaku(nimihaku, laatijat);
 
   const alueet = laatijatByAluehaku(
-    aluehaku,
     laatijat.filter(laatija => nimet.has(laatija.id)),
-    toimintaalueet,
-    kunnat,
-    postinumerot
+    toimintaalueet
   );
 
   return laatijat.filter(laatija => alueet.has(laatija.id));
