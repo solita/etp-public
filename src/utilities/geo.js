@@ -1,6 +1,6 @@
 export const isLabelMatch = haku => item =>
-  item['label-fi'].toUpperCase() === haku.toUpperCase() ||
-  item['label-sv'].toUpperCase() === haku.toUpperCase();
+  item['label-fi'].toUpperCase().includes(haku.toUpperCase()) ||
+  item['label-sv'].toUpperCase().includes(haku.toUpperCase());
 
 export const findToimintaalue = (toimintaalueet, toimintaalueId) =>
   toimintaalueet.find(toimintaalue => toimintaalue.id === toimintaalueId);
@@ -12,20 +12,20 @@ export const findToimintaalueetByMaakunta = (maakunta, toimintaalueet) =>
       .map(toimintaalue => toimintaalue.id)
   );
 
-export const findToimintaalueIdtByKuntaIdt = (kuntaidt, kunnat) =>
+export const findToimintaalueIdsByKuntaIds = (kuntaIds, kunnat) =>
   new Set(
     kunnat
-      .filter(kunta => kuntaidt.has(kunta.id))
+      .filter(kunta => kuntaIds.has(kunta.id))
       .map(kunta => kunta['toimintaalue-id'])
   );
 
-export const findToimintaalueIdtByKunta = (kunta, kunnat) =>
-  findToimintaalueIdtByKuntaIdt(
+export const findToimintaalueIdsByKunta = (kunta, kunnat) =>
+  findToimintaalueIdsByKuntaIds(
     new Set(kunnat.filter(isLabelMatch(kunta)).map(k => k.id)),
     kunnat
   );
 
-export const findKuntaIdtByPostitoimipaikka = (
+export const findKuntaIdsByPostitoimipaikka = (
   postitoimipaikka,
   postinumerot
 ) =>
@@ -35,14 +35,14 @@ export const findKuntaIdtByPostitoimipaikka = (
       .map(numero => numero['kunta-id'])
   );
 
-export const findKuntaIdtByPostinumero = (postinumero, postinumerot) =>
+export const findKuntaIdsByPostinumero = (postinumero, postinumerot) =>
   new Set(
     postinumerot
       .filter(numero => numero.id === postinumero)
       .map(numero => numero['kunta-id'])
   );
 
-export const findToimintaalueIdt = (
+export const findToimintaalueIds = (
   haku,
   toimintaalueet,
   kunnat,
@@ -50,18 +50,18 @@ export const findToimintaalueIdt = (
 ) => {
   const postinumero = parseInt(haku);
   if (!isNaN(postinumero)) {
-    return findToimintaalueIdtByKuntaIdt(
-      findKuntaIdtByPostinumero(postinumero, postinumerot),
+    return findToimintaalueIdsByKuntaIds(
+      findKuntaIdsByPostinumero(postinumero, postinumerot),
       kunnat
     );
   }
 
   return new Set([
-    ...findToimintaalueIdtByKuntaIdt(
-      findKuntaIdtByPostitoimipaikka(haku, postinumerot),
+    ...findToimintaalueIdsByKuntaIds(
+      findKuntaIdsByPostitoimipaikka(haku, postinumerot),
       kunnat
     ),
-    ...findToimintaalueIdtByKunta(haku, kunnat),
+    ...findToimintaalueIdsByKunta(haku, kunnat),
     ...findToimintaalueetByMaakunta(haku, toimintaalueet)
   ]);
 };

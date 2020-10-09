@@ -9,7 +9,7 @@ module.exports = {
     ]
   ],
   plugins: [
-    ['@babel/plugin-transform-runtime', { corejs: 3, useESModules: true }]
+    ['@babel/plugin-transform-runtime', { corejs: 3, useESModules: false }]
   ],
   sourceType: 'unambiguous'
 };
