@@ -50,8 +50,8 @@ export const laatijatByAluehaku = (
   aluehaku,
   laatijat,
   toimintaalueet,
-  postinumerot,
-  kunnat
+  kunnat,
+  postinumerot
 ) => {
   if (!aluehaku) return new Set(laatijat.map(laatija => laatija.id));
 
@@ -61,6 +61,7 @@ export const laatijatByAluehaku = (
     kunnat,
     postinumerot
   );
+
   return new Set(
     laatijat
       .filter(
@@ -77,8 +78,8 @@ export const laatijatByHakukriteerit = (
   aluehaku,
   laatijat,
   toimintaalueet,
-  postinumerot,
-  kunnat
+  kunnat,
+  postinumerot
 ) => {
   const nimet = laatijatByNimihaku(nimihaku, laatijat);
 
@@ -86,8 +87,8 @@ export const laatijatByHakukriteerit = (
     aluehaku,
     laatijat.filter(laatija => nimet.has(laatija.id)),
     toimintaalueet,
-    postinumerot,
-    kunnat
+    kunnat,
+    postinumerot
   );
 
   return laatijat.filter(laatija => alueet.has(laatija.id));

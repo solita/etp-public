@@ -20,6 +20,7 @@
   
   let laatijat = [];
   let shownLaatijat = [];
+  let haetutToimintaalueet = new Set([]);
 
   const deserialize = ([laatijat, patevyydet, toimintaalueet]) => laatijat.reduce((acc, laatija) => [
         ...acc,
@@ -55,21 +56,20 @@
     $kunnat
   ]).then(([l, toimintaalueet, postinumerot, kunnat]) => {
       laatijat = l;
-      if (nimihaku.length > 0 || aluehaku.length > 0) {
-        shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, l, toimintaalueet, postinumerot, kunnat);
-      } else {
-        shownLaatijat = l;
-      }
+      haetutToimintaalueet = GeoUtils.findToimintaalueIds(aluehaku, toimintaalueet, kunnat, postinumerot);
+      shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, l, toimintaalueet, kunnat, postinumerot);
     });
 
   const commitSearch = async (nimihaku, aluehaku, laatijat) => {
     const qs = [...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []), ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : [])].join('&');
-    navigate(`/laatijahaku${qs ? '?'+qs : ''}`); 
-    shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, laatijat, ...await Promise.all([$toimintaalueet, $postinumerot, $kunnat]));
+    navigate(`/laatijahaku${qs ? '?'+qs : ''}`);
+    const geo = await Promise.all([$toimintaalueet, $kunnat, $postinumerot]);
+    haetutToimintaalueet = GeoUtils.findToimintaalueIds(aluehaku, ...geo);
+    shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, laatijat, ...geo);
   };
 </script>
 
-<svelte:window on:popstate={async _ => shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, laatijat, ...await Promise.all([$toimintaalueet, $postinumerot, $kunnat]))} />
+<svelte:window on:popstate={async _ => shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, aluehaku, laatijat, ...await Promise.all([$toimintaalueet, $kunnat, $postinumerot]))} />
 
 <Container {...containerStyles.beige}>
   <InfoBlock title="Laatijalla pitää olla pätevyys">
