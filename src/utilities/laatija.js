@@ -1,3 +1,5 @@
+import * as Geo from './geo';
+
 export const calculateLaatijaWeight = (toimintaalue, datenow, laatija) =>
   weightByToimintaalue(toimintaalue, laatija.toimintaalue) +
   weightByMuuToimintaalue(toimintaalue, laatija.muuttoimintaalueet) +
@@ -34,9 +36,7 @@ export const findPatevyys = (patevyydet, laatija) =>
   patevyydet.find(patevyys => patevyys.id === laatija.patevyystaso);
 
 export const laatijatByNimihaku = (nimihaku, laatijat) => {
-  if (!nimihaku) {
-    return new Set(laatijat.map(laatija => laatija.id));
-  }
+  if (!nimihaku) return new Set(laatijat.map(laatija => laatija.id));
   return new Set(
     laatijat
       .filter(laatija =>
@@ -46,15 +46,49 @@ export const laatijatByNimihaku = (nimihaku, laatijat) => {
   );
 };
 
-export const laatijatByAluehaku = (aluehaku, laatijat) => {
-  return new Set();
+export const laatijatByAluehaku = (
+  aluehaku,
+  laatijat,
+  toimintaalueet,
+  postinumerot,
+  kunnat
+) => {
+  if (!aluehaku) return new Set(laatijat.map(laatija => laatija.id));
+
+  const t = Geo.findToimintaalueIdt(
+    aluehaku,
+    toimintaalueet,
+    kunnat,
+    postinumerot
+  );
+  return new Set(
+    laatijat
+      .filter(
+        laatija =>
+          t.has(laatija['toimintaalue-id']) ||
+          laatija.muuttoimintaalueet.some(toimintaalue => t.has(toimintaalue))
+      )
+      .map(laatija => laatija.id)
+  );
 };
 
-export const laatijatByHakukriteerit = (nimihaku, aluehaku, laatijat) => {
+export const laatijatByHakukriteerit = (
+  nimihaku,
+  aluehaku,
+  laatijat,
+  toimintaalueet,
+  postinumerot,
+  kunnat
+) => {
   const nimet = laatijatByNimihaku(nimihaku, laatijat);
-  const alueet = laatijatByAluehaku(aluehaku, laatijat);
 
-  const passingLaatijaIds = new Set([...nimet, ...alueet]);
+  const alueet = laatijatByAluehaku(
+    aluehaku,
+    laatijat.filter(laatija => nimet.has(laatija.id)),
+    toimintaalueet,
+    postinumerot,
+    kunnat
+  );
 
-  return laatijat.filter(laatija => passingLaatijaIds.has(laatija.id));
+  return laatijat.filter(laatija => alueet.has(laatija.id));
 };
