@@ -1,7 +1,7 @@
 import * as Geo from './geo';
 
 export const calculateLaatijaWeight = (toimintaalue, datenow, laatija) =>
-  weightByToimintaalue(toimintaalue, laatija.toimintaalue) +
+  weightByToimintaalue(toimintaalue, laatija['toimintaalue-id']) +
   weightByMuuToimintaalue(toimintaalue, laatija.muuttoimintaalueet) +
   weightByJulkisettiedot(
     laatija.julkinenwwwosoite,
@@ -10,13 +10,13 @@ export const calculateLaatijaWeight = (toimintaalue, datenow, laatija) =>
   ) +
   weightByActivity(laatija.login, datenow);
 
-export const weightByToimintaalue = (haettuToimintaalue, toimintaalue) =>
-  toimintaalue === haettuToimintaalue ? 2 : 0;
+export const weightByToimintaalueet = (haetutToimintaalueet, toimintaalue) =>
+  haetutToimintaalueet.has(toimintaalue) ? 2 : 0;
 
-export const weightByMuuToimintaalue = (
-  haettuToimintaalue,
+export const weightByMuutToimintaalueet = (
+  haetutToimintaalueet,
   muuttoimintaalueet
-) => (muuttoimintaalueet.includes(haettuToimintaalue) ? 1 : 0);
+) => (muuttoimintaalueet.some(ta => haetutToimintaalueet.has(ta)) ? 1 : 0);
 
 export const weightByJulkisettiedot = (
   julkinenwwwosoite,
@@ -55,7 +55,7 @@ export const laatijatByAluehaku = (
 ) => {
   if (!aluehaku) return new Set(laatijat.map(laatija => laatija.id));
 
-  const t = Geo.findToimintaalueIdt(
+  const t = Geo.findToimintaalueIds(
     aluehaku,
     toimintaalueet,
     kunnat,

@@ -5,21 +5,27 @@ describe('laatija', () => {
   describe('painotus', () => {
     describe('weightByToimintaalue', () => {
       it('should return 2 with main toimintaalue', () => {
-        assert.equal(Laatija.weightByToimintaalue(1, 1), 2);
+        assert.equal(Laatija.weightByToimintaalueet(new Set([1]), 1), 2);
       });
 
       it('should return 0 with not main toimintaalue', () => {
-        assert.equal(Laatija.weightByToimintaalue(2, 1), 0);
+        assert.equal(Laatija.weightByToimintaalueet(new Set([2]), 1), 0);
       });
     });
 
     describe('weightByMuuToimintaalue', () => {
       it('should return 1 with muu toimintaalue', () => {
-        assert.equal(Laatija.weightByMuuToimintaalue(2, [2, 3, 4]), 1);
+        assert.equal(
+          Laatija.weightByMuutToimintaalueet(new Set([2]), [2, 3, 4]),
+          1
+        );
       });
 
       it('should return 0 with not muu toimintaalue', () => {
-        assert.equal(Laatija.weightByMuuToimintaalue(1, [2, 3, 4]), 0);
+        assert.equal(
+          Laatija.weightByMuutToimintaalueet(new Set([1]), [2, 3, 4]),
+          0
+        );
       });
     });
 
