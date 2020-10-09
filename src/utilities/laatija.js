@@ -1,14 +1,7 @@
-import * as Geo from './geo';
-
-export const calculateLaatijaWeight = (toimintaalue, datenow, laatija) =>
-  weightByToimintaalue(toimintaalue, laatija['toimintaalue-id']) +
-  weightByMuuToimintaalue(toimintaalue, laatija.muuttoimintaalueet) +
-  weightByJulkisettiedot(
-    laatija.julkinenwwwosoite,
-    laatija.julkinenpuhelin,
-    laatija.julkinenemail
-  ) +
-  weightByActivity(laatija.login, datenow);
+export const calculateLaatijaWeight = (toimintaalueet, laatija) =>
+  weightByToimintaalueet(toimintaalueet, laatija['toimintaalue-id']) +
+  weightByMuutToimintaalueet(toimintaalueet, laatija.muuttoimintaalueet) +
+  weightByJulkisettiedot(laatija.wwwosoite, laatija.puhelin, laatija.email);
 
 export const weightByToimintaalueet = (haetutToimintaalueet, toimintaalue) =>
   haetutToimintaalueet.has(toimintaalue) ? 2 : 0;
@@ -18,11 +11,8 @@ export const weightByMuutToimintaalueet = (
   muuttoimintaalueet
 ) => (muuttoimintaalueet.some(ta => haetutToimintaalueet.has(ta)) ? 1 : 0);
 
-export const weightByJulkisettiedot = (
-  julkinenwwwosoite,
-  julkinenpuhelin,
-  julkinenemail
-) => (julkinenwwwosoite || julkinenpuhelin || julkinenemail ? 2 : 0);
+export const weightByJulkisettiedot = (wwwosoite, puhelin, email) =>
+  wwwosoite || puhelin || email ? 2 : 0;
 
 export const weightByActivity = (datenow, login) => {
   const days = Math.floor(

@@ -4,7 +4,20 @@
   import IconMail from '@Asset/icons/mail.svg';
   import IconPhone from '@Asset/icons/phone.svg';
 
+  import * as LaatijaUtils from '@/utilities/laatija';
+
   export let laatijat;
+  export let haetutToimintaalueet;
+
+  $: sortedLaatijat = laatijat
+    .map(laatija => ({
+      ...laatija,
+      painotus: LaatijaUtils.calculateLaatijaWeight(
+        haetutToimintaalueet,
+        laatija
+      )
+    }))
+    .sort((a, b) => b.painotus - a.painotus);
 </script>
 
 <style>
@@ -71,7 +84,7 @@
       </div>
     </div>
   </div>
-  {#if laatijat.length < 1}
+  {#if sortedLaatijat.length < 1}
     <span>Ei tuloksia.</span>
   {:else}
     <div class="w-full overflow-auto">
@@ -88,7 +101,7 @@
           </tr>
         </thead>
         <tbody>
-          {#each laatijat as laatija}
+          {#each sortedLaatijat as laatija}
             <tr>
               <td data-title="Nimi">{laatija.nimi}</td>
               <td data-title="Pätevyys">{laatija.patevyystaso}</td>
