@@ -14,12 +14,15 @@
   import InfoBlock from '@Component/info-block';
   import TableLaatijahaku from '@Component/table-laatijahaku';
   import Container, { styles as containerStyles } from '@Component/container';
+  import Spinner from '@Component/spinner';
+
+  const shownLaatijatPromise = l => Promise.all([new Promise(resolve => resolve(l)), new Promise((resolve) => setTimeout(resolve, 200))]).then(([laatijat]) => laatijat);
 
   export let nimihaku = '';
   export let aluehaku = '';
   
   let laatijat = [];
-  let shownLaatijat = [];
+  let shownLaatijat = Promise.resolve([]);
   let haetutToimintaalueet = new Set([]);
 
   const deserialize = ([laatijat, patevyydet, toimintaalueet]) => laatijat.reduce((acc, laatija) => [
@@ -57,21 +60,22 @@
   ]).then(([l, toimintaalueet, postinumerot, kunnat]) => {
       laatijat = l;
       haetutToimintaalueet = GeoUtils.findToimintaalueIds(aluehaku, toimintaalueet, kunnat, postinumerot);
-      shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, l, haetutToimintaalueet);
-    });
+      shownLaatijat = shownLaatijatPromise(LaatijaUtils.laatijatByHakukriteerit(nimihaku, l, haetutToimintaalueet));
+    }).catch(error => shownLaatijat = Promise.reject(error));
 
   const commitSearch = async (nimihaku, aluehaku, laatijat) => {
     const qs = [...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []), ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : [])].join('&');
     navigate(`/laatijahaku${qs ? '?'+qs : ''}`);
     const geo = await Promise.all([$toimintaalueet, $kunnat, $postinumerot]);
     haetutToimintaalueet = GeoUtils.findToimintaalueIds(aluehaku, ...geo);
-    shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, laatijat, haetutToimintaalueet);
+    shownLaatijat = shownLaatijatPromise(LaatijaUtils.laatijatByHakukriteerit(nimihaku, laatijat, haetutToimintaalueet));
   };
+
 </script>
 
 <svelte:window on:popstate={async _ => {
   haetutToimintaalueet = GeoUtils.findToimintaalueIds(aluehaku ?? '', ...await Promise.all([$toimintaalueet, $kunnat, $postinumerot]));
-  shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku ?? '', laatijat, haetutToimintaalueet)
+  shownLaatijat = shownLaatijatPromise(LaatijaUtils.laatijatByHakukriteerit(nimihaku ?? '', laatijat, haetutToimintaalueet));
 }} />
 
 <Container {...containerStyles.beige}>
@@ -117,11 +121,19 @@
   </Container>
 
   <Container {...containerStyles.white}>  
-  {#if shownLaatijat}
+  {#await shownLaatijat}
+    <div class="flex justify-center">
+      <Spinner />
+    </div>
+  {:then l}
     <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
       <h2>Tuloksia</h2>
-      <TableLaatijahaku laatijat={shownLaatijat} {haetutToimintaalueet} />
+      <TableLaatijahaku laatijat={l} {haetutToimintaalueet} />
     </div>
-  {/if}
+  {:catch error}
+    <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
+      {error}
+    </div>
+  {/await}
 
 </Container>

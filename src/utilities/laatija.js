@@ -36,8 +36,9 @@ export const laatijatByNimihaku = (nimihaku, laatijat) => {
   );
 };
 
-export const laatijatByAluehaku = (laatijat, toimintaalueet) =>
-  new Set(
+export const laatijatByAluehaku = (laatijat, toimintaalueet) => {
+  if (!toimintaalueet.size) return new Set(laatijat.map(laatija => laatija.id));
+  return new Set(
     laatijat
       .filter(
         laatija =>
@@ -48,6 +49,7 @@ export const laatijatByAluehaku = (laatijat, toimintaalueet) =>
       )
       .map(laatija => laatija.id)
   );
+};
 
 export const laatijatByHakukriteerit = (nimihaku, laatijat, toimintaalueet) => {
   const nimet = laatijatByNimihaku(nimihaku, laatijat);

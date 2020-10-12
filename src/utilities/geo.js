@@ -48,6 +48,8 @@ export const findToimintaalueIds = (
   kunnat,
   postinumerot
 ) => {
+  if (!haku) return new Set();
+
   const postinumero = parseInt(haku);
   if (!isNaN(postinumero)) {
     return findToimintaalueIdsByKuntaIds(
