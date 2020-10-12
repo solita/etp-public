@@ -61,27 +61,103 @@
     bottom: -10px;
     left: 1rem;
   }
+
+  /* The container */
+  .radio-container {
+    display: block;
+    position: relative;
+    padding-left: 25px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Hide the browser's default radio button */
+  .radio-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  /* Create a custom radio button */
+  .radio-visual {
+    position: absolute;
+    top: 0.1em;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    @apply bg-lightgrey;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .radio-container:hover input ~ .radio-visual {
+    @apply bg-darkgrey;
+  }
+
+  /* When the radio button is checked, add a blue background */
+  .radio-container input:checked ~ .radio-visual {
+    @apply bg-green;
+  }
+
+  /* Create the indicator (the dot/circle - hidden when not checked) */
+  .radio-visual:after {
+    content: '';
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the indicator (dot/circle) when checked */
+  .radio-container input:checked ~ .radio-visual:after {
+    display: block;
+  }
+
+  /* Style the indicator (dot/circle) */
+  .radio-container .radio-visual:after {
+    top: 7px;
+    left: 7px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    @apply bg-white;
+  }
 </style>
 
 <div class="table-container">
   <div class="flex">
-    <div class="flex items-center space-x-1 mr-3">
-      <input
-        id="kaikkitasot"
-        type="radio"
-        bind:group={showPatevyydet}
-        value={'1,2'} />
-      <label for="kaikkitasot">Kaikki tasot</label>
-    </div>
-    <div class="flex items-center space-x-1 mr-3">
-      <input
-        id="perustaso"
-        type="radio"
-        bind:group={showPatevyydet}
-        value={'1'} />
-      <label for="perustaso">{labelLocale($locale, patevyydet[0])}</label>
+    <div class="flex items-start space-x-1 mr-3">
+      <label class="radio-container">
+        <input
+          id="kaikkitasot"
+          type="radio"
+          bind:group={showPatevyydet}
+          value={'1,2'} />
+        <span class="radio-visual" />
+        Kaikki tasot</label>
+
       <div class="icon-container relative">
-        <img class="icon" src={IconInfo} alt="Info icon" />
+        <!-- <img class="icon" src={IconInfo} alt="Info icon" /> -->
+        <span class="material-icons text-green"> error_outline </span>
+        <div class="info-popup">
+          <strong>Kaikki tasot:</strong>
+          <p>Perustason ja ylemmän tason laatijat näkyvät tuloksissa.</p>
+        </div>
+      </div>
+    </div>
+    <div class="flex items-start space-x-1 mr-3">
+      <label class="radio-container">
+        <input
+          id="perustaso"
+          type="radio"
+          bind:group={showPatevyydet}
+          value={'1'} />
+        <span class="radio-visual" />
+        {labelLocale($locale, patevyydet[0])}
+      </label>
+      <div class="icon-container relative">
+        <!-- <img class="icon" src={IconInfo} alt="Info icon" /> -->
+        <span class="material-icons text-green"> error_outline </span>
         <div class="info-popup">
           <strong>Perustaso:</strong>
           <p>
@@ -94,18 +170,22 @@
       </div>
     </div>
 
-    <div class="flex items-center space-x-1">
-      <input
-        id="ylempitaso"
-        type="radio"
-        bind:group={showPatevyydet}
-        value={'2'} />
-      <label for="ylempitaso">{labelLocale($locale, patevyydet[1])}</label>
+    <div class="flex items-start space-x-1">
+      <label class="radio-container">
+        <input
+          id="ylempitaso"
+          type="radio"
+          bind:group={showPatevyydet}
+          value={'2'} />
+        <span class="radio-visual" />
+        {labelLocale($locale, patevyydet[1])}
+      </label>
       <div class="icon-container relative">
-        <img class="icon" src={IconInfo} alt="Info icon" />
+        <!-- <img class="icon" src={IconInfo} alt="Info icon" /> -->
+        <span class="material-icons text-green"> error_outline </span>
         <div class="info-popup">
           <strong>Ylempi taso:</strong>
-          <p>???</p>
+          <p>Vain ylemmän tason laatijat näkyvät tuloksissa.</p>
         </div>
       </div>
     </div>
