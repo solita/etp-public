@@ -1,26 +1,18 @@
-export const calculateLaatijaWeight = (toimintaalue, datenow, laatija) =>
-  weightByToimintaalue(toimintaalue, laatija.toimintaalue) +
-  weightByMuuToimintaalue(toimintaalue, laatija.muuttoimintaalueet) +
-  weightByJulkisettiedot(
-    laatija.julkinenwwwosoite,
-    laatija.julkinenpuhelin,
-    laatija.julkinenemail
-  ) +
-  weightByActivity(laatija.login, datenow);
+export const calculateLaatijaWeight = (toimintaalueet, laatija) =>
+  weightByToimintaalueet(toimintaalueet, laatija['toimintaalue-id']) +
+  weightByMuutToimintaalueet(toimintaalueet, laatija.muuttoimintaalueet) +
+  weightByJulkisettiedot(laatija.wwwosoite, laatija.puhelin, laatija.email);
 
-export const weightByToimintaalue = (haettuToimintaalue, toimintaalue) =>
-  toimintaalue === haettuToimintaalue ? 2 : 0;
+export const weightByToimintaalueet = (haetutToimintaalueet, toimintaalue) =>
+  haetutToimintaalueet.has(toimintaalue) ? 2 : 0;
 
-export const weightByMuuToimintaalue = (
-  haettuToimintaalue,
+export const weightByMuutToimintaalueet = (
+  haetutToimintaalueet,
   muuttoimintaalueet
-) => (muuttoimintaalueet.includes(haettuToimintaalue) ? 1 : 0);
+) => (muuttoimintaalueet.some(ta => haetutToimintaalueet.has(ta)) ? 1 : 0);
 
-export const weightByJulkisettiedot = (
-  julkinenwwwosoite,
-  julkinenpuhelin,
-  julkinenemail
-) => (julkinenwwwosoite || julkinenpuhelin || julkinenemail ? 2 : 0);
+export const weightByJulkisettiedot = (wwwosoite, puhelin, email) =>
+  wwwosoite || puhelin || email ? 2 : 0;
 
 export const weightByActivity = (datenow, login) => {
   const days = Math.floor(
@@ -34,9 +26,7 @@ export const findPatevyys = (patevyydet, laatija) =>
   patevyydet.find(patevyys => patevyys.id === laatija.patevyystaso);
 
 export const laatijatByNimihaku = (nimihaku, laatijat) => {
-  if (!nimihaku) {
-    return new Set(laatijat.map(laatija => laatija.id));
-  }
+  if (!nimihaku) return new Set(laatijat.map(laatija => laatija.id));
   return new Set(
     laatijat
       .filter(laatija =>
@@ -46,15 +36,26 @@ export const laatijatByNimihaku = (nimihaku, laatijat) => {
   );
 };
 
-export const laatijatByAluehaku = (aluehaku, laatijat) => {
-  return new Set();
-};
+export const laatijatByAluehaku = (laatijat, toimintaalueet) =>
+  new Set(
+    laatijat
+      .filter(
+        laatija =>
+          toimintaalueet.has(laatija['toimintaalue-id']) ||
+          laatija.muuttoimintaalueet.some(toimintaalue =>
+            toimintaalueet.has(toimintaalue)
+          )
+      )
+      .map(laatija => laatija.id)
+  );
 
-export const laatijatByHakukriteerit = (nimihaku, aluehaku, laatijat) => {
+export const laatijatByHakukriteerit = (nimihaku, laatijat, toimintaalueet) => {
   const nimet = laatijatByNimihaku(nimihaku, laatijat);
-  const alueet = laatijatByAluehaku(aluehaku, laatijat);
 
-  const passingLaatijaIds = new Set([...nimet, ...alueet]);
+  const alueet = laatijatByAluehaku(
+    laatijat.filter(laatija => nimet.has(laatija.id)),
+    toimintaalueet
+  );
 
-  return laatijat.filter(laatija => passingLaatijaIds.has(laatija.id));
+  return laatijat.filter(laatija => alueet.has(laatija.id));
 };
