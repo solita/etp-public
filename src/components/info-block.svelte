@@ -1,26 +1,27 @@
 <script>
-  import IconInfo from '@Asset/icons/info.svg';
+  import IconInfo from '@Asset/icons/info_filled.svg';
 
   export let title;
 </script>
 
 <style>
-  section{
+  section {
     min-height: 12rem;
   }
   .icon {
-    width: auto;
+    width: 4em;
     height: 4em;
   }
 
   .icon.smaller {
+    width: 2.5em;
     height: 2.5em;
   }
 </style>
 
 <section
   class="flex flex-col justify-center items-left bg-beige sm:px-16 sm:py-8 px-4 py-4">
-  <img class="icon smaller sm:hidden mr-4" src={IconInfo} alt="Info icon" />
+  <img class="icon smaller sm:hidden mb-2" src={IconInfo} alt="Info icon" />
   <h2 class="font-bold text-ashblue text-xl tracking-widest mb-4 text-left">
     {title}
   </h2>
