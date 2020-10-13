@@ -3,7 +3,8 @@
   import * as GeoApi from '@/api/geo-api';
   import * as LaatijaUtils from '@/utilities/laatija';
   import * as GeoUtils from '@/utilities/geo';
-
+  import * as FormUtils from '@/utilities/form';
+  
   import { locale, labelLocale } from '@Localization/localization';
   import { navigate } from '@/router/router';
 
@@ -87,29 +88,29 @@
   </InfoBlock>
   <div class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto flex flex-col md:flex-row items-center md:items-start">
     <div class="flex flex-col w-full md:w-9/12">
+    <form 
+      on:submit|preventDefault={evt => { 
+        const fd = FormUtils.deserialize(evt.target);
+        commitSearch(fd.nimi, fd.alue, laatijat);
+      }} 
+      on:reset|preventDefault={_ => commitSearch('','',laatijat)}
+     >
       <div class="w-full md:w-11/12">
-        <Input label={'Hae nimellä'} bind:value={nimihaku} on:keydown={evt => {
-          if (evt.keyCode === 13) {
-            commitSearch(nimihaku, aluehaku, laatijat);
-          }
-        }} />
+        <Input label={'Hae nimellä'} name='nimi' value={nimihaku} />
       </div>
       <aside class="font-normal text-xs italic mt-4">
         Voit hakea maakunnalla, kunnalla, postinumerolla tai -toimipaikalla.
       </aside>
       <div class="flex">
         <div class="w-full md:w-11/12">
-          <Input label="Hae alueella" bind:value={aluehaku} on:keydown={evt => {
-            if (evt.keyCode === 13) {
-              commitSearch(nimihaku, aluehaku, laatijat);
-            }
-          }} />
+          <Input label="Hae alueella" name='alue' value={aluehaku} />
         </div>
       </div>
       <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
-        <Button {...buttonStyles.green} on:click={_ => commitSearch(nimihaku, aluehaku, laatijat)}>Hae</Button>
-        <Button {...buttonStyles.green} on:click={_ => commitSearch('', '', laatijat)}>Tyhjennä hakuehdot</Button>
+        <Button type={'submit'} {...buttonStyles.green}>Hae</Button>
+        <Button type={'reset'} {...buttonStyles.ashblue}>Tyhjennä hakuehdot</Button>
       </div>
+    </form>
     </div>
     <aside
       class="mt-4 md:mt-0 md:w-3/12 lg:pl-4 border-t-4 md:border-t-0 md:border-l-8 border-ashblue text-ashblue italic text-sm">

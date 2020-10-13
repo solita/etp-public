@@ -3,6 +3,7 @@
 
   export let label;
   export let value;
+  export let name;
 
   let id;
 
@@ -30,8 +31,8 @@
   border-green hover:bg-lightgrey">
   <input
     {id}
+    {name}
     bind:value
     placeholder={label}
-    on:keydown
     class="w-full focus:outline-none" />
 </div>
