@@ -43,10 +43,20 @@
     display: none;
   }
 
+  .icon-container {
+    @apply relative hidden;
+  }
+
+  @screen md {
+    .icon-container {
+      @apply block;
+    }
+  }
+
   .icon-container:hover .info-popup {
     bottom: 135%;
     left: -1rem;
-    @apply block absolute z-10 bg-white text-black border border-black rounded-lg p-2;
+    @apply block absolute z-10 bg-white text-black border border-black rounded-lg p-2 whitespace-pre;
   }
 
   .info-popup::after {
@@ -62,58 +72,36 @@
     left: 1rem;
   }
 
-  /* The container */
+  /* Custom Radio Inputs */
   .radio-container {
-    display: block;
-    position: relative;
     padding-left: 25px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    @apply select-none block relative;
   }
 
-  /* Hide the browser's default radio button */
   .radio-container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
+    @apply absolute opacity-0 cursor-pointer select-none outline-none pointer-events-none;
   }
-
-  /* Create a custom radio button */
-  .radio-visual {
-    position: absolute;
+  .radio-container .radio-visual {
     top: 0.1em;
     left: 0;
     height: 20px;
     width: 20px;
     border-radius: 50%;
-    @apply bg-lightgrey;
+    @apply bg-lightgrey absolute;
   }
-
-  /* On mouse-over, add a grey background color */
   .radio-container:hover input ~ .radio-visual {
     @apply bg-darkgrey;
   }
-
-  /* When the radio button is checked, add a blue background */
   .radio-container input:checked ~ .radio-visual {
     @apply bg-green;
   }
-
-  /* Create the indicator (the dot/circle - hidden when not checked) */
   .radio-visual:after {
     content: '';
-    position: absolute;
-    display: none;
+    @apply absolute hidden;
   }
-
-  /* Show the indicator (dot/circle) when checked */
   .radio-container input:checked ~ .radio-visual:after {
-    display: block;
+    @apply block;
   }
-
-  /* Style the indicator (dot/circle) */
   .radio-container .radio-visual:after {
     top: 7px;
     left: 7px;
@@ -136,12 +124,12 @@
         <span class="radio-visual" />
         Kaikki tasot</label>
 
-      <div class="icon-container relative">
+      <div class="icon-container">
         <!-- <img class="icon" src={IconInfo} alt="Info icon" /> -->
         <span class="material-icons text-green"> error_outline </span>
         <div class="info-popup">
           <strong>Kaikki tasot:</strong>
-          <p>Perustason ja ylemmän tason laatijat näkyvät tuloksissa.</p>
+          <p>{'Perustason ja ylemmän tason laatijat näkyvät tuloksissa.'}</p>
         </div>
       </div>
     </div>
@@ -155,16 +143,13 @@
         <span class="radio-visual" />
         {labelLocale($locale, patevyydet[0])}
       </label>
-      <div class="icon-container relative">
+      <div class="icon-container">
         <!-- <img class="icon" src={IconInfo} alt="Info icon" /> -->
         <span class="material-icons text-green"> error_outline </span>
         <div class="info-popup">
           <strong>Perustaso:</strong>
           <p>
-            Voi laatia energiatodistuksen rakennukselle tai rakennuksen osalle,
-            jossa laskennallisen kokonaisenergiankulutuksen laskemiseen
-            käytetään kuukausitason laskentamenetelmää. Tyypillinen tällainen
-            rakennus on esimerkiksi omakotitalo.
+            {'Voi laatia energiatodistuksen rakennukselle tai rakennuksen osalle, \njossa laskennallisen kokonaisenergiankulutuksen laskemiseen \nkäytetään kuukausitason laskentamenetelmää. \nTyypillinen tällainen rakennus on esimerkiksi omakotitalo.'}
           </p>
         </div>
       </div>
@@ -180,12 +165,12 @@
         <span class="radio-visual" />
         {labelLocale($locale, patevyydet[1])}
       </label>
-      <div class="icon-container relative">
+      <div class="icon-container">
         <!-- <img class="icon" src={IconInfo} alt="Info icon" /> -->
         <span class="material-icons text-green"> error_outline </span>
         <div class="info-popup">
           <strong>Ylempi taso:</strong>
-          <p>Vain ylemmän tason laatijat näkyvät tuloksissa.</p>
+          <p>{'Vain ylemmän tason laatijat näkyvät tuloksissa.'}</p>
         </div>
       </div>
     </div>
