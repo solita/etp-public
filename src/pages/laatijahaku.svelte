@@ -3,7 +3,8 @@
   import * as GeoApi from '@/api/geo-api';
   import * as LaatijaUtils from '@/utilities/laatija';
   import * as GeoUtils from '@/utilities/geo';
-
+  import * as FormUtils from '@/utilities/form';
+  
   import { locale, labelLocale } from '@Localization/localization';
   import { navigate } from '@/router/router';
 
@@ -14,30 +15,29 @@
   import InfoBlock from '@Component/info-block';
   import TableLaatijahaku from '@Component/table-laatijahaku';
   import Container, { styles as containerStyles } from '@Component/container';
+  import Spinner from '@Component/spinner';
+
+  const delayLaatijat = l => new Promise(resolve => setTimeout(() => resolve(l), 200));
 
   export let nimihaku = '';
   export let aluehaku = '';
-  
+
   let laatijat = [];
-  let shownLaatijat = [];
+  let shownLaatijat = new Promise(() => {});
   let haetutToimintaalueet = new Set([]);
 
   const deserialize = ([laatijat, patevyydet, toimintaalueet]) => laatijat.reduce((acc, laatija) => [
         ...acc,
         {
-          id: laatija.id,
+          ...laatija,
           nimi: `${laatija.etunimi} ${laatija.sukunimi}`,
-          patevyystaso: labelLocale($locale, LaatijaUtils.findPatevyys(patevyydet, laatija)),
-          toimintaalue: labelLocale(
+          patevyys: labelLocale($locale, LaatijaUtils.findPatevyys(patevyydet, laatija)),
+          'toimintaalue-nimi': labelLocale(
             $locale,
             GeoUtils.findToimintaalue(toimintaalueet, laatija.toimintaalue)
           ) ?? '',
-          ['toimintaalue-id']: laatija.toimintaalue,
-          muuttoimintaalueet: laatija.muuttoimintaalueet,
           postitoimipaikka: laatija.postitoimipaikka ?? '',
-          wwwosoite: laatija.wwwosoite && !laatija.wwwosoite?.match(/^https+:\/\//) ? `//${laatija.wwwosoite}` : laatija.wwwosoite,
-          email: laatija.email,
-          puhelin: laatija.puhelin
+          wwwosoite: laatija.wwwosoite && !laatija.wwwosoite?.match(/^https+:\/\//) ? `//${laatija.wwwosoite}` : laatija.wwwosoite
         }
       ], []);
     
@@ -57,21 +57,22 @@
   ]).then(([l, toimintaalueet, postinumerot, kunnat]) => {
       laatijat = l;
       haetutToimintaalueet = GeoUtils.findToimintaalueIds(aluehaku, toimintaalueet, kunnat, postinumerot);
-      shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, l, haetutToimintaalueet);
-    });
+      shownLaatijat = delayLaatijat(LaatijaUtils.laatijatByHakukriteerit(aluehaku, nimihaku, l, haetutToimintaalueet));
+    }).catch(error => shownLaatijat = Promise.reject(error));
 
   const commitSearch = async (nimihaku, aluehaku, laatijat) => {
     const qs = [...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []), ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : [])].join('&');
     navigate(`/laatijahaku${qs ? '?'+qs : ''}`);
     const geo = await Promise.all([$toimintaalueet, $kunnat, $postinumerot]);
     haetutToimintaalueet = GeoUtils.findToimintaalueIds(aluehaku, ...geo);
-    shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku, laatijat, haetutToimintaalueet);
+    shownLaatijat = delayLaatijat(LaatijaUtils.laatijatByHakukriteerit(aluehaku, nimihaku, laatijat, haetutToimintaalueet));
   };
+
 </script>
 
 <svelte:window on:popstate={async _ => {
   haetutToimintaalueet = GeoUtils.findToimintaalueIds(aluehaku ?? '', ...await Promise.all([$toimintaalueet, $kunnat, $postinumerot]));
-  shownLaatijat = LaatijaUtils.laatijatByHakukriteerit(nimihaku ?? '', laatijat, haetutToimintaalueet)
+  shownLaatijat = delayLaatijat(LaatijaUtils.laatijatByHakukriteerit(aluehaku, nimihaku ?? '', laatijat, haetutToimintaalueet));
 }} />
 
 <Container {...containerStyles.beige}>
@@ -82,29 +83,29 @@
   </InfoBlock>
   <div class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto flex flex-col md:flex-row items-center md:items-start">
     <div class="flex flex-col w-full md:w-9/12">
+    <form 
+      on:submit|preventDefault={evt => { 
+        const fd = FormUtils.deserialize(evt.target);
+        commitSearch(fd.nimi, fd.alue, laatijat);
+      }} 
+      on:reset|preventDefault={_ => commitSearch('','',laatijat)}
+     >
       <div class="w-full md:w-11/12">
-        <Input label={'Hae nimellä'} bind:value={nimihaku} on:keydown={evt => {
-          if (evt.keyCode === 13) {
-            commitSearch(nimihaku, aluehaku, laatijat);
-          }
-        }} />
+        <Input label={'Hae nimellä'} name='nimi' value={nimihaku} />
       </div>
       <aside class="font-normal text-xs italic mt-4">
         Voit hakea maakunnalla, kunnalla, postinumerolla tai -toimipaikalla.
       </aside>
       <div class="flex">
         <div class="w-full md:w-11/12">
-          <Input label="Hae alueella" bind:value={aluehaku} on:keydown={evt => {
-            if (evt.keyCode === 13) {
-              commitSearch(nimihaku, aluehaku, laatijat);
-            }
-          }} />
+          <Input label="Hae alueella" name='alue' value={aluehaku} />
         </div>
       </div>
       <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
-        <Button {...buttonStyles.green} on:click={_ => commitSearch(nimihaku, aluehaku, laatijat)}>Hae</Button>
-        <Button {...buttonStyles.green} on:click={_ => commitSearch('', '', laatijat)}>Tyhjennä hakuehdot</Button>
+        <Button type={'submit'} {...buttonStyles.green}>Hae</Button>
+        <Button type={'reset'} {...buttonStyles.ashblue}>Tyhjennä hakuehdot</Button>
       </div>
+    </form>
     </div>
     <aside
       class="mt-4 md:mt-0 md:w-3/12 lg:pl-4 border-t-4 md:border-t-0 md:border-l-8 border-ashblue text-ashblue italic text-sm">
@@ -117,11 +118,19 @@
   </Container>
 
   <Container {...containerStyles.white}>  
-  {#if shownLaatijat}
+  {#await Promise.all([shownLaatijat, $patevyydet])}
+    <div class="flex justify-center">
+      <Spinner />
+    </div>
+  {:then [l, patevyydet]}
     <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
       <h2>Tuloksia</h2>
-      <TableLaatijahaku laatijat={shownLaatijat} {haetutToimintaalueet} />
+      <TableLaatijahaku laatijat={l} {haetutToimintaalueet} {patevyydet} />
     </div>
-  {/if}
+  {:catch error}
+    <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
+      {error}
+    </div>
+  {/await}
 
 </Container>

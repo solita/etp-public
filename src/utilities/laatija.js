@@ -1,7 +1,8 @@
 export const calculateLaatijaWeight = (toimintaalueet, laatija) =>
-  weightByToimintaalueet(toimintaalueet, laatija['toimintaalue-id']) +
+  weightByToimintaalueet(toimintaalueet, laatija.toimintaalue) +
   weightByMuutToimintaalueet(toimintaalueet, laatija.muuttoimintaalueet) +
-  weightByJulkisettiedot(laatija.wwwosoite, laatija.puhelin, laatija.email);
+  weightByJulkisettiedot(laatija.wwwosoite, laatija.puhelin, laatija.email) +
+  weightByActivity(laatija.aktiivinen);
 
 export const weightByToimintaalueet = (haetutToimintaalueet, toimintaalue) =>
   haetutToimintaalueet.has(toimintaalue) ? 2 : 0;
@@ -14,13 +15,7 @@ export const weightByMuutToimintaalueet = (
 export const weightByJulkisettiedot = (wwwosoite, puhelin, email) =>
   wwwosoite || puhelin || email ? 2 : 0;
 
-export const weightByActivity = (datenow, login) => {
-  const days = Math.floor(
-    (datenow.getTime() - login.getTime()) / (1000 * 60 * 60 * 24)
-  );
-
-  return days <= Math.floor(365 / 2) ? 1 : 0;
-};
+export const weightByActivity = aktiivinen => (aktiivinen ? 1 : 0);
 
 export const findPatevyys = (patevyydet, laatija) =>
   patevyydet.find(patevyys => patevyys.id === laatija.patevyystaso);
@@ -36,21 +31,29 @@ export const laatijatByNimihaku = (nimihaku, laatijat) => {
   );
 };
 
-export const laatijatByAluehaku = (laatijat, toimintaalueet) =>
-  new Set(
+export const laatijatByAluehaku = (laatijat, toimintaalueet) => {
+  return new Set(
     laatijat
       .filter(
         laatija =>
-          toimintaalueet.has(laatija['toimintaalue-id']) ||
+          toimintaalueet.has(laatija.toimintaalue) ||
           laatija.muuttoimintaalueet.some(toimintaalue =>
             toimintaalueet.has(toimintaalue)
           )
       )
       .map(laatija => laatija.id)
   );
+};
 
-export const laatijatByHakukriteerit = (nimihaku, laatijat, toimintaalueet) => {
+export const laatijatByHakukriteerit = (
+  aluehaku,
+  nimihaku,
+  laatijat,
+  toimintaalueet
+) => {
   const nimet = laatijatByNimihaku(nimihaku, laatijat);
+
+  if (!aluehaku) return laatijat.filter(laatija => nimet.has(laatija.id));
 
   const alueet = laatijatByAluehaku(
     laatijat.filter(laatija => nimet.has(laatija.id)),

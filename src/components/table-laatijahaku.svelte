@@ -5,11 +5,21 @@
   import IconPhone from '@Asset/icons/phone.svg';
 
   import * as LaatijaUtils from '@/utilities/laatija';
+  import { locale, labelLocale } from '@Localization/localization';
 
   export let laatijat;
   export let haetutToimintaalueet;
+  export let patevyydet;
+
+  let showPatevyydet = '1,2';
 
   $: sortedLaatijat = laatijat
+    .filter(laatija =>
+      showPatevyydet
+        .split(',')
+        .map(item => parseInt(item))
+        .includes(laatija.patevyystaso)
+    )
     .map(laatija => ({
       ...laatija,
       painotus: LaatijaUtils.calculateLaatijaWeight(
@@ -56,8 +66,20 @@
 <div class="table-container">
   <div class="flex">
     <div class="flex items-center space-x-1 mr-3">
-      <input id="perustaso" type="checkbox" />
-      <label for="perustaso">Perustaso</label>
+      <input
+        id="kaikkitasot"
+        type="radio"
+        bind:group={showPatevyydet}
+        value={'1,2'} />
+      <label for="kaikkitasot">Kaikki tasot</label>
+    </div>
+    <div class="flex items-center space-x-1 mr-3">
+      <input
+        id="perustaso"
+        type="radio"
+        bind:group={showPatevyydet}
+        value={'1'} />
+      <label for="perustaso">{labelLocale($locale, patevyydet[0])}</label>
       <div class="icon-container relative">
         <img class="icon" src={IconInfo} alt="Info icon" />
         <div class="info-popup">
@@ -73,8 +95,12 @@
     </div>
 
     <div class="flex items-center space-x-1">
-      <input id="ylempitaso" type="checkbox" />
-      <label for="ylempitaso">Ylempi taso</label>
+      <input
+        id="ylempitaso"
+        type="radio"
+        bind:group={showPatevyydet}
+        value={'2'} />
+      <label for="ylempitaso">{labelLocale($locale, patevyydet[1])}</label>
       <div class="icon-container relative">
         <img class="icon" src={IconInfo} alt="Info icon" />
         <div class="info-popup">
@@ -104,8 +130,10 @@
           {#each sortedLaatijat as laatija}
             <tr>
               <td data-title="Nimi">{laatija.nimi}</td>
-              <td data-title="Pätevyys">{laatija.patevyystaso}</td>
-              <td data-title="Päätoiminta-alue">{laatija.toimintaalue}</td>
+              <td data-title="Pätevyys">{laatija.patevyys}</td>
+              <td data-title="Päätoiminta-alue">
+                {laatija['toimintaalue-nimi']}
+              </td>
               <td data-title="Postitoimipaikka">{laatija.postitoimipaikka}</td>
               <td data-title="WWW">
                 {#if laatija.wwwosoite}

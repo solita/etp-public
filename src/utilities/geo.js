@@ -1,6 +1,6 @@
 export const isLabelMatch = haku => item =>
-  item['label-fi'].toUpperCase().includes(haku.toUpperCase()) ||
-  item['label-sv'].toUpperCase().includes(haku.toUpperCase());
+  item['label-fi'].toUpperCase().startsWith(haku.toUpperCase()) ||
+  item['label-sv'].toUpperCase().startsWith(haku.toUpperCase());
 
 export const findToimintaalue = (toimintaalueet, toimintaalueId) =>
   toimintaalueet.find(toimintaalue => toimintaalue.id === toimintaalueId);
