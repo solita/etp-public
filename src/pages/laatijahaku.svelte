@@ -16,13 +16,13 @@
   import Container, { styles as containerStyles } from '@Component/container';
   import Spinner from '@Component/spinner';
 
-  const shownLaatijatPromise = l => Promise.all([new Promise(resolve => resolve(l)), new Promise((resolve) => setTimeout(resolve, 200))]).then(([laatijat]) => laatijat);
+  const delayLaatijat = l => new Promise(resolve => setTimeout(() => resolve(l), 200));
 
   export let nimihaku = '';
   export let aluehaku = '';
-  
+
   let laatijat = [];
-  let shownLaatijat = Promise.resolve([]);
+  let shownLaatijat = new Promise(() => {});
   let haetutToimintaalueet = new Set([]);
 
   const deserialize = ([laatijat, patevyydet, toimintaalueet]) => laatijat.reduce((acc, laatija) => [
@@ -30,7 +30,8 @@
         {
           id: laatija.id,
           nimi: `${laatija.etunimi} ${laatija.sukunimi}`,
-          patevyystaso: labelLocale($locale, LaatijaUtils.findPatevyys(patevyydet, laatija)),
+          patevyys: labelLocale($locale, LaatijaUtils.findPatevyys(patevyydet, laatija)),
+          patevyystaso: laatija.patevyystaso,
           toimintaalue: labelLocale(
             $locale,
             GeoUtils.findToimintaalue(toimintaalueet, laatija.toimintaalue)
@@ -60,7 +61,7 @@
   ]).then(([l, toimintaalueet, postinumerot, kunnat]) => {
       laatijat = l;
       haetutToimintaalueet = GeoUtils.findToimintaalueIds(aluehaku, toimintaalueet, kunnat, postinumerot);
-      shownLaatijat = shownLaatijatPromise(LaatijaUtils.laatijatByHakukriteerit(nimihaku, l, haetutToimintaalueet));
+      shownLaatijat = delayLaatijat(LaatijaUtils.laatijatByHakukriteerit(nimihaku, l, haetutToimintaalueet));
     }).catch(error => shownLaatijat = Promise.reject(error));
 
   const commitSearch = async (nimihaku, aluehaku, laatijat) => {
@@ -68,14 +69,14 @@
     navigate(`/laatijahaku${qs ? '?'+qs : ''}`);
     const geo = await Promise.all([$toimintaalueet, $kunnat, $postinumerot]);
     haetutToimintaalueet = GeoUtils.findToimintaalueIds(aluehaku, ...geo);
-    shownLaatijat = shownLaatijatPromise(LaatijaUtils.laatijatByHakukriteerit(nimihaku, laatijat, haetutToimintaalueet));
+    shownLaatijat = delayLaatijat(LaatijaUtils.laatijatByHakukriteerit(nimihaku, laatijat, haetutToimintaalueet));
   };
 
 </script>
 
 <svelte:window on:popstate={async _ => {
   haetutToimintaalueet = GeoUtils.findToimintaalueIds(aluehaku ?? '', ...await Promise.all([$toimintaalueet, $kunnat, $postinumerot]));
-  shownLaatijat = shownLaatijatPromise(LaatijaUtils.laatijatByHakukriteerit(nimihaku ?? '', laatijat, haetutToimintaalueet));
+  shownLaatijat = delayLaatijat(LaatijaUtils.laatijatByHakukriteerit(nimihaku ?? '', laatijat, haetutToimintaalueet));
 }} />
 
 <Container {...containerStyles.beige}>
@@ -121,14 +122,14 @@
   </Container>
 
   <Container {...containerStyles.white}>  
-  {#await shownLaatijat}
+  {#await Promise.all([shownLaatijat, $patevyydet])}
     <div class="flex justify-center">
       <Spinner />
     </div>
-  {:then l}
+  {:then [l, patevyydet]}
     <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
       <h2>Tuloksia</h2>
-      <TableLaatijahaku laatijat={l} {haetutToimintaalueet} />
+      <TableLaatijahaku laatijat={l} {haetutToimintaalueet} {patevyydet} />
     </div>
   {:catch error}
     <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
