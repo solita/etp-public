@@ -1,6 +1,6 @@
 export const isLabelMatch = haku => item =>
-  item['label-fi'].toUpperCase().includes(haku.toUpperCase()) ||
-  item['label-sv'].toUpperCase().includes(haku.toUpperCase());
+  item['label-fi'].toUpperCase().startsWith(haku.toUpperCase()) ||
+  item['label-sv'].toUpperCase().startsWith(haku.toUpperCase());
 
 export const findToimintaalue = (toimintaalueet, toimintaalueId) =>
   toimintaalueet.find(toimintaalue => toimintaalue.id === toimintaalueId);
@@ -48,8 +48,6 @@ export const findToimintaalueIds = (
   kunnat,
   postinumerot
 ) => {
-  if (!haku) return new Set();
-
   const postinumero = parseInt(haku);
   if (!isNaN(postinumero)) {
     return findToimintaalueIdsByKuntaIds(
