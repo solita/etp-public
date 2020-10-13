@@ -44,13 +44,7 @@
   }
 
   .icon-container {
-    @apply relative hidden;
-  }
-
-  @screen md {
-    .icon-container {
-      @apply block;
-    }
+    @apply relative;
   }
 
   .icon-container:hover .info-popup {
@@ -113,71 +107,69 @@
 </style>
 
 <div class="table-container">
-  <div class="flex">
-    <div class="flex items-start space-x-1 mr-3">
-      <label class="radio-container">
-        <input
-          id="kaikkitasot"
-          type="radio"
-          bind:group={showPatevyydet}
-          value={'1,2'} />
-        <span class="radio-visual" />
-        Kaikki tasot</label>
-
-      <div class="icon-container">
-        <!-- <img class="icon" src={IconInfo} alt="Info icon" /> -->
-        <span class="material-icons text-green"> error_outline </span>
-        <div class="info-popup">
-          <strong>Kaikki tasot:</strong>
-          <p>{'Perustason ja ylemmän tason laatijat näkyvät tuloksissa.'}</p>
-        </div>
-      </div>
-    </div>
-    <div class="flex items-start space-x-1 mr-3">
-      <label class="radio-container">
-        <input
-          id="perustaso"
-          type="radio"
-          bind:group={showPatevyydet}
-          value={'1'} />
-        <span class="radio-visual" />
-        {labelLocale($locale, patevyydet[0])}
-      </label>
-      <div class="icon-container">
-        <!-- <img class="icon" src={IconInfo} alt="Info icon" /> -->
-        <span class="material-icons text-green"> error_outline </span>
-        <div class="info-popup">
-          <strong>Perustaso:</strong>
-          <p>
-            {'Voi laatia energiatodistuksen rakennukselle tai rakennuksen osalle, \njossa laskennallisen kokonaisenergiankulutuksen laskemiseen \nkäytetään kuukausitason laskentamenetelmää. \nTyypillinen tällainen rakennus on esimerkiksi omakotitalo.'}
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div class="flex items-start space-x-1">
-      <label class="radio-container">
-        <input
-          id="ylempitaso"
-          type="radio"
-          bind:group={showPatevyydet}
-          value={'2'} />
-        <span class="radio-visual" />
-        {labelLocale($locale, patevyydet[1])}
-      </label>
-      <div class="icon-container">
-        <!-- <img class="icon" src={IconInfo} alt="Info icon" /> -->
-        <span class="material-icons text-green"> error_outline </span>
-        <div class="info-popup">
-          <strong>Ylempi taso:</strong>
-          <p>{'Vain ylemmän tason laatijat näkyvät tuloksissa.'}</p>
-        </div>
-      </div>
-    </div>
-  </div>
   {#if sortedLaatijat.length < 1}
     <span>Ei tuloksia.</span>
   {:else}
+    <div class="flex flex-col md:flex-row">
+      <div class="flex items-start space-x-1 py-3 md:py-0 mr-3">
+        <label class="radio-container">
+          <input
+            id="kaikkitasot"
+            type="radio"
+            bind:group={showPatevyydet}
+            value={'1,2'} />
+          <span class="radio-visual" />
+          Kaikki tasot</label>
+
+        <div class="icon-container hidden md:block">
+          <span class="material-icons text-green"> error_outline </span>
+          <div class="info-popup">
+            <strong>Kaikki:</strong>
+            <p>{'Perustason ja ylemmän tason laatijat näkyvät tuloksissa.'}</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-start space-x-1 py-3 md:py-0 mr-3">
+        <label class="radio-container">
+          <input
+            id="perustaso"
+            type="radio"
+            bind:group={showPatevyydet}
+            value={'1'} />
+          <span class="radio-visual" />
+          {labelLocale($locale, patevyydet[0])}
+        </label>
+        <div class="icon-container hidden md:block">
+          <span class="material-icons text-green"> error_outline </span>
+          <div class="info-popup">
+            <strong>Perustaso:</strong>
+            <p>
+              {'Voi laatia energiatodistuksen rakennukselle tai rakennuksen osalle, \njossa laskennallisen kokonaisenergiankulutuksen laskemiseen \nkäytetään kuukausitason laskentamenetelmää. \nTyypillinen tällainen rakennus on esimerkiksi omakotitalo.'}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-start space-x-1 py-3 md:py-0">
+        <label class="radio-container">
+          <input
+            id="ylempitaso"
+            type="radio"
+            bind:group={showPatevyydet}
+            value={'2'} />
+          <span class="radio-visual" />
+          {labelLocale($locale, patevyydet[1])}
+        </label>
+        <div class="icon-container hidden md:block">
+          <!-- <img class="icon" src={IconInfo} alt="Info icon" /> -->
+          <span class="material-icons text-green"> error_outline </span>
+          <div class="info-popup">
+            <strong>Ylempi taso:</strong>
+            <p>{'Vain ylemmän tason laatijat näkyvät tuloksissa.'}</p>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="w-full overflow-auto">
       <table class="w-full table-auto text-left my-2">
         <thead>
