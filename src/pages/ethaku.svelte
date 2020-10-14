@@ -17,7 +17,8 @@
   </InfoBlock>
 </Container>
 <Container {...containerStyles.white}>
-  <div class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto flex flex-col md:flex-row items-center md:items-start">
+  <div
+    class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto flex flex-col md:flex-row items-center md:items-start">
     <div class="flex flex-col w-full md:w-9/12">
       <div class="w-full md:w-11/12">
         <Input label={'Hae todistustunnuksella'} value={''} />
@@ -32,8 +33,10 @@
       </div>
       <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
         <Button {...buttonStyles.green}>Hae</Button>
-        <Button {...buttonStyles.green}>Tyhjennä hakuehdot</Button>
-        <a class="inline-flex items-center self-center ml-4 text-green order-first md:order-none" href="/">
+        <Button {...buttonStyles.ashblue}>Tyhjennä hakuehdot</Button>
+        <a
+          class="inline-flex items-center self-center ml-4 text-green order-first md:order-none"
+          href="/">
           <span class="uppercase font-bold">Lisää hakuehtoja</span>
           <span class="font-icon text-4xl">expand_more</span>
         </a>
