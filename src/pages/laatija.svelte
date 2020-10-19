@@ -1,7 +1,12 @@
 <script>
+  import {
+    laatijat as laatijatStore,
+    patevyydet,
+    toimintaalueet
+  } from '@/stores';
   import * as LaatijaUtils from '@/utilities/laatija';
-
-  import { laatijat as laatijatStore } from '@/stores';
+  import * as GeoUtils from '@/utilities/geo';
+  import { locale, labelLocale } from '@Localization/localization';
 
   import Container, { styles as containerStyles } from '@Component/container';
   import Button, { styles as buttonStyles } from '@Component/button';
@@ -9,46 +14,84 @@
 
   export let id;
 
-  let laatija = new Promise(() => {});
+  let laatijaPromise = Promise.all([
+    $laatijatStore,
+    $patevyydet,
+    $toimintaalueet
+  ])
+    .then(values => deserialize(values)) // why doesn't .then(deserialize) work?
+    .then(laatijat => {
+      return laatijat.find(laatija => laatija.id == id);
+    });
+
+  // let laatijaPromise = new Promise(() => {});
+  // onMount(async () => {
+  //   Promise.all([$laatijatStore, $patevyydet, $toimintaalueet])
+  //     .then(deserialize)
+  //     .then(laatijat => {
+  //       laatijaPromise = laatijat.find(laatija => laatija.id == id);
+  //     });
+  // });
+
+  const deserialize = ([laatijat, patevyydet, toimintaalueet]) =>
+    laatijat.reduce(
+      (acc, laatija) => [
+        ...acc,
+        {
+          ...laatija,
+          nimi: `${laatija.etunimi} ${laatija.sukunimi}`,
+          patevyys: labelLocale(
+            $locale,
+            LaatijaUtils.findPatevyys(patevyydet, laatija)
+          ),
+          'toimintaalue-nimi':
+            labelLocale(
+              $locale,
+              GeoUtils.findToimintaalue(toimintaalueet, laatija.toimintaalue)
+            ) ?? '',
+          postitoimipaikka: laatija.postitoimipaikka ?? '',
+          wwwosoite:
+            laatija.wwwosoite && !laatija.wwwosoite?.match(/^https+:\/\//)
+              ? `//${laatija.wwwosoite}`
+              : laatija.wwwosoite
+        }
+      ],
+      []
+    );
 </script>
-
-<style>
-</style>
-
-<svelte:window
-  on:load={async _ => {
-    let laatijat = await $laatijatStore;
-    laatija = laatijat.find(laatija => laatija.id == id);
-  }} />
 
 <div>
   <Container {...containerStyles.beige}>
     <div
       class="flex flex-col justify-center items-left sm:px-16 sm:py-8 px-4 py-4">
-      <a href="/laatijahaku">
-        <Button {...buttonStyles.green}>
+      <div>
+        <Button
+          {...buttonStyles.green}
+          on:click={() => {
+            window.history.back();
+          }}>
           <span class="material-icons"> arrow_back </span>
           <span>Takaisin laatijahakuun</span>
         </Button>
-      </a>
+      </div>
     </div>
   </Container>
   <Container {...containerStyles.white}>
-    {#await laatija}
+    {#await laatijaPromise}
       <div class="flex justify-center">
         <Spinner />
       </div>
     {:then laatija}
       <div
         class="flex flex-col px-4 lg:px-8 xl:px-16 py-16 mx-auto items-center md:items-start">
-        <h1 class="text-xl">{laatija.etunimi} {laatija.sukunimi}</h1>
+        <h1 class="text-xl">{laatija.nimi}</h1>
         <div class="flex flex-col md:flex-row space-x-2 my-1">
           <strong> Pätevyystaso: </strong>
-          <span>{laatija.patevyystaso}</span>
+          <span>{laatija.patevyys}</span>
         </div>
         <div class="flex flex-col md:flex-row space-x-2 my-1">
           <strong> Päätoiminta-alue: </strong>
-          <span>{laatija.toimintaalue}</span>
+          <span>{laatija['toimintaalue-nimi']}</span>
         </div>
         {#if laatija.osoite}
           <div class="flex flex-col md:flex-row space-x-2 my-1">
