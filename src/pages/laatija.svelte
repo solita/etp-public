@@ -11,27 +11,18 @@
   import Container, { styles as containerStyles } from '@Component/container';
   import Button, { styles as buttonStyles } from '@Component/button';
   import Spinner from '@Component/spinner';
+  import { onMount } from 'svelte';
 
   export let id;
+  let component = null;
 
   let laatijaPromise = Promise.all([
     $laatijatStore,
     $patevyydet,
     $toimintaalueet
   ])
-    .then(values => deserialize(values)) // why doesn't .then(deserialize) work?
-    .then(laatijat => {
-      return laatijat.find(laatija => laatija.id == id);
-    });
-
-  // let laatijaPromise = new Promise(() => {});
-  // onMount(async () => {
-  //   Promise.all([$laatijatStore, $patevyydet, $toimintaalueet])
-  //     .then(deserialize)
-  //     .then(laatijat => {
-  //       laatijaPromise = laatijat.find(laatija => laatija.id == id);
-  //     });
-  // });
+    .then(values => deserialize(values))
+    .then(laatijat => laatijat.find(laatija => laatija.id == id));
 
   const deserialize = ([laatijat, patevyydet, toimintaalueet]) =>
     laatijat.reduce(
@@ -58,9 +49,11 @@
       ],
       []
     );
+
+  onMount(() => component.scrollIntoView());
 </script>
 
-<div>
+<div class="component" bind:this={component}>
   <Container {...containerStyles.beige}>
     <div
       class="flex flex-col justify-center items-left sm:px-16 sm:py-8 px-4 py-4">
@@ -83,7 +76,7 @@
       </div>
     {:then laatija}
       <div
-        class="flex flex-col px-4 lg:px-8 xl:px-16 py-16 mx-auto items-center md:items-start">
+        class="flex flex-col px-4 lg:px-8 xl:px-16 py-16 mx-auto items-start">
         <h1 class="text-xl">{laatija.nimi}</h1>
         <div class="flex flex-col md:flex-row space-x-2 my-1">
           <strong> Pätevyystaso: </strong>
