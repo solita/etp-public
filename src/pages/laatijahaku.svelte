@@ -8,13 +8,7 @@
   import { locale, labelLocale } from '@Localization/localization';
   import { navigate } from '@/router/router';
 
-  import {
-    laatijat as laatijatStore,
-    patevyydet,
-    toimintaalueet,
-    postinumerot,
-    kunnat
-  } from '@/stores';
+  import {laatijat as laatijatStore, patevyydet, toimintaalueet, postinumerot, kunnat} from '@/stores';
 
   import Button, { styles as buttonStyles } from '@Component/button';
   import Input from '@Component/input';
@@ -33,39 +27,7 @@
   let shownLaatijat = new Promise(() => {});
   let haetutToimintaalueet = new Set([]);
 
-  const deserialize = ([laatijat, patevyydet, toimintaalueet]) =>
-    laatijat.reduce(
-      (acc, laatija) => [
-        ...acc,
-        {
-          ...laatija,
-          nimi: `${laatija.etunimi} ${laatija.sukunimi}`,
-          patevyys: labelLocale(
-            $locale,
-            LaatijaUtils.findPatevyys(patevyydet, laatija)
-          ),
-          'toimintaalue-nimi':
-            labelLocale(
-              $locale,
-              GeoUtils.findToimintaalue(toimintaalueet, laatija.toimintaalue)
-            ) ?? '',
-          postitoimipaikka: laatija.postitoimipaikka ?? '',
-          wwwosoite:
-            laatija.wwwosoite && !laatija.wwwosoite?.match(/^https+:\/\//)
-              ? `//${laatija.wwwosoite}`
-              : laatija.wwwosoite
-        }
-      ],
-      []
-    );
-
-  const laatijatPromise = Promise.all([
-    $laatijatStore,
-    $patevyydet,
-    $toimintaalueet
-  ]).then(deserialize);
-
-  Promise.all([laatijatPromise, $toimintaalueet, $postinumerot, $kunnat])
+  Promise.all([$laatijatStore, $toimintaalueet, $postinumerot, $kunnat])
     .then(([l, toimintaalueet, postinumerot, kunnat]) => {
       laatijat = l;
       haetutToimintaalueet = GeoUtils.findToimintaalueIds(
