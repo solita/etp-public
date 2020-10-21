@@ -1,3 +1,6 @@
+import * as GeoUtils from '@/utilities/geo';
+import { labelLocale } from '@Localization/localization';
+
 export const calculateLaatijaWeight = (toimintaalueet, laatija) =>
   weightByToimintaalueet(toimintaalueet, laatija.toimintaalue) +
   weightByMuutToimintaalueet(toimintaalueet, laatija.muuttoimintaalueet) +
@@ -62,3 +65,19 @@ export const laatijatByHakukriteerit = (
 
   return laatijat.filter(laatija => alueet.has(laatija.id));
 };
+
+export const deserialize = (locale, patevyydet, toimintaalueet) => laatija => ({
+  ...laatija,
+  nimi: `${laatija.etunimi} ${laatija.sukunimi}`,
+  patevyys: labelLocale(locale, findPatevyys(patevyydet, laatija)),
+  'toimintaalue-nimi':
+    labelLocale(
+      locale,
+      GeoUtils.findToimintaalue(toimintaalueet, laatija.toimintaalue)
+    ) ?? '',
+  postitoimipaikka: laatija.postitoimipaikka ?? '',
+  wwwosoite:
+    laatija.wwwosoite && !laatija.wwwosoite?.match(/^https+:\/\//)
+      ? `//${laatija.wwwosoite}`
+      : laatija.wwwosoite
+});

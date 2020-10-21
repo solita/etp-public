@@ -6,7 +6,6 @@
   } from '@/stores';
   import * as LaatijaUtils from '@/utilities/laatija';
   import * as GeoUtils from '@/utilities/geo';
-  import { locale, labelLocale } from '@Localization/localization';
 
   import Container, { styles as containerStyles } from '@Component/container';
   import Button, { styles as buttonStyles } from '@Component/button';
@@ -15,45 +14,14 @@
   import { backReferred } from '@/router/router';
 
   export let id;
+
   let component = null;
+  let laatijaPromise = $laatijatStore.then(laatijat => {
+    const laatijaFound = laatijat.find(laatija => laatija.id == id);
+    if (laatijaFound) return laatijaFound;
 
-  let laatijaPromise = Promise.all([
-    $laatijatStore,
-    $patevyydet,
-    $toimintaalueet
-  ])
-    .then(values => deserialize(values))
-    .then(laatijat => {
-      const laatijaFound = laatijat.find(laatija => laatija.id == id);
-      if (laatijaFound) return laatijaFound;
-      else laatijaPromise = Promise.reject('Laatijaa ei löytynyt.');
-    });
-
-  const deserialize = ([laatijat, patevyydet, toimintaalueet]) =>
-    laatijat.reduce(
-      (acc, laatija) => [
-        ...acc,
-        {
-          ...laatija,
-          nimi: `${laatija.etunimi} ${laatija.sukunimi}`,
-          patevyys: labelLocale(
-            $locale,
-            LaatijaUtils.findPatevyys(patevyydet, laatija)
-          ),
-          'toimintaalue-nimi':
-            labelLocale(
-              $locale,
-              GeoUtils.findToimintaalue(toimintaalueet, laatija.toimintaalue)
-            ) ?? '',
-          postitoimipaikka: laatija.postitoimipaikka ?? '',
-          wwwosoite:
-            laatija.wwwosoite && !laatija.wwwosoite?.match(/^https+:\/\//)
-              ? `//${laatija.wwwosoite}`
-              : laatija.wwwosoite
-        }
-      ],
-      []
-    );
+    return Promise.reject('Laatijaa ei löytynyt.');
+  });
 
   onMount(() => component.scrollIntoView());
 </script>
@@ -68,7 +36,7 @@
           on:click={() => {
             backReferred('/laatijahaku');
           }}>
-          <span class="material-icons"> arrow_back </span>
+          <span class="material-icons">arrow_back</span>
           <span>Takaisin laatijahakuun</span>
         </Button>
       </div>
@@ -84,35 +52,41 @@
         class="flex flex-col px-4 lg:px-8 xl:px-16 py-16 mx-auto items-start">
         <h1 class="text-xl">{laatija.nimi}</h1>
         <div class="flex flex-col md:flex-row space-x-2 my-1">
-          <strong> Pätevyystaso: </strong>
+          <strong>Pätevyystaso:</strong>
           <span>{laatija.patevyys}</span>
         </div>
         <div class="flex flex-col md:flex-row space-x-2 my-1">
-          <strong> Päätoiminta-alue: </strong>
+          <strong>Päätoiminta-alue:</strong>
           <span>{laatija['toimintaalue-nimi']}</span>
         </div>
         {#if laatija.osoite}
           <div class="flex flex-col md:flex-row space-x-2 my-1">
-            <strong> Osoite: </strong>
+            <strong>Osoite:</strong>
             <span>{laatija.osoite}</span>
           </div>
         {/if}
         {#if laatija.wwwosoite}
           <div class="flex flex-col md:flex-row space-x-2 my-1">
-            <strong> www-osoite </strong>
-            <a href={laatija.wwwosoite}> <span>{laatija.wwwosoite}</span> </a>
+            <strong>www-osoite</strong>
+            <a href={laatija.wwwosoite}>
+              <span>{laatija.wwwosoite}</span>
+            </a>
           </div>
         {/if}
         {#if laatija.email}
           <div class="flex flex-col md:flex-row space-x-2 my-1">
-            <strong> Sähköpostiosoite </strong>
-            <a href="mailto:{laatija.email}"> <span>{laatija.email}</span> </a>
+            <strong>Sähköpostiosoite</strong>
+            <a href="mailto:{laatija.email}">
+              <span>{laatija.email}</span>
+            </a>
           </div>
         {/if}
         {#if laatija.puhelin}
           <div class="flex flex-col md:flex-row space-x-2 my-1">
-            <strong> Puhelinnumero </strong>
-            <a href="tel:{laatija.puhelin}"> <span>{laatija.puhelin}</span> </a>
+            <strong>Puhelinnumero</strong>
+            <a href="tel:{laatija.puhelin}">
+              <span>{laatija.puhelin}</span>
+            </a>
           </div>
         {/if}
       </div>
