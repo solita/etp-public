@@ -12,6 +12,7 @@
   import Button, { styles as buttonStyles } from '@Component/button';
   import Spinner from '@Component/spinner';
   import { onMount } from 'svelte';
+  import { backReferred } from '@/router/router';
 
   export let id;
   let component = null;
@@ -22,7 +23,11 @@
     $toimintaalueet
   ])
     .then(values => deserialize(values))
-    .then(laatijat => laatijat.find(laatija => laatija.id == id));
+    .then(laatijat => {
+      const laatijaFound = laatijat.find(laatija => laatija.id == id);
+      if (laatijaFound) return laatijaFound;
+      else laatijaPromise = Promise.reject('Laatijaa ei löytynyt.');
+    });
 
   const deserialize = ([laatijat, patevyydet, toimintaalueet]) =>
     laatijat.reduce(
@@ -53,7 +58,7 @@
   onMount(() => component.scrollIntoView());
 </script>
 
-<div class="component" bind:this={component}>
+<div bind:this={component}>
   <Container {...containerStyles.beige}>
     <div
       class="flex flex-col justify-center items-left sm:px-16 sm:py-8 px-4 py-4">
@@ -61,7 +66,7 @@
         <Button
           {...buttonStyles.green}
           on:click={() => {
-            window.history.back();
+            backReferred('/laatijahaku');
           }}>
           <span class="material-icons"> arrow_back </span>
           <span>Takaisin laatijahakuun</span>
@@ -112,7 +117,7 @@
         {/if}
       </div>
     {:catch error}
-      <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">{error}</div>
+      <div class="px-3 pb-8 lg:p-8 xl:p-16 w-full">{error}</div>
     {/await}
   </Container>
 </div>

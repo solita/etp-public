@@ -5,6 +5,11 @@
   export const activePath = writable(location.pathname);
 
   export const navigate = path => router(path);
+
+  export const backReferred = defaultPath =>
+    document.referrer.split('/')[2] === window.location.host
+      ? window.history.back()
+      : navigate(defaultPath);
 </script>
 
 <script>
