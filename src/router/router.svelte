@@ -5,6 +5,11 @@
   export const activePath = writable(location.pathname);
 
   export const navigate = path => router(path);
+
+  export const backReferred = defaultPath =>
+    document.referrer.split('/')[2] === window.location.host
+      ? window.history.back()
+      : navigate(defaultPath);
 </script>
 
 <script>
@@ -13,6 +18,7 @@
   import Home from '@Page/home';
   import EnergiatodistusHaku from '@Page/ethaku';
   import LaatijaHaku from '@Page/laatijahaku';
+  import Laatija from '@Page/laatija';
   import LaatijanKirjautuminen from '@Page/laatijankirjautuminen';
 
   let page;
@@ -28,6 +34,9 @@
   });
   router('/laatijahaku', () => {
     page = LaatijaHaku;
+  });
+  router('/laatija', () => {
+    page = Laatija;
   });
   router('/laatijankirjautuminen', () => {
     page = LaatijanKirjautuminen;

@@ -186,7 +186,9 @@
         <tbody>
           {#each sortedLaatijat as laatija}
             <tr>
-              <td data-title="Nimi">{laatija.nimi}</td>
+              <td data-title="Nimi">
+                <a href="/laatija?id={laatija.id}">{laatija.nimi}</a>
+              </td>
               <td data-title="Pätevyys">{laatija.patevyys}</td>
               <td data-title="Päätoiminta-alue">
                 {laatija['toimintaalue-nimi']}
