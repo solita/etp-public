@@ -3,6 +3,8 @@
 
   import Button, { styles as buttonStyles } from '@Component/button';
   import Container, { styles as containerStyles } from '@Component/container';
+
+  import { _ } from '@Localization/localization';
 </script>
 
 <style>
@@ -32,15 +34,11 @@
       class="xl:w-1/3 lg:w-5/12 sm:w-7/12 bg-white text-ashblue sm:mx-16 py-8
       px-2 sm:px-12">
       <div class="items-center mb-8 hidden sm:flex">
-        <img src={Logo} alt="Energiatodistusrekisterin logo" />
-        <h2 class="pl-2 font-bold">Energiatodistusrekisteri</h2>
+        <img src={Logo} alt="" />
+        <h2 class="pl-2 font-bold">{$_('ENERGIATODISTUSREKISTERI')}</h2>
       </div>
-      <strong class="block mb-8">
-        Energiatodistusrekisteri on Asumisen rahoitus- ja kehittämiskeskuksen
-        (ARA) tietopalvelu, josta voit hakea laadittuja energiatodistuksia ja
-        pätevöityneitä energiatodistusten laatijoita.
-      </strong>
-      <Button {...buttonStyles.green}>Aloita</Button>
+      <strong class="block mb-8">{$_('HERO_DESCRIPTION')}</strong>
+      <Button {...buttonStyles.green}>{$_('ALOITA')}</Button>
     </section>
   </div>
 </Container>

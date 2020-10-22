@@ -1,6 +1,6 @@
 <script>
   import Header from '@Component/header';
-  import { _ } from '@Localization/localization';
+  import Localization, { _ } from '@Localization/localization';
   import Router from '@Router/router';
 
   import Container, { styles as containerStyles } from '@Component/container';
@@ -18,24 +18,24 @@
   }
 </style>
 
-<div class="applicationcontainer font-body font-medium w-full">
-  <Container {...containerStyles.red}>
-    <Disclaimer>
-      Energiatodistuspavelua uudistetaan. Tämä on uuden palvelun kehitysversio.
-    </Disclaimer>
-  </Container>
-
-  <Header />
-
-  <main>
-    <Router />
-  </main>
-
-  <Footer />
-
-  <div class="sticky bottom-0">
+<Localization>
+  <div class="applicationcontainer font-body font-medium w-full">
     <Container {...containerStyles.red}>
-      <Disclaimer />
+      <Disclaimer>{$_('DISCLAIMER_WIP')}</Disclaimer>
     </Container>
+
+    <Header />
+
+    <main>
+      <Router />
+    </main>
+
+    <Footer />
+
+    <div class="sticky bottom-0">
+      <Container {...containerStyles.red}>
+        <Disclaimer />
+      </Container>
+    </div>
   </div>
-</div>
+</Localization>
