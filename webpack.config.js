@@ -118,7 +118,10 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css'
     }),
-    new HtmlWebpackPlugin({ title: 'ETP - public' })
+    new HtmlWebpackPlugin({
+      title: 'ETP - public',
+      template: './src/template.html'
+    })
     // uncomment to see treeview of generated bundle after build
     // new BundleAnalyzerPlugin()
   ],

@@ -7,32 +7,35 @@
 
   import NavButton, { styles as navbuttonStyles } from '@Component/nav-button';
   import Container, { styles as containerStyles } from '@Component/container';
+  import { _ } from '@Localization/localization';
 </script>
 
 <Container {...containerStyles.mainnavigation}>
   <nav class="flex xl:px-16 flex-col lg:flex-row">
     <NavButton link="/" {...navbuttonStyles.lightgreen} iconLeft={IconHome}>
-      <span slot="title" class="uppercase">Etusivu</span>
+      <span slot="title" class="uppercase">{$_('NAVBAR_ETUSIVU')}</span>
       <span slot="subtitle" class="italic font-light">
-        Tervetuloa energiatodistusrekisteriin
+        {$_('NAVBAR_ETUSIVU_KUVAUS')}
       </span>
     </NavButton>
     <NavButton
       link="/ethaku"
       {...navbuttonStyles.green}
       iconLeft={IconSearchFile}>
-      <span slot="title" class="uppercase">Energiatodistushaku</span>
+      <span slot="title" class="uppercase">
+        {$_('NAVBAR_ENERGIATODISTUSHAKU')}
+      </span>
       <span slot="subtitle" class="italic font-light">
-        Täältä löydät tarvitsemasi energiatodistukset
+        {$_('NAVBAR_ENERGIATODISTUSHAKU_KUVAUS')}
       </span>
     </NavButton>
     <NavButton
       link="/laatijahaku"
       {...navbuttonStyles.darkgreen}
       iconLeft={IconSearchPerson}>
-      <span slot="title" class="uppercase">Todistustenlaatijahaku</span>
+      <span slot="title" class="uppercase">{$_('NAVBAR_LAATIJAHAKU')}</span>
       <span slot="subtitle" class="italic font-light">
-        Täältä löydät energiatodistusten pätevät laatijat
+        {$_('NAVBAR_LAATIJAHAKU_KUVAUS')}
       </span>
     </NavButton>
     <NavButton
@@ -40,9 +43,9 @@
       {...navbuttonStyles.ashblue}
       iconLeft={IconLogin}
       iconRight={IconNext}>
-      <span slot="title" class="uppercase">Laatijan kirjautuminen</span>
+      <span slot="title" class="uppercase">{$_('NAVBAR_KIRJAUTUMINEN')}</span>
       <span slot="subtitle" class="italic font-light">
-        Energiatodistusten laatijoille
+        {$_('NAVBAR_KIRJAUTUMINEN_KUVAUS')}
       </span>
       <span slot="iconright" class="font-icon lg:text-6xl text-4xl">
         chevron_right
