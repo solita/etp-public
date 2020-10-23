@@ -8,10 +8,16 @@
   import { locale, labelLocale } from '@Localization/localization';
   import { navigate } from '@/router/router';
 
-  import {laatijat as laatijatStore, patevyydet, toimintaalueet, postinumerot, kunnat} from '@/stores';
+  import {
+    laatijat as laatijatStore,
+    patevyydet,
+    toimintaalueet,
+    postinumerot,
+    kunnat
+  } from '@/stores';
 
   import Button, { styles as buttonStyles } from '@Component/button';
-  import Input from '@Component/input';
+  import Input from '@Component/input-search';
   import InfoBlock from '@Component/info-block';
   import TableLaatijahaku from '@Component/table-laatijahaku';
   import Container, { styles as containerStyles } from '@Component/container';
