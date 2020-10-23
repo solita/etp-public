@@ -6,7 +6,7 @@
 
   import Hero from '@Component/hero';
   import Button, { styles as buttonStyles } from '@Component/button';
-  import Input from '@Component/input';
+  import Input from '@Component/input-search';
   import Container, { styles as containerStyles } from '@Component/container';
 
   import Seo from '@Component/seo';

@@ -12,7 +12,7 @@
   } from '@/stores';
 
   import Button, { styles as buttonStyles } from '@Component/button';
-  import Input from '@Component/input';
+  import Input from '@Component/input-search';
   import InfoBlock from '@Component/info-block';
   import TableLaatijahaku from '@Component/table-laatijahaku';
   import TableLaatijahakuFilter from '@Component/table-laatijahaku-filter';
@@ -33,13 +33,33 @@
 
   let shownLaatijat = new Promise(() => {});
 
-  $: haetutToimintaalueet = Promise.all([ Promise.resolve(aluehaku ?? ''), $toimintaalueet, $kunnat, $postinumerot]).then(([...args]) => 
-    GeoUtils.findToimintaalueIds(...args)
-  );
+  $: haetutToimintaalueet = Promise.all([
+    Promise.resolve(aluehaku ?? ''),
+    $toimintaalueet,
+    $kunnat,
+    $postinumerot
+  ]).then(([...args]) => GeoUtils.findToimintaalueIds(...args));
 
-  $: shownLaatijat = Promise.all([Promise.resolve(aluehaku ?? ''), Promise.resolve(nimihaku ?? ''), $laatijatStore, haetutToimintaalueet, Promise.resolve(filterPatevyydet) ])
-    .then(([aluehaku, nimihaku, laatijat, haetutToimintaalueet, filterPatevyydet]) => LaatijaUtils.laatijatByHakukriteerit(aluehaku, nimihaku, laatijat, haetutToimintaalueet, filterPatevyydet)
-        .sort((a, b) => LaatijaUtils.calculateLaatijaWeight(haetutToimintaalueet, b) - LaatijaUtils.calculateLaatijaWeight(haetutToimintaalueet, a)));
+  $: shownLaatijat = Promise.all([
+    Promise.resolve(aluehaku ?? ''),
+    Promise.resolve(nimihaku ?? ''),
+    $laatijatStore,
+    haetutToimintaalueet,
+    Promise.resolve(filterPatevyydet)
+  ]).then(
+    ([aluehaku, nimihaku, laatijat, haetutToimintaalueet, filterPatevyydet]) =>
+      LaatijaUtils.laatijatByHakukriteerit(
+        aluehaku,
+        nimihaku,
+        laatijat,
+        haetutToimintaalueet,
+        filterPatevyydet
+      ).sort(
+        (a, b) =>
+          LaatijaUtils.calculateLaatijaWeight(haetutToimintaalueet, b) -
+          LaatijaUtils.calculateLaatijaWeight(haetutToimintaalueet, a)
+      )
+  );
 
   const commitSearch = (nimihaku, aluehaku) => {
     const qs = [
@@ -49,21 +69,29 @@
       ...[['page', 0].join('=')]
     ].join('&');
     navigate(`/laatijahaku${qs ? '?' + qs : ''}`);
-    haetutToimintaalueet = Promise.all([Promise.resolve(aluehaku ?? ''), $toimintaalueet, $kunnat, $postinumerot]).then(([...args]) => 
-      GeoUtils.findToimintaalueIds(...args)
-    );
+    haetutToimintaalueet = Promise.all([
+      Promise.resolve(aluehaku ?? ''),
+      $toimintaalueet,
+      $kunnat,
+      $postinumerot
+    ]).then(([...args]) => GeoUtils.findToimintaalueIds(...args));
   };
 
   $: console.log(haetutToimintaalueet);
 </script>
 
-<Seo title="Energiatodistusrekisteri - Laatijahaku" descriptionSv="Laatijahaku" />
+<Seo
+  title="Energiatodistusrekisteri - Laatijahaku"
+  descriptionSv="Laatijahaku" />
 
 <svelte:window
-  on:popstate={ _ => {
-    haetutToimintaalueet = Promise.all([ Promise.resolve(aluehaku ?? ''), $toimintaalueet, $kunnat, $postinumerot]).then(([...args]) => 
-      GeoUtils.findToimintaalueIds(...args)
-    );
+  on:popstate={_ => {
+    haetutToimintaalueet = Promise.all([
+      Promise.resolve(aluehaku ?? ''),
+      $toimintaalueet,
+      $kunnat,
+      $postinumerot
+    ]).then(([...args]) => GeoUtils.findToimintaalueIds(...args));
   }} />
 
 <Container {...containerStyles.beige}>
@@ -110,7 +138,14 @@
 </Container>
 
 <Container {...containerStyles.white}>
-  {#await Promise.all([shownLaatijat, haetutToimintaalueet, $patevyydet, Promise.resolve(parseInt(page ?? 0)), Promise.resolve(pageSize), Promise.resolve(filterPatevyydet)])}
+  {#await Promise.all([
+    shownLaatijat,
+    haetutToimintaalueet,
+    $patevyydet,
+    Promise.resolve(parseInt(page ?? 0)),
+    Promise.resolve(pageSize),
+    Promise.resolve(filterPatevyydet)
+  ])}
     <div class="flex justify-center">
       <Spinner />
     </div>
@@ -124,26 +159,21 @@
         {patevyydet}
         {page}>
         <div slot="filter">
-          <TableLaatijahakuFilter  on:change={evt => navigate(
-            `/laatijahaku?${([
-            ...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []),
-            ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []),
-            ...[['filterPatevyydet', evt.target.value].join('=')],
-            ...[['page', 0].join('=')]
-            ].join('&'))}`
-          )} showPatevyydet={filterPatevyydet} patevyydet={patevyydet} />
+          <TableLaatijahakuFilter
+            on:change={evt => navigate(`/laatijahaku?${[...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []), ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []), ...[['filterPatevyydet', evt.target.value].join('=')], ...[['page', 0].join('=')]].join('&')}`)}
+            showPatevyydet={filterPatevyydet}
+            {patevyydet} />
         </div>
         <div slot="pagination">
-          <Pagination {page} pageSize={pageSize} {currentPageItemCount} itemCount={l.length} queryStringFn={page => `/laatijahaku?${([
-            ...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []),
-            ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []),
-            ...[['filterPatevyydet', filterPatevyydet].join('=')],
-            ...[['page', page].join('=')]
-            ].join('&'))}`}/>
+          <Pagination
+            {page}
+            {pageSize}
+            {currentPageItemCount}
+            itemCount={l.length}
+            queryStringFn={page => `/laatijahaku?${[...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []), ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []), ...[['filterPatevyydet', filterPatevyydet].join('=')], ...[['page', page].join('=')]].join('&')}`} />
         </div>
       </TableLaatijahaku>
     </div>
-    
   {:catch error}
     <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">{error}</div>
   {/await}

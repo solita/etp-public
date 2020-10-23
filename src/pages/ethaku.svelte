@@ -1,6 +1,6 @@
 <script>
   import Button, { styles as buttonStyles } from '@Component/button';
-  import Input from '@Component/input';
+  import Input from '@Component/input-search';
   import InfoBlock from '@Component/info-block';
   import Container, { styles as containerStyles } from '@Component/container';
 </script>
