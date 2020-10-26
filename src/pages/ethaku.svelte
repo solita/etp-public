@@ -4,7 +4,33 @@
   import InputText from '@Component/input-text';
   import InfoBlock from '@Component/info-block';
   import Container, { styles as containerStyles } from '@Component/container';
+
+  let etVersio = '2018';
+  let eLukuChecked = 'A,B,C,D,E,F,G';
 </script>
+
+<style>
+  .checkbox-container {
+    @apply font-mono;
+  }
+  .checkbox-container input:focus ~ .checkbox-text {
+    @apply underline;
+  }
+  .checkbox-container input {
+    @apply absolute opacity-0 cursor-pointer select-none outline-none pointer-events-none;
+  }
+  .checkbox-container .material-icons {
+    @apply select-none text-4xl;
+  }
+  .checkbox-container input:checked ~ .checked,
+  .checkbox-container input ~ .unchecked {
+    @apply inline-block;
+  }
+  .checkbox-container input ~ .checked,
+  .checkbox-container input:checked ~ .unchecked {
+    @apply hidden;
+  }
+</style>
 
 <Container {...containerStyles.beige}>
   <InfoBlock
@@ -53,114 +79,233 @@
     <div
       class="tarkennettu-haku w-full flex flex-col my-4 py-4 border-t-2 border-b-2 border-green space-y-2">
       <div class="w-full mx-auto center flex flex-col md:flex-row items-center">
-        <span class="w-1/2 uppercase text-ashblue tracking-widest font-bold">
+        <span
+          class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
           Versio
         </span>
-        <div class="w-1/2">checkbox x2</div>
+        <div class="w-full md:w-1/2">
+          <div class="flex justify-start">
+            <label class="checkbox-container flex items-center p-2 md:p-0">
+              <input type="checkbox" bind:group={etVersio} value={'2018'} />
+              <span class="material-icons checked text-green"> check_box </span>
+              <span class="material-icons unchecked">
+                check_box_outline_blank
+              </span>
+              <span class="ml-1 checkbox-text">2018</span>
+            </label>
+            <label class="checkbox-container flex items-center p-2 md:p-0">
+              <input type="checkbox" bind:group={etVersio} value={'2013'} />
+              <span class="material-icons checked text-green"> check_box </span>
+              <span class="material-icons unchecked">
+                check_box_outline_blank
+              </span>
+              <span class="ml-1 checkbox-text">2013</span>
+            </label>
+          </div>
+        </div>
       </div>
-      <div class="w-full mx-auto center flex flex-col md:flex-row items-center">
-        <span class="w-1/2 uppercase text-ashblue tracking-widest font-bold">
+      <div class="w-full mx-auto flex flex-col md:flex-row items-center">
+        <span
+          class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
           Rakennuksen nimi
         </span>
-        <div class="w-1/2">
+        <div class="w-full md:w-1/2">
           <InputText label={'rakennus'} />
         </div>
       </div>
-      <div class="w-full mx-auto center flex flex-col md:flex-row items-center">
-        <span class="w-1/2 uppercase text-ashblue tracking-widest font-bold">
+      <div class="w-full mx-auto flex flex-col md:flex-row items-center">
+        <span
+          class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
           Pysyvä Rakennustunnus
         </span>
-        <div class="w-1/2">
+        <div class="w-full md:w-1/2">
           <InputText label={'rakennus'} />
         </div>
       </div>
-      <div class="w-full mx-auto center flex flex-col md:flex-row items-center">
-        <span class="w-1/2 uppercase text-ashblue tracking-widest font-bold">
-          takennuksen valmistumisvuosi
+      <div class="w-full mx-auto flex flex-col md:flex-row items-center">
+        <span
+          class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
+          Rakennuksen valmistumisvuosi
         </span>
-        <div class="w-1/2 flex justify-between">
+        <div
+          class="w-full md:w-1/2 flex justify-between items-center text-center">
           <div class="w-2/5">
             <InputText label={'?'} />
           </div>
-          <div><span>-</span></div>
+          <span class="material-icons"> horizontal_rule </span>
           <div class="w-2/5">
             <InputText label={'?'} />
           </div>
         </div>
       </div>
-      <div class="w-full mx-auto center flex flex-col md:flex-row items-center">
-        <span class="w-1/2 uppercase text-ashblue tracking-widest font-bold">
+      <div class="w-full mx-auto flex flex-col md:flex-row items-center">
+        <span
+          class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
           todistuksen laatimispäivä
         </span>
-        <div class="w-1/2 flex justify-between">
+        <div
+          class="w-full md:w-1/2 flex justify-between items-center text-center">
           <div class="w-2/5">
             <InputText label={'?'} />
           </div>
-          <div><span>-</span></div>
+          <span class="material-icons"> horizontal_rule </span>
           <div class="w-2/5">
             <InputText label={'?'} />
           </div>
         </div>
       </div>
       <div class="w-full mx-auto center flex flex-col md:flex-row items-center">
-        <span class="w-1/2 uppercase text-ashblue tracking-widest font-bold">
+        <span
+          class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
           viimeinen voimassaolopäivä
         </span>
-        <div class="w-1/2 flex justify-between">
+        <div
+          class="w-full md:w-1/2 flex justify-between items-center text-center">
           <div class="w-2/5">
             <InputText label={'?'} />
           </div>
-          <div><span>-</span></div>
+          <span class="material-icons"> horizontal_rule </span>
           <div class="w-2/5">
             <InputText label={'?'} />
           </div>
         </div>
       </div>
       <div class="w-full mx-auto center flex flex-col md:flex-row items-center">
-        <span class="w-1/2 uppercase text-ashblue tracking-widest font-bold">
+        <span
+          class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
           käyttötarkoitusluokka
         </span>
-        <div class="w-1/2">
+        <div class="w-full md:w-1/2">
           <InputText label={'luokka'} />
         </div>
       </div>
       <div class="w-full mx-auto center flex flex-col md:flex-row items-center">
-        <span class="w-1/2 uppercase text-ashblue tracking-widest font-bold">
+        <span
+          class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
           alakäyttötarkoitusluokka
         </span>
-        <div class="w-1/2">
+        <div class="w-full md:w-1/2">
           <InputText label={'luokka'} />
         </div>
       </div>
       <div class="w-full mx-auto center flex flex-col md:flex-row items-center">
-        <span class="w-1/2 uppercase text-ashblue tracking-widest font-bold">
+        <span
+          class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
           E-Luku (Kokonaisluku)
         </span>
-        <div class="w-1/2 flex justify-between">
+        <div
+          class="w-full md:w-1/2 flex justify-between items-center text-center">
           <div class="w-2/5">
             <InputText label={'?'} />
           </div>
-          <div><span>-</span></div>
+          <span class="material-icons"> horizontal_rule </span>
           <div class="w-2/5">
             <InputText label={'?'} />
           </div>
         </div>
       </div>
       <div class="w-full mx-auto center flex flex-col md:flex-row items-center">
-        <span class="w-1/2 uppercase text-ashblue tracking-widest font-bold">
+        <span
+          class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
           E-Luku (A-G)
         </span>
-        <div class="w-1/2">checkbox x7</div>
+        <div
+          class="w-full md:w-1/2 flex flex-col xl:flex-row justify-start items-center">
+          <div
+            class="w-full xl:w-auto flex justify-between items-center xl:justify-start">
+            <label
+              class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
+              <input type="checkbox" bind:group={eLukuChecked} value={'A'} />
+              <span class="material-icons checked text-green"> check_box </span>
+              <span class="material-icons unchecked">
+                check_box_outline_blank
+              </span>
+              <span class="ml-1 checkbox-text">A</span>
+            </label>
+
+            <label
+              class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
+              <input type="checkbox" bind:group={eLukuChecked} value={'B'} />
+              <span class="material-icons checked text-green"> check_box </span>
+              <span class="material-icons unchecked">
+                check_box_outline_blank
+              </span>
+              <span class="ml-1 checkbox-text">B</span>
+            </label>
+
+            <label
+              class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
+              <input type="checkbox" bind:group={eLukuChecked} value={'C'} />
+              <span class="material-icons checked text-green"> check_box </span>
+              <span class="material-icons unchecked">
+                check_box_outline_blank
+              </span>
+              <span class="ml-1 checkbox-text">C</span>
+            </label>
+            <label
+              class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
+              <input type="checkbox" bind:group={eLukuChecked} value={'D'} />
+              <span class="material-icons checked text-green"> check_box </span>
+              <span class="material-icons unchecked">
+                check_box_outline_blank
+              </span>
+              <span class="ml-1 checkbox-text">D</span>
+            </label>
+          </div>
+          <div
+            class="w-full xl:w-auto flex justify-between items-center xl:justify-start">
+            <label
+              class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
+              <input type="checkbox" bind:group={eLukuChecked} value={'E'} />
+              <span class="material-icons checked text-green"> check_box </span>
+              <span class="material-icons unchecked">
+                check_box_outline_blank
+              </span>
+              <span class="ml-1 checkbox-text">E</span>
+            </label>
+
+            <label
+              class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
+              <input type="checkbox" bind:group={eLukuChecked} value={'F'} />
+              <span class="material-icons checked text-green"> check_box </span>
+              <span class="material-icons unchecked">
+                check_box_outline_blank
+              </span>
+              <span class="ml-1 checkbox-text">F</span>
+            </label>
+
+            <label
+              class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
+              <input type="checkbox" bind:group={eLukuChecked} value={'G'} />
+              <span class="material-icons checked text-green"> check_box </span>
+              <span class="material-icons unchecked">
+                check_box_outline_blank
+              </span>
+              <span class="ml-1 checkbox-text">G</span>
+            </label>
+
+            <label
+              class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6 invisible">
+              <input type="checkbox" />
+              <span class="material-icons inline-block">
+                check_box_outline_blank
+              </span>
+              <span class="ml-1 checkbox-text">X</span>
+            </label>
+          </div>
+        </div>
       </div>
       <div class="w-full mx-auto center flex flex-col md:flex-row items-center">
-        <span class="w-1/2 uppercase text-ashblue tracking-widest font-bold">
+        <span
+          class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
           Lämmitetty Nettoala (M2)
         </span>
-        <div class="w-1/2 flex justify-between">
+        <div
+          class="w-full md:w-1/2 flex justify-between items-center text-center">
           <div class="w-2/5">
             <InputText label={'?'} />
           </div>
-          <div><span>-</span></div>
+          <span class="material-icons"> horizontal_rule </span>
           <div class="w-2/5">
             <InputText label={'?'} />
           </div>
