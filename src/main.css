@@ -11,6 +11,10 @@ html {
 
 @tailwind utilities;
 
+input {
+  text-align: unset;
+}
+
 .applicationcontainer {
   min-width: 300px;
 }
