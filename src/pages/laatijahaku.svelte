@@ -68,9 +68,7 @@
   };
 
   const goToTablePage = event => {
-    console.log('goToTablePage');
     const pageNum = event.detail;
-    console.log(event.detail);
     const qs = [
       ...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []),
       ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []),
