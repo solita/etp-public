@@ -51,7 +51,7 @@ html {
 }
 
 .table-container .pagination .pages span {
-  @apply border-darkgrey border-l px-1;
+  @apply border-darkgrey border-l px-2;
 }
 .table-container .pagination .pages span:last-child {
   @apply border-r;

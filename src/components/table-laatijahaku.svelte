@@ -13,7 +13,7 @@
   export let page = 0;
 
   const dispatch = createEventDispatcher();
-  const pageSize = 3;
+  const pageSize = 10;
   let showPatevyydet = '1,2';
 
   $: sortedLaatijat = laatijat
@@ -268,71 +268,88 @@
             Tulokset
             {currentPage * pageSize + 1 + '...' + (currentPage * pageSize + laatijatInPage.length) + ' / ' + sortedLaatijat.length}
           </div>
-          <div class="pagination">
+          <div class="pagination w-full md:w-auto">
             {#if currentPage > 0}
               <span
-                class="cursor-pointer uppercase mr-2"
+                class="cursor-pointer uppercase mr-2 hidden md:inline-block"
                 on:click={prevPage}>edellinen</span>
+              <span
+                class="material-icons cursor-pointer md:hidden px-2 py-2 md:py-0"
+                on:click={prevPage}>
+                navigate_before
+              </span>
             {:else}
               <span
-                class="cursor-not-allowed uppercase mr-2 text-lightgrey">edellinen</span>
+                class="cursor-not-allowed uppercase mr-2 text-lightgrey hidden md:inline-block">edellinen</span>
+              <span
+                class="material-icons text-lightgrey md:hidden px-2 py-2 md:py-0">
+                navigate_before
+              </span>
             {/if}
-            <div class="pages cursor-default">
+            <div class="pages cursor-default flex items-center flex-grow">
               {#if currentPage > 2}
                 <span
-                  class="cursor-pointer uppercase"
-                  on:click={goToPage(0)}>1</span><span
-                  class="cursor-pointer uppercase"
-                  on:click={goToPage(1)}>2</span><span
-                  class="cursor-pointer uppercase"
-                  on:click={goToPage(2)}>3</span>
-                <span class="px-2 font-normal">-</span>
+                  class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
+                  on:click={() => goToPage(0)}>1</span>
               {/if}
-              {#if currentPage - 3 >= 0}
+              {#if currentPage > 4}
+                <span class="font-normal flex-grow py-2 md:py-0">-</span>
+              {:else if currentPage == 4}
                 <span
-                  class="cursor-pointer uppercase"
-                  on:click={goToPage(currentPage - 3)}>{currentPage - 2}</span>
+                  class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
+                  on:click={() => goToPage(1)}>2</span>
               {/if}
               {#if currentPage - 2 >= 0}
                 <span
-                  class="cursor-pointer uppercase"
-                  on:click={goToPage(currentPage - 2)}>{currentPage - 1}</span>
+                  class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
+                  on:click={() => goToPage(currentPage - 2)}>{currentPage - 1}</span>
               {/if}
               {#if currentPage > 0}
                 <span
-                  class="cursor-pointer uppercase"
+                  class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
                   on:click={prevPage}>{currentPage}</span>
               {/if}
               <span
-                class="cursor-default uppercase text-black">{currentPage + 1}</span>
+                class="cursor-default uppercase text-black py-2 md:py-0 flex-grow">{currentPage + 1}</span>
               {#if currentPage + 1 < numberOfPages}
                 <span
-                  class="cursor-pointer uppercase"
+                  class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
                   on:click={nextPage}>{currentPage + 2}</span>
               {/if}
               {#if currentPage + 2 < numberOfPages}
                 <span
-                  class="cursor-pointer uppercase"
-                  on:click={goToPage(currentPage + 2)}>{currentPage + 3}</span>
+                  class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
+                  on:click={() => goToPage(currentPage + 2)}>{currentPage + 3}</span>
+              {/if}
+              {#if currentPage < numberOfPages - 5}
+                <span class="font-normal py-2 md:py-0 flex-grow">-</span>
+              {:else if currentPage == numberOfPages - 5}
+                <span
+                  class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
+                  on:click={() => goToPage(numberOfPages - 5)}>{numberOfPages - 1}</span>
               {/if}
               {#if currentPage < numberOfPages - 3}
                 <span
-                  class="cursor-pointer uppercase"
-                  on:click={goToPage(numberOfPages - 2)}>{numberOfPages - 2}</span><span
-                  class="cursor-pointer uppercase"
-                  on:click={goToPage(numberOfPages - 1)}>{numberOfPages - 1}</span><span
-                  class="cursor-pointer uppercase"
-                  on:click={goToPage(numberOfPages)}>{numberOfPages}</span>
-                <span class="px-2 font-normal">-</span>
+                  class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
+                  on:click={() => goToPage(numberOfPages - 1)}>{numberOfPages}</span>
               {/if}
             </div>
             {#if currentPage + 1 < numberOfPages}
               <span
-                class="cursor-pointer uppercase ml-2"
+                class="cursor-pointer uppercase ml-2 hidden md:inline-block"
                 on:click={nextPage}>seuraava</span>
+              <span
+                class="material-icons cursor-pointer md:hidden px-2 py-2 md:py-0"
+                on:click={nextPage}>
+                navigate_next
+              </span>
             {:else}
               <span
-                class="cursor-default uppercase ml-2 text-lightgrey">seuraava</span>
+                class="cursor-default uppercase ml-2 text-lightgrey hidden md:inline-block">seuraava</span>
+              <span
+                class="material-icons text-lightgrey md:hidden px-2 py-2 md:py-0">
+                navigate_next
+              </span>
             {/if}
           </div>
         </div>
