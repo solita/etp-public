@@ -39,7 +39,7 @@
       </span>
     </NavButton>
     <NavButton
-      link="/laatijankirjautuminen"
+      link={`https://private.${window.location.host}`}
       {...navbuttonStyles.ashblue}
       iconLeft={IconLogin}
       iconRight={IconNext}>
