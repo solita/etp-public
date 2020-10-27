@@ -9,6 +9,8 @@
   import Input from '@Component/input';
   import Container, { styles as containerStyles } from '@Component/container';
 
+  import Seo from '@Component/seo';
+
   import { _ } from '@Localization/localization';
 </script>
 
@@ -17,6 +19,10 @@
     @apply text-green uppercase tracking-wider font-bold;
   }
 </style>
+
+<Seo
+  title="Energiatodistusrekisterin kotisivu"
+  descriptionFi="Energiatodistusrekisterin kotisivu" />
 
 <Hero />
 

@@ -16,6 +16,7 @@
   import TableLaatijahaku from '@Component/table-laatijahaku';
   import Container, { styles as containerStyles } from '@Component/container';
   import Spinner from '@Component/spinner';
+  import Seo from '@Component/seo';
 
   const delayLaatijat = l =>
     new Promise(resolve => setTimeout(() => resolve(l), 200));
@@ -65,6 +66,8 @@
     );
   };
 </script>
+
+<Seo title="Energiatodistusrekisteri - Laatijahaku" descriptionSv="Laatijahaku" />
 
 <svelte:window
   on:popstate={async _ => {
