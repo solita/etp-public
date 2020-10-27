@@ -190,10 +190,6 @@
           </div>
         </div>
       </div>
-      <div class="hidden md:block md:ml-auto">
-        Tulokset
-        {currentPage * pageSize + 1 + '...' + (currentPage * pageSize + laatijatInPage.length) + ' / ' + sortedLaatijat.length}
-      </div>
     </div>
     {#if sortedLaatijat.length > 0}
       <div class="w-full overflow-auto">
@@ -263,12 +259,10 @@
       </div>
       {#if numberOfPages > 1}
         <div
-          class="flex w-full align-center md:justify-start my-3 flex-col md:flex-row">
-          <div class="mx-auto md:hidden">
-            Tulokset
-            {currentPage * pageSize + 1 + '...' + (currentPage * pageSize + laatijatInPage.length) + ' / ' + sortedLaatijat.length}
-          </div>
-          <div class="pagination w-full md:w-auto">
+          class="flex w-full align-center justify-center my-1 flex-col md:flex-row">
+          <span
+            class="w-full mx-auto text-center md:w-auto md:mx-0 md:justify-self-start">{`Tulokset ${currentPage * pageSize + 1}...${currentPage * pageSize + laatijatInPage.length}/${sortedLaatijat.length}`}</span>
+          <div class="pagination w-full md:w-auto select-none">
             {#if currentPage > 0}
               <span
                 class="cursor-pointer uppercase mr-2 hidden md:inline-block"

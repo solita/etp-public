@@ -47,7 +47,7 @@ html {
   @apply text-green;
 }
 .table-container .pagination {
-  @apply flex self-center mx-auto text-green text-center font-semibold;
+  @apply flex mx-auto text-green text-center font-semibold;
 }
 
 .table-container .pagination .pages span {
