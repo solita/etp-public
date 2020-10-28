@@ -1,14 +1,15 @@
 <script>
-  import * as LaatijaApi from '@/api/laatija-api';
-  import * as GeoApi from '@/api/geo-api';
   import * as LaatijaUtils from '@/utilities/laatija';
   import * as GeoUtils from '@/utilities/geo';
   import * as FormUtils from '@/utilities/form';
-
-  import { locale, labelLocale } from '@Localization/localization';
   import { navigate } from '@/router/router';
-
-  import {laatijat as laatijatStore, patevyydet, toimintaalueet, postinumerot, kunnat} from '@/stores';
+  import {
+    laatijat as laatijatStore,
+    patevyydet,
+    toimintaalueet,
+    postinumerot,
+    kunnat
+  } from '@/stores';
 
   import Button, { styles as buttonStyles } from '@Component/button';
   import Input from '@Component/input';
@@ -23,6 +24,7 @@
 
   export let nimihaku = '';
   export let aluehaku = '';
+  export let page = 0;
 
   let laatijat = [];
   let shownLaatijat = new Promise(() => {});
@@ -64,6 +66,16 @@
         haetutToimintaalueet
       )
     );
+  };
+
+  const goToTablePage = event => {
+    const pageNum = event.detail;
+    const qs = [
+      ...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []),
+      ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []),
+      ...[['page', pageNum].join('=')]
+    ].join('&');
+    navigate(`/laatijahaku${qs ? '?' + qs : ''}`);
   };
 </script>
 
@@ -127,8 +139,12 @@
     </div>
   {:then [l, patevyydet]}
     <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
-      <h2>Tuloksia</h2>
-      <TableLaatijahaku laatijat={l} {haetutToimintaalueet} {patevyydet} />
+      <TableLaatijahaku
+        laatijat={l}
+        {haetutToimintaalueet}
+        {patevyydet}
+        {page}
+        on:updatePage={goToTablePage} />
     </div>
   {:catch error}
     <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">{error}</div>

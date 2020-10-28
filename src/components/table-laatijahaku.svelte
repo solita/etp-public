@@ -1,16 +1,19 @@
 <script>
-  import IconInfo from '@Asset/icons/info.svg';
+  import { createEventDispatcher } from 'svelte';
+  import * as LaatijaUtils from '@/utilities/laatija';
+  import { locale, labelLocale } from '@Localization/localization';
+
   import IconWeb from '@Asset/icons/web.svg';
   import IconMail from '@Asset/icons/mail.svg';
   import IconPhone from '@Asset/icons/phone.svg';
 
-  import * as LaatijaUtils from '@/utilities/laatija';
-  import { locale, labelLocale } from '@Localization/localization';
-
   export let laatijat;
   export let haetutToimintaalueet;
   export let patevyydet;
+  export let page = 0;
 
+  const dispatch = createEventDispatcher();
+  const pageSize = 10;
   let showPatevyydet = '1,2';
 
   $: sortedLaatijat = laatijat
@@ -28,6 +31,23 @@
       )
     }))
     .sort((a, b) => b.painotus - a.painotus);
+  $: numberOfPages = Math.ceil(sortedLaatijat.length / pageSize);
+  $: currentPage = Math.max(Math.min(numberOfPages - 1, parseInt(page)), 0);
+  $: laatijatInPage = sortedLaatijat.slice(
+    currentPage * pageSize,
+    (currentPage + 1) * pageSize
+  );
+
+  const goToPage = pageNum => {
+    if (pageNum < 0 || pageNum >= numberOfPages) return;
+    dispatch('updatePage', pageNum);
+  };
+  const nextPage = () => {
+    goToPage(currentPage + 1);
+  };
+  const prevPage = () => {
+    goToPage(currentPage - 1);
+  };
 </script>
 
 <style>
@@ -104,12 +124,14 @@
     border-radius: 50%;
     @apply bg-white;
   }
+  /* Table, Pagination styling in main.css */
 </style>
 
 <div class="table-container">
-  {#if sortedLaatijat.length < 1}
+  {#if sortedLaatijat.length < 1 && showPatevyydet == '1,2'}
     <span>Ei tuloksia.</span>
   {:else}
+    <h2>Tuloksia {sortedLaatijat.length}</h2>
     <div class="flex flex-col md:flex-row">
       <div class="flex items-start space-x-1 py-3 md:py-0 mr-3">
         <label class="radio-container">
@@ -149,7 +171,6 @@
           </div>
         </div>
       </div>
-
       <div class="flex items-start space-x-1 py-3 md:py-0">
         <label class="radio-container">
           <input
@@ -170,85 +191,163 @@
         </div>
       </div>
     </div>
-    <div class="w-full overflow-auto">
-      <table class="w-full table-auto text-left my-2">
-        <thead>
-          <tr>
-            <th>Nimi</th>
-            <th>Pätevyys</th>
-            <th>Päätoiminta-alue</th>
-            <th>Postitoimipaikka</th>
-            <th>WWW</th>
-            <th>Email</th>
-            <th>Puhelinnumero</th>
-          </tr>
-        </thead>
-        <tbody>
-          {#each sortedLaatijat as laatija}
+    {#if sortedLaatijat.length > 0}
+      <div class="w-full overflow-auto">
+        <table class="w-full table-auto text-left my-2">
+          <thead>
             <tr>
-              <td data-title="Nimi">
-                <a href="/laatija?id={laatija.id}">{laatija.nimi}</a>
-              </td>
-              <td data-title="Pätevyys">{laatija.patevyys}</td>
-              <td data-title="Päätoiminta-alue">
-                {laatija['toimintaalue-nimi']}
-              </td>
-              <td data-title="Postitoimipaikka">{laatija.postitoimipaikka}</td>
-              <td data-title="WWW">
-                {#if laatija.wwwosoite}
-                  <a href={laatija.wwwosoite} title={laatija.wwwosoite}>
-                    <img
-                      class="icon md:mx-auto"
-                      src={IconWeb}
-                      alt="Website link icon" />
-                  </a>
-                {/if}
-              </td>
-              <td data-title="Email">
-                {#if laatija.email}
-                  <a href="mailto:{laatija.email}" title={laatija.email}>
-                    <img
-                      class="icon md:mx-auto"
-                      src={IconMail}
-                      alt="Email icon" />
-                  </a>
-                {/if}
-              </td>
-              <td data-title="Puhelinnumero">
-                {#if laatija.puhelin}
-                  <a
-                    class="inline-flex"
-                    href="tel:{laatija.puhelin}"
-                    title={laatija.puhelin}>
-                    <img
-                      class="icon smaller mr-1"
-                      src={IconPhone}
-                      alt="Phone icon" />
-                    <span>{laatija.puhelin}</span>
-                  </a>
-                {/if}
-              </td>
+              <th>Nimi</th>
+              <th>Pätevyys</th>
+              <th>Päätoiminta-alue</th>
+              <th>Postitoimipaikka</th>
+              <th>WWW</th>
+              <th>Email</th>
+              <th>Puhelinnumero</th>
             </tr>
-          {/each}
-        </tbody>
-      </table>
-    </div>
-    <div
-      class="flex w-full align-center md:justify-start my-3 flex-col md:flex-row">
-      <div class="counter mx-auto md:mx-0">Tuloksia {laatijat.length}</div>
-      <div class="pagination">
-        <span class="cursor-pointer uppercase mr-2">edellinen</span>
-        <div class="flex pages">
-          <span class="cursor-pointer uppercase px-1">1</span>
-          <span class="cursor-pointer uppercase px-1">2</span>
-          <span class="cursor-pointer uppercase px-1">3</span>
-          <span class="px-2 font-normal">-</span>
-          <span class="cursor-pointer uppercase px-1">18</span>
-          <span class="cursor-pointer uppercase px-1">19</span>
-          <span class="cursor-pointer uppercase px-1">20</span>
-        </div>
-        <span class="cursor-pointer uppercase ml-2">seuraava</span>
+          </thead>
+          <tbody>
+            {#each laatijatInPage as laatija}
+              <tr>
+                <td data-title="Nimi">
+                  <a href="/laatija?id={laatija.id}">{laatija.nimi}</a>
+                </td>
+                <td data-title="Pätevyys">{laatija.patevyys}</td>
+                <td data-title="Päätoiminta-alue">
+                  {laatija['toimintaalue-nimi']}
+                </td>
+                <td data-title="Postitoimipaikka">
+                  {laatija.postitoimipaikka}
+                </td>
+                <td data-title="WWW">
+                  {#if laatija.wwwosoite}
+                    <a href={laatija.wwwosoite} title={laatija.wwwosoite}>
+                      <img
+                        class="icon md:mx-auto"
+                        src={IconWeb}
+                        alt="Website link icon" />
+                    </a>
+                  {/if}
+                </td>
+                <td data-title="Email">
+                  {#if laatija.email}
+                    <a href="mailto:{laatija.email}" title={laatija.email}>
+                      <img
+                        class="icon md:mx-auto"
+                        src={IconMail}
+                        alt="Email icon" />
+                    </a>
+                  {/if}
+                </td>
+                <td data-title="Puhelinnumero">
+                  {#if laatija.puhelin}
+                    <a
+                      class="inline-flex"
+                      href="tel:{laatija.puhelin}"
+                      title={laatija.puhelin}>
+                      <img
+                        class="icon smaller mr-1"
+                        src={IconPhone}
+                        alt="Phone icon" />
+                      <span>{laatija.puhelin}</span>
+                    </a>
+                  {/if}
+                </td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
       </div>
-    </div>
+      {#if numberOfPages > 1}
+        <div
+          class="flex w-full align-center justify-center my-1 flex-col md:flex-row">
+          <span
+            class="w-full mx-auto text-center md:w-auto md:mx-0 md:justify-self-start">{`Tulokset ${currentPage * pageSize + 1}...${currentPage * pageSize + laatijatInPage.length}/${sortedLaatijat.length}`}</span>
+          <div class="pagination w-full md:w-auto select-none">
+            {#if currentPage > 0}
+              <span
+                class="cursor-pointer uppercase mr-2 hidden md:inline-block"
+                on:click={prevPage}>edellinen</span>
+              <span
+                class="material-icons cursor-pointer md:hidden px-2 py-2 md:py-0"
+                on:click={prevPage}>
+                navigate_before
+              </span>
+            {:else}
+              <span
+                class="cursor-not-allowed uppercase mr-2 text-lightgrey hidden md:inline-block">edellinen</span>
+              <span
+                class="material-icons text-lightgrey md:hidden px-2 py-2 md:py-0">
+                navigate_before
+              </span>
+            {/if}
+            <div class="pages cursor-default flex items-center flex-grow">
+              {#if currentPage > 2}
+                <span
+                  class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
+                  on:click={() => goToPage(0)}>1</span>
+              {/if}
+              {#if currentPage > 4}
+                <span class="font-normal flex-grow py-2 md:py-0">-</span>
+              {:else if currentPage == 4}
+                <span
+                  class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
+                  on:click={() => goToPage(1)}>2</span>
+              {/if}
+              {#if currentPage - 2 >= 0}
+                <span
+                  class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
+                  on:click={() => goToPage(currentPage - 2)}>{currentPage - 1}</span>
+              {/if}
+              {#if currentPage > 0}
+                <span
+                  class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
+                  on:click={prevPage}>{currentPage}</span>
+              {/if}
+              <span
+                class="cursor-default uppercase text-black py-2 md:py-0 flex-grow">{currentPage + 1}</span>
+              {#if currentPage + 1 < numberOfPages}
+                <span
+                  class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
+                  on:click={nextPage}>{currentPage + 2}</span>
+              {/if}
+              {#if currentPage + 2 < numberOfPages}
+                <span
+                  class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
+                  on:click={() => goToPage(currentPage + 2)}>{currentPage + 3}</span>
+              {/if}
+              {#if currentPage < numberOfPages - 5}
+                <span class="font-normal py-2 md:py-0 flex-grow">-</span>
+              {:else if currentPage == numberOfPages - 5}
+                <span
+                  class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
+                  on:click={() => goToPage(numberOfPages - 5)}>{numberOfPages - 1}</span>
+              {/if}
+              {#if currentPage < numberOfPages - 3}
+                <span
+                  class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
+                  on:click={() => goToPage(numberOfPages - 1)}>{numberOfPages}</span>
+              {/if}
+            </div>
+            {#if currentPage + 1 < numberOfPages}
+              <span
+                class="cursor-pointer uppercase ml-2 hidden md:inline-block"
+                on:click={nextPage}>seuraava</span>
+              <span
+                class="material-icons cursor-pointer md:hidden px-2 py-2 md:py-0"
+                on:click={nextPage}>
+                navigate_next
+              </span>
+            {:else}
+              <span
+                class="cursor-default uppercase ml-2 text-lightgrey hidden md:inline-block">seuraava</span>
+              <span
+                class="material-icons text-lightgrey md:hidden px-2 py-2 md:py-0">
+                navigate_next
+              </span>
+            {/if}
+          </div>
+        </div>
+      {/if}
+    {/if}
   {/if}
 </div>
