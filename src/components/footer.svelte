@@ -1,5 +1,8 @@
 <script>
   import Button, { styles as buttonStyles } from '@Component/button';
+  import ButtonLink, {
+    styles as buttonLinkStyles
+  } from '@Component/buttonlink';
   import Container, { styles as containerStyles } from '@Component/container';
 
   import { _ } from '@Localization/localization';
@@ -38,7 +41,11 @@
       <div class="md:w-1/3 flex flex-col py-4 md:py-0">
         <section>
           <h2 class="mb-4">{$_('LAATIJOIDEN_PALVELU')}</h2>
-          <Button {...buttonStyles.ashblue}>{$_('KIRJAUDU')}</Button>
+          <ButtonLink
+            href={`https://private.${window.location.host}`}
+            {...buttonLinkStyles.ashblue}>
+            {$_('KIRJAUDU')}
+          </ButtonLink>
         </section>
         <section class="py-4">
           <h2 class="mb-4">{$_('FOOTER_PALAUTE')}</h2>
