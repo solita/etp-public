@@ -46,14 +46,14 @@ html {
 .table-container td:first-child {
   @apply text-green;
 }
-.table-container .pagination {
+.pagination {
   @apply flex mx-auto text-green text-center font-semibold;
 }
 
-.table-container .pagination .pages span {
+.pagination .pages span {
   @apply border-darkgrey border-l px-2;
 }
-.table-container .pagination .pages span:last-child {
+.pagination .pages span:last-child {
   @apply border-r;
 }
 

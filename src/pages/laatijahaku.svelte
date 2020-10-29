@@ -17,6 +17,7 @@
   import TableLaatijahaku from '@Component/table-laatijahaku';
   import Container, { styles as containerStyles } from '@Component/container';
   import Spinner from '@Component/spinner';
+  import Pagination from '@Component/pagination';
   import Seo from '@Component/seo';
 
   const delayLaatijat = l =>
@@ -25,6 +26,13 @@
   export let nimihaku = '';
   export let aluehaku = '';
   export let page = 0;
+  
+  try{
+    page = parseInt(page);
+  } catch(e) {
+    page = 0;
+  }
+  
 
   let laatijat = [];
   let shownLaatijat = new Promise(() => {});
@@ -146,6 +154,11 @@
         {page}
         on:updatePage={goToTablePage} />
     </div>
+    <Pagination {page} pageSize={3} itemCount={l.length} currentPageItemCount={3} queryStringFn={page => `/laatijahaku?${([
+      ...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []),
+      ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []),
+      ...[['page', page].join('=')]
+    ].join('&'))}`}/>
   {:catch error}
     <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">{error}</div>
   {/await}

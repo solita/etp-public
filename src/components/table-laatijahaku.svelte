@@ -141,10 +141,11 @@
             bind:group={showPatevyydet}
             value={'1,2'} />
           <span class="radio-visual" />
-          Kaikki tasot</label>
+          Kaikki tasot
+        </label>
 
         <div class="icon-container hidden md:block">
-          <span class="material-icons text-green"> error_outline </span>
+          <span class="material-icons text-green">error_outline</span>
           <div class="info-popup">
             <strong>Kaikki:</strong>
             <p>{'Perustason ja ylemmän tason laatijat näkyvät tuloksissa.'}</p>
@@ -162,7 +163,7 @@
           {labelLocale($locale, patevyydet[0])}
         </label>
         <div class="icon-container hidden md:block">
-          <span class="material-icons text-green"> error_outline </span>
+          <span class="material-icons text-green">error_outline</span>
           <div class="info-popup">
             <strong>Perustaso:</strong>
             <p>
@@ -183,7 +184,7 @@
         </label>
         <div class="icon-container hidden md:block">
           <!-- <img class="icon" src={IconInfo} alt="Info icon" /> -->
-          <span class="material-icons text-green"> error_outline </span>
+          <span class="material-icons text-green">error_outline</span>
           <div class="info-popup">
             <strong>Ylempi taso:</strong>
             <p>{'Vain ylemmän tason laatijat näkyvät tuloksissa.'}</p>
@@ -259,14 +260,20 @@
       </div>
       {#if numberOfPages > 1}
         <div
-          class="flex w-full align-center justify-center my-1 flex-col md:flex-row">
+          class="flex w-full align-center justify-center my-1 flex-col
+          md:flex-row">
           <span
-            class="w-full mx-auto text-center md:w-auto md:mx-0 md:justify-self-start">{`Tulokset ${currentPage * pageSize + 1}...${currentPage * pageSize + laatijatInPage.length}/${sortedLaatijat.length}`}</span>
+            class="w-full mx-auto text-center md:w-auto md:mx-0
+            md:justify-self-start">
+            {`Tulokset ${currentPage * pageSize + 1}...${currentPage * pageSize + laatijatInPage.length}/${sortedLaatijat.length}`}
+          </span>
           <div class="pagination w-full md:w-auto select-none">
             {#if currentPage > 0}
               <span
                 class="cursor-pointer uppercase mr-2 hidden md:inline-block"
-                on:click={prevPage}>edellinen</span>
+                on:click={prevPage}>
+                edellinen
+              </span>
               <span
                 class="material-icons cursor-pointer md:hidden px-2 py-2 md:py-0"
                 on:click={prevPage}>
@@ -274,7 +281,10 @@
               </span>
             {:else}
               <span
-                class="cursor-not-allowed uppercase mr-2 text-lightgrey hidden md:inline-block">edellinen</span>
+                class="cursor-not-allowed uppercase mr-2 text-lightgrey hidden
+                md:inline-block">
+                edellinen
+              </span>
               <span
                 class="material-icons text-lightgrey md:hidden px-2 py-2 md:py-0">
                 navigate_before
@@ -284,54 +294,75 @@
               {#if currentPage > 2}
                 <span
                   class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
-                  on:click={() => goToPage(0)}>1</span>
+                  on:click={() => goToPage(0)}>
+                  1
+                </span>
               {/if}
               {#if currentPage > 4}
                 <span class="font-normal flex-grow py-2 md:py-0">-</span>
               {:else if currentPage == 4}
                 <span
                   class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
-                  on:click={() => goToPage(1)}>2</span>
+                  on:click={() => goToPage(1)}>
+                  2
+                </span>
               {/if}
               {#if currentPage - 2 >= 0}
                 <span
                   class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
-                  on:click={() => goToPage(currentPage - 2)}>{currentPage - 1}</span>
+                  on:click={() => goToPage(currentPage - 2)}>
+                  {currentPage - 1}
+                </span>
               {/if}
               {#if currentPage > 0}
                 <span
                   class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
-                  on:click={prevPage}>{currentPage}</span>
+                  on:click={prevPage}>
+                  {currentPage}
+                </span>
               {/if}
               <span
-                class="cursor-default uppercase text-black py-2 md:py-0 flex-grow">{currentPage + 1}</span>
+                class="cursor-default uppercase text-black py-2 md:py-0
+                flex-grow">
+                {currentPage + 1}
+              </span>
               {#if currentPage + 1 < numberOfPages}
                 <span
                   class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
-                  on:click={nextPage}>{currentPage + 2}</span>
+                  on:click={nextPage}>
+                  {currentPage + 2}
+                </span>
               {/if}
               {#if currentPage + 2 < numberOfPages}
                 <span
                   class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
-                  on:click={() => goToPage(currentPage + 2)}>{currentPage + 3}</span>
+                  on:click={() => goToPage(currentPage + 2)}>
+                  {currentPage + 3}
+                </span>
               {/if}
               {#if currentPage < numberOfPages - 5}
                 <span class="font-normal py-2 md:py-0 flex-grow">-</span>
               {:else if currentPage == numberOfPages - 5}
                 <span
                   class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
-                  on:click={() => goToPage(numberOfPages - 5)}>{numberOfPages - 1}</span>
+                  on:click={() => goToPage(numberOfPages - 5)}>
+                  {numberOfPages - 1}
+                </span>
               {/if}
               {#if currentPage < numberOfPages - 3}
                 <span
                   class="cursor-pointer uppercase py-2 md:py-0 flex-grow"
-                  on:click={() => goToPage(numberOfPages - 1)}>{numberOfPages}</span>
+                  on:click={() => goToPage(numberOfPages - 1)}>
+                  {numberOfPages}
+                </span>
               {/if}
             </div>
             {#if currentPage + 1 < numberOfPages}
               <span
                 class="cursor-pointer uppercase ml-2 hidden md:inline-block"
-                on:click={nextPage}>seuraava</span>
+                on:click={nextPage}>
+                seuraava
+              </span>
               <span
                 class="material-icons cursor-pointer md:hidden px-2 py-2 md:py-0"
                 on:click={nextPage}>
@@ -339,7 +370,10 @@
               </span>
             {:else}
               <span
-                class="cursor-default uppercase ml-2 text-lightgrey hidden md:inline-block">seuraava</span>
+                class="cursor-default uppercase ml-2 text-lightgrey hidden
+                md:inline-block">
+                seuraava
+              </span>
               <span
                 class="material-icons text-lightgrey md:hidden px-2 py-2 md:py-0">
                 navigate_next
