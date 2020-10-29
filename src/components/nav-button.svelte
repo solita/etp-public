@@ -33,7 +33,7 @@
     transition: box-shadow 0.1s;
   }
   .icon {
-    width: 3.5em;
+    width: 2.5em;
     height: auto;
   }
 </style>
@@ -59,7 +59,7 @@ border-black
 border-white
 -->
 <a
-  class="flex box-border lg:flex-full flex-auto py-4 px-2 navcontainer 
+  class="flex box-border lg:flex-full flex-auto py-4 xl:py-6 px-2 navcontainer 
   bg-{background} text-{text} focus:z-10 hover:z-10 hover:underline 
   focus:outline-none xl:flex-row lg:flex-col flex-row lg:items-center 
   xl:items-center md:items-start border-l-4 lg:border-l-0 
@@ -73,11 +73,11 @@ border-white
       src={iconLeft}
       alt="Icon" />
   {/if}
-  <div class="flex flex-col ml-2 flex-1 flex-grow">
+  <div class="flex flex-col ml-2 flex-1 flex-grow items-start justify-start">
     <slot name="title" />
     <slot name="subtitle" />
   </div>
-  <div class="inline-flex items-start justify-end flex-shrink lg:hidden xl:block">
+  <div class="inline-flex items-start justify-end flex-shrink lg:hidden">
     <slot name="iconright" />
   </div>
 </a>
