@@ -52,18 +52,26 @@ export const laatijatByHakukriteerit = (
   aluehaku,
   nimihaku,
   laatijat,
-  toimintaalueet
+  toimintaalueet,
+  patevyydet
 ) => {
-  const nimet = laatijatByNimihaku(nimihaku, laatijat);
+  const laatijatWithGivenPatevyys = laatijat.filter(laatija =>
+    patevyydet
+      .split(',')
+      .map(item => parseInt(item))
+      .includes(laatija.patevyystaso)
+  );
+  const nimet = laatijatByNimihaku(nimihaku, laatijatWithGivenPatevyys);
 
-  if (!aluehaku) return laatijat.filter(laatija => nimet.has(laatija.id));
+  if (!aluehaku)
+    return laatijatWithGivenPatevyys.filter(laatija => nimet.has(laatija.id));
 
   const alueet = laatijatByAluehaku(
-    laatijat.filter(laatija => nimet.has(laatija.id)),
+    laatijatWithGivenPatevyys.filter(laatija => nimet.has(laatija.id)),
     toimintaalueet
   );
 
-  return laatijat.filter(laatija => alueet.has(laatija.id));
+  return laatijatWithGivenPatevyys.filter(laatija => alueet.has(laatija.id));
 };
 
 export const deserialize = (locale, patevyydet, toimintaalueet) => laatija => ({
@@ -81,3 +89,6 @@ export const deserialize = (locale, patevyydet, toimintaalueet) => laatija => ({
       ? `//${laatija.wwwosoite}`
       : laatija.wwwosoite
 });
+
+export const sliceLaatijaTable = (page, pagesize, laatijat) =>
+  laatijat.slice(page * pagesize, (page + 1) * pagesize);
