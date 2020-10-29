@@ -14,7 +14,7 @@
   <nav class="flex xl:px-16 flex-col lg:flex-row">
     <NavButton link="/" {...navbuttonStyles.lightgreen} iconLeft={IconHome}>
       <span slot="title" class="uppercase">{$_('NAVBAR_ETUSIVU')}</span>
-      <span slot="subtitle" class="italic font-light">
+      <span slot="subtitle" class="italic font-light text-sm">
         {$_('NAVBAR_ETUSIVU_KUVAUS')}
       </span>
     </NavButton>
@@ -25,7 +25,7 @@
       <span slot="title" class="uppercase">
         {$_('NAVBAR_ENERGIATODISTUSHAKU')}
       </span>
-      <span slot="subtitle" class="italic font-light">
+      <span slot="subtitle" class="italic font-light text-sm">
         {$_('NAVBAR_ENERGIATODISTUSHAKU_KUVAUS')}
       </span>
     </NavButton>
@@ -34,7 +34,7 @@
       {...navbuttonStyles.darkgreen}
       iconLeft={IconSearchPerson}>
       <span slot="title" class="uppercase">{$_('NAVBAR_LAATIJAHAKU')}</span>
-      <span slot="subtitle" class="italic font-light">
+      <span slot="subtitle" class="italic font-light text-sm">
         {$_('NAVBAR_LAATIJAHAKU_KUVAUS')}
       </span>
     </NavButton>
@@ -44,10 +44,10 @@
       iconLeft={IconLogin}
       iconRight={IconNext}>
       <span slot="title" class="uppercase">{$_('NAVBAR_KIRJAUTUMINEN')}</span>
-      <span slot="subtitle" class="italic font-light">
+      <span slot="subtitle" class="italic font-light text-sm">
         {$_('NAVBAR_KIRJAUTUMINEN_KUVAUS')}
       </span>
-      <span slot="iconright" class="font-icon lg:text-6xl text-4xl">
+      <span slot="iconright" class="font-icon lg:text-6xl text-3xl">
         chevron_right
       </span>
     </NavButton>
