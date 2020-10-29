@@ -5,6 +5,29 @@
   export let currentPageItemCount;
   export let queryStringFn;
 
+  const truncate = (numberOfPages, page) => {
+    const pages = [...Array(numberOfPages).keys()];
+    const heads = pages.slice(0, 3);
+    const lasts = [...pages]
+      .reverse()
+      .slice(0, 3)
+      .reverse();
+
+    const pageNear = pages.slice(page - 2, page + 3);
+
+    const truncatedPages = [...new Set([...heads, ...pageNear, ...lasts])];
+
+    return truncatedPages
+      .slice(1)
+      .reduce(
+        (pages, page) => [
+          ...pages,
+          ...(page - pages[pages.length - 1] > 1 ? [-1, page] : [page])
+        ],
+        [truncatedPages[0]]
+      );
+  };
+
   $: numberOfPages = Math.ceil(itemCount / pageSize);
 </script>
 
@@ -45,13 +68,19 @@
       </a>
 
       <div class="cursor-default flex items-center flex-grow">
-        {#each [...Array(numberOfPages).keys()] as link}
-          <a
-            class="pagelink uppercase py-2 md:py-0 flex-grow"
-            class:text-black={page === link}
-            href={page !== link ? queryStringFn(link) : null}>
-            {link + 1}
-          </a>
+        {#each truncate(numberOfPages, page) as link}
+          {#if link === -1}
+            <span class="pagelink uppercase py-2 md:py-0 flex-grow text-black">
+              ...
+            </span>
+          {:else}
+            <a
+              class="pagelink uppercase py-2 md:py-0 flex-grow"
+              class:text-black={page === link}
+              href={page !== link ? queryStringFn(link) : null}>
+              {link + 1}
+            </a>
+          {/if}
         {/each}
       </div>
       <a

@@ -2,8 +2,6 @@
   import * as LaatijaUtils from '@/utilities/laatija';
   import { locale, labelLocale } from '@Localization/localization';
 
-  import TableLaatijahakuFilter from '@Component/table-laatijahaku-filter';
-
   import IconWeb from '@Asset/icons/web.svg';
   import IconMail from '@Asset/icons/mail.svg';
   import IconPhone from '@Asset/icons/phone.svg';
