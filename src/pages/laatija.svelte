@@ -59,10 +59,13 @@
           <strong>Päätoiminta-alue:</strong>
           <span>{laatija['toimintaalue-nimi']}</span>
         </div>
-        {#if laatija.osoite}
+        {#if laatija.jakeluosoite}
           <div class="flex flex-col md:flex-row space-x-2 my-1">
             <strong>Osoite:</strong>
-            <span>{laatija.osoite}</span>
+            <span>
+              {laatija.jakeluosoite}, {laatija.postinumero}
+              {laatija.postitoimipaikka}
+            </span>
           </div>
         {/if}
         {#if laatija.wwwosoite}
