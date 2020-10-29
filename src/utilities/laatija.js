@@ -75,6 +75,10 @@ export const deserialize = (locale, patevyydet, toimintaalueet) => laatija => ({
       locale,
       GeoUtils.findToimintaalue(toimintaalueet, laatija.toimintaalue)
     ) ?? '',
+  'muuttoimintaalueet-nimet': laatija['muuttoimintaalueet'].map(
+    ta =>
+      labelLocale(locale, GeoUtils.findToimintaalue(toimintaalueet, ta)) ?? ''
+  ),
   postitoimipaikka: laatija.postitoimipaikka ?? '',
   wwwosoite:
     laatija.wwwosoite && !laatija.wwwosoite?.match(/^https+:\/\//)
