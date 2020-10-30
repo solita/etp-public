@@ -16,7 +16,7 @@
   export let id;
 
   let component = null;
-  let laatijaPromise = $laatijatStore.then(laatijat => {
+  $: laatijaPromise = $laatijatStore.then(laatijat => {
     const laatijaFound = laatijat.find(laatija => laatija.id == id);
     if (laatijaFound) return laatijaFound;
 
@@ -49,44 +49,54 @@
       </div>
     {:then laatija}
       <div
-        class="flex flex-col px-4 lg:px-8 xl:px-16 py-16 mx-auto items-start">
-        <h1 class="text-xl">{laatija.nimi}</h1>
-        <div class="flex flex-col md:flex-row space-x-2 my-1">
-          <strong>Pätevyystaso:</strong>
+        class="flex flex-col px-4 lg:px-8 xl:px-16 mx-auto items-start mb-16">
+        <h1 class="text-xl my-8">{laatija.nimi}</h1>
+        <div class="flex flex-col md:flex-row space-x-2 my-1 w-full">
+          <strong class="w-full md:w-1/3">Pätevyystaso:</strong>
           <span>{laatija.patevyys}</span>
         </div>
-        <div class="flex flex-col md:flex-row space-x-2 my-1">
-          <strong>Päätoiminta-alue:</strong>
+        <div class="flex flex-col md:flex-row space-x-2 my-1 w-full">
+          <strong class="w-full md:w-1/3">Pätevyyden voimassaoloaika:</strong>
+          <span>
+            {Intl.DateTimeFormat('fi-FI').format(new Date(laatija.toteamispaivamaara))}
+            - {Intl.DateTimeFormat('fi-FI').format(new Date(laatija['voimassaolo-paattymisaika']))}
+          </span>
+        </div>
+        <div class="flex flex-col md:flex-row space-x-2 my-1 w-full">
+          <strong class="w-full md:w-1/3">Päätoiminta-alue:</strong>
           <span>{laatija['toimintaalue-nimi']}</span>
         </div>
-        {#if laatija.osoite}
-          <div class="flex flex-col md:flex-row space-x-2 my-1">
-            <strong>Osoite:</strong>
-            <span>{laatija.osoite}</span>
+        {#if laatija['muuttoimintaalueet-nimet'].length}
+          <div class="flex flex-col md:flex-row space-x-2 my-1 w-full">
+            <strong class="w-full md:w-1/3">Muut toimintaalueet:</strong>
+            <span>{laatija['muuttoimintaalueet-nimet'].join(', ')}</span>
+          </div>
+        {/if}
+        {#if laatija.jakeluosoite}
+          <div class="flex flex-col md:flex-row space-x-2 my-1 w-full">
+            <strong class="w-full md:w-1/3">Osoite:</strong>
+            <span>
+              {laatija.jakeluosoite}, {laatija.postinumero}
+              {laatija.postitoimipaikka}
+            </span>
           </div>
         {/if}
         {#if laatija.wwwosoite}
-          <div class="flex flex-col md:flex-row space-x-2 my-1">
-            <strong>www-osoite</strong>
-            <a href={laatija.wwwosoite}>
-              <span>{laatija.wwwosoite}</span>
-            </a>
+          <div class="flex flex-col md:flex-row space-x-2 my-1 w-full">
+            <strong class="w-full md:w-1/3">www-osoite</strong>
+            <a href={laatija.wwwosoite}>{laatija.wwwosoite.split('//')[1]}</a>
           </div>
         {/if}
         {#if laatija.email}
-          <div class="flex flex-col md:flex-row space-x-2 my-1">
-            <strong>Sähköpostiosoite</strong>
-            <a href="mailto:{laatija.email}">
-              <span>{laatija.email}</span>
-            </a>
+          <div class="flex flex-col md:flex-row space-x-2 my-1 w-full">
+            <strong class="w-full md:w-1/3">Sähköpostiosoite</strong>
+            <a href="mailto:{laatija.email}">{laatija.email}</a>
           </div>
         {/if}
         {#if laatija.puhelin}
-          <div class="flex flex-col md:flex-row space-x-2 my-1">
-            <strong>Puhelinnumero</strong>
-            <a href="tel:{laatija.puhelin}">
-              <span>{laatija.puhelin}</span>
-            </a>
+          <div class="flex flex-col md:flex-row space-x-2 my-1 w-full">
+            <strong class="w-full md:w-1/3">Puhelinnumero</strong>
+            <a href="tel:{laatija.puhelin}">{laatija.puhelin}</a>
           </div>
         {/if}
       </div>
