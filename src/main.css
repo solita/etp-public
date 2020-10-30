@@ -46,16 +46,6 @@ html {
 .table-container td:first-child {
   @apply text-green;
 }
-.table-container .pagination {
-  @apply flex mx-auto text-green text-center font-semibold;
-}
-
-.table-container .pagination .pages span {
-  @apply border-darkgrey border-l px-2;
-}
-.table-container .pagination .pages span:last-child {
-  @apply border-r;
-}
 
 @media screen and (max-width: 768px) {
   .table-container td:first-child {

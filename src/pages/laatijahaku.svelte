@@ -15,8 +15,10 @@
   import Input from '@Component/input';
   import InfoBlock from '@Component/info-block';
   import TableLaatijahaku from '@Component/table-laatijahaku';
+  import TableLaatijahakuFilter from '@Component/table-laatijahaku-filter';
   import Container, { styles as containerStyles } from '@Component/container';
   import Spinner from '@Component/spinner';
+  import Pagination from '@Component/pagination';
   import Seo from '@Component/seo';
 
   const delayLaatijat = l =>
@@ -25,68 +27,43 @@
   export let nimihaku = '';
   export let aluehaku = '';
   export let page = 0;
+  export let filterPatevyydet = '1,2';
 
-  let laatijat = [];
+  const pageSize = 10;
+
   let shownLaatijat = new Promise(() => {});
-  let haetutToimintaalueet = new Set([]);
 
-  Promise.all([$laatijatStore, $toimintaalueet, $postinumerot, $kunnat])
-    .then(([l, toimintaalueet, postinumerot, kunnat]) => {
-      laatijat = l;
-      haetutToimintaalueet = GeoUtils.findToimintaalueIds(
-        aluehaku,
-        toimintaalueet,
-        kunnat,
-        postinumerot
-      );
-      shownLaatijat = delayLaatijat(
-        LaatijaUtils.laatijatByHakukriteerit(
-          aluehaku,
-          nimihaku,
-          l,
-          haetutToimintaalueet
-        )
-      );
-    })
-    .catch(error => (shownLaatijat = Promise.reject(error)));
+  $: haetutToimintaalueet = Promise.all([ Promise.resolve(aluehaku ?? ''), $toimintaalueet, $kunnat, $postinumerot]).then(([...args]) => 
+    GeoUtils.findToimintaalueIds(...args)
+  );
 
-  const commitSearch = async (nimihaku, aluehaku, laatijat) => {
-    const qs = [
-      ...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []),
-      ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : [])
-    ].join('&');
-    navigate(`/laatijahaku${qs ? '?' + qs : ''}`);
-    const geo = await Promise.all([$toimintaalueet, $kunnat, $postinumerot]);
-    haetutToimintaalueet = GeoUtils.findToimintaalueIds(aluehaku, ...geo);
-    shownLaatijat = delayLaatijat(
-      LaatijaUtils.laatijatByHakukriteerit(
-        aluehaku,
-        nimihaku,
-        laatijat,
-        haetutToimintaalueet
-      )
-    );
-  };
+  $: shownLaatijat = Promise.all([Promise.resolve(aluehaku ?? ''), Promise.resolve(nimihaku ?? ''), $laatijatStore, haetutToimintaalueet, Promise.resolve(filterPatevyydet) ])
+    .then(([aluehaku, nimihaku, laatijat, haetutToimintaalueet, filterPatevyydet]) => LaatijaUtils.laatijatByHakukriteerit(aluehaku, nimihaku, laatijat, haetutToimintaalueet, filterPatevyydet)
+        .sort((a, b) => LaatijaUtils.calculateLaatijaWeight(haetutToimintaalueet, b) - LaatijaUtils.calculateLaatijaWeight(haetutToimintaalueet, a)));
 
-  const goToTablePage = event => {
-    const pageNum = event.detail;
+  const commitSearch = (nimihaku, aluehaku) => {
     const qs = [
       ...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []),
       ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []),
-      ...[['page', pageNum].join('=')]
+      ...[['filterPatevyydet', filterPatevyydet].join('=')],
+      ...[['page', 0].join('=')]
     ].join('&');
     navigate(`/laatijahaku${qs ? '?' + qs : ''}`);
+    haetutToimintaalueet = Promise.all([Promise.resolve(aluehaku ?? ''), $toimintaalueet, $kunnat, $postinumerot]).then(([...args]) => 
+      GeoUtils.findToimintaalueIds(...args)
+    );
   };
+
+  $: console.log(haetutToimintaalueet);
 </script>
 
 <Seo title="Energiatodistusrekisteri - Laatijahaku" descriptionSv="Laatijahaku" />
 
 <svelte:window
-  on:popstate={async _ => {
-    haetutToimintaalueet = GeoUtils.findToimintaalueIds(aluehaku ?? '', ...(await Promise.all(
-        [$toimintaalueet, $kunnat, $postinumerot]
-      )));
-    shownLaatijat = delayLaatijat(LaatijaUtils.laatijatByHakukriteerit(aluehaku, nimihaku ?? '', laatijat, haetutToimintaalueet));
+  on:popstate={ _ => {
+    haetutToimintaalueet = Promise.all([ Promise.resolve(aluehaku ?? ''), $toimintaalueet, $kunnat, $postinumerot]).then(([...args]) => 
+      GeoUtils.findToimintaalueIds(...args)
+    );
   }} />
 
 <Container {...containerStyles.beige}>
@@ -103,9 +80,9 @@
       <form
         on:submit|preventDefault={evt => {
           const fd = FormUtils.deserialize(evt.target);
-          commitSearch(fd.nimi, fd.alue, laatijat);
+          commitSearch(fd.nimi, fd.alue);
         }}
-        on:reset|preventDefault={_ => commitSearch('', '', laatijat)}>
+        on:reset|preventDefault={_ => commitSearch('', '')}>
         <div class="w-full md:w-11/12">
           <Input label={'Hae nimellä'} name="nimi" value={nimihaku} />
         </div>
@@ -133,19 +110,40 @@
 </Container>
 
 <Container {...containerStyles.white}>
-  {#await Promise.all([shownLaatijat, $patevyydet])}
+  {#await Promise.all([shownLaatijat, haetutToimintaalueet, $patevyydet, Promise.resolve(parseInt(page ?? 0)), Promise.resolve(pageSize), Promise.resolve(filterPatevyydet)])}
     <div class="flex justify-center">
       <Spinner />
     </div>
-  {:then [l, patevyydet]}
+  {:then [l, h, patevyydet, page, pageSize, filterPatevyydet]}
     <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
       <TableLaatijahaku
-        laatijat={l}
-        {haetutToimintaalueet}
+        laatijaCount={l.length}
+        laatijat={l.slice(page * pageSize, (page + 1) * pageSize)}
+        let:currentPageItemCount
+        haetutToimintaalueet={h}
         {patevyydet}
-        {page}
-        on:updatePage={goToTablePage} />
+        {page}>
+        <div slot="filter">
+          <TableLaatijahakuFilter  on:change={evt => navigate(
+            `/laatijahaku?${([
+            ...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []),
+            ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []),
+            ...[['filterPatevyydet', evt.target.value].join('=')],
+            ...[['page', 0].join('=')]
+            ].join('&'))}`
+          )} showPatevyydet={filterPatevyydet} patevyydet={patevyydet} />
+        </div>
+        <div slot="pagination">
+          <Pagination {page} pageSize={pageSize} {currentPageItemCount} itemCount={l.length} queryStringFn={page => `/laatijahaku?${([
+            ...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []),
+            ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []),
+            ...[['filterPatevyydet', filterPatevyydet].join('=')],
+            ...[['page', page].join('=')]
+            ].join('&'))}`}/>
+        </div>
+      </TableLaatijahaku>
     </div>
+    
   {:catch error}
     <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">{error}</div>
   {/await}
