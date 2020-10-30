@@ -34,11 +34,17 @@
           <h1 class="pl-2">{$_('ENERGIATODISTUSREKISTERI')}</h1>
         </div>
         <nav class="font-semibold text-ashblue hidden lg:block">
-          <span class="cursor-pointer" on:click={() => setLocale('fi')}>
+          <span
+            lang="fi"
+            class="cursor-pointer"
+            on:click={() => setLocale('fi')}>
             suomeksi
           </span>
           |
-          <span class="cursor-pointer" on:click={() => setLocale('sv')}>
+          <span
+            lang="sv"
+            class="cursor-pointer"
+            on:click={() => setLocale('sv')}>
             på svenska
           </span>
         </nav>
@@ -73,11 +79,17 @@
     <div transition:slide class="lg:hidden">
       <NavBar />
       <nav class="font-semibold text-ashblue p-3 text-center mx-auto bg-grey">
-        <span class="cursor-pointer p-2" on:click={() => setLocale('fi')}>
+        <span
+          lang="fi"
+          class="cursor-pointer p-2"
+          on:click={() => setLocale('fi')}>
           suomeksi
         </span>
         |
-        <span class="cursor-pointer p-2" on:click={() => setLocale('sv')}>
+        <span
+          lang="sv"
+          class="cursor-pointer p-2"
+          on:click={() => setLocale('sv')}>
           på svenska
         </span>
       </nav>
