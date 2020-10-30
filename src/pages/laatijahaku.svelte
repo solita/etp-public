@@ -76,8 +76,6 @@
       $postinumerot
     ]).then(([...args]) => GeoUtils.findToimintaalueIds(...args));
   };
-
-  $: console.log(haetutToimintaalueet);
 </script>
 
 <Seo
