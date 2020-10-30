@@ -6,7 +6,7 @@
   "NAVBAR_ETUSIVU_KUVAUS": "Tervetuloa energiatodistusrekisteriin",
   "NAVBAR_ENERGIATODISTUSHAKU": "Energiatodistushaku",
   "NAVBAR_ENERGIATODISTUSHAKU_KUVAUS": "Täältä löydät tarvitsemasi energiatodistukset",
-  "NAVBAR_LAATIJAHAKU": "Todistustenlaatijahaku",
+  "NAVBAR_LAATIJAHAKU": "Todistusten laatijahaku",
   "NAVBAR_LAATIJAHAKU_KUVAUS": "Täältä löydät energiatodistusten pätevät laatijat",
   "NAVBAR_KIRJAUTUMINEN": "Laatijan kirjautuminen",
   "NAVBAR_KIRJAUTUMINEN_KUVAUS": "Energiatodistusten laatijoille",
@@ -53,5 +53,6 @@
   "LAATIJOIDEN_PALVELU": "Laatijoiden palvelu",
   "KIRJAUDU": "Kirjaudu",
   "FOOTER_PALAUTE": "Palaute on aina tervetullutta",
-  "FOOTER_LAHETA_PALAUTETTA": "Lähetä palautetta"
+  "FOOTER_LAHETA_PALAUTETTA": "Lähetä palautetta",
+  "MAIN_MENU": "Valikko"
 }
