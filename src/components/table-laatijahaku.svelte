@@ -29,6 +29,7 @@
 <div class="table-container">
   {#if laatijaCount < 1}
     <span>Ei tuloksia.</span>
+    <slot name="filter" />
   {:else}
     <h2>Tuloksia {laatijaCount}</h2>
     <slot name="filter" />

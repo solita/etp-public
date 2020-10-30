@@ -31,31 +31,17 @@
 
   const pageSize = 10;
 
-  let laatijat = [];
   let shownLaatijat = new Promise(() => {});
-  let haetutToimintaalueet = new Set([]);
 
-  Promise.all([$laatijatStore, $toimintaalueet, $postinumerot, $kunnat])
-    .then(([l, toimintaalueet, postinumerot, kunnat]) => {
-      laatijat = l;
-      haetutToimintaalueet = GeoUtils.findToimintaalueIds(
-        aluehaku,
-        toimintaalueet,
-        kunnat,
-        postinumerot
-      );
-    })
-    .catch(error => (shownLaatijat = Promise.reject(error)));
+  $: haetutToimintaalueet = Promise.all([ Promise.resolve(aluehaku ?? ''), $toimintaalueet, $kunnat, $postinumerot]).then(([...args]) => 
+    GeoUtils.findToimintaalueIds(...args)
+  );
 
-  $: shownLaatijat = Promise.resolve(LaatijaUtils.laatijatByHakukriteerit(
-      aluehaku,
-      nimihaku,
-      laatijat,
-      haetutToimintaalueet,
-      filterPatevyydet
-    ).sort((a, b) => LaatijaUtils.calculateLaatijaWeight(haetutToimintaalueet, b) - LaatijaUtils.calculateLaatijaWeight(haetutToimintaalueet, a)));
+  $: shownLaatijat = Promise.all([Promise.resolve(aluehaku ?? ''), Promise.resolve(nimihaku ?? ''), $laatijatStore, haetutToimintaalueet, Promise.resolve(filterPatevyydet) ])
+    .then(([aluehaku, nimihaku, laatijat, haetutToimintaalueet, filterPatevyydet]) => LaatijaUtils.laatijatByHakukriteerit(aluehaku, nimihaku, laatijat, haetutToimintaalueet, filterPatevyydet)
+        .sort((a, b) => LaatijaUtils.calculateLaatijaWeight(haetutToimintaalueet, b) - LaatijaUtils.calculateLaatijaWeight(haetutToimintaalueet, a)));
 
-  const commitSearch = async (nimihaku, aluehaku) => {
+  const commitSearch = (nimihaku, aluehaku) => {
     const qs = [
       ...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []),
       ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []),
@@ -63,18 +49,21 @@
       ...[['page', 0].join('=')]
     ].join('&');
     navigate(`/laatijahaku${qs ? '?' + qs : ''}`);
-    const geo = await Promise.all([$toimintaalueet, $kunnat, $postinumerot]);
-    haetutToimintaalueet = GeoUtils.findToimintaalueIds(aluehaku, ...geo);
+    haetutToimintaalueet = Promise.all([Promise.resolve(aluehaku ?? ''), $toimintaalueet, $kunnat, $postinumerot]).then(([...args]) => 
+      GeoUtils.findToimintaalueIds(...args)
+    );
   };
+
+  $: console.log(haetutToimintaalueet);
 </script>
 
 <Seo title="Energiatodistusrekisteri - Laatijahaku" descriptionSv="Laatijahaku" />
 
 <svelte:window
-  on:popstate={async _ => {
-    haetutToimintaalueet = GeoUtils.findToimintaalueIds(aluehaku ?? '', ...(await Promise.all(
-        [$toimintaalueet, $kunnat, $postinumerot]
-      )));
+  on:popstate={ _ => {
+    haetutToimintaalueet = Promise.all([ Promise.resolve(aluehaku ?? ''), $toimintaalueet, $kunnat, $postinumerot]).then(([...args]) => 
+      GeoUtils.findToimintaalueIds(...args)
+    );
   }} />
 
 <Container {...containerStyles.beige}>
@@ -121,17 +110,17 @@
 </Container>
 
 <Container {...containerStyles.white}>
-  {#await Promise.all([shownLaatijat, $patevyydet, Promise.resolve(parseInt(page ?? 0)), Promise.resolve(pageSize), Promise.resolve(filterPatevyydet)])}
+  {#await Promise.all([shownLaatijat, haetutToimintaalueet, $patevyydet, Promise.resolve(parseInt(page ?? 0)), Promise.resolve(pageSize), Promise.resolve(filterPatevyydet)])}
     <div class="flex justify-center">
       <Spinner />
     </div>
-  {:then [l, patevyydet, page, pageSize, filterPatevyydet]}
+  {:then [l, h, patevyydet, page, pageSize, filterPatevyydet]}
     <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
       <TableLaatijahaku
         laatijaCount={l.length}
         laatijat={l.slice(page * pageSize, (page + 1) * pageSize)}
         let:currentPageItemCount
-        {haetutToimintaalueet}
+        haetutToimintaalueet={h}
         {patevyydet}
         {page}>
         <div slot="filter">
