@@ -10,7 +10,8 @@ module.exports = {
       ashblue: '#2e5053',
       beige: '#f2f8e7',
       lightgrey: '#e0e0e0',
-      darkgrey: '#979797'
+      darkgrey: '#979797',
+      red: '#EE0000'
     },
     extend: {
       fontFamily: {

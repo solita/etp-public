@@ -8,9 +8,9 @@
   import InfoBlock from '@Component/info-block';
   import Container, { styles as containerStyles } from '@Component/container';
 
+  let tarkennettuShown = true;
   let etVersio = '2018';
   let eLukuChecked = 'A,B,C,D,E,F,G';
-  let tarkennettuShown = false;
 </script>
 
 <style>
@@ -30,6 +30,10 @@
   .checkbox-container input ~ .checked,
   .checkbox-container input:checked ~ .unchecked {
     @apply hidden;
+  }
+
+  .tarkennettu-row:focus-within .tarkennettu-label {
+    @apply font-bold;
   }
 </style>
 
@@ -87,75 +91,89 @@
         class="tarkennettu-haku w-full flex flex-col my-4 py-4 border-t-2 border-b-2 border-green space-y-2"
         transition:slide>
         <div
-          class="w-full mx-auto center flex flex-col md:flex-row items-center">
+          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
+            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
             Versio
           </span>
 
           <div class="w-full md:w-1/2">
             <div class="flex justify-start">
               <label class="checkbox-container flex items-center p-2 md:p-0">
-                <input type="checkbox" bind:group={etVersio} value={'2018'} />
+                <input type="radio" bind:group={etVersio} value={'2018'} />
                 <span class="material-icons checked text-green">
-                  check_box
+                  radio_button_checked
                 </span>
                 <span class="material-icons unchecked">
-                  check_box_outline_blank
+                  radio_button_unchecked
                 </span>
                 <span class="ml-1 checkbox-text">2018</span>
               </label>
               <label
                 class="checkbox-container flex items-center p-2 ml-3 md:p-0">
-                <input type="checkbox" bind:group={etVersio} value={'2013'} />
+                <input type="radio" bind:group={etVersio} value={'2013'} />
                 <span class="material-icons checked text-green">
-                  check_box
+                  radio_button_checked
                 </span>
                 <span class="material-icons unchecked">
-                  check_box_outline_blank
+                  radio_button_unchecked
                 </span>
                 <span class="ml-1 checkbox-text">2013</span>
               </label>
             </div>
           </div>
         </div>
-        <div class="w-full mx-auto flex flex-col md:flex-row items-center">
+        <div
+          class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
           <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
+            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
             Rakennuksen nimi
           </span>
           <div class="w-full md:w-1/2">
             <InputText label={'rakennus'} />
           </div>
         </div>
-        <div class="w-full mx-auto flex flex-col md:flex-row items-center">
+        <div
+          class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
           <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
+            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
             Pysyvä Rakennustunnus
           </span>
           <div class="w-full md:w-1/2">
             <InputText label={'rakennus'} />
           </div>
         </div>
-        <div class="w-full mx-auto flex flex-col md:flex-row items-center">
+        <div
+          class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
           <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
+            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
             Rakennuksen valmistumisvuosi
           </span>
           <div
             class="w-full md:w-1/2 flex justify-between items-center text-center">
             <div class="w-2/5">
-              <InputNumber label={'vvvv'} min="1000" max="2900" step="1" />
+              <InputNumber
+                label={'vvvv'}
+                min="1000"
+                max={new Date().getFullYear()}
+                step="1"
+                invalidMessage={'Sallittu arvo 1000-' + new Date().getFullYear()} />
             </div>
             <span class="material-icons"> horizontal_rule </span>
             <div class="w-2/5">
-              <InputNumber label={'vvvv'} min="1000" max="2900" step="1" />
+              <InputNumber
+                label={'vvvv'}
+                min={new Date().getFullYear()}
+                max="2900"
+                step="1"
+                invalidMessage={'Sallittu arvo ' + new Date().getFullYear() + '-2900'} />
             </div>
           </div>
         </div>
-        <div class="w-full mx-auto flex flex-col md:flex-row items-center">
+        <div
+          class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
           <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
+            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
             todistuksen laatimispäivä
           </span>
           <div
@@ -170,9 +188,9 @@
           </div>
         </div>
         <div
-          class="w-full mx-auto center flex flex-col md:flex-row items-center">
+          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
+            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
             viimeinen voimassaolopäivä
           </span>
           <div
@@ -187,9 +205,9 @@
           </div>
         </div>
         <div
-          class="w-full mx-auto center flex flex-col md:flex-row items-center">
+          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
+            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
             käyttötarkoitusluokka
           </span>
           <div class="w-full md:w-1/2">
@@ -197,9 +215,9 @@
           </div>
         </div>
         <div
-          class="w-full mx-auto center flex flex-col md:flex-row items-center">
+          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
+            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
             alakäyttötarkoitusluokka
           </span>
           <div class="w-full md:w-1/2">
@@ -207,9 +225,9 @@
           </div>
         </div>
         <div
-          class="w-full mx-auto center flex flex-col md:flex-row items-center">
+          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
+            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
             E-Luku (Kokonaisluku)
           </span>
           <div
@@ -224,9 +242,9 @@
           </div>
         </div>
         <div
-          class="w-full mx-auto center flex flex-col md:flex-row items-center">
+          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
+            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
             E-Luku (A-G)
           </span>
           <div
@@ -330,9 +348,9 @@
           </div>
         </div>
         <div
-          class="w-full mx-auto center flex flex-col md:flex-row items-center">
+          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
+            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
             Lämmitetty Nettoala (M2)
           </span>
           <div
