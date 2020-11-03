@@ -4,7 +4,7 @@
   import InputSearch from '@Component/input-search';
   import InputText from '@Component/input-text';
   import InputNumber from '@Component/input-number';
-  import InputDate from '@Component/input-Date';
+  import InputDate from '@Component/input-date';
   import InfoBlock from '@Component/info-block';
   import Container, { styles as containerStyles } from '@Component/container';
 
