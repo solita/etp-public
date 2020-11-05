@@ -5,12 +5,14 @@
   import InputText from '@Component/input-text';
   import InputNumber from '@Component/input-number';
   import InputDate from '@Component/input-date';
+  import InputSelect from '@Component/input-select';
   import InfoBlock from '@Component/info-block';
   import Container, { styles as containerStyles } from '@Component/container';
 
   let tarkennettuShown = true;
   let etVersio = '2018';
   let eLukuChecked = 'A,B,C,D,E,F,G';
+  let luokat = ['test 1', 'test 2', 'test 3'];
 </script>
 
 <style>
@@ -211,7 +213,7 @@
             käyttötarkoitusluokka
           </span>
           <div class="w-full md:w-1/2">
-            <InputText label={'luokka'} />
+            <InputSelect options={luokat} label={'luokka'} />
           </div>
         </div>
         <div
@@ -221,7 +223,7 @@
             alakäyttötarkoitusluokka
           </span>
           <div class="w-full md:w-1/2">
-            <InputText label={'luokka'} />
+            <InputSelect options={luokat} label={'luokka'} />
           </div>
         </div>
         <div
