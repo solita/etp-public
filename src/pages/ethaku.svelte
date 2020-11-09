@@ -251,11 +251,17 @@
           <div
             class="w-full md:w-1/2 flex justify-between items-center text-center">
             <div class="w-2/5">
-              <InputDate label={'pp.kk.vvvv'} bind:value={laatimispaivaMin} />
+              <InputDate
+                label={'pp.kk.vvvv'}
+                max={laatimispaivaMax}
+                bind:value={laatimispaivaMin} />
             </div>
             <span class="material-icons"> horizontal_rule </span>
             <div class="w-2/5">
-              <InputDate label={'pp.kk.vvvv'} bind:value={laatimispaivaMax} />
+              <InputDate
+                label={'pp.kk.vvvv'}
+                min={laatimispaivaMin}
+                bind:value={laatimispaivaMax} />
             </div>
           </div>
         </div>
@@ -270,12 +276,14 @@
             <div class="w-2/5">
               <InputDate
                 label={'pp.kk.vvvv'}
+                max={voimassaolopaivaMax}
                 bind:value={voimassaolopaivaMin} />
             </div>
             <span class="material-icons"> horizontal_rule </span>
             <div class="w-2/5">
               <InputDate
                 label={'pp.kk.vvvv'}
+                min={voimassaolopaivaMin}
                 bind:value={voimassaolopaivaMax} />
             </div>
           </div>
@@ -315,11 +323,20 @@
           <div
             class="w-full md:w-1/2 flex justify-between items-center text-center">
             <div class="w-2/5">
-              <InputNumber label={''} min="0" step="1" bind:value={eLukuMin} />
+              <InputNumber
+                label={''}
+                min="0"
+                max={eLukuMax}
+                step="1"
+                bind:value={eLukuMin} />
             </div>
             <span class="material-icons"> horizontal_rule </span>
             <div class="w-2/5">
-              <InputNumber label={''} min="0" step="1" bind:value={eLukuMax} />
+              <InputNumber
+                label={''}
+                min={eLukuMin}
+                step="1"
+                bind:value={eLukuMax} />
             </div>
           </div>
         </div>
@@ -438,11 +455,18 @@
           <div
             class="w-full md:w-1/2 flex justify-between items-center text-center">
             <div class="w-2/5">
-              <InputText label={''} bind:value={nettoalaMin} />
+              <InputNumber
+                label={''}
+                min="0"
+                max={nettoalaMax}
+                bind:value={nettoalaMin} />
             </div>
             <span class="material-icons"> horizontal_rule </span>
             <div class="w-2/5">
-              <InputText label={''} bind:value={nettoalaMax} />
+              <InputNumber
+                label={''}
+                min={nettoalaMin}
+                bind:value={nettoalaMax} />
             </div>
           </div>
         </div>
