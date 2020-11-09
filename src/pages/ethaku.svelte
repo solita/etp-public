@@ -9,10 +9,73 @@
   import InfoBlock from '@Component/info-block';
   import Container, { styles as containerStyles } from '@Component/container';
 
-  let tarkennettuShown = true;
-  let etVersio = '2018';
+  let tarkennettuShown = false;
+
+  const luokat = ['test 1', 'test 2', 'test 3'];
+
+  let todistustunnus = '';
+  let alue = '';
+  let versio = '2018';
+  let nimi = '';
+  let rakennustunus = '';
+  let valmistumisvuosiMin = '';
+  let valmistumisvuosiMax = '';
+  let laatimispaivaMin = '';
+  let laatimispaivaMax = '';
+  let voimassaolopaivaMin = '';
+  let voimassaolopaivaMax = '';
+  let kayttotarkoitusluokka = '';
+  let alakayttotarkoitusluokka = '';
+  let eLukuMin = '';
+  let eLukuMax = '';
   let eLukuChecked = 'A,B,C,D,E,F,G';
-  let luokat = ['test 1', 'test 2', 'test 3'];
+  let nettoalaMin = '';
+  let nettoalaMax = '';
+
+  let emptyForm = () => {
+    todistustunnus = '';
+    alue = '';
+    versio = '2018';
+    nimi = '';
+    rakennustunus = '';
+    valmistumisvuosiMin = '';
+    valmistumisvuosiMax = '';
+    laatimispaivaMin = '';
+    laatimispaivaMax = '';
+    voimassaolopaivaMin = '';
+    voimassaolopaivaMax = '';
+    kayttotarkoitusluokka = '';
+    alakayttotarkoitusluokka = '';
+    eLukuMin = '';
+    eLukuMax = '';
+    eLukuChecked = 'A,B,C,D,E,F,G';
+    nettoalaMin = '';
+    nettoalaMax = '';
+  };
+
+  const submitForm = () => {
+    console.log('submit');
+    console.log({
+      todistustunnus: todistustunnus,
+      alue: alue,
+      versio: versio,
+      nimi: nimi,
+      rakennustunus: rakennustunus,
+      valmistumisvuosiMin: valmistumisvuosiMin,
+      valmistumisvuosiMax: valmistumisvuosiMax,
+      laatimispaivaMin: laatimispaivaMin,
+      laatimispaivaMax: laatimispaivaMax,
+      voimassaolopaivaMin: voimassaolopaivaMin,
+      voimassaolopaivaMax: voimassaolopaivaMax,
+      kayttotarkoitusluokka: kayttotarkoitusluokka,
+      alakayttotarkoitusluokka: alakayttotarkoitusluokka,
+      eLukuMin: eLukuMin,
+      eLukuMax: eLukuMax,
+      eLukuChecked: eLukuChecked,
+      nettoalaMin: nettoalaMin,
+      nettoalaMax: nettoalaMax
+    });
+  };
 </script>
 
 <style>
@@ -55,14 +118,16 @@
     <div class="flex flex-col md:flex-row items-center md:items-start">
       <div class="flex flex-col w-full md:w-9/12">
         <div class="w-full md:w-11/12">
-          <InputSearch label={'Hae todistustunnuksella'} value={''} />
+          <InputSearch
+            label={'Hae todistustunnuksella'}
+            bind:value={todistustunnus} />
         </div>
         <aside class="font-normal text-xs italic mt-4">
           Voit hakea maakunnalla, kunnalla, postinumerolla tai -toimipaikalla.
         </aside>
         <div class="flex">
           <div class="w-full md:w-11/12">
-            <InputSearch label="Hae alueella" value={''} />
+            <InputSearch label="Hae alueella" bind:value={alue} />
           </div>
         </div>
       </div>
@@ -102,7 +167,7 @@
           <div class="w-full md:w-1/2">
             <div class="flex justify-start">
               <label class="checkbox-container flex items-center p-2 md:p-0">
-                <input type="radio" bind:group={etVersio} value={'2018'} />
+                <input type="radio" bind:group={versio} value={'2018'} />
                 <span class="material-icons checked text-green">
                   radio_button_checked
                 </span>
@@ -113,7 +178,7 @@
               </label>
               <label
                 class="checkbox-container flex items-center p-2 ml-3 md:p-0">
-                <input type="radio" bind:group={etVersio} value={'2013'} />
+                <input type="radio" bind:group={versio} value={'2013'} />
                 <span class="material-icons checked text-green">
                   radio_button_checked
                 </span>
@@ -132,17 +197,19 @@
             Rakennuksen nimi
           </span>
           <div class="w-full md:w-1/2">
-            <InputText label={'rakennus'} />
+            <InputText label={'Rakennuksen nimi'} bind:value={nimi} />
           </div>
         </div>
         <div
           class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
           <span
             class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
-            Pysyvä Rakennustunnus
+            Pysyvä rakennustunnus
           </span>
           <div class="w-full md:w-1/2">
-            <InputText label={'rakennus'} />
+            <InputText
+              label={'Pysyvä Rakennustunnus'}
+              bind:value={rakennustunus} />
           </div>
         </div>
         <div
@@ -158,6 +225,7 @@
                 label={'vvvv'}
                 min="1000"
                 max={new Date().getFullYear()}
+                bind:value={valmistumisvuosiMin}
                 step="1"
                 invalidMessage={'Sallittu arvo 1000-' + new Date().getFullYear()} />
             </div>
@@ -166,6 +234,7 @@
               <InputNumber
                 label={'vvvv'}
                 min={new Date().getFullYear()}
+                bind:value={valmistumisvuosiMax}
                 max="2900"
                 step="1"
                 invalidMessage={'Sallittu arvo ' + new Date().getFullYear() + '-2900'} />
@@ -181,11 +250,11 @@
           <div
             class="w-full md:w-1/2 flex justify-between items-center text-center">
             <div class="w-2/5">
-              <InputDate label={'pp.kk.vvvv'} />
+              <InputDate label={'pp.kk.vvvv'} bind:value={laatimispaivaMin} />
             </div>
             <span class="material-icons"> horizontal_rule </span>
             <div class="w-2/5">
-              <InputDate label={'pp.kk.vvvv'} />
+              <InputDate label={'pp.kk.vvvv'} bind:value={laatimispaivaMax} />
             </div>
           </div>
         </div>
@@ -198,11 +267,15 @@
           <div
             class="w-full md:w-1/2 flex justify-between items-center text-center">
             <div class="w-2/5">
-              <InputDate label={'pp.kk.vvvv'} />
+              <InputDate
+                label={'pp.kk.vvvv'}
+                bind:value={voimassaolopaivaMin} />
             </div>
             <span class="material-icons"> horizontal_rule </span>
             <div class="w-2/5">
-              <InputDate label={'pp.kk.vvvv'} />
+              <InputDate
+                label={'pp.kk.vvvv'}
+                bind:value={voimassaolopaivaMax} />
             </div>
           </div>
         </div>
@@ -213,7 +286,10 @@
             käyttötarkoitusluokka
           </span>
           <div class="w-full md:w-1/2">
-            <InputSelect options={luokat} label={'luokka'} />
+            <InputSelect
+              options={luokat}
+              label={'Kaikki'}
+              bind:value={kayttotarkoitusluokka} />
           </div>
         </div>
         <div
@@ -223,7 +299,10 @@
             alakäyttötarkoitusluokka
           </span>
           <div class="w-full md:w-1/2">
-            <InputSelect options={luokat} label={'luokka'} />
+            <InputSelect
+              options={luokat}
+              label={'Kaikki'}
+              bind:value={alakayttotarkoitusluokka} />
           </div>
         </div>
         <div
@@ -235,11 +314,19 @@
           <div
             class="w-full md:w-1/2 flex justify-between items-center text-center">
             <div class="w-2/5">
-              <InputNumber label={'?'} min="0" step="1" />
+              <InputNumber
+                label={'E-Luku alaraja'}
+                min="0"
+                step="1"
+                bind:value={eLukuMin} />
             </div>
             <span class="material-icons"> horizontal_rule </span>
             <div class="w-2/5">
-              <InputNumber label={'?'} min="0" step="1" />
+              <InputNumber
+                label={'E-Luku yläraja'}
+                min="0"
+                step="1"
+                bind:value={eLukuMax} />
             </div>
           </div>
         </div>
@@ -358,11 +445,15 @@
           <div
             class="w-full md:w-1/2 flex justify-between items-center text-center">
             <div class="w-2/5">
-              <InputText label={'?'} />
+              <InputText
+                label={'Lämmitetty Nettoala alaraja'}
+                bind:value={nettoalaMin} />
             </div>
             <span class="material-icons"> horizontal_rule </span>
             <div class="w-2/5">
-              <InputText label={'?'} />
+              <InputText
+                label={'Lämmitetty Nettoala yläraja'}
+                bind:value={nettoalaMax} />
             </div>
           </div>
         </div>
@@ -370,8 +461,10 @@
     {/if}
 
     <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
-      <Button {...buttonStyles.green}>Hae</Button>
-      <Button {...buttonStyles.ashblue}>Tyhjennä hakuehdot</Button>
+      <Button {...buttonStyles.green} on:click={submitForm}>Hae</Button>
+      <Button {...buttonStyles.ashblue} on:click={emptyForm}>
+        Tyhjennä hakuehdot
+      </Button>
     </div>
   </div>
 </Container>

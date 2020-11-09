@@ -1,6 +1,5 @@
 <script>
   import { onMount } from 'svelte';
-  import { each } from 'svelte/internal';
 
   export let label;
   export let value;
@@ -10,14 +9,13 @@
 
   let id;
   let used = false;
-  let min = 0;
-  let max = options.length;
-  $: valid = value && ((min && value.length >= min) || !min) && used;
-  // ((max && value.length <= max) || !max);
-
-  $: {
-    console.log(value);
-  }
+  // let min = 0;
+  // let max = options.length;
+  $: valid =
+    // value &&
+    // ((min && value.length >= min) || !min) &&
+    // ((max && value.length <= max) || !max) &&
+    used;
 
   onMount(() => (id = Math.random().toString(36).substr(2, 9)));
 </script>
@@ -26,25 +24,30 @@
 border-lightgrey
 border-green
 border-red
+text-darkgrey
+italic
 -->
 <div class="relative w-full  flex flex-col">
   <label for={id} class="sr-only">{label}</label>
   <div
     class:border-lightgrey={!used}
     class:text-darkgrey={!used}
-    class:italic={!used}
     class:border-green={valid && used}
     class:border-red={!valid && used}
     class="w-full relative inline-block border-b-2 px-4 py-2 focus-within:bg-grey hover:bg-grey">
     <select
+      class:italic={!used}
       class="w-full h-full"
       {id}
       {name}
       bind:value
+      on:change={() => {
+        used = true;
+      }}
       on:blur={() => {
         used = true;
       }}>
-      <option value="-1" class="hidden text-darkgrey italic">{label}</option>
+      <option value="-1" class="hidden">{label}</option>
       {#each options as op}
         <option value={op}>{op}</option>
       {/each}
