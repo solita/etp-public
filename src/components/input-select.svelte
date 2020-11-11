@@ -20,21 +20,29 @@
   onMount(() => (id = Math.random().toString(36).substr(2, 9)));
 </script>
 
+<style>
+  .input-parent:focus-within {
+    @apply bg-grey border-green;
+  }
+
+  select {
+    background-color: transparent;
+  }
+</style>
+
 <!-- purgecss: 
-border-lightgrey
+border-darkgrey
 border-green
 border-red
 text-darkgrey
 italic
 -->
-<div class="relative w-full  flex flex-col">
+<div class="relative w-full flex flex-col">
   <label for={id} class="sr-only">{label}</label>
   <div
-    class:border-lightgrey={!used}
     class:text-darkgrey={!used}
-    class:border-green={valid && used}
     class:border-red={!valid && used}
-    class="w-full relative inline-block border-b-2 px-4 py-2 focus-within:bg-grey hover:bg-grey">
+    class="input-parent w-full relative inline-block border-b-2 px-2 py-2 border-darkgrey hover:bg-grey">
     <select
       class:italic={!used}
       class="w-full h-full"
@@ -55,5 +63,5 @@ italic
   </div>
   {#if invalidMessage && used && !valid}
     <span class="w-full text-xs">{invalidMessage}</span>
-  {/if}
+  {:else}<span class="w-full text-xs invisible">III</span>{/if}
 </div>

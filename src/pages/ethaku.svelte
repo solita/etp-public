@@ -158,12 +158,12 @@
     </div>
     {#if tarkennettuShown}
       <div
-        class="tarkennettu-haku w-full flex flex-col my-4 py-4 border-t-2 border-b-2 border-green space-y-2"
+        class="tarkennettu-haku w-full lg:w-5/6 flex flex-col my-4 py-4 border-t-2 border-b-2 border-green space-y-2"
         transition:slide>
         <div
           class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
-            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
             {$_('ETHAKU_VERSIO')}
           </span>
 
@@ -196,7 +196,7 @@
         <div
           class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
           <span
-            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
             {$_('ETHAKU_RAKENNUKSEN_NIMI')}
           </span>
           <div class="w-full md:w-1/2">
@@ -206,7 +206,7 @@
         <div
           class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
           <span
-            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
             {$_('ETHAKU_RAKENNUSTUNNUS')}
           </span>
           <div class="w-full md:w-1/2">
@@ -216,7 +216,7 @@
         <div
           class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
           <span
-            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
             {$_('ETHAKU_RAKENNUS_VUOSI')}
           </span>
           <div
@@ -230,7 +230,7 @@
                 step="1"
                 invalidMessage={'Sallittu arvo 1000-' + new Date().getFullYear()} />
             </div>
-            <span class="material-icons"> horizontal_rule </span>
+            <span class="material-icons text-darkgrey"> horizontal_rule </span>
             <div class="w-2/5">
               <InputNumber
                 label={'vvvv'}
@@ -245,19 +245,22 @@
         <div
           class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
           <span
-            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
             {$_('ETHAKU_LAATIMISPAIVA')}
           </span>
           <div
-            class="w-full md:w-1/2 flex justify-between items-center text-center">
-            <div class="w-2/5">
+            class="w-full md:w-1/2 flex flex-col md:flex-row justify-between items-center text-center">
+            <div class="w-full md:w-2/5">
               <InputDate
                 label={'pp.kk.vvvv'}
                 max={laatimispaivaMax}
                 bind:value={laatimispaivaMin} />
             </div>
-            <span class="material-icons"> horizontal_rule </span>
-            <div class="w-2/5">
+            <span
+              class="material-icons text-darkgrey w-full md:w-auto select-none">
+              horizontal_rule
+            </span>
+            <div class="w-full md:w-2/5">
               <InputDate
                 label={'pp.kk.vvvv'}
                 min={laatimispaivaMin}
@@ -268,19 +271,22 @@
         <div
           class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
-            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
             {$_('ETHAKU_VIIMEINEN_VOIMASSAOLOPAIVA')}
           </span>
           <div
-            class="w-full md:w-1/2 flex justify-between items-center text-center">
-            <div class="w-2/5">
+            class="w-full md:w-1/2 flex flex-col md:flex-row justify-between items-center text-center">
+            <div class="w-full md:w-2/5">
               <InputDate
                 label={'pp.kk.vvvv'}
                 max={voimassaolopaivaMax}
                 bind:value={voimassaolopaivaMin} />
             </div>
-            <span class="material-icons"> horizontal_rule </span>
-            <div class="w-2/5">
+            <span
+              class="material-icons text-darkgrey w-full md:w-auto select-none">
+              horizontal_rule
+            </span>
+            <div class="w-full md:w-2/5">
               <InputDate
                 label={'pp.kk.vvvv'}
                 min={voimassaolopaivaMin}
@@ -291,7 +297,7 @@
         <div
           class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
-            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
             {$_('ETHAKU_KAYTTOTARKOITUSLUOKKA')}
           </span>
           <div class="w-full md:w-1/2">
@@ -304,7 +310,7 @@
         <div
           class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
-            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
             {$_('ETHAKU_ALAKAYTTOTARKOITUSLUOKKA')}
           </span>
           <div class="w-full md:w-1/2">
@@ -317,7 +323,7 @@
         <div
           class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
-            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
             {$_('ETHAKU_E_KOKONAISLUKU')}
           </span>
           <div
@@ -330,7 +336,7 @@
                 step="1"
                 bind:value={eLukuMin} />
             </div>
-            <span class="material-icons"> horizontal_rule </span>
+            <span class="material-icons text-darkgrey"> horizontal_rule </span>
             <div class="w-2/5">
               <InputNumber
                 label={''}
@@ -343,7 +349,7 @@
         <div
           class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
-            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
             {$_('ETHAKU_E_LUKU')}
           </span>
           <div
@@ -449,7 +455,7 @@
         <div
           class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
-            class="tarkennettu-label w-full md:w-1/2 uppercase text-ashblue tracking-widest">
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
             {$_('ETHAKU_LAMMITETTY_NETTOALA')}
           </span>
           <div
@@ -461,7 +467,7 @@
                 max={nettoalaMax}
                 bind:value={nettoalaMin} />
             </div>
-            <span class="material-icons"> horizontal_rule </span>
+            <span class="material-icons text-darkgrey"> horizontal_rule </span>
             <div class="w-2/5">
               <InputNumber
                 label={''}

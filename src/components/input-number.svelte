@@ -10,7 +10,6 @@
   export let invalidMessage;
 
   let id;
-  let used = false;
   $: valid = ((min && value >= min) || !min) && ((max && value <= max) || !max);
 
   onMount(() => (id = Math.random().toString(36).substr(2, 9)));
@@ -24,21 +23,21 @@
   input::placeholder {
     @apply text-darkgrey italic;
   }
+
+  .input-parent:focus-within {
+    @apply bg-grey border-green;
+  }
 </style>
 
 <!-- purgecss: 
-border-lightgrey
-border-green
 border-red
 -->
 <div class="relative w-full  flex flex-col">
   <label for={id} class="sr-only">{label}</label>
   <div
-    class:border-lightgrey={!used}
-    class:border-green={valid && used}
-    class:border-red={!valid && used}
-    class="w-full relative inline-block border-b-2 px-4 py-2
-   hover:bg-grey focus-within:bg-grey">
+    class:border-red={!valid && value}
+    class="input-parent w-full relative inline-block border-b-2 px-4 py-2 border-darkgrey
+   hover:bg-grey">
     <input
       {id}
       {name}
@@ -48,12 +47,9 @@ border-red
       bind:value
       type="number"
       placeholder={label}
-      on:change={() => {
-        used = true;
-      }}
       class="w-full focus:outline-none" />
   </div>
-  {#if invalidMessage && used && !valid}
+  {#if invalidMessage && !valid && value}
     <span class="w-full text-xs">{invalidMessage}</span>
-  {/if}
+  {:else}<span class="w-full text-xs invisible">III</span>{/if}
 </div>

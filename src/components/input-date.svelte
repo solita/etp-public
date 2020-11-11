@@ -9,11 +9,9 @@
   export let invalidMessage;
 
   let id;
-  let used = false;
 
   // TODO: compare value date to min and max
   $: valid =
-    value &&
     ((min && value.length >= min) || !min) &&
     ((max && value.length <= max) || !max);
 
@@ -28,21 +26,23 @@
   input::placeholder {
     @apply text-darkgrey italic;
   }
+
+  .input-parent:focus-within {
+    @apply bg-grey border-green;
+  }
 </style>
 
 <!-- purgecss: 
-border-lightgrey
+border-darkgrey
 border-green
 border-red
 -->
 <div class="relative w-full  flex flex-col">
   <label for={id} class="sr-only">{label}</label>
   <div
-    class:border-lightgrey={!used}
-    class:border-green={valid && used}
-    class:border-red={!valid && used}
-    class="w-full relative inline-block border-b-2 px-4 py-2
-  border-ashblue hover:bg-grey focus-within:bg-grey">
+    class:border-red={!valid && value}
+    class="input-parent w-full relative inline-block border-b-2 px-4 py-2
+    border-darkgrey hover:bg-grey">
     <input
       {id}
       {name}
@@ -54,7 +54,7 @@ border-red
       class="w-full focus:outline-none" />
   </div>
 
-  {#if invalidMessage && used && !valid}
+  {#if invalidMessage && value && !valid}
     <span class="w-full text-xs">{invalidMessage}</span>
-  {/if}
+  {:else}<span class="w-full text-xs invisible">III</span>{/if}
 </div>
