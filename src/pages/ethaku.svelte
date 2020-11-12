@@ -171,6 +171,17 @@
           <div class="w-full md:w-1/2">
             <div class="flex justify-start">
               <label class="checkbox-container flex items-center p-2 md:p-0">
+                <input type="radio" bind:group={versio} value={'2013,2018'} />
+                <span class="material-icons checked text-green">
+                  radio_button_checked
+                </span>
+                <span class="material-icons unchecked">
+                  radio_button_unchecked
+                </span>
+                <span class="ml-1 checkbox-text">{$_('KAIKKI')}</span>
+              </label>
+              <label
+                class="checkbox-container flex items-center p-2 ml-3 md:p-0">
                 <input type="radio" bind:group={versio} value={'2018'} />
                 <span class="material-icons checked text-green">
                   radio_button_checked
@@ -192,6 +203,33 @@
                 <span class="ml-1 checkbox-text">2013</span>
               </label>
             </div>
+          </div>
+        </div>
+
+        <div
+          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
+          <span
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
+            {$_('ETHAKU_KAYTTOTARKOITUSLUOKKA')}
+          </span>
+          <div class="w-full md:w-1/2">
+            <InputSelect
+              options={luokat}
+              label={$_('KAIKKI')}
+              bind:value={kayttotarkoitusluokka} />
+          </div>
+        </div>
+        <div
+          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
+          <span
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
+            {$_('ETHAKU_ALAKAYTTOTARKOITUSLUOKKA')}
+          </span>
+          <div class="w-full md:w-1/2">
+            <InputSelect
+              options={luokat}
+              label={$_('KAIKKI')}
+              bind:value={alakayttotarkoitusluokka} />
           </div>
         </div>
         <div
@@ -293,32 +331,6 @@
                 min={voimassaolopaivaMin}
                 bind:value={voimassaolopaivaMax} />
             </div>
-          </div>
-        </div>
-        <div
-          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
-          <span
-            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
-            {$_('ETHAKU_KAYTTOTARKOITUSLUOKKA')}
-          </span>
-          <div class="w-full md:w-1/2">
-            <InputSelect
-              options={luokat}
-              label={$_('KAIKKI')}
-              bind:value={kayttotarkoitusluokka} />
-          </div>
-        </div>
-        <div
-          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
-          <span
-            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
-            {$_('ETHAKU_ALAKAYTTOTARKOITUSLUOKKA')}
-          </span>
-          <div class="w-full md:w-1/2">
-            <InputSelect
-              options={luokat}
-              label={$_('KAIKKI')}
-              bind:value={alakayttotarkoitusluokka} />
           </div>
         </div>
         <div
