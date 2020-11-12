@@ -32,16 +32,76 @@
 </script>
 
 <style>
-  .light-span-list span,
-  p {
-    @apply font-light;
+  .graph-color-a {
+    background-color: #1d8c38;
+    padding-right: 10%;
+  }
+  .graph-color-a ~ .arrow-right {
+    border-left-color: #1d8c38;
+  }
+  .graph-color-b {
+    background-color: #72a42f;
+    padding-right: 20%;
+  }
+  .graph-color-b ~ .arrow-right {
+    border-left-color: #72a42f;
+  }
+  .graph-color-c {
+    background-color: #c3cc16;
+    padding-right: 30%;
+  }
+  .graph-color-c ~ .arrow-right {
+    border-left-color: #c3cc16;
+  }
+  .graph-color-d {
+    background-color: #ffe900;
+    padding-right: 40%;
+  }
+  .graph-color-d ~ .arrow-right {
+    border-left-color: #ffe900;
+  }
+  .graph-color-e {
+    background-color: #e5ac00;
+    padding-right: 50%;
+  }
+  .graph-color-e ~ .arrow-right {
+    border-left-color: #e5ac00;
+  }
+  .graph-color-f {
+    background-color: #c95a00;
+    padding-right: 60%;
+  }
+  .graph-color-f ~ .arrow-right {
+    border-left-color: #c95a00;
+  }
+  .graph-color-g {
+    background-color: #bc000b;
+    padding-right: 70%;
+  }
+  .graph-color-g ~ .arrow-right {
+    border-left-color: #bc000b;
+  }
+
+  .arrow-left {
+    width: 0;
+    height: 0;
+    border-top: 1.4rem solid transparent;
+    border-right: 2.8rem solid #000;
+    border-bottom: 1.3rem solid transparent;
+  }
+  .arrow-right {
+    width: 0;
+    height: 0;
+    border-top: 1.4rem solid transparent;
+    border-left: 2.8rem solid;
+    border-bottom: 1.3rem solid transparent;
   }
 </style>
 
 <div bind:this={component}>
   <Container {...containerStyles.beige}>
     <div
-      class="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0 lg:space-x-2 items-left sm:px-16 sm:py-8 px-4 py-4">
+      class="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0 md:space-x-2 items-left sm:px-16 sm:py-8 px-4 py-4">
       <Button
         {...buttonStyles.green}
         on:click={() => {
@@ -63,7 +123,7 @@
           <Spinner />
         </div>
       {:then energiatodistus}
-        <div class="w-full flex mx-auto">
+        <div class="w-full flex mx-auto mb-8">
           <div
             class="w-full flex flex-col md:flex-row justify-between items-center">
             <h1 class="text-xl uppercase text-ashblue my-0">
@@ -79,198 +139,228 @@
             </Button>
           </div>
         </div>
-        <div
-          class="light-span-list w-full flex flex-col mx-auto items-center space-y-4">
+        <div class="w-full flex flex-col mx-auto items-center space-y-6">
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <strong
-              class="w-full md:w-1/2 text-ashblue">Todistustunnus:</strong>
+            <span class="w-full md:w-1/2 text-ashblue">Todistustunnus:</span>
             <span
               class="w-full md:w-1/2">{energiatodistus.todistustunnus}</span>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <strong class="w-full md:w-1/2 text-ashblue">Rakennuksen nimi ja
-              osoite:</strong>
+            <span class="w-full md:w-1/2 text-ashblue">Rakennuksen nimi ja
+              osoite:</span>
             <span class="w-full md:w-1/2">{energiatodistus.nimi}
               -
               {energiatodistus.osoite}</span>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <strong
-              class="w-full md:w-1/2 text-ashblue">Rakennustunnus:</strong>
+            <span class="w-full md:w-1/2 text-ashblue">Rakennustunnus:</span>
             <span
               class="w-full md:w-1/2">{energiatodistus.rakennustunnus}</span>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <strong class="w-full md:w-1/2 text-ashblue">Rakennuksen
-              käyttötarkoitusluokka:</strong>
+            <span class="w-full md:w-1/2 text-ashblue">Rakennuksen
+              käyttötarkoitusluokka:</span>
             <span
               class="w-full md:w-1/2">{energiatodistus.kayttotakoitusluokka}</span>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <strong class="w-full md:w-1/2 text-ashblue">Rakennuksen
-              valmistumisvuosi:</strong>
+            <span class="w-full md:w-1/2 text-ashblue">Rakennuksen
+              valmistumisvuosi:</span>
             <span
               class="w-full md:w-1/2">{energiatodistus.valmistumisvuosi}</span>
           </div>
           <div class="w-full my-8 flex flex-col bg-white">
             <div class="w-full flex border-b border-black">
-              <div class="w-0 lg:w-1/2 lg:border-r border-black p-2" />
+              <div class="w-0 md:w-1/2 md:border-r border-black p-2" />
               <div
-                class="w-full lg:w-1/2 px-2 py-4 flex justify-end lg:justify-start">
-                <strong
-                  class="text-green text-lg">Energiatehokkuusluokka</strong>
+                class="w-full md:w-1/2 px-2 py-4 flex justify-end md:justify-start md:pl-10">
+                <span class="text-green text-lg">Energiatehokkuusluokka</span>
               </div>
             </div>
             <div class="w-full flex border-b border-black">
-              <div class="w-1/2 border-r border-black px-2 py-4">
-                <strong
-                  class="w-1/12 m-2 py-3 px-4 text-2xl bg-green">A</strong>
-                <span class="w-11/12" />
+              <div
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
+                <span
+                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-a">A</span>
+                <div class="arrow-right" />
               </div>
-              <div class="w-1/2 px-2 py-4">
-                <div class="inline m-2 py-3 px-4 text-2xl bg-black text-white">
-                  <strong>A</strong><span class="text-sm -mb-1">2013</span>
+              <div
+                class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
+                <div class="arrow-left" />
+                <div
+                  class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
+                  <span class="font-bold">A</span><span
+                    class="text-sm -mb-1">201X</span>
                 </div>
               </div>
             </div>
             <div class="w-full flex border-b border-black">
-              <div class="w-1/2 border-r border-black px-2 py-4">
-                <strong
-                  class="w-2/12 m-2 py-3 px-4 text-2xl bg-lightgreen">B</strong>
-                <span class="w-10/12" />
+              <div
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
+                <span
+                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-b">B</span>
+                <div class="arrow-right" />
               </div>
-              <div class="w-1/2 px-2 py-4">
-                <div class="inline m-2 py-3 px-4 text-2xl bg-black text-white">
-                  <strong>B</strong><span class="text-sm -mb-1">2013</span>
+              <div
+                class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
+                <div class="arrow-left" />
+                <div
+                  class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
+                  <span class="font-bold">B</span><span
+                    class="text-sm -mb-1">201X</span>
                 </div>
               </div>
             </div>
             <div class="w-full flex border-b border-black">
-              <div class="w-1/2 border-r border-black px-2 py-4">
-                <strong
-                  class="w-2/12 m-2 py-3 px-4 text-2xl bg-lightgreen">C</strong>
-                <span class="w-10/12" />
+              <div
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
+                <span
+                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-c">C</span>
+                <div class="arrow-right" />
               </div>
-              <div class="w-1/2 px-2 py-4">
-                <div class="inline m-2 py-3 px-4 text-2xl bg-black text-white">
-                  <strong>C</strong><span class="text-sm -mb-1">2013</span>
+              <div
+                class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
+                <div class="arrow-left" />
+                <div
+                  class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
+                  <span class="font-bold">C</span><span
+                    class="text-sm -mb-1">201X</span>
                 </div>
               </div>
             </div>
             <div class="w-full flex border-b border-black">
-              <div class="w-1/2 border-r border-black px-2 py-4">
-                <strong
-                  class="w-2/12 m-2 py-3 px-4 text-2xl bg-lightgreen">D</strong>
-                <span class="w-10/12" />
+              <div
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
+                <span
+                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-d">D</span>
+                <div class="arrow-right" />
               </div>
-              <div class="w-1/2 px-2 py-4">
-                <div class="inline m-2 py-3 px-4 text-2xl bg-black text-white">
-                  <strong>D</strong><span class="text-sm -mb-1">2013</span>
+              <div
+                class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
+                <div class="arrow-left" />
+                <div
+                  class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
+                  <span class="font-bold">D</span><span
+                    class="text-sm -mb-1">201X</span>
                 </div>
               </div>
             </div>
             <div class="w-full flex border-b border-black">
-              <div class="w-1/2 border-r border-black px-2 py-4">
-                <strong
-                  class="w-2/12 m-2 py-3 px-4 text-2xl bg-lightgreen">E</strong>
-                <span class="w-10/12" />
+              <div
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
+                <span
+                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-e">E</span>
+                <div class="arrow-right" />
               </div>
-              <div class="w-1/2 px-2 py-4">
-                <div class="inline m-2 py-3 px-4 text-2xl bg-black text-white">
-                  <strong>E</strong><span class="text-sm -mb-1">2013</span>
+              <div
+                class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
+                <div class="arrow-left" />
+                <div
+                  class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
+                  <span class="font-bold">E</span><span
+                    class="text-sm -mb-1">201X</span>
                 </div>
               </div>
             </div>
             <div class="w-full flex border-b border-black">
-              <div class="w-1/2 border-r border-black px-2 py-4">
-                <strong
-                  class="w-2/12 m-2 py-3 px-4 text-2xl bg-lightgreen">F</strong>
-                <span class="w-10/12" />
+              <div
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
+                <span
+                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-f">F</span>
+                <div class="arrow-right" />
               </div>
-              <div class="w-1/2 px-2 py-4">
-                <div class="inline m-2 py-3 px-4 text-2xl bg-black text-white">
-                  <strong>F</strong><span class="text-sm -mb-1">2013</span>
+              <div
+                class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
+                <div class="arrow-left" />
+                <div
+                  class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
+                  <span class="font-bold">F</span><span
+                    class="text-sm -mb-1">201X</span>
                 </div>
               </div>
             </div>
             <div class="w-full flex border-b border-black">
-              <div class="w-1/2 border-r border-black px-2 py-4">
-                <strong
-                  class="w-2/12 m-2 py-3 px-4 text-2xl bg-lightgreen">G</strong>
-                <span class="w-10/12" />
+              <div
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
+                <span
+                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-g">G</span>
+                <div class="arrow-right" />
               </div>
-              <div class="w-1/2 px-2 py-4">
-                <div class="inline m-2 py-3 px-4 text-2xl bg-black text-white">
-                  <strong>G</strong><span class="text-sm -mb-1">2013</span>
+              <div
+                class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
+                <div class="arrow-left" />
+                <div
+                  class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
+                  <span class="font-bold">G</span><span
+                    class="text-sm -mb-1">201X</span>
                 </div>
               </div>
             </div>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <strong class="w-full md:w-2/3 text-ashblue">Rakennuksen
-              laskennallinen kokonaisenergiankulutus eli E-luku:</strong>
+            <span class="w-full md:w-2/3 text-ashblue">Rakennuksen
+              laskennallinen kokonaisenergiankulutus eli E-luku:</span>
             <span class="w-full md:w-1/3">{energiatodistus.eluku}</span>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <strong class="w-full md:w-1/2 text-ashblue">Todistuksen laatija:</strong>
+            <span class="w-full md:w-1/2 text-ashblue">Todistuksen laatija:</span>
             <span
               class="w-full md:w-1/2">{energiatodistus.todistuksenlaatija}</span>
           </div>
           <div
             class="flex flex-col md:flex-row md:space-x-2 w-full items-center justify-center">
             <div class="flex flex-col w-full md:w-1/2">
-              <strong class="w-full md:w-1/2 text-ashblue">Todistuksen
-                laatimispäivä:</strong>
+              <span class="w-full md:w-1/2 text-ashblue">Todistuksen
+                laatimispäivä:</span>
               <span
                 class="w-full md:w-1/2">{energiatodistus.todistuksenlaatimispaiva}</span>
             </div>
             <div class="flex flex-col w-full md:w-1/2">
-              <strong class="w-full md:w-1/2 text-ashblue">Viimeinen
-                voimassaolopäivä:</strong>
+              <span class="w-full md:w-1/2 text-ashblue">Viimeinen
+                voimassaolopäivä:</span>
               <span
                 class="w-full md:w-1/2">{energiatodistus.todistuksenviimeinenvoimassaolopaiva}</span>
             </div>
           </div>
         </div>
 
-        <h2 class="w-full text-green uppercase text-xl mt-6">
+        <h2 class="w-full text-green uppercase text-xl mt-8">
           Yhteenveto rakennuksen energiatehokkuudesta
         </h2>
         <span
           class="w-full flex bg-ashblue text-white uppercase px-4 py-3 my-4">Laskettu
           kokonaisenergiankulutus ja ostoenergiankulutus</span>
-        <div
-          class="light-span-list w-full flex flex-col mx-auto items-center space-y-4 my-4">
+        <div class="w-full flex flex-col mx-auto items-center space-y-6 my-8">
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <strong class="w-full md:w-1/2 text-ashblue">Lämmitetty nettoala:</strong>
+            <span class="w-full md:w-1/2 text-ashblue">Lämmitetty nettoala:</span>
             <span class="w-full md:w-1/2">{energiatodistus.nettoala}</span>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <strong class="w-full md:w-1/2 text-ashblue">Lämmitysjärjestelmän
-              kuvaus</strong>
+            <span class="w-full md:w-1/2 text-ashblue">Lämmitysjärjestelmän
+              kuvaus:</span>
             <span
               class="w-full md:w-1/2">{energiatodistus.lammitysjarjestelma}</span>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <strong class="w-full md:w-1/2 text-ashblue">Ilmanvaihtojärjestelmän
-              kuvaus</strong>
+            <span class="w-full md:w-1/2 text-ashblue">Ilmanvaihtojärjestelmän
+              kuvaus:</span>
             <span
               class="w-full md:w-1/2">{energiatodistus.ilmanvaihtojarjestelma}</span>
           </div>
         </div>
 
         <div class="overflow-x-scroll w-full">
-          <table class="table-fixed mx-auto my-4 font-bold text-center">
+          <table class="table-fixed mx-auto my-8 font-bold text-center">
             <thead class="bg-beige text-green align-center">
               <tr>
                 <th class="w-1/5 pl-2 text-left" rowspan="2">
@@ -322,22 +412,20 @@
         </div>
 
         <span
-          class="w-full flex bg-ashblue text-white uppercase px-4 py-3 my-4 font-medium">
+          class="w-full flex bg-ashblue text-white uppercase px-4 py-3 my-4">
           Rakennuksen energiatehokkuusluokka
         </span>
 
-        <div
-          class="light-span-list w-full flex flex-col mx-auto items-center space-y-4 my-4">
+        <div class="w-full flex flex-col mx-auto items-center space-y-6 my-8">
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <strong class="w-full md:w-1/3 text-ashblue">Käytetty E-luvun
-              kuokitteluasteikko:</strong>
+            <span class="w-full md:w-1/3 text-ashblue">Käytetty E-luvun
+              kuokitteluasteikko:</span>
             <span class="w-full md:w-2/3">{energiatodistus.nettoala}</span>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <strong class="w-full md:w-1/3 text-ashblue">Luokkien rajat
-              asteikolla</strong>
+            <span class="w-full md:w-1/3 text-ashblue">Luokkien rajat asteikolla</span>
             <div class="w-full md:w-2/3">
               <strong>A</strong>
               <span>(0-80)</span>
@@ -357,21 +445,21 @@
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <strong class="w-full md:w-1/3 text-ashblue">Tämän rakennuksen
-              E-luokka</strong>
+            <span class="w-full md:w-1/3 text-ashblue">Tämän rakennuksen
+              E-luokka</span>
             <span class="w-full md:w-2/3">{energiatodistus.nettoala}</span>
           </div>
           <p class="w-full">{energiatodistus.longtext}</p>
         </div>
 
-        <div class="w-full flex flex-col mx-auto items-center space-y-4 mt-6">
+        <div class="w-full flex flex-col mx-auto items-center space-y-6 mt-6">
           <h2 class="w-full text-green uppercase text-xl">
             Energitehokkuutta parantavia toimenpiteitä
           </h2>
           <span
             class="w-full bg-ashblue text-white uppercase px-4 py-3 my-4">Laskettu
             kokonaisenergiankulutus ja ostoenergiankulutus</span>
-          <p class="w-full font-light">{energiatodistus.longtext}</p>
+          <p class="w-full">{energiatodistus.longtext}</p>
           <div class="w-full">
             <Button
               {...buttonStyles.green}
