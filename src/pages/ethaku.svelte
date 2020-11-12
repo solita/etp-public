@@ -5,12 +5,62 @@
   import InputText from '@Component/input-text';
   import InputNumber from '@Component/input-number';
   import InputDate from '@Component/input-date';
+  import InputSelect from '@Component/input-select';
   import InfoBlock from '@Component/info-block';
   import Container, { styles as containerStyles } from '@Component/container';
+  import { _ } from '@Localization/localization';
 
-  let etVersio = '2018';
-  let eLukuChecked = 'A,B,C,D,E,F,G';
   let tarkennettuShown = false;
+
+  const luokat = ['test 1', 'test 2', 'test 3'];
+
+  let todistustunnus = '';
+  let alue = '';
+  let versio = '2018';
+  let nimi = '';
+  let rakennustunus = '';
+  let valmistumisvuosiMin = '';
+  let valmistumisvuosiMax = '';
+  let laatimispaivaMin = '';
+  let laatimispaivaMax = '';
+  let voimassaolopaivaMin = '';
+  let voimassaolopaivaMax = '';
+  let kayttotarkoitusluokka = '';
+  let alakayttotarkoitusluokka = '';
+  let eLukuMin = '';
+  let eLukuMax = '';
+  let eLukuChecked = 'A,B,C,D,E,F,G';
+  let nettoalaMin = '';
+  let nettoalaMax = '';
+
+  const submitForm = () => {
+    let searchData = {
+      todistustunnus: todistustunnus,
+      alue: alue
+    };
+
+    if (tarkennettuShown) {
+      searchData.versio = versio;
+      searchData.nimi = nimi;
+      searchData.rakennustunus = rakennustunus;
+      searchData.valmistumisvuosiMin = valmistumisvuosiMin;
+      searchData.valmistumisvuosiMax = valmistumisvuosiMax;
+      searchData.laatimispaivaMin = laatimispaivaMin;
+      searchData.laatimispaivaMax = laatimispaivaMax;
+      searchData.voimassaolopaivaMin = voimassaolopaivaMin;
+      searchData.voimassaolopaivaMax = voimassaolopaivaMax;
+      searchData.kayttotarkoitusluokka = kayttotarkoitusluokka;
+      searchData.alakayttotarkoitusluokka = alakayttotarkoitusluokka;
+      searchData.eLukuMin = eLukuMin;
+      searchData.eLukuMax = eLukuMax;
+      searchData.eLukuChecked = eLukuChecked;
+      searchData.nettoalaMin = nettoalaMin;
+      searchData.nettoalaMax = nettoalaMax;
+    }
+
+    console.log('submit');
+    console.log(searchData);
+  };
 </script>
 
 <style>
@@ -31,6 +81,10 @@
   .checkbox-container input:checked ~ .unchecked {
     @apply hidden;
   }
+
+  .tarkennettu-row:focus-within .tarkennettu-label {
+    @apply font-bold;
+  }
 </style>
 
 <Container {...containerStyles.beige}>
@@ -45,18 +99,22 @@
   </InfoBlock>
 </Container>
 <Container {...containerStyles.white}>
-  <div class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto">
+  <form
+    class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto"
+    on:submit|preventDefault={submitForm}>
     <div class="flex flex-col md:flex-row items-center md:items-start">
       <div class="flex flex-col w-full md:w-9/12">
         <div class="w-full md:w-11/12">
-          <InputSearch label={'Hae todistustunnuksella'} value={''} />
+          <InputSearch
+            label={'Hae todistustunnuksella'}
+            bind:value={todistustunnus} />
         </div>
         <aside class="font-normal text-xs italic mt-4">
           Voit hakea maakunnalla, kunnalla, postinumerolla tai -toimipaikalla.
         </aside>
         <div class="flex">
           <div class="w-full md:w-11/12">
-            <InputSearch label="Hae alueella" value={''} />
+            <InputSearch label="Hae alueella" bind:value={alue} />
           </div>
         </div>
       </div>
@@ -70,164 +128,229 @@
     <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
       <button
         class="inline-flex items-center self-center ml-4 text-green focus:text-ashblue focus:outline-none"
+        aria-expanded={tarkennettuShown}
+        type="button"
         on:click={() => {
           tarkennettuShown = !tarkennettuShown;
         }}>
         {#if tarkennettuShown}
-          <span class="uppercase font-bold">Vähemmän hakuehtoja</span>
+          <span
+            class="uppercase font-bold">{$_('ETHAKU_HAKUEHDOT_PIILOITA')}</span>
           <span class="font-icon text-4xl">expand_less</span>
         {:else}
-          <span class="uppercase font-bold">Lisää hakuehtoja</span>
+          <span
+            class="uppercase font-bold">{$_('ETHAKU_HAKUEHDOT_NAYTA')}</span>
           <span class="font-icon text-4xl">expand_more</span>
         {/if}
       </button>
     </div>
     {#if tarkennettuShown}
       <div
-        class="tarkennettu-haku w-full flex flex-col my-4 py-4 border-t-2 border-b-2 border-green space-y-2"
+        class="tarkennettu-haku w-full lg:w-5/6 flex flex-col my-4 py-4 border-t-2 border-b-2 border-green space-y-2"
         transition:slide>
         <div
-          class="w-full mx-auto center flex flex-col md:flex-row items-center">
+          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
-            Versio
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
+            {$_('ETHAKU_VERSIO')}
           </span>
 
           <div class="w-full md:w-1/2">
             <div class="flex justify-start">
               <label class="checkbox-container flex items-center p-2 md:p-0">
-                <input type="checkbox" bind:group={etVersio} value={'2018'} />
+                <input type="radio" bind:group={versio} value={'2013,2018'} />
                 <span class="material-icons checked text-green">
-                  check_box
+                  radio_button_checked
                 </span>
                 <span class="material-icons unchecked">
-                  check_box_outline_blank
+                  radio_button_unchecked
+                </span>
+                <span class="ml-1 checkbox-text">{$_('KAIKKI')}</span>
+              </label>
+              <label
+                class="checkbox-container flex items-center p-2 ml-3 md:p-0">
+                <input type="radio" bind:group={versio} value={'2018'} />
+                <span class="material-icons checked text-green">
+                  radio_button_checked
+                </span>
+                <span class="material-icons unchecked">
+                  radio_button_unchecked
                 </span>
                 <span class="ml-1 checkbox-text">2018</span>
               </label>
               <label
                 class="checkbox-container flex items-center p-2 ml-3 md:p-0">
-                <input type="checkbox" bind:group={etVersio} value={'2013'} />
+                <input type="radio" bind:group={versio} value={'2013'} />
                 <span class="material-icons checked text-green">
-                  check_box
+                  radio_button_checked
                 </span>
                 <span class="material-icons unchecked">
-                  check_box_outline_blank
+                  radio_button_unchecked
                 </span>
                 <span class="ml-1 checkbox-text">2013</span>
               </label>
             </div>
           </div>
         </div>
-        <div class="w-full mx-auto flex flex-col md:flex-row items-center">
+
+        <div
+          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
-            Rakennuksen nimi
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
+            {$_('ETHAKU_KAYTTOTARKOITUSLUOKKA')}
           </span>
           <div class="w-full md:w-1/2">
-            <InputText label={'rakennus'} />
+            <InputSelect
+              options={luokat}
+              label={$_('KAIKKI')}
+              bind:value={kayttotarkoitusluokka} />
           </div>
         </div>
-        <div class="w-full mx-auto flex flex-col md:flex-row items-center">
+        <div
+          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
-            Pysyvä Rakennustunnus
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
+            {$_('ETHAKU_ALAKAYTTOTARKOITUSLUOKKA')}
           </span>
           <div class="w-full md:w-1/2">
-            <InputText label={'rakennus'} />
+            <InputSelect
+              options={luokat}
+              label={$_('KAIKKI')}
+              bind:value={alakayttotarkoitusluokka} />
           </div>
         </div>
-        <div class="w-full mx-auto flex flex-col md:flex-row items-center">
+        <div
+          class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
           <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
-            Rakennuksen valmistumisvuosi
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
+            {$_('ETHAKU_RAKENNUKSEN_NIMI')}
+          </span>
+          <div class="w-full md:w-1/2">
+            <InputText label={''} bind:value={nimi} />
+          </div>
+        </div>
+        <div
+          class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
+          <span
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
+            {$_('ETHAKU_RAKENNUSTUNNUS')}
+          </span>
+          <div class="w-full md:w-1/2">
+            <InputText label={''} bind:value={rakennustunus} />
+          </div>
+        </div>
+        <div
+          class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
+          <span
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
+            {$_('ETHAKU_RAKENNUS_VUOSI')}
           </span>
           <div
             class="w-full md:w-1/2 flex justify-between items-center text-center">
             <div class="w-2/5">
-              <InputNumber label={'vvvv'} min="1000" max="2900" step="1" />
+              <InputNumber
+                label={'vvvv'}
+                min="1000"
+                max={new Date().getFullYear()}
+                bind:value={valmistumisvuosiMin}
+                step="1"
+                invalidMessage={'Sallittu arvo 1000-' + new Date().getFullYear()} />
             </div>
-            <span class="material-icons"> horizontal_rule </span>
+            <span class="material-icons text-darkgrey"> horizontal_rule </span>
             <div class="w-2/5">
-              <InputNumber label={'vvvv'} min="1000" max="2900" step="1" />
+              <InputNumber
+                label={'vvvv'}
+                min={new Date().getFullYear()}
+                bind:value={valmistumisvuosiMax}
+                max="2900"
+                step="1"
+                invalidMessage={'Sallittu arvo ' + new Date().getFullYear() + '-2900'} />
             </div>
           </div>
         </div>
-        <div class="w-full mx-auto flex flex-col md:flex-row items-center">
+        <div
+          class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
           <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
-            todistuksen laatimispäivä
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
+            {$_('ETHAKU_LAATIMISPAIVA')}
+          </span>
+          <div
+            class="w-full md:w-1/2 flex flex-col md:flex-row justify-between items-center text-center">
+            <div class="w-full md:w-2/5">
+              <InputDate
+                label={'pp.kk.vvvv'}
+                max={laatimispaivaMax}
+                bind:value={laatimispaivaMin} />
+            </div>
+            <span
+              class="material-icons text-darkgrey w-full md:w-auto select-none">
+              horizontal_rule
+            </span>
+            <div class="w-full md:w-2/5">
+              <InputDate
+                label={'pp.kk.vvvv'}
+                min={laatimispaivaMin}
+                bind:value={laatimispaivaMax} />
+            </div>
+          </div>
+        </div>
+        <div
+          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
+          <span
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
+            {$_('ETHAKU_VIIMEINEN_VOIMASSAOLOPAIVA')}
+          </span>
+          <div
+            class="w-full md:w-1/2 flex flex-col md:flex-row justify-between items-center text-center">
+            <div class="w-full md:w-2/5">
+              <InputDate
+                label={'pp.kk.vvvv'}
+                max={voimassaolopaivaMax}
+                bind:value={voimassaolopaivaMin} />
+            </div>
+            <span
+              class="material-icons text-darkgrey w-full md:w-auto select-none">
+              horizontal_rule
+            </span>
+            <div class="w-full md:w-2/5">
+              <InputDate
+                label={'pp.kk.vvvv'}
+                min={voimassaolopaivaMin}
+                bind:value={voimassaolopaivaMax} />
+            </div>
+          </div>
+        </div>
+        <div
+          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
+          <span
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
+            {$_('ETHAKU_E_KOKONAISLUKU')}
           </span>
           <div
             class="w-full md:w-1/2 flex justify-between items-center text-center">
             <div class="w-2/5">
-              <InputDate label={'pp.kk.vvvv'} />
+              <InputNumber
+                label={''}
+                min="0"
+                max={eLukuMax}
+                step="1"
+                bind:value={eLukuMin} />
             </div>
-            <span class="material-icons"> horizontal_rule </span>
+            <span class="material-icons text-darkgrey"> horizontal_rule </span>
             <div class="w-2/5">
-              <InputDate label={'pp.kk.vvvv'} />
+              <InputNumber
+                label={''}
+                min={eLukuMin}
+                step="1"
+                bind:value={eLukuMax} />
             </div>
           </div>
         </div>
         <div
-          class="w-full mx-auto center flex flex-col md:flex-row items-center">
+          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
-            viimeinen voimassaolopäivä
-          </span>
-          <div
-            class="w-full md:w-1/2 flex justify-between items-center text-center">
-            <div class="w-2/5">
-              <InputDate label={'pp.kk.vvvv'} />
-            </div>
-            <span class="material-icons"> horizontal_rule </span>
-            <div class="w-2/5">
-              <InputDate label={'pp.kk.vvvv'} />
-            </div>
-          </div>
-        </div>
-        <div
-          class="w-full mx-auto center flex flex-col md:flex-row items-center">
-          <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
-            käyttötarkoitusluokka
-          </span>
-          <div class="w-full md:w-1/2">
-            <InputText label={'luokka'} />
-          </div>
-        </div>
-        <div
-          class="w-full mx-auto center flex flex-col md:flex-row items-center">
-          <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
-            alakäyttötarkoitusluokka
-          </span>
-          <div class="w-full md:w-1/2">
-            <InputText label={'luokka'} />
-          </div>
-        </div>
-        <div
-          class="w-full mx-auto center flex flex-col md:flex-row items-center">
-          <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
-            E-Luku (Kokonaisluku)
-          </span>
-          <div
-            class="w-full md:w-1/2 flex justify-between items-center text-center">
-            <div class="w-2/5">
-              <InputNumber label={'?'} min="0" step="1" />
-            </div>
-            <span class="material-icons"> horizontal_rule </span>
-            <div class="w-2/5">
-              <InputNumber label={'?'} min="0" step="1" />
-            </div>
-          </div>
-        </div>
-        <div
-          class="w-full mx-auto center flex flex-col md:flex-row items-center">
-          <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
-            E-Luku (A-G)
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
+            {$_('ETHAKU_E_LUKU')}
           </span>
           <div
             class="w-full md:w-1/2 flex flex-col xl:flex-row justify-start items-center">
@@ -330,19 +453,26 @@
           </div>
         </div>
         <div
-          class="w-full mx-auto center flex flex-col md:flex-row items-center">
+          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
-            class="w-full md:w-1/2 uppercase text-ashblue tracking-widest font-bold">
-            Lämmitetty Nettoala (M2)
+            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
+            {$_('ETHAKU_LAMMITETTY_NETTOALA')}
           </span>
           <div
             class="w-full md:w-1/2 flex justify-between items-center text-center">
             <div class="w-2/5">
-              <InputText label={'?'} />
+              <InputNumber
+                label={''}
+                min="0"
+                max={nettoalaMax}
+                bind:value={nettoalaMin} />
             </div>
-            <span class="material-icons"> horizontal_rule </span>
+            <span class="material-icons text-darkgrey"> horizontal_rule </span>
             <div class="w-2/5">
-              <InputText label={'?'} />
+              <InputNumber
+                label={''}
+                min={nettoalaMin}
+                bind:value={nettoalaMax} />
             </div>
           </div>
         </div>
@@ -350,8 +480,19 @@
     {/if}
 
     <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
-      <Button {...buttonStyles.green}>Hae</Button>
-      <Button {...buttonStyles.ashblue}>Tyhjennä hakuehdot</Button>
+      <Button {...buttonStyles.green} type="submit">{$_('HAE')}</Button>
+      <Button
+        {...buttonStyles.ashblue}
+        type="reset"
+        on:click={() => {
+          // Empty button clears all inputs, but versio should never be empty
+          versio = '2013,2018';
+          // Checkboxes don't reset right so emptying array here
+          eLukuChecked = [];
+          tarkennettuShown = false;
+        }}>
+        {$_('HAKU_TYHJENNA')}
+      </Button>
     </div>
-  </div>
+  </form>
 </Container>
