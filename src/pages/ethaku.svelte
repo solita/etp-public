@@ -33,49 +33,33 @@
   let nettoalaMin = '';
   let nettoalaMax = '';
 
-  let emptyForm = () => {
-    todistustunnus = '';
-    alue = '';
-    versio = '2018';
-    nimi = '';
-    rakennustunus = '';
-    valmistumisvuosiMin = '';
-    valmistumisvuosiMax = '';
-    laatimispaivaMin = '';
-    laatimispaivaMax = '';
-    voimassaolopaivaMin = '';
-    voimassaolopaivaMax = '';
-    kayttotarkoitusluokka = '';
-    alakayttotarkoitusluokka = '';
-    eLukuMin = '';
-    eLukuMax = '';
-    eLukuChecked = 'A,B,C,D,E,F,G';
-    nettoalaMin = '';
-    nettoalaMax = '';
-  };
-
   const submitForm = () => {
-    console.log('submit');
-    console.log({
+    let searchData = {
       todistustunnus: todistustunnus,
-      alue: alue,
-      versio: versio,
-      nimi: nimi,
-      rakennustunus: rakennustunus,
-      valmistumisvuosiMin: valmistumisvuosiMin,
-      valmistumisvuosiMax: valmistumisvuosiMax,
-      laatimispaivaMin: laatimispaivaMin,
-      laatimispaivaMax: laatimispaivaMax,
-      voimassaolopaivaMin: voimassaolopaivaMin,
-      voimassaolopaivaMax: voimassaolopaivaMax,
-      kayttotarkoitusluokka: kayttotarkoitusluokka,
-      alakayttotarkoitusluokka: alakayttotarkoitusluokka,
-      eLukuMin: eLukuMin,
-      eLukuMax: eLukuMax,
-      eLukuChecked: eLukuChecked,
-      nettoalaMin: nettoalaMin,
-      nettoalaMax: nettoalaMax
-    });
+      alue: alue
+    };
+
+    if (tarkennettuShown) {
+      searchData.versio = versio;
+      searchData.nimi = nimi;
+      searchData.rakennustunus = rakennustunus;
+      searchData.valmistumisvuosiMin = valmistumisvuosiMin;
+      searchData.valmistumisvuosiMax = valmistumisvuosiMax;
+      searchData.laatimispaivaMin = laatimispaivaMin;
+      searchData.laatimispaivaMax = laatimispaivaMax;
+      searchData.voimassaolopaivaMin = voimassaolopaivaMin;
+      searchData.voimassaolopaivaMax = voimassaolopaivaMax;
+      searchData.kayttotarkoitusluokka = kayttotarkoitusluokka;
+      searchData.alakayttotarkoitusluokka = alakayttotarkoitusluokka;
+      searchData.eLukuMin = eLukuMin;
+      searchData.eLukuMax = eLukuMax;
+      searchData.eLukuChecked = eLukuChecked;
+      searchData.nettoalaMin = nettoalaMin;
+      searchData.nettoalaMax = nettoalaMax;
+    }
+
+    console.log('submit');
+    console.log(searchData);
   };
 </script>
 
@@ -115,7 +99,9 @@
   </InfoBlock>
 </Container>
 <Container {...containerStyles.white}>
-  <div class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto">
+  <form
+    class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto"
+    on:submit|preventDefault={submitForm}>
     <div class="flex flex-col md:flex-row items-center md:items-start">
       <div class="flex flex-col w-full md:w-9/12">
         <div class="w-full md:w-11/12">
@@ -143,6 +129,7 @@
       <button
         class="inline-flex items-center self-center ml-4 text-green focus:text-ashblue focus:outline-none"
         aria-expanded={tarkennettuShown}
+        type="button"
         on:click={() => {
           tarkennettuShown = !tarkennettuShown;
         }}>
@@ -493,10 +480,19 @@
     {/if}
 
     <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
-      <Button {...buttonStyles.green} on:click={submitForm}>{$_('HAE')}</Button>
-      <Button {...buttonStyles.ashblue} on:click={emptyForm}>
+      <Button {...buttonStyles.green} type="submit">{$_('HAE')}</Button>
+      <Button
+        {...buttonStyles.ashblue}
+        type="reset"
+        on:click={() => {
+          // Empty button clears all inputs, but versio should never be empty
+          versio = '2013,2018';
+          // Checkboxes don't reset right so emptying array here
+          eLukuChecked = [];
+          tarkennettuShown = false;
+        }}>
         {$_('HAKU_TYHJENNA')}
       </Button>
     </div>
-  </div>
+  </form>
 </Container>
