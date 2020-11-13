@@ -7,12 +7,14 @@
   import InputNumber from '@Component/input-number';
   import InputDate from '@Component/input-date';
   import InputSelect from '@Component/input-select';
+  import InputVersio from '@Component/input-versio';
   import InfoBlock from '@Component/info-block';
   import Container, { styles as containerStyles } from '@Component/container';
   import { _ } from '@Localization/localization';
   import { navigate } from '@/router/router';
 
   import * as EtHakuUtils from '@/utilities/ethaku';
+  import * as EtApi from '@/api/energiatodistus-api';
 
   export let where = '[[]]';
   export let keyword = '';
@@ -24,68 +26,33 @@
 
   const luokat = ['test 1', 'test 2', 'test 3'];
 
-  const deserializeWhere = (model, where) => {
-    let res;
-    try {
-      res = JSON.parse(where);
-    } catch (e) {
-      res = [[]];
-    }
-
-    const [and] = res;
-
-    return and
-      .map(([op, key, value]) => ({
-        [`${key}${op !== '=' ? (op === '>=' ? '_min' : '_max') : ''}`]: value
-      }))
-      .reduce((acc, item) => ({ ...acc, ...item }), model);
-  };
-
-  $: deserializedWhere = deserializeWhere(
+  $: deserializedWhere = EtHakuUtils.deserializeWhere(
     EtHakuUtils.defaultSearchModel(),
     where
   );
 
   $: searchmodel = { ...deserializedWhere };
 
-  const eq = (key, model) => ['=', key, model[key]];
-  const lte = (key, model) => ['<=', key, model[`${key}_max`]];
-  const gte = (key, model) => ['>=', key, model[`${key}_min`]];
+  $: result = EtApi.energiatodistukset(fetch, {
+    where: EtHakuUtils.whereQueryString(
+      EtHakuUtils.where(tarkennettuShown, deserializedWhere)
+    ),
+    keyword,
+    offset,
+    limit: pageSize
+  });
 
   const commitSearch = model => {
-    const where = [
-      eq('id', model),
-      ...(tarkennettuShown
-        ? [
-            eq('versio', model),
-            eq('perustiedot.nimi', model),
-            eq('perustiedot.rakennustunnus', model),
-            gte('perustiedot.valmistumisvuosi', model),
-            lte('perustiedot.valmistumisvuosi', model),
+    const where = EtHakuUtils.where(tarkennettuShown, model);
 
-            lte('voimassaolo-paattymisaika', model),
-            gte('tulokset.e-luku', model),
-            lte('tulokset.e-luku', model),
-            ...(model['tulokset.e-luokka'].length
-              ? [eq('tulokset.e-luokka', model)]
-              : []),
-            gte('lahtotiedot.lammitetty-nettoala', model),
-            lte('lahtotiedot.lammitetty-nettoala', model)
-          ]
-        : [])
-    ];
-
-    const whereString = JSON.stringify([
-      where.filter(item => {
-        const [value] = [...item].reverse();
-        return value;
-      })
-    ]);
-
+    const whereString = EtHakuUtils.whereQueryString(where);
     const qs = [
-      `offset=0`,
-      `${whereString === '[[]]' ? '' : `where=${whereString}`}`,
-      `${keyword.length ? `keyword=${keyword}` : ''}`
+      `${
+        !whereString.length || whereString === '[[]]'
+          ? ''
+          : `where=${whereString}`
+      }`,
+      `${keyword && keyword.length ? `keyword=${keyword}` : ''}`
     ]
       .filter(item => item.length)
       .join('&');
@@ -112,7 +79,6 @@
   .checkbox-container input:checked ~ .unchecked {
     @apply hidden;
   }
-
   .tarkennettu-row:focus-within .tarkennettu-label {
     @apply font-bold;
   }
@@ -194,47 +160,9 @@
 
           <div class="w-full md:w-1/2">
             <div class="flex justify-start">
-              <label class="checkbox-container flex items-center p-2 md:p-0">
-                <input
-                  type="radio"
-                  bind:group={searchmodel['versio']}
-                  value={''} />
-                <span class="material-icons checked text-green">
-                  radio_button_checked
-                </span>
-                <span class="material-icons unchecked">
-                  radio_button_unchecked
-                </span>
-                <span class="ml-1 checkbox-text">{$_('KAIKKI')}</span>
-              </label>
-              <label
-                class="checkbox-container flex items-center p-2 ml-3 md:p-0">
-                <input
-                  type="radio"
-                  bind:group={searchmodel['versio']}
-                  value={'2018'} />
-                <span class="material-icons checked text-green">
-                  radio_button_checked
-                </span>
-                <span class="material-icons unchecked">
-                  radio_button_unchecked
-                </span>
-                <span class="ml-1 checkbox-text">2018</span>
-              </label>
-              <label
-                class="checkbox-container flex items-center p-2 ml-3 md:p-0">
-                <input
-                  type="radio"
-                  bind:group={searchmodel['versio']}
-                  value={'2013'} />
-                <span class="material-icons checked text-green">
-                  radio_button_checked
-                </span>
-                <span class="material-icons unchecked">
-                  radio_button_unchecked
-                </span>
-                <span class="ml-1 checkbox-text">2013</span>
-              </label>
+              <InputVersio
+                on:input={evt => (searchmodel = { ...searchmodel, versio: parseInt(evt.target.value) })}
+                versio={searchmodel['versio']} />
             </div>
           </div>
         </div>
@@ -480,15 +408,6 @@
               </span>
               <span class="ml-1 checkbox-text">G</span>
             </label>
-
-            <!-- <label
-                class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6 invisible">
-                <input type="checkbox" />
-                <span class="material-icons inline-block">
-                  check_box_outline_blank
-                </span>
-                <span class="ml-1 checkbox-text">X</span>
-              </label> -->
           </div>
         </div>
         <div
