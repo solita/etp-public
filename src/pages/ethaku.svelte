@@ -1,4 +1,5 @@
 <script>
+  import { tick } from 'svelte';
   import { slide } from 'svelte/transition';
   import Button, { styles as buttonStyles } from '@Component/button';
   import InputSearch from '@Component/input-search';
@@ -9,57 +10,87 @@
   import InfoBlock from '@Component/info-block';
   import Container, { styles as containerStyles } from '@Component/container';
   import { _ } from '@Localization/localization';
+  import { navigate } from '@/router/router';
 
-  let tarkennettuShown = false;
+  import * as EtHakuUtils from '@/utilities/ethaku';
+
+  export let where = '[[]]';
+  export let keyword = '';
+  export let offset = 0;
+
+  const pageSize = 25;
+
+  let tarkennettuShown = true;
 
   const luokat = ['test 1', 'test 2', 'test 3'];
 
-  let todistustunnus = '';
-  let alue = '';
-  let versio = '2018';
-  let nimi = '';
-  let rakennustunus = '';
-  let valmistumisvuosiMin = '';
-  let valmistumisvuosiMax = '';
-  let laatimispaivaMin = '';
-  let laatimispaivaMax = '';
-  let voimassaolopaivaMin = '';
-  let voimassaolopaivaMax = '';
-  let kayttotarkoitusluokka = '';
-  let alakayttotarkoitusluokka = '';
-  let eLukuMin = '';
-  let eLukuMax = '';
-  let eLukuChecked = 'A,B,C,D,E,F,G';
-  let nettoalaMin = '';
-  let nettoalaMax = '';
-
-  const submitForm = () => {
-    let searchData = {
-      todistustunnus: todistustunnus,
-      alue: alue
-    };
-
-    if (tarkennettuShown) {
-      searchData.versio = versio;
-      searchData.nimi = nimi;
-      searchData.rakennustunus = rakennustunus;
-      searchData.valmistumisvuosiMin = valmistumisvuosiMin;
-      searchData.valmistumisvuosiMax = valmistumisvuosiMax;
-      searchData.laatimispaivaMin = laatimispaivaMin;
-      searchData.laatimispaivaMax = laatimispaivaMax;
-      searchData.voimassaolopaivaMin = voimassaolopaivaMin;
-      searchData.voimassaolopaivaMax = voimassaolopaivaMax;
-      searchData.kayttotarkoitusluokka = kayttotarkoitusluokka;
-      searchData.alakayttotarkoitusluokka = alakayttotarkoitusluokka;
-      searchData.eLukuMin = eLukuMin;
-      searchData.eLukuMax = eLukuMax;
-      searchData.eLukuChecked = eLukuChecked;
-      searchData.nettoalaMin = nettoalaMin;
-      searchData.nettoalaMax = nettoalaMax;
+  const deserializeWhere = (model, where) => {
+    let res;
+    try {
+      res = JSON.parse(where);
+    } catch (e) {
+      res = [[]];
     }
 
-    console.log('submit');
-    console.log(searchData);
+    const [and] = res;
+
+    return and
+      .map(([op, key, value]) => ({
+        [`${key}${op !== '=' ? (op === '>=' ? '_min' : '_max') : ''}`]: value
+      }))
+      .reduce((acc, item) => ({ ...acc, ...item }), model);
+  };
+
+  $: deserializedWhere = deserializeWhere(
+    EtHakuUtils.defaultSearchModel(),
+    where
+  );
+
+  $: searchmodel = { ...deserializedWhere };
+
+  const eq = (key, model) => ['=', key, model[key]];
+  const lte = (key, model) => ['<=', key, model[`${key}_max`]];
+  const gte = (key, model) => ['>=', key, model[`${key}_min`]];
+
+  const commitSearch = model => {
+    const where = [
+      eq('id', model),
+      ...(tarkennettuShown
+        ? [
+            eq('versio', model),
+            eq('perustiedot.nimi', model),
+            eq('perustiedot.rakennustunnus', model),
+            gte('perustiedot.valmistumisvuosi', model),
+            lte('perustiedot.valmistumisvuosi', model),
+
+            lte('voimassaolo-paattymisaika', model),
+            gte('tulokset.e-luku', model),
+            lte('tulokset.e-luku', model),
+            ...(model['tulokset.e-luokka'].length
+              ? [eq('tulokset.e-luokka', model)]
+              : []),
+            gte('lahtotiedot.lammitetty-nettoala', model),
+            lte('lahtotiedot.lammitetty-nettoala', model)
+          ]
+        : [])
+    ];
+
+    const whereString = JSON.stringify([
+      where.filter(item => {
+        const [value] = [...item].reverse();
+        return value;
+      })
+    ]);
+
+    const qs = [
+      `offset=0`,
+      `${whereString === '[[]]' ? '' : `where=${whereString}`}`,
+      `${keyword.length ? `keyword=${keyword}` : ''}`
+    ]
+      .filter(item => item.length)
+      .join('&');
+
+    navigate(`/ethaku${qs.length ? `?${qs}` : ''}`);
   };
 </script>
 
@@ -101,20 +132,26 @@
 <Container {...containerStyles.white}>
   <form
     class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto"
-    on:submit|preventDefault={submitForm}>
+    on:reset={async () => {
+      await tick();
+      tarkennettuShown = false;
+      keyword = '';
+      searchmodel = EtHakuUtils.defaultSearchModel();
+    }}
+    on:submit|preventDefault={() => commitSearch(searchmodel)}>
     <div class="flex flex-col md:flex-row items-center md:items-start">
       <div class="flex flex-col w-full md:w-9/12">
         <div class="w-full md:w-11/12">
           <InputSearch
             label={'Hae todistustunnuksella'}
-            bind:value={todistustunnus} />
+            bind:value={searchmodel['id']} />
         </div>
         <aside class="font-normal text-xs italic mt-4">
           Voit hakea maakunnalla, kunnalla, postinumerolla tai -toimipaikalla.
         </aside>
         <div class="flex">
           <div class="w-full md:w-11/12">
-            <InputSearch label="Hae alueella" bind:value={alue} />
+            <InputSearch label="Hae alueella" bind:value={keyword} />
           </div>
         </div>
       </div>
@@ -158,7 +195,10 @@
           <div class="w-full md:w-1/2">
             <div class="flex justify-start">
               <label class="checkbox-container flex items-center p-2 md:p-0">
-                <input type="radio" bind:group={versio} value={'2013,2018'} />
+                <input
+                  type="radio"
+                  bind:group={searchmodel['versio']}
+                  value={''} />
                 <span class="material-icons checked text-green">
                   radio_button_checked
                 </span>
@@ -169,7 +209,10 @@
               </label>
               <label
                 class="checkbox-container flex items-center p-2 ml-3 md:p-0">
-                <input type="radio" bind:group={versio} value={'2018'} />
+                <input
+                  type="radio"
+                  bind:group={searchmodel['versio']}
+                  value={'2018'} />
                 <span class="material-icons checked text-green">
                   radio_button_checked
                 </span>
@@ -180,7 +223,10 @@
               </label>
               <label
                 class="checkbox-container flex items-center p-2 ml-3 md:p-0">
-                <input type="radio" bind:group={versio} value={'2013'} />
+                <input
+                  type="radio"
+                  bind:group={searchmodel['versio']}
+                  value={'2013'} />
                 <span class="material-icons checked text-green">
                   radio_button_checked
                 </span>
@@ -200,10 +246,7 @@
             {$_('ETHAKU_KAYTTOTARKOITUSLUOKKA')}
           </span>
           <div class="w-full md:w-1/2">
-            <InputSelect
-              options={luokat}
-              label={$_('KAIKKI')}
-              bind:value={kayttotarkoitusluokka} />
+            <InputSelect options={luokat} label={$_('KAIKKI')} value={''} />
           </div>
         </div>
         <div
@@ -213,10 +256,7 @@
             {$_('ETHAKU_ALAKAYTTOTARKOITUSLUOKKA')}
           </span>
           <div class="w-full md:w-1/2">
-            <InputSelect
-              options={luokat}
-              label={$_('KAIKKI')}
-              bind:value={alakayttotarkoitusluokka} />
+            <InputSelect options={luokat} label={$_('KAIKKI')} value={''} />
           </div>
         </div>
         <div
@@ -226,7 +266,9 @@
             {$_('ETHAKU_RAKENNUKSEN_NIMI')}
           </span>
           <div class="w-full md:w-1/2">
-            <InputText label={''} bind:value={nimi} />
+            <InputText
+              label={''}
+              bind:value={searchmodel['perustiedot.nimi']} />
           </div>
         </div>
         <div
@@ -236,7 +278,9 @@
             {$_('ETHAKU_RAKENNUSTUNNUS')}
           </span>
           <div class="w-full md:w-1/2">
-            <InputText label={''} bind:value={rakennustunus} />
+            <InputText
+              label={''}
+              bind:value={searchmodel['perustiedot.rakennustunnus']} />
           </div>
         </div>
         <div
@@ -252,7 +296,7 @@
                 label={'vvvv'}
                 min="1000"
                 max={new Date().getFullYear()}
-                bind:value={valmistumisvuosiMin}
+                bind:value={searchmodel['perustiedot.valmistumisvuosi_min']}
                 step="1"
                 invalidMessage={'Sallittu arvo 1000-' + new Date().getFullYear()} />
             </div>
@@ -261,7 +305,7 @@
               <InputNumber
                 label={'vvvv'}
                 min={new Date().getFullYear()}
-                bind:value={valmistumisvuosiMax}
+                bind:value={searchmodel['perustiedot.valmistumisvuosi_max']}
                 max="2900"
                 step="1"
                 invalidMessage={'Sallittu arvo ' + new Date().getFullYear() + '-2900'} />
@@ -277,20 +321,14 @@
           <div
             class="w-full md:w-1/2 flex flex-col md:flex-row justify-between items-center text-center">
             <div class="w-full md:w-2/5">
-              <InputDate
-                label={'pp.kk.vvvv'}
-                max={laatimispaivaMax}
-                bind:value={laatimispaivaMin} />
+              <InputDate label={'pp.kk.vvvv'} max={''} value={''} />
             </div>
             <span
               class="material-icons text-darkgrey w-full md:w-auto select-none">
               horizontal_rule
             </span>
             <div class="w-full md:w-2/5">
-              <InputDate
-                label={'pp.kk.vvvv'}
-                min={laatimispaivaMin}
-                bind:value={laatimispaivaMax} />
+              <InputDate label={'pp.kk.vvvv'} min={''} value={''} />
             </div>
           </div>
         </div>
@@ -305,8 +343,8 @@
             <div class="w-full md:w-2/5">
               <InputDate
                 label={'pp.kk.vvvv'}
-                max={voimassaolopaivaMax}
-                bind:value={voimassaolopaivaMin} />
+                max={searchmodel['voimassaolo-paattymisaika_max']}
+                bind:value={searchmodel['voimassaolo-paattymisaika_min']} />
             </div>
             <span
               class="material-icons text-darkgrey w-full md:w-auto select-none">
@@ -315,8 +353,8 @@
             <div class="w-full md:w-2/5">
               <InputDate
                 label={'pp.kk.vvvv'}
-                min={voimassaolopaivaMin}
-                bind:value={voimassaolopaivaMax} />
+                min={searchmodel['voimassaolo-paattymisaika_min']}
+                bind:value={searchmodel['voimassaolo-paattymisaika_max']} />
             </div>
           </div>
         </div>
@@ -332,17 +370,17 @@
               <InputNumber
                 label={''}
                 min="0"
-                max={eLukuMax}
+                max={searchmodel['tulokset.e-luku_max']}
                 step="1"
-                bind:value={eLukuMin} />
+                bind:value={searchmodel['tulokset.e-luku_min']} />
             </div>
             <span class="material-icons text-darkgrey"> horizontal_rule </span>
             <div class="w-2/5">
               <InputNumber
                 label={''}
-                min={eLukuMin}
+                min={searchmodel['tulokset.e-luku_min']}
                 step="1"
-                bind:value={eLukuMax} />
+                bind:value={searchmodel['tulokset.e-luku_max']} />
             </div>
           </div>
         </div>
@@ -353,103 +391,104 @@
             {$_('ETHAKU_E_LUKU')}
           </span>
           <div
-            class="w-full md:w-1/2 flex flex-col xl:flex-row justify-start items-center">
-            <div
-              class="w-full xl:w-auto flex justify-between items-center xl:justify-start">
-              <label
-                class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
-                <input type="checkbox" bind:group={eLukuChecked} value={'A'} />
-                <span class="material-icons checked text-green">
-                  check_box
-                </span>
-                <span class="material-icons unchecked">
-                  check_box_outline_blank
-                </span>
-                <span class="ml-1 checkbox-text">A</span>
-              </label>
+            class="w-full md:w-1/2 flex flex-row flex-wrap sm:justify-between items-center">
+            <label
+              class="checkbox-container flex items-center px-3 py-2 md:p-0">
+              <input
+                type="checkbox"
+                bind:group={searchmodel['tulokset.e-luokka']}
+                value={'A'} />
+              <span class="material-icons checked text-green"> check_box </span>
+              <span class="material-icons unchecked">
+                check_box_outline_blank
+              </span>
+              <span class="ml-1 checkbox-text">A</span>
+            </label>
 
-              <label
-                class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
-                <input type="checkbox" bind:group={eLukuChecked} value={'B'} />
-                <span class="material-icons checked text-green">
-                  check_box
-                </span>
-                <span class="material-icons unchecked">
-                  check_box_outline_blank
-                </span>
-                <span class="ml-1 checkbox-text">B</span>
-              </label>
+            <label
+              class="checkbox-container flex items-center px-3 py-2 md:p-0">
+              <input
+                type="checkbox"
+                bind:group={searchmodel['tulokset.e-luokka']}
+                value={'B'} />
+              <span class="material-icons checked text-green"> check_box </span>
+              <span class="material-icons unchecked">
+                check_box_outline_blank
+              </span>
+              <span class="ml-1 checkbox-text">B</span>
+            </label>
 
-              <label
-                class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
-                <input type="checkbox" bind:group={eLukuChecked} value={'C'} />
-                <span class="material-icons checked text-green">
-                  check_box
-                </span>
-                <span class="material-icons unchecked">
-                  check_box_outline_blank
-                </span>
-                <span class="ml-1 checkbox-text">C</span>
-              </label>
-              <label
-                class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
-                <input type="checkbox" bind:group={eLukuChecked} value={'D'} />
-                <span class="material-icons checked text-green">
-                  check_box
-                </span>
-                <span class="material-icons unchecked">
-                  check_box_outline_blank
-                </span>
-                <span class="ml-1 checkbox-text">D</span>
-              </label>
-            </div>
-            <div
-              class="w-full xl:w-auto flex justify-between items-center xl:justify-start">
-              <label
-                class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
-                <input type="checkbox" bind:group={eLukuChecked} value={'E'} />
-                <span class="material-icons checked text-green">
-                  check_box
-                </span>
-                <span class="material-icons unchecked">
-                  check_box_outline_blank
-                </span>
-                <span class="ml-1 checkbox-text">E</span>
-              </label>
+            <label
+              class="checkbox-container flex items-center px-3 py-2 md:p-0">
+              <input
+                type="checkbox"
+                bind:group={searchmodel['tulokset.e-luokka']}
+                value={'C'} />
+              <span class="material-icons checked text-green"> check_box </span>
+              <span class="material-icons unchecked">
+                check_box_outline_blank
+              </span>
+              <span class="ml-1 checkbox-text">C</span>
+            </label>
+            <label
+              class="checkbox-container flex items-center px-3 py-2 md:p-0">
+              <input
+                type="checkbox"
+                bind:group={searchmodel['tulokset.e-luokka']}
+                value={'D'} />
+              <span class="material-icons checked text-green"> check_box </span>
+              <span class="material-icons unchecked">
+                check_box_outline_blank
+              </span>
+              <span class="ml-1 checkbox-text">D</span>
+            </label>
+            <label
+              class="checkbox-container flex items-center px-3 py-2 md:p-0">
+              <input
+                type="checkbox"
+                bind:group={searchmodel['tulokset.e-luokka']}
+                value={'E'} />
+              <span class="material-icons checked text-green"> check_box </span>
+              <span class="material-icons unchecked">
+                check_box_outline_blank
+              </span>
+              <span class="ml-1 checkbox-text">E</span>
+            </label>
 
-              <label
-                class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
-                <input type="checkbox" bind:group={eLukuChecked} value={'F'} />
-                <span class="material-icons checked text-green">
-                  check_box
-                </span>
-                <span class="material-icons unchecked">
-                  check_box_outline_blank
-                </span>
-                <span class="ml-1 checkbox-text">F</span>
-              </label>
+            <label
+              class="checkbox-container flex items-center px-3 py-2 md:p-0">
+              <input
+                type="checkbox"
+                bind:group={searchmodel['tulokset.e-luokka']}
+                value={'F'} />
+              <span class="material-icons checked text-green"> check_box </span>
+              <span class="material-icons unchecked">
+                check_box_outline_blank
+              </span>
+              <span class="ml-1 checkbox-text">F</span>
+            </label>
 
-              <label
-                class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
-                <input type="checkbox" bind:group={eLukuChecked} value={'G'} />
-                <span class="material-icons checked text-green">
-                  check_box
-                </span>
-                <span class="material-icons unchecked">
-                  check_box_outline_blank
-                </span>
-                <span class="ml-1 checkbox-text">G</span>
-              </label>
+            <label
+              class="checkbox-container flex items-center px-3 py-2 md:p-0">
+              <input
+                type="checkbox"
+                bind:group={searchmodel['tulokset.e-luokka']}
+                value={'G'} />
+              <span class="material-icons checked text-green"> check_box </span>
+              <span class="material-icons unchecked">
+                check_box_outline_blank
+              </span>
+              <span class="ml-1 checkbox-text">G</span>
+            </label>
 
-              <label
+            <!-- <label
                 class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6 invisible">
                 <input type="checkbox" />
                 <span class="material-icons inline-block">
                   check_box_outline_blank
                 </span>
                 <span class="ml-1 checkbox-text">X</span>
-              </label>
-            </div>
+              </label> -->
           </div>
         </div>
         <div
@@ -464,15 +503,15 @@
               <InputNumber
                 label={''}
                 min="0"
-                max={nettoalaMax}
-                bind:value={nettoalaMin} />
+                max={searchmodel['lahtotiedot.lammitetty-nettoala_max']}
+                bind:value={searchmodel['lahtotiedot.lammitetty-nettoala_min']} />
             </div>
             <span class="material-icons text-darkgrey"> horizontal_rule </span>
             <div class="w-2/5">
               <InputNumber
                 label={''}
-                min={nettoalaMin}
-                bind:value={nettoalaMax} />
+                min={searchmodel['lahtotiedot.lammitetty-nettoala_min']}
+                bind:value={searchmodel['lahtotiedot.lammitetty-nettoala_max']} />
             </div>
           </div>
         </div>
@@ -481,16 +520,7 @@
 
     <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
       <Button {...buttonStyles.green} type="submit">{$_('HAE')}</Button>
-      <Button
-        {...buttonStyles.ashblue}
-        type="reset"
-        on:click={() => {
-          // Empty button clears all inputs, but versio should never be empty
-          versio = '2013,2018';
-          // Checkboxes don't reset right so emptying array here
-          eLukuChecked = [];
-          tarkennettuShown = false;
-        }}>
+      <Button {...buttonStyles.ashblue} type="reset">
         {$_('HAKU_TYHJENNA')}
       </Button>
     </div>
