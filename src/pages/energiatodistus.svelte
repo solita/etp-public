@@ -4,18 +4,22 @@
   import Spinner from '@Component/spinner';
   import { onMount } from 'svelte';
   import { backReferred } from '@/router/router';
+  import { _ } from '@Localization/localization';
 
   export let id = 0;
+  export let versio = 2018;
 
   let component = null;
   // $: energiatodistusPromise = new Promise(() => {});
   $: energiatodistusPromise = {
     id: id,
     todistustunnus: '1234123',
+    pysyvatodistustunnus: 'P1234123',
     nimi: 'Rakennusnimi',
     osoite: 'Osoite 123',
     rakennustunnus: 'ABCDEFG',
     valmistumisvuosi: '2020',
+    luokka: 'B',
     kayttotakoitusluokka: 'Asuitalot, joissa ujansdfoasngobaosugboi',
     eluku: '??????',
     todistuksenlaatija: 'Leena Laatija',
@@ -34,52 +38,75 @@
 <style>
   .graph-color-a {
     background-color: #1d8c38;
-    padding-right: 10%;
   }
   .graph-color-a ~ .arrow-right {
     border-left-color: #1d8c38;
   }
   .graph-color-b {
     background-color: #72a42f;
-    padding-right: 20%;
+    padding-right: 5%;
   }
   .graph-color-b ~ .arrow-right {
     border-left-color: #72a42f;
   }
   .graph-color-c {
     background-color: #c3cc16;
-    padding-right: 30%;
+    padding-right: 10%;
   }
   .graph-color-c ~ .arrow-right {
     border-left-color: #c3cc16;
   }
   .graph-color-d {
     background-color: #ffe900;
-    padding-right: 40%;
+    padding-right: 15%;
   }
   .graph-color-d ~ .arrow-right {
     border-left-color: #ffe900;
   }
   .graph-color-e {
     background-color: #e5ac00;
-    padding-right: 50%;
+    padding-right: 20%;
   }
   .graph-color-e ~ .arrow-right {
     border-left-color: #e5ac00;
   }
   .graph-color-f {
     background-color: #c95a00;
-    padding-right: 60%;
+    padding-right: 25%;
   }
   .graph-color-f ~ .arrow-right {
     border-left-color: #c95a00;
   }
   .graph-color-g {
     background-color: #bc000b;
-    padding-right: 70%;
+    padding-right: 30%;
   }
   .graph-color-g ~ .arrow-right {
     border-left-color: #bc000b;
+  }
+
+  @media screen and (min-width: 640px) {
+    .graph-color-a {
+      padding-right: 10%;
+    }
+    .graph-color-b {
+      padding-right: 20%;
+    }
+    .graph-color-c {
+      padding-right: 30%;
+    }
+    .graph-color-d {
+      padding-right: 40%;
+    }
+    .graph-color-e {
+      padding-right: 50%;
+    }
+    .graph-color-f {
+      padding-right: 60%;
+    }
+    .graph-color-g {
+      padding-right: 70%;
+    }
   }
 
   .arrow-left {
@@ -108,12 +135,9 @@
           backReferred('/ethaku');
         }}>
         <span class="material-icons align-middle">arrow_back</span>
-        <span class="whitespace-no-wrap">Takaisin listaukseen</span>
+        <span class="whitespace-no-wrap">{$_('ET_BACK')}</span>
       </Button>
-      <span class="flex-grow mr-2">Energiatodistuksesta saa nähtäväksi koosteen
-        eli kahden ensimmäisen sivun tiedot (henkilötietosuojan vuoksi ei
-        kuitenkaan 1-2 huoneistoa koskevista kohteista).
-      </span>
+      <span class="flex-grow mr-2"> {$_('ET_KUVAUS')} </span>
     </div>
   </Container>
   <Container {...containerStyles.white}>
@@ -127,7 +151,10 @@
           <div
             class="w-full flex flex-col md:flex-row justify-between items-center">
             <h1 class="text-xl uppercase text-ashblue my-0">
-              Energiatodistus 201X - Kooste
+              {$_('ENERGIATODISTUS')}
+              {versio}
+              -
+              {$_('ET_KOOSTE')}
             </h1>
             <Button
               {...buttonStyles.ashblue}
@@ -135,196 +162,245 @@
                 backReferred('/laatijahaku');
               }}>
               <span class="material-icons">visibility</span>
-              <span class="whitespace-no-wrap">Katso virallinen malli</span>
+              <span class="whitespace-no-wrap"> {$_('ET_VIRALLINEN')}</span>
             </Button>
           </div>
         </div>
         <div class="w-full flex flex-col mx-auto items-center space-y-6">
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <span class="w-full md:w-1/2 text-ashblue">Todistustunnus:</span>
+            <span
+              class="w-full md:w-1/2 text-ashblue">{$_('ET_TODISTETUNNUS')}:</span>
             <span
               class="w-full md:w-1/2">{energiatodistus.todistustunnus}</span>
           </div>
+          {#if (versio = '2018')}
+            <div
+              class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+              <span
+                class="w-full md:w-1/2 text-ashblue">{$_('ET_PYSYVA_TODISTETUNNUS')}:</span>
+              <span
+                class="w-full md:w-1/2">{energiatodistus.pysyvatodistustunnus}</span>
+            </div>
+          {/if}
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <span class="w-full md:w-1/2 text-ashblue">Rakennuksen nimi ja
-              osoite:</span>
+            <span
+              class="w-full md:w-1/2 text-ashblue">{$_('ET_PYSYVA_TODISTETUNNUS')}:</span>
             <span class="w-full md:w-1/2">{energiatodistus.nimi}
               -
               {energiatodistus.osoite}</span>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <span class="w-full md:w-1/2 text-ashblue">Rakennustunnus:</span>
+            <span
+              class="w-full md:w-1/2 text-ashblue">{$_('ET_RAKENNUSTUNNUS')}:</span>
             <span
               class="w-full md:w-1/2">{energiatodistus.rakennustunnus}</span>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <span class="w-full md:w-1/2 text-ashblue">Rakennuksen
-              käyttötarkoitusluokka:</span>
+            <span
+              class="w-full md:w-1/2 text-ashblue">{$_('ET_RAKENNUS_KAYTTOTARKOITUS')}:</span>
             <span
               class="w-full md:w-1/2">{energiatodistus.kayttotakoitusluokka}</span>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <span class="w-full md:w-1/2 text-ashblue">Rakennuksen
-              valmistumisvuosi:</span>
+            <span
+              class="w-full md:w-1/2 text-ashblue">{$_('ET_RAKENNUS_VUOSI')}:</span>
             <span
               class="w-full md:w-1/2">{energiatodistus.valmistumisvuosi}</span>
           </div>
+          {#if versio == '2018'}
+            <div
+              class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+              <span
+                class="w-full md:w-1/2 text-ashblue">{$_('ET_LAATIMISVAIHE')}:</span>
+              <span
+                class="w-full md:w-1/2">{energiatodistus.laatimisvaihe}</span>
+            </div>
+            <div
+              class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+              <span
+                class="w-full md:w-1/2 text-ashblue">{$_('ET_HAVANNOINTI')}:</span>
+              <span
+                class="w-full md:w-1/2">{energiatodistus.havannointikaynti}</span>
+            </div>
+          {/if}
           <div class="w-full my-8 flex flex-col bg-white">
             <div class="w-full flex border-b border-black">
               <div class="w-0 md:w-1/2 md:border-r border-black p-2" />
               <div
                 class="w-full md:w-1/2 px-2 py-4 flex justify-end md:justify-start md:pl-10">
-                <span class="text-green text-lg">Energiatehokkuusluokka</span>
+                <span class="text-green text-lg">{$_('ET_LUOKKA')}</span>
               </div>
             </div>
             <div class="w-full flex border-b border-black">
               <div
                 class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
                 <span
-                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-a">A</span>
+                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-a pr-1 md:pr-auto">A</span>
                 <div class="arrow-right" />
               </div>
               <div
                 class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
-                <div class="arrow-left" />
-                <div
-                  class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
-                  <span class="font-bold">A</span><span
-                    class="text-sm -mb-1">201X</span>
-                </div>
+                {#if energiatodistusPromise.luokka == 'A'}
+                  <div class="arrow-left" />
+                  <div
+                    class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
+                    <span class="font-bold">A</span><span
+                      class="text-sm">{versio}</span>
+                  </div>
+                {/if}
               </div>
             </div>
             <div class="w-full flex border-b border-black">
               <div
                 class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
                 <span
-                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-b">B</span>
+                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-b pr-1 md:pr-auto">B</span>
                 <div class="arrow-right" />
               </div>
               <div
                 class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
-                <div class="arrow-left" />
-                <div
-                  class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
-                  <span class="font-bold">B</span><span
-                    class="text-sm -mb-1">201X</span>
-                </div>
+                {#if energiatodistusPromise.luokka == 'B'}
+                  <div class="arrow-left" />
+                  <div
+                    class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white align-top">
+                    <span class="font-bold">B</span><span
+                      class="text-sm">{versio}</span>
+                  </div>
+                {/if}
               </div>
             </div>
             <div class="w-full flex border-b border-black">
               <div
                 class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
                 <span
-                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-c">C</span>
+                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-c pr-1 md:pr-auto">C</span>
                 <div class="arrow-right" />
               </div>
               <div
                 class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
-                <div class="arrow-left" />
-                <div
-                  class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
-                  <span class="font-bold">C</span><span
-                    class="text-sm -mb-1">201X</span>
-                </div>
+                {#if energiatodistusPromise.luokka == 'C'}
+                  <div class="arrow-left" />
+                  <div
+                    class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
+                    <span class="font-bold">C</span><span
+                      class="text-sm">{versio}</span>
+                  </div>
+                {/if}
               </div>
             </div>
             <div class="w-full flex border-b border-black">
               <div
                 class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
                 <span
-                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-d">D</span>
+                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-d pr-1 md:pr-auto">D</span>
                 <div class="arrow-right" />
               </div>
               <div
                 class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
-                <div class="arrow-left" />
-                <div
-                  class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
-                  <span class="font-bold">D</span><span
-                    class="text-sm -mb-1">201X</span>
-                </div>
+                {#if energiatodistusPromise.luokka == 'D'}
+                  <div class="arrow-left" />
+                  <div
+                    class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
+                    <span class="font-bold">D</span><span
+                      class="text-sm">{versio}</span>
+                  </div>
+                {/if}
               </div>
             </div>
             <div class="w-full flex border-b border-black">
               <div
                 class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
                 <span
-                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-e">E</span>
+                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-e pr-1 md:pr-auto">E</span>
                 <div class="arrow-right" />
               </div>
               <div
                 class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
-                <div class="arrow-left" />
-                <div
-                  class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
-                  <span class="font-bold">E</span><span
-                    class="text-sm -mb-1">201X</span>
-                </div>
+                {#if energiatodistusPromise.luokka == 'E'}
+                  <div class="arrow-left" />
+                  <div
+                    class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
+                    <span class="font-bold">E</span><span
+                      class="text-sm">{versio}</span>
+                  </div>
+                {/if}
               </div>
             </div>
             <div class="w-full flex border-b border-black">
               <div
                 class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
                 <span
-                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-f">F</span>
+                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-f pr-1 md:pr-auto">F</span>
                 <div class="arrow-right" />
               </div>
               <div
                 class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
-                <div class="arrow-left" />
-                <div
-                  class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
-                  <span class="font-bold">F</span><span
-                    class="text-sm -mb-1">201X</span>
-                </div>
+                {#if energiatodistusPromise.luokka == 'F'}
+                  <div class="arrow-left" />
+                  <div
+                    class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
+                    <span class="font-bold">F</span><span
+                      class="text-sm">{versio}</span>
+                  </div>
+                {/if}
               </div>
             </div>
             <div class="w-full flex border-b border-black">
               <div
                 class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
                 <span
-                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-g">G</span>
+                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-g pr-1 md:pr-auto">G</span>
                 <div class="arrow-right" />
               </div>
               <div
                 class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
-                <div class="arrow-left" />
-                <div
-                  class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
-                  <span class="font-bold">G</span><span
-                    class="text-sm -mb-1">201X</span>
-                </div>
+                {#if energiatodistusPromise.luokka == 'G'}
+                  <div class="arrow-left" />
+                  <div
+                    class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
+                    <span class="font-bold">G</span><span
+                      class="text-sm">{versio}</span>
+                  </div>
+                {/if}
               </div>
             </div>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <span class="w-full md:w-2/3 text-ashblue">Rakennuksen
-              laskennallinen kokonaisenergiankulutus eli E-luku:</span>
+            <span class="w-full md:w-2/3 text-ashblue">{$_('ET_ELUKU')}:</span>
             <span class="w-full md:w-1/3">{energiatodistus.eluku}</span>
           </div>
+          {#if versio == '2018'}
+            <div
+              class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+              <span
+                class="w-full md:w-2/3 text-ashblue">{$_('ET_VAATIMUSTASO')}:</span>
+              <span class="w-full md:w-1/3">{'<= 105 kWhE/(m2 vuosi)'}</span>
+            </div>
+          {/if}
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <span class="w-full md:w-1/2 text-ashblue">Todistuksen laatija:</span>
+            <span
+              class="w-full md:w-1/2 text-ashblue">{$_('ET_LAATIJA')}:</span>
             <span
               class="w-full md:w-1/2">{energiatodistus.todistuksenlaatija}</span>
           </div>
           <div
             class="flex flex-col md:flex-row md:space-x-2 w-full items-center justify-center">
             <div class="flex flex-col w-full md:w-1/2">
-              <span class="w-full md:w-1/2 text-ashblue">Todistuksen
-                laatimispäivä:</span>
+              <span
+                class="w-full md:w-1/2 text-ashblue">{$_('ET_LAATIMISPAIVA')}:</span>
               <span
                 class="w-full md:w-1/2">{energiatodistus.todistuksenlaatimispaiva}</span>
             </div>
             <div class="flex flex-col w-full md:w-1/2">
-              <span class="w-full md:w-1/2 text-ashblue">Viimeinen
-                voimassaolopäivä:</span>
+              <span
+                class="w-full md:w-1/2 text-ashblue">{$_('ET_VOIMASSAOLOPAIVA')}:</span>
               <span
                 class="w-full md:w-1/2">{energiatodistus.todistuksenviimeinenvoimassaolopaiva}</span>
             </div>
@@ -332,28 +408,29 @@
         </div>
 
         <h2 class="w-full text-green uppercase text-xl mt-8">
-          Yhteenveto rakennuksen energiatehokkuudesta
+          {$_('ET_YHTEENVETO')}
         </h2>
         <span
-          class="w-full flex bg-ashblue text-white uppercase px-4 py-3 my-4">Laskettu
-          kokonaisenergiankulutus ja ostoenergiankulutus</span>
+          class="w-full flex bg-ashblue text-white uppercase px-4 py-3 my-4">
+          {$_('ET_LASKETTU_KOKONAISENERGIA')}</span>
         <div class="w-full flex flex-col mx-auto items-center space-y-6 my-8">
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <span class="w-full md:w-1/2 text-ashblue">Lämmitetty nettoala:</span>
+            <span
+              class="w-full md:w-1/2 text-ashblue">{$_('ET_NETTOALA')}:</span>
             <span class="w-full md:w-1/2">{energiatodistus.nettoala}</span>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <span class="w-full md:w-1/2 text-ashblue">Lämmitysjärjestelmän
-              kuvaus:</span>
+            <span
+              class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_KUVAUS')}:</span>
             <span
               class="w-full md:w-1/2">{energiatodistus.lammitysjarjestelma}</span>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <span class="w-full md:w-1/2 text-ashblue">Ilmanvaihtojärjestelmän
-              kuvaus:</span>
+            <span
+              class="w-full md:w-1/2 text-ashblue">{$_('ET_ILMANVAIHTO_KUVAUS')}:</span>
             <span
               class="w-full md:w-1/2">{energiatodistus.ilmanvaihtojarjestelma}</span>
           </div>
@@ -364,38 +441,58 @@
             <thead class="bg-beige text-green align-center">
               <tr>
                 <th class="w-1/5 pl-2 text-left" rowspan="2">
-                  Käytettävä energiamuoto
+                  {$_('ET_ENERGIAMUOTO')}
                 </th>
-                <th class="w-2/5" colspan="2">
-                  Vakioidulla käytöllä laskettu ostoenergia
-                </th>
-                <th class="w-1/5" rowspan="2">Energiamuodon kerroin</th>
+                <th class="w-2/5" colspan="2">{$_('ET_OSTOENERGIA')}</th>
                 <th class="w-1/5" rowspan="2">
-                  Energiamuodon kertoimella painotettu energia kWh/(m2/vuosi)
+                  {$_('ET_ENERGIAMUODON_KERROIN')}
+                </th>
+                <th class="w-1/5" rowspan="2">
+                  {$_('ET_ENERGIAMUODON_PAINOTETTU')}
                 </th>
               </tr>
               <tr>
-                <th>kWhE/vuosi</th>
-                <th>kWh/(m2/vuosi)</th>
+                <th>{$_('ET_ILMANVAIHTO_1')}</th>
+                <th>{$_('ET_ILMANVAIHTO_2')}</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="py-4 pl-2 text-left">Sahko</td>
+                <td
+                  data-title="Käytettävä energiamuoto"
+                  class="py-4 pl-2 text-left">
+                  {$_('ET_SAHKO')}
+                </td>
+                <td
+                  data-title="Vakioidulla käytöllä laskettu ostoenergia"
+                  class="py-4">
+                  1234
+                </td>
+                <td
+                  data-title="Vakioidulla käytöllä laskettu ostoenergia"
+                  class="py-4">
+                  1234
+                </td>
+                <td data-title="Energiamuodon kerroin" class="py-4 font-normal">
+                  1234
+                </td>
+                <td
+                  data-title="Energiamuodon kertoimella painotettu energia kWh/(m2/vuosi)"
+                  class="py-4">
+                  1234
+                </td>
+              </tr>
+              <tr>
+                <td class="py-4 pl-2 text-left">{$_('ET_KAUKOLAMPO')}</td>
                 <td class="py-4">1234</td>
                 <td class="py-4">1234</td>
                 <td class="py-4 font-normal">1234</td>
                 <td class="py-4">1234</td>
               </tr>
               <tr>
-                <td class="py-4 pl-2 text-left">Kaukolampo</td>
-                <td class="py-4">1234</td>
-                <td class="py-4">1234</td>
-                <td class="py-4 font-normal">1234</td>
-                <td class="py-4">1234</td>
-              </tr>
-              <tr>
-                <td class="py-4 pl-2 text-left">Uusiutuva polttoaine</td>
+                <td class="py-4 pl-2 text-left">
+                  {$_('ET_UUDISTUVA_POLTTOAINE')}
+                </td>
                 <td class="py-4">1234</td>
                 <td class="py-4">1234</td>
                 <td class="py-4 font-normal">1234</td>
@@ -403,7 +500,7 @@
               </tr>
               <tr class="border-t border-grey">
                 <td class="py-4 w-4/5 justify-end text-right" colspan="4">
-                  Energiatehottuuden vertailuluku (E-luku)
+                  {$_('ET_VERTAILULUKU')}
                 </td>
                 <td class="py-4">1234</td>
               </tr>
@@ -413,40 +510,34 @@
 
         <span
           class="w-full flex bg-ashblue text-white uppercase px-4 py-3 my-4">
-          Rakennuksen energiatehokkuusluokka
+          {$_('ET_RAKENNUKSEN_ET_LUOKKA')}
         </span>
 
         <div class="w-full flex flex-col mx-auto items-center space-y-6 my-8">
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <span class="w-full md:w-1/3 text-ashblue">Käytetty E-luvun
-              kuokitteluasteikko:</span>
+            <span
+              class="w-full md:w-1/3 text-ashblue">{$_('ET_KAYTETTY_KUOKITTELU')}:</span>
             <span class="w-full md:w-2/3">{energiatodistus.nettoala}</span>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <span class="w-full md:w-1/3 text-ashblue">Luokkien rajat asteikolla</span>
-            <div class="w-full md:w-2/3">
-              <strong>A</strong>
-              <span>(0-80)</span>
-              <strong>B</strong>
-              <span>(81-110)</span>
-              <strong>C</strong>
-              <span>(111-150)</span>
-              <strong>D</strong>
-              <span>(151-210)</span>
-              <strong>E</strong>
-              <span>(211-340)</span>
-              <strong>F</strong>
-              <span>(341-410)</span>
-              <strong>G</strong>
-              <span>(411-)</span>
+            <span
+              class="w-full md:w-1/3 text-ashblue">{$_('ET_LUOKKIEN_RAJAT')}</span>
+            <div class="w-full md:w-2/3 flex flex-col md:flex-row md:space-x-1">
+              <div><strong>A</strong> <span>(0-80)</span></div>
+              <div><strong>B</strong> <span>(81-110)</span></div>
+              <div><strong>C</strong> <span>(111-150)</span></div>
+              <div><strong>D</strong> <span>(151-210)</span></div>
+              <div><strong>E</strong> <span>(211-340)</span></div>
+              <div><strong>F</strong> <span>(341-410)</span></div>
+              <div><strong>G</strong> <span>(411-)</span></div>
             </div>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <span class="w-full md:w-1/3 text-ashblue">Tämän rakennuksen
-              E-luokka</span>
+            <span
+              class="w-full md:w-1/3 text-ashblue">{$_('ET_RAKENNUKSEN_E_LUOKKA')}</span>
             <span class="w-full md:w-2/3">{energiatodistus.nettoala}</span>
           </div>
           <p class="w-full">{energiatodistus.longtext}</p>
@@ -454,11 +545,10 @@
 
         <div class="w-full flex flex-col mx-auto items-center space-y-6 mt-6">
           <h2 class="w-full text-green uppercase text-xl">
-            Energitehokkuutta parantavia toimenpiteitä
+            {$_('ET_ENERGIATEHOKKUUTTA_PARANTAVIA')}
           </h2>
           <span
-            class="w-full bg-ashblue text-white uppercase px-4 py-3 my-4">Laskettu
-            kokonaisenergiankulutus ja ostoenergiankulutus</span>
+            class="w-full bg-ashblue text-white uppercase px-4 py-3 my-4">{$_('ET_LASKETTU_KOKONAIS')}</span>
           <p class="w-full">{energiatodistus.longtext}</p>
           <div class="w-full">
             <Button
@@ -467,7 +557,7 @@
                 console.log('print clicked');
               }}>
               <span class="material-icons align-middle">print</span>
-              <span class="whitespace-no-wrap">Tulosta</span>
+              <span class="whitespace-no-wrap"> {$_('TULOSTA')} </span>
             </Button>
           </div>
         </div>
