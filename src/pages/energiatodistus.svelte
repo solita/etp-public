@@ -29,6 +29,8 @@
     lammitysjarjestelma:
       'Kaukolämpö, Vesiradiaattori / Kaukolämpö, kiertojohdolla',
     ilmanvaihtojarjestelma: 'Koneellinen poisto ilman skajnfgipsngipo',
+    laatimisvaihe: 'Laatimisvaihe 123123123123',
+    havannointikaynti: 'havannointikaynti 123123123123',
     longtext: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus commodo tincidunt accumsan. Nam ac turpis ex. Donec bibendum lorem sem, vitae tincidunt dui condimentum quis. `
   };
 
