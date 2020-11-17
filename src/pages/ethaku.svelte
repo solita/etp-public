@@ -71,6 +71,7 @@
     };
 
     return keys.map(item => {
+      console.log(item, model[item], validate[item](model[item]));
       return validate[item](model[item]);
     });
   };
@@ -99,6 +100,8 @@
     validationModel,
     searchmodel
   ).reduce((acc, item) => acc && item, true);
+
+  $: console.log(isValid);
 
   $: result = EtApi.energiatodistukset(fetch, {
     where: EtHakuUtils.whereQueryString(
@@ -400,21 +403,27 @@
               <InputNumber
                 label={''}
                 min="0"
-                max={searchmodel['tulokset.e-luku_max']}
+                max={numberOrDefault(1000, searchmodel['tulokset.e-luku_max'])}
                 model={searchmodel}
                 path={'tulokset.e-luku_min'}
                 set={setter('tulokset.e-luku_min')}
-                step="1" />
+                step="1"
+                validation={validationModel['tulokset.e-luku_min'](0, numberOrDefault(1000, searchmodel['tulokset.e-luku_max']))}
+                validate={true}
+                invalidMessage={`Arvo voi olla väliltä 0 - ${numberOrDefault(1000, searchmodel['tulokset.e-luku_max'])}`} />
             </div>
             <span class="material-icons text-darkgrey"> horizontal_rule </span>
             <div class="w-2/5">
               <InputNumber
                 label={''}
-                min={searchmodel['tulokset.e-luku_min']}
+                min={numberOrDefault(1, searchmodel['tulokset.e-luku_min'])}
                 model={searchmodel}
                 path={'tulokset.e-luku_max'}
                 set={setter('tulokset.e-luku_max')}
-                step="1" />
+                step="1"
+                validation={validationModel['tulokset.e-luku_max'](numberOrDefault(1, searchmodel['tulokset.e-luku_min']), 1000)}
+                validate={true}
+                invalidMessage={`Arvo voi olla väliltä ${numberOrDefault(1, searchmodel['tulokset.e-luku_min'])} - 1000`} />
             </div>
           </div>
         </div>

@@ -42,7 +42,7 @@
   }
   .errortext {
     @apply text-xs absolute;
-    bottom: -0.4em;
+    bottom: 1em;
     left: 0;
   }
 </style>

@@ -14,7 +14,7 @@
   export let validation = () => true;
   export let validate = false;
 
-  let valid = true;
+  $: valid = validation(value);
 
   export let min = 0;
   export let max = 1000;
@@ -41,7 +41,7 @@
 
   .errortext {
     @apply text-xs absolute;
-    bottom: -0.4em;
+    bottom: 1em;
     left: 0;
   }
 </style>
@@ -63,9 +63,6 @@ border-red
       on:focus={() => (focused = true)}
       on:blur={() => (focused = false)}
       on:input={evt => {
-        if (validate) {
-          valid = validation(evt.target.value);
-        }
         set(evt.target.value);
       }} />
   </div>
