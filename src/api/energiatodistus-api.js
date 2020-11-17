@@ -23,7 +23,7 @@ export const energiatodistukset = (fetch, opts) => {
   );
 
   if (
-    Object.keys(filteredOpts).some(item => ['where', 'keyword'].includes(item))
+    !Object.keys(filteredOpts).some(item => ['where', 'keyword'].includes(item))
   )
     return Promise.resolve([]);
 

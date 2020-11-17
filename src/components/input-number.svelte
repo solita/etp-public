@@ -9,8 +9,21 @@
   export let step;
   export let invalidMessage;
 
+  export let model = {};
+  export let path = '';
+  export let set = val => (value = val);
+
+  $: value = model[path];
+
+  export let validation = () => true;
+  export let validate = false;
+
+  let valid = true;
+
+  $: valid = validation(value);
+
   let id;
-  $: valid = ((min && value >= min) || !min) && ((max && value <= max) || !max);
+  let focused = false;
 
   onMount(() => (id = Math.random().toString(36).substr(2, 9)));
 </script>
@@ -27,12 +40,17 @@
   .input-parent:focus-within {
     @apply bg-grey border-green;
   }
+  .errortext {
+    @apply text-xs absolute;
+    bottom: -0.4em;
+    left: 0;
+  }
 </style>
 
 <!-- purgecss: 
 border-red
 -->
-<div class="relative w-full  flex flex-col">
+<div class="relative w-full  flex flex-col pb-8">
   <label for={id} class="sr-only">{label}</label>
   <div
     class:border-red={!valid && value}
@@ -45,11 +63,14 @@ border-red
       {max}
       {step}
       bind:value
+      on:input={evt => set(evt.target.value)}
       type="number"
       placeholder={label}
-      class="w-full focus:outline-none" />
+      class="w-full focus:outline-none"
+      on:focus={() => (focused = true)}
+      on:blur={() => (focused = false)} />
   </div>
-  {#if invalidMessage && !valid && value}
-    <span class="w-full text-xs">{invalidMessage}</span>
-  {:else}<span class="w-full text-xs invisible">III</span>{/if}
+  {#if !focused && invalidMessage && !valid && value}
+    <span class="errortext">{invalidMessage}</span>
+  {/if}
 </div>

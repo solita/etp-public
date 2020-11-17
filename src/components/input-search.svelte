@@ -2,10 +2,20 @@
   import { onMount } from 'svelte';
 
   export let label;
-  export let value;
   export let name;
 
+  export let model = {};
+  export let path = '';
+
+  $: value = model[path];
+
+  export let validation = () => true;
+  export let validate = false;
+  export let parse = a => a;
+  export let set = val => (value = val);
+
   let id;
+  let valid = true;
 
   onMount(() => (id = Math.random().toString(36).substr(2, 9)));
 </script>
@@ -27,15 +37,24 @@
   }
 </style>
 
+<!-- purgecss: invalid -->
+
 <label for={id} class="sr-only">{label}</label>
 <div
   class="w-full relative inline-block bg-white rounded-full border-2 px-4 py-2
-  border-green hover:bg-lightgrey">
+  border-green hover:bg-lightgrey"
+  class:border-red={!valid}>
   <input
     {id}
     {name}
     bind:value
     placeholder={label}
-    class="w-full focus:outline-none" />
+    class="w-full focus:outline-none"
+    on:input={async evt => {
+      if (validate) {
+        valid = validation(evt.target.value);
+      }
+      set(evt.target.value);
+    }} />
   <span class="material-icons"> search </span>
 </div>
