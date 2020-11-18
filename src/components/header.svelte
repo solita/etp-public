@@ -33,21 +33,27 @@
           <img src={Logo} alt="" />
           <h1 class="pl-2">{$_('ENERGIATODISTUSREKISTERI')}</h1>
         </div>
-        <nav class="font-semibold text-ashblue hidden lg:block">
-          <span
-            lang="fi"
-            class="cursor-pointer"
-            on:click={() => setLocale('fi')}>
-            suomeksi
-          </span>
-          |
-          <span
-            lang="sv"
-            class="cursor-pointer"
-            on:click={() => setLocale('sv')}>
-            på svenska
-          </span>
-        </nav>
+        <div class="flex-col hidden lg:flex">
+          <nav class="font-semibold text-ashblue">
+            <span
+              lang="fi"
+              class="cursor-pointer"
+              on:click={() => setLocale('fi')}>
+              suomeksi
+            </span>
+            |
+            <span
+              lang="sv"
+              class="cursor-pointer"
+              on:click={() => setLocale('sv')}>
+              på svenska
+            </span>
+          </nav>
+          <a
+            class="text-ashblue flex items-center"
+            href="/rekisteroitymisohjeet"><span>{$_('REKISTEROITYMISOHJEET')}</span>
+            <span class="material-icons"> chevron_right </span></a>
+        </div>
       </div>
       <button
         class="flex items-center lg:hidden focus:outline-none rounded-md text-green"
@@ -78,7 +84,9 @@
   {#if mobileNavShown}
     <div transition:slide class="lg:hidden">
       <NavBar />
-      <nav class="font-semibold text-ashblue p-3 text-center mx-auto bg-grey">
+
+      <nav
+        class="font-semibold text-ashblue p-3 text-center mx-auto bg-lightgrey">
         <span
           lang="fi"
           class="cursor-pointer p-2"
@@ -93,6 +101,13 @@
           på svenska
         </span>
       </nav>
+
+      <a
+        class="text-ashblue flex justify-center items-center p-3 bg-grey"
+        href="/rekisteroitymisohjeet">
+        <span>{$_('REKISTEROITYMISOHJEET')}</span>
+        <span class="material-icons"> chevron_right </span>
+      </a>
     </div>
   {/if}
 
