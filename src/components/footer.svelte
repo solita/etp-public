@@ -4,6 +4,9 @@
     styles as buttonLinkStyles
   } from '@Component/buttonlink';
   import Container, { styles as containerStyles } from '@Component/container';
+  import IconLogin from '@Asset/icons/login-light.svg';
+  import IconChat from '@Asset/icons/chat.svg';
+  import ImgLogo from '@Asset/ara_logo.svg';
 
   import { _ } from '@Localization/localization';
 </script>
@@ -14,13 +17,17 @@
       <section class="md:w-1/3 py-4 md:py-0">
         <h2 class="mb-4">{$_('FOOTER_LAKI')}</h2>
         <p>{$_('FOOTER_ARA_VIRANOMAINEN')}</p>
-        <a href="/" class="underline text-green">{$_('FOOTER_ARA_LINKKI')}</a>
+        <a
+          href="https://www.ara.fi"
+          class="underline text-green">{$_('FOOTER_ARA_LINKKI')}</a>
       </section>
       <section class="md:w-1/3 flex flex-col justify-between py-4 md:py-0">
         <h2 class="mb-4">{$_('FOOTER_YHTEYSTIEDOT')}</h2>
         <address class="not-italic">
           <span>{$_('EMAIL')}:</span>
-          <a href="/" class="underline text-green">energiatodistus@ara.fi</a>
+          <a
+            href="mailto:energiatodistus@ara.fi"
+            class="underline text-green">energiatodistus@ara.fi</a>
         </address>
         <address class="not-italic">
           <ol>
@@ -32,9 +39,9 @@
         </address>
         <address class="not-italic">
           <span>{$_('PUHELINVAIHDE')}:</span>
-          <a href="/" class="underline text-green">029 525 0800</a>
+          <a href="tel:0295250800" class="underline text-green">029 525 0800</a>
         </address>
-        <a href="/" class="block underline text-green">
+        <a href="/saavutettavuusseloste" class="block underline text-green">
           {$_('TIETOA_SIVUSTOSTA')}
         </a>
       </section>
@@ -42,24 +49,31 @@
         <section>
           <h2 class="mb-4">{$_('LAATIJOIDEN_PALVELU')}</h2>
           <ButtonLink
+            className="inline-flex space-x-2 pl-3 items-center"
             href={`https://private.${window.location.host}`}
             {...buttonLinkStyles.ashblue}>
-            {$_('KIRJAUDU')}
+            <img src={IconLogin} alt="Login icon" class="h-6" />
+            <span>{$_('KIRJAUDU')}</span>
           </ButtonLink>
         </section>
         <section class="py-4">
           <h2 class="mb-4">{$_('FOOTER_PALAUTE')}</h2>
-          <Button {...buttonStyles.green}>
-            {$_('FOOTER_LAHETA_PALAUTETTA')}
-          </Button>
+          <ButtonLink
+            className="inline-flex space-x-2 pl-3 items-center"
+            href={'https://www.ara.fi/fi-FI/ARA/Yhteystiedot/Anna_palautetta(1280)?r=10559'}
+            {...buttonStyles.green}>
+            <img src={IconChat} alt="Palaute icon" class="h-6" />
+            <span>{$_('FOOTER_LAHETA_PALAUTETTA')}</span>
+          </ButtonLink>
         </section>
       </div>
     </article>
 
-    <div class="my-8 border-t-2 border-gray-400">
+    <div class="my-8 border-t-2 border-gray-400 pt-3">
       <img
-        src="images/ara-logo.png"
-        alt="ARA - asumisen rakennus- ja kehityskeskus" />
+        src={ImgLogo}
+        alt="ARA - asumisen rakennus- ja kehityskeskus"
+        class="h-10 w-auto" />
     </div>
   </footer>
 </Container>
