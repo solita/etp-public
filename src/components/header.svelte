@@ -33,27 +33,26 @@
           <img src={Logo} alt="" />
           <h1 class="pl-2">{$_('ENERGIATODISTUSREKISTERI')}</h1>
         </div>
-        <div class="flex-col hidden lg:flex">
-          <nav class="font-semibold text-ashblue">
-            <span
-              lang="fi"
-              class="cursor-pointer"
-              on:click={() => setLocale('fi')}>
-              suomeksi
-            </span>
-            |
-            <span
-              lang="sv"
-              class="cursor-pointer"
-              on:click={() => setLocale('sv')}>
-              på svenska
-            </span>
-          </nav>
-          <a
-            class="text-ashblue flex items-center"
-            href="/rekisteroitymisohjeet"><span>{$_('REKISTEROITYMISOHJEET')}</span>
-            <span class="material-icons"> chevron_right </span></a>
-        </div>
+        <nav class="font-semibold text-ashblue justify-start ml-4 mr-auto">
+          <span
+            lang="fi"
+            class="cursor-pointer"
+            on:click={() => setLocale('fi')}>
+            suomeksi
+          </span>
+          |
+          <span
+            lang="sv"
+            class="cursor-pointer"
+            on:click={() => setLocale('sv')}>
+            på svenska
+          </span>
+        </nav>
+        <a
+          class="text-ashblue flex items-center"
+          href="/rekisteroitymisohjeet"><span
+            class="font-bold underline">{$_('REKISTEROITYMISOHJEET')}</span>
+          <span class="material-icons"> chevron_right </span></a>
       </div>
       <button
         class="flex items-center lg:hidden focus:outline-none rounded-md text-green"
@@ -85,8 +84,7 @@
     <div transition:slide class="lg:hidden">
       <NavBar />
 
-      <nav
-        class="font-semibold text-ashblue p-3 text-center mx-auto bg-lightgrey">
+      <nav class="font-semibold text-ashblue p-3 text-center mx-auto bg-grey">
         <span
           lang="fi"
           class="cursor-pointer p-2"
@@ -101,13 +99,6 @@
           på svenska
         </span>
       </nav>
-
-      <a
-        class="text-ashblue flex justify-center items-center p-3 bg-grey"
-        href="/rekisteroitymisohjeet">
-        <span>{$_('REKISTEROITYMISOHJEET')}</span>
-        <span class="material-icons"> chevron_right </span>
-      </a>
     </div>
   {/if}
 
