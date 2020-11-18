@@ -15,9 +15,12 @@
   $: value = model[path];
 
   export let validation = () => true;
-  export let validate = false;
 
-  $: valid = validation(value);
+  let valid = true;
+
+  export const validate = () => {
+    valid = validation(value);
+  };
 
   let id;
   let focused;
@@ -57,7 +60,7 @@ border-red
     class="input-parent w-full relative inline-block border-b-2 px-4 py-2
     border-darkgrey hover:bg-grey">
     <input
-      on:input={evt => {
+      on:change={evt => {
         set(evt.target.value);
       }}
       on:focus={_ => (focused = true)}
@@ -66,7 +69,7 @@ border-red
       {name}
       {min}
       {max}
-      bind:value
+      value
       placeholder={label}
       type="date"
       class="w-full focus:outline-none" />

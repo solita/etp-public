@@ -45,8 +45,8 @@ export const defaultSearchModel = () => ({
   'perustiedot.rakennustunnus': '',
   'perustiedot.valmistumisvuosi_min': '',
   'perustiedot.valmistumisvuosi_max': '',
-  laatimispaivaMin: '',
-  laatimispaivaMax: '',
+  laatimispaiva_min: '',
+  laatimispaiva_max: '',
   'voimassaolo-paattymisaika_min': '',
   'voimassaolo-paattymisaika_max': '',
   kayttotarkoitusluokka: '',
@@ -78,8 +78,8 @@ export const validationModel = () => ({
   'perustiedot.rakennustunnus': optionalRakennustunnus,
   'perustiedot.valmistumisvuosi_min': optionalRange,
   'perustiedot.valmistumisvuosi_max': optionalRange,
-  laatimispaivaMin: () => true,
-  laatimispaivaMax: () => true,
+  laatimispaiva_min: optionalDateBetween,
+  laatimispaiva_max: optionalDateBetween,
   'voimassaolo-paattymisaika_min': optionalDateBetween,
   'voimassaolo-paattymisaika_max': optionalDateBetween,
   kayttotarkoitusluokka: () => true,
@@ -118,7 +118,7 @@ export const deserializeWhere = (model, where) => {
 
   return and
     .map(([op, key, value]) => ({
-      [`${key}${op !== '=' ? (op === '>=' ? '_min' : '_max') : ''}`]: value
+      [`${key}${op !== '=' ? (op === '>=' ? '_min' : '_max') : ''}`]: value + ''
     }))
     .reduce((acc, item) => ({ ...acc, ...item }), model);
 };
@@ -144,7 +144,7 @@ export const where = (tarkennettu, model) => [
         eq('perustiedot.rakennustunnus', model),
         gte('perustiedot.valmistumisvuosi', model),
         lte('perustiedot.valmistumisvuosi', model),
-
+        gte('voimassaolo-paattymisaika', model),
         lte('voimassaolo-paattymisaika', model),
         gte('tulokset.e-luku', model),
         lte('tulokset.e-luku', model),

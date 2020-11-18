@@ -6,19 +6,19 @@
   export let name;
 
   export let model = {};
-  export let path = '';
   export let set = val => (value = val);
 
-  $: value = model[path];
+  $: value = model[name];
 
   export let validation = () => true;
-  export let validate = false;
 
-  $: valid = validation(value);
+  let valid = true;
 
-  export let min = 0;
-  export let max = 1000;
   export let invalidMessage;
+
+  export const validate = () => {
+    valid = validation(value);
+  };
 
   let id;
   let focused;
@@ -62,9 +62,7 @@ border-red
       class="w-full focus:outline-none"
       on:focus={() => (focused = true)}
       on:blur={() => (focused = false)}
-      on:input={evt => {
-        set(evt.target.value);
-      }} />
+      on:change />
   </div>
   {#if !focused && invalidMessage && !valid}
     <span class="errortext">{invalidMessage}</span>

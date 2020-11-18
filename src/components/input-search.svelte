@@ -3,19 +3,18 @@
 
   export let label;
   export let name;
-
   export let model = {};
-  export let path = '';
-
-  $: value = model[path];
-
   export let validation = () => true;
-  export let validate = false;
-  export let parse = a => a;
-  export let set = val => (value = val);
+
+  $: value = model[name];
 
   let id;
+
   let valid = true;
+
+  export const validate = () => {
+    valid = validation(value);
+  };
 
   onMount(() => (id = Math.random().toString(36).substr(2, 9)));
 </script>
@@ -47,14 +46,9 @@
   <input
     {id}
     {name}
-    bind:value
+    value
     placeholder={label}
     class="w-full focus:outline-none"
-    on:input={async evt => {
-      if (validate) {
-        valid = validation(evt.target.value);
-      }
-      set(evt.target.value);
-    }} />
+    on:change />
   <span class="material-icons"> search </span>
 </div>

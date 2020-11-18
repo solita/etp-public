@@ -29,6 +29,18 @@
 
   const validationModel = EtHakuUtils.validationModel();
 
+  let idInput;
+  let nimiInput;
+  let rakennustunnusInput;
+  let voimassaoloMinInput;
+  let voimassaoloMaxInput;
+  let valmistumisvuosiMinInput;
+  let valmistumisvuosiMaxInput;
+  let eLukuMinInput;
+  let eLukuMaxInput;
+  let nettoalaMinInput;
+  let nettoalaMaxInput;
+
   const parseValues = model => {
     const parseModel = EtHakuUtils.parseModel();
 
@@ -50,10 +62,30 @@
       ...validationModel,
       'perustiedot.valmistumisvuosi_min': validationModel[
         'perustiedot.valmistumisvuosi_min'
-      ](1000, new Date().getFullYear()),
+      ](
+        1000,
+        numberOrDefault(
+          new Date().getFullYear(),
+          searchmodel['perustiedot.valmistumisvuosi_max']
+        )
+      ),
       'perustiedot.valmistumisvuosi_max': validationModel[
         'perustiedot.valmistumisvuosi_max'
-      ](new Date().getFullYear(), 2900),
+      ](
+        numberOrDefault(
+          new Date().getFullYear(),
+          searchmodel['perustiedot.valmistumisvuosi_min']
+        ),
+        2900
+      ),
+      laatimispaiva_min: validationModel['laatimispaiva_min'](
+        '',
+        model['laatimispaiva_max']
+      ),
+      laatimispaiva_max: validationModel['laatimispaiva_max'](
+        model['laatimispaiva_min'],
+        ''
+      ),
       'voimassaolo-paattymisaika_min': validationModel[
         'voimassaolo-paattymisaika_min'
       ]('', model['voimassaolo-paattymisaika_max']),
@@ -62,16 +94,16 @@
       ](model['voimassaolo-paattymisaika_min'], ''),
       'tulokset.e-luku_min': validationModel['tulokset.e-luku_min'](
         0,
-        validationModel['tulokset.e-luku_max']
+        numberOrDefault(1000, searchmodel['tulokset.e-luku_max'])
       ),
       'tulokset.e-luku_max': validationModel['tulokset.e-luku_max'](
-        validationModel['tulokset.e-luku_min'],
+        numberOrDefault(1, searchmodel['tulokset.e-luku_min']),
         1000
       )
     };
 
     return keys.map(item => {
-      console.log(item, model[item], validate[item](model[item]));
+      //console.log(item, model[item], validate[item](model[item]));
       return validate[item](model[item]);
     });
   };
@@ -101,11 +133,9 @@
     searchmodel
   ).reduce((acc, item) => acc && item, true);
 
-  $: console.log(isValid);
-
   $: result = EtApi.energiatodistukset(fetch, {
     where: EtHakuUtils.whereQueryString(
-      EtHakuUtils.where(tarkennettuShown, deserializedWhere)
+      EtHakuUtils.where(tarkennettuShown, parseValues(deserializedWhere))
     ),
     alue,
     offset,
@@ -113,8 +143,7 @@
   });
 
   const commitSearch = model => {
-    const where = EtHakuUtils.where(tarkennettuShown, model);
-
+    const where = EtHakuUtils.where(tarkennettuShown, parseValues(model));
     const whereString = EtHakuUtils.whereQueryString(where);
     const qs = [
       `${
@@ -127,11 +156,17 @@
       .filter(item => item.length)
       .join('&');
 
+    debugger;
+
     navigate(`/ethaku${qs.length ? `?${qs}` : ''}`);
   };
 </script>
 
 <style>
+  .tarkennettu-label {
+    @apply text-lg;
+  }
+
   .checkbox-container input:focus ~ .checkbox-text {
     @apply underline;
   }
@@ -168,6 +203,23 @@
 <Container {...containerStyles.white}>
   <form
     class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto"
+    on:change={async evt => {
+      searchmodel = { ...searchmodel, [evt.target.name]: evt.target.value };
+      await tick();
+      idInput.validate();
+      if (tarkennettuShown) {
+        nimiInput.validate();
+        rakennustunnusInput.validate();
+        voimassaoloMinInput.validate();
+        voimassaoloMaxInput.validate();
+        valmistumisvuosiMinInput.validate();
+        valmistumisvuosiMaxInput.validate();
+        eLukuMinInput.validate();
+        eLukuMaxInput.validate();
+        nettoalaMinInput.validate();
+        nettoalaMaxInput.validate();
+      }
+    }}
     on:reset={async () => {
       await tick();
       tarkennettuShown = false;
@@ -179,13 +231,11 @@
       <div class="flex flex-col w-full md:w-9/12">
         <div class="w-full md:w-11/12">
           <InputSearch
+            bind:this={idInput}
             label={'Hae todistustunnuksella'}
             model={searchmodel}
-            path={'id'}
-            parse={parsers.parseInteger}
-            set={setter('id')}
-            validation={validationModel.id}
-            validate={true} />
+            name={'id'}
+            validation={validationModel.id} />
         </div>
         <aside class="font-normal text-xs italic mt-4">
           Voit hakea maakunnalla, kunnalla, postinumerolla tai -toimipaikalla.
@@ -237,11 +287,9 @@
             {$_('ETHAKU_VERSIO')}
           </span>
 
-          <div class="w-full md:w-1/2 pb-3">
+          <div class="w-full md:w-1/2 pb-8">
             <div class="flex justify-start">
-              <InputVersio
-                set={setter('versio')}
-                versio={searchmodel['versio']} />
+              <InputVersio name={'versio'} model={searchmodel} />
             </div>
           </div>
         </div>
@@ -274,12 +322,11 @@
           </span>
           <div class="w-full md:w-1/2">
             <InputText
+              bind:this={nimiInput}
               label={''}
               model={searchmodel}
-              path={'perustiedot.nimi'}
-              set={setter('perustiedot.nimi')}
+              name={'perustiedot.nimi'}
               validation={validationModel['perustiedot.nimi']}
-              validate={true}
               invalidMessage={'Nimi voi olla korkeintaan 100 merkkiä'} />
           </div>
         </div>
@@ -291,13 +338,12 @@
           </span>
           <div class="w-full md:w-1/2">
             <InputText
+              bind:this={rakennustunnusInput}
               label={''}
               model={searchmodel}
-              path={'perustiedot.rakennustunnus'}
-              set={setter('perustiedot.rakennustunnus')}
+              name={'perustiedot.rakennustunnus'}
               validation={validationModel['perustiedot.rakennustunnus']}
-              validate={true}
-              invalidMessage={'Syötetty arvo ei ole validi rakennustunnus.'} />
+              invalidMessage={'Syötetty arvo ei ole oikeamuotoinen rakennustunnus'} />
           </div>
         </div>
         <div
@@ -306,32 +352,33 @@
             class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
             {$_('ETHAKU_RAKENNUS_VUOSI')}
           </span>
-          <div
-            class="w-full md:w-1/2 flex justify-between items-center text-center">
+          <div class="w-full md:w-1/2 flex justify-between items-center">
             <div class="w-2/5">
               <InputNumber
+                bind:this={valmistumisvuosiMinInput}
                 label={'vvvv'}
-                min="1000"
+                min="0"
                 max={numberOrDefault(new Date().getFullYear(), searchmodel['perustiedot.valmistumisvuosi_max'])}
                 model={searchmodel}
-                path={'perustiedot.valmistumisvuosi_min'}
+                name={'perustiedot.valmistumisvuosi_min'}
                 set={setter('perustiedot.valmistumisvuosi_min')}
                 step="1"
-                validation={validationModel['perustiedot.valmistumisvuosi_min'](1000, numberOrDefault(new Date().getFullYear(), searchmodel['perustiedot.valmistumisvuosi_max']))}
-                invalidMessage={'Sallittu arvo 1000-' + numberOrDefault(new Date().getFullYear(), searchmodel['perustiedot.valmistumisvuosi_max'])} />
+                validation={validationModel['perustiedot.valmistumisvuosi_min'](0, numberOrDefault(new Date().getFullYear(), searchmodel['perustiedot.valmistumisvuosi_max']))}
+                invalidMessage={'Arvon tulee olla loppuarvoa pienempi'} />
             </div>
             <span class="material-icons text-darkgrey"> horizontal_rule </span>
             <div class="w-2/5">
               <InputNumber
+                bind:this={valmistumisvuosiMaxInput}
                 label={'vvvv'}
                 min={numberOrDefault(new Date().getFullYear(), searchmodel['perustiedot.valmistumisvuosi_min'])}
                 model={searchmodel}
-                path={'perustiedot.valmistumisvuosi_max'}
+                name={'perustiedot.valmistumisvuosi_max'}
                 set={setter('perustiedot.valmistumisvuosi_max')}
                 max="2900"
                 step="1"
                 validation={validationModel['perustiedot.valmistumisvuosi_max'](numberOrDefault(new Date().getFullYear(), searchmodel['perustiedot.valmistumisvuosi_min']), 2900)}
-                invalidMessage={'Sallittu arvo ' + numberOrDefault(new Date().getFullYear(), searchmodel['perustiedot.valmistumisvuosi_min']) + '-2900'} />
+                invalidMessage={'Arvon tulee olla alkuarvoa suurempi'} />
             </div>
           </div>
         </div>
@@ -342,7 +389,7 @@
             {$_('ETHAKU_LAATIMISPAIVA')}
           </span>
           <div
-            class="w-full md:w-1/2 flex flex-col md:flex-row justify-between items-center text-center">
+            class="w-full md:w-1/2 flex flex-col md:flex-row justify-between items-center">
             <div class="w-full md:w-2/5">
               <InputDate label={'pp.kk.vvvv'} max={''} value={''} />
             </div>
@@ -362,17 +409,17 @@
             {$_('ETHAKU_VIIMEINEN_VOIMASSAOLOPAIVA')}
           </span>
           <div
-            class="w-full md:w-1/2 flex flex-col md:flex-row justify-between items-center text-center">
+            class="w-full md:w-1/2 flex flex-col md:flex-row justify-between items-center">
             <div class="w-full md:w-2/5">
               <InputDate
+                bind:this={voimassaoloMinInput}
                 label={'pp.kk.vvvv'}
                 model={searchmodel}
                 path={'voimassaolo-paattymisaika_min'}
                 set={setter('voimassaolo-paattymisaika_min')}
                 max={searchmodel['voimassaolo-paattymisaika_max']}
-                invalidMessage={'Voimassaolon päättymisajan alku ei voi olla lopun jälkeen.'}
-                validation={validationModel['voimassaolo-paattymisaika_min']('', searchmodel['voimassaolo-paattymisaika_max'])}
-                validate={true} />
+                invalidMessage={'Alkupäivämäärä tulee olla loppupäivämäärää ennen'}
+                validation={validationModel['voimassaolo-paattymisaika_min']('', searchmodel['voimassaolo-paattymisaika_max'])} />
             </div>
             <span
               class="material-icons text-darkgrey w-full md:w-auto select-none">
@@ -380,14 +427,14 @@
             </span>
             <div class="w-full md:w-2/5">
               <InputDate
+                bind:this={voimassaoloMaxInput}
                 label={'pp.kk.vvvv'}
                 model={searchmodel}
                 path={'voimassaolo-paattymisaika_max'}
                 set={setter('voimassaolo-paattymisaika_max')}
                 min={searchmodel['voimassaolo-paattymisaika_min']}
-                invalidMessage={'Voimassaolon päättymisajan loppu ei voi olla alun jälkeen'}
-                validation={validationModel['voimassaolo-paattymisaika_max'](searchmodel['voimassaolo-paattymisaika_min'], '')}
-                validate={true} />
+                invalidMessage={'Loppupäivämäärä tulee olla alkupäivämäärän jälkeen'}
+                validation={validationModel['voimassaolo-paattymisaika_max'](searchmodel['voimassaolo-paattymisaika_min'], '')} />
             </div>
           </div>
         </div>
@@ -397,33 +444,32 @@
             class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
             {$_('ETHAKU_E_KOKONAISLUKU')}
           </span>
-          <div
-            class="w-full md:w-1/2 flex justify-between items-center text-center">
+          <div class="w-full md:w-1/2 flex justify-between items-center">
             <div class="w-2/5">
               <InputNumber
+                bind:this={eLukuMinInput}
                 label={''}
                 min="0"
                 max={numberOrDefault(1000, searchmodel['tulokset.e-luku_max'])}
                 model={searchmodel}
-                path={'tulokset.e-luku_min'}
+                name={'tulokset.e-luku_min'}
                 set={setter('tulokset.e-luku_min')}
                 step="1"
                 validation={validationModel['tulokset.e-luku_min'](0, numberOrDefault(1000, searchmodel['tulokset.e-luku_max']))}
-                validate={true}
-                invalidMessage={`Arvo voi olla väliltä 0 - ${numberOrDefault(1000, searchmodel['tulokset.e-luku_max'])}`} />
+                invalidMessage={'Arvon tulee olla loppuarvoa pienempi'} />
             </div>
             <span class="material-icons text-darkgrey"> horizontal_rule </span>
             <div class="w-2/5">
               <InputNumber
+                bind:this={eLukuMaxInput}
                 label={''}
                 min={numberOrDefault(1, searchmodel['tulokset.e-luku_min'])}
                 model={searchmodel}
-                path={'tulokset.e-luku_max'}
+                name={'tulokset.e-luku_max'}
                 set={setter('tulokset.e-luku_max')}
                 step="1"
                 validation={validationModel['tulokset.e-luku_max'](numberOrDefault(1, searchmodel['tulokset.e-luku_min']), 1000)}
-                validate={true}
-                invalidMessage={`Arvo voi olla väliltä ${numberOrDefault(1, searchmodel['tulokset.e-luku_min'])} - 1000`} />
+                invalidMessage={'Arvon tulee olla alkuarvoa suurempi'} />
             </div>
           </div>
         </div>
@@ -531,25 +577,28 @@
             class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
             {$_('ETHAKU_LAMMITETTY_NETTOALA')}
           </span>
-          <div
-            class="w-full md:w-1/2 flex justify-between items-center text-center">
+          <div class="w-full md:w-1/2 flex justify-between items-center">
             <div class="w-2/5">
               <InputNumber
+                bind:this={nettoalaMinInput}
                 label={''}
                 min="0"
                 max={searchmodel['lahtotiedot.lammitetty-nettoala_max']}
                 model={searchmodel}
-                path={'lahtotiedot.lammitetty-nettoala_min'}
-                set={setter('lahtotiedot.lammitetty-nettoala_min')} />
+                name={'lahtotiedot.lammitetty-nettoala_min'}
+                set={setter('lahtotiedot.lammitetty-nettoala_min')}
+                invalidMessage={'Arvon tulee olla loppuarvoa pienempi'} />
             </div>
             <span class="material-icons text-darkgrey"> horizontal_rule </span>
             <div class="w-2/5">
               <InputNumber
+                bind:this={nettoalaMaxInput}
                 label={''}
                 min={searchmodel['lahtotiedot.lammitetty-nettoala_min']}
                 model={searchmodel}
-                path={'lahtotiedot.lammitetty-nettoala_max'}
-                set={setter('lahtotiedot.lammitetty-nettoala_max')} />
+                name={'lahtotiedot.lammitetty-nettoala_max'}
+                set={setter('lahtotiedot.lammitetty-nettoala_max')}
+                invalidMessage={'Arvon tulee olla alkuarvoa suurempi'} />
             </div>
           </div>
         </div>

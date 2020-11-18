@@ -10,17 +10,16 @@
   export let invalidMessage;
 
   export let model = {};
-  export let path = '';
-  export let set = val => (value = val);
 
-  $: value = model[path];
+  $: value = model[name];
 
   export let validation = () => true;
-  export let validate = false;
 
   let valid = true;
 
-  $: valid = validation(value);
+  export const validate = () => {
+    valid = validation(value);
+  };
 
   let id;
   let focused = false;
@@ -33,16 +32,12 @@
     background-color: transparent;
   }
 
-  input::placeholder {
-    @apply text-darkgrey italic;
-  }
-
   .input-parent:focus-within {
     @apply bg-grey border-green;
   }
   .errortext {
     @apply text-xs absolute;
-    bottom: 1em;
+    bottom: -0.2em;
     left: 0;
   }
 </style>
@@ -50,11 +45,11 @@
 <!-- purgecss: 
 border-red
 -->
-<div class="relative w-full  flex flex-col pb-8">
+<div class="relative w-full flex flex-col pb-8">
   <label for={id} class="sr-only">{label}</label>
   <div
     class:border-red={!valid && value}
-    class="input-parent w-full relative inline-block border-b-2 px-4 py-2 border-darkgrey
+    class="input-parent w-full relative inline-block border-b-2 px-4 py-2 border-darkgrey text-center
    hover:bg-grey">
     <input
       {id}
@@ -62,8 +57,8 @@ border-red
       {min}
       {max}
       {step}
-      bind:value
-      on:input={evt => set(evt.target.value)}
+      value
+      on:change
       type="number"
       placeholder={label}
       class="w-full focus:outline-none"

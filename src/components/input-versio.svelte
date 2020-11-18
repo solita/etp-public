@@ -1,8 +1,10 @@
 <script>
   import { _ } from '@Localization/localization';
 
-  export let versio = 0;
-  export let set = value => (versio = value);
+  export let model;
+  export let name;
+
+  $: versio = model[name];
 </script>
 
 <style type="text/postcss">
@@ -26,31 +28,19 @@
 </style>
 
 <label class="checkbox-container flex items-center p-2 md:p-0">
-  <input
-    on:input={evt => set(evt.target.value)}
-    type="radio"
-    bind:group={versio}
-    value={'0'} />
+  <input {name} on:change type="radio" bind:group={versio} value={'0'} />
   <span class="material-icons checked text-green"> radio_button_checked </span>
   <span class="material-icons unchecked"> radio_button_unchecked </span>
   <span class="ml-1 checkbox-text">{$_('KAIKKI')}</span>
 </label>
 <label class="checkbox-container flex items-center p-2 ml-3 md:p-0">
-  <input
-    on:input={evt => set(evt.target.value)}
-    type="radio"
-    bind:group={versio}
-    value={'2018'} />
+  <input {name} on:change type="radio" bind:group={versio} value={'2018'} />
   <span class="material-icons checked text-green"> radio_button_checked </span>
   <span class="material-icons unchecked"> radio_button_unchecked </span>
   <span class="ml-1 checkbox-text">2018</span>
 </label>
 <label class="checkbox-container flex items-center p-2 ml-3 md:p-0">
-  <input
-    on:input={evt => set(evt.target.value)}
-    type="radio"
-    bind:group={versio}
-    value={'2013'} />
+  <input {name} on:change type="radio" bind:group={versio} value={'2013'} />
   <span class="material-icons checked text-green"> radio_button_checked </span>
   <span class="material-icons unchecked"> radio_button_unchecked </span>
   <span class="ml-1 checkbox-text">2013</span>
