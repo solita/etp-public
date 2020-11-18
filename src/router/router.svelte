@@ -20,6 +20,7 @@
   import LaatijaHaku from '@Page/laatijahaku';
   import Laatija from '@Page/laatija';
   import LaatijanKirjautuminen from '@Page/laatijankirjautuminen';
+  import Rekisteroitymisohjeet from '@Page/rekisteroitymisohjeet';
 
   let page;
   let params;
@@ -40,6 +41,9 @@
   });
   router('/laatijankirjautuminen', () => {
     page = LaatijanKirjautuminen;
+  });
+  router('/rekisteroitymisohjeet', () => {
+    page = Rekisteroitymisohjeet;
   });
   router('/', () => (page = Home));
 
