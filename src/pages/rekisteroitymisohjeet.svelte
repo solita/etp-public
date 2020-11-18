@@ -51,14 +51,14 @@
           <span>{$_('REOHJ_LISATIETOJA')}</span>
           <a
             class="text-green"
-            href="http://vrk.fi/varmenteet-fineid">{$_('REOHJ_SIIRRY_DVV')}</a>
+            href="https://dvv.fi/varmenteet">{$_('REOHJ_SIIRRY_DVV')}</a>
         </div>
       </div>
       <div>
         <p>{$_('REOHJ_KORTINLUKULAITTEEN')}</p>
         <a
           class="text-green"
-          href="https://eevertti.vrk.fi/kortinlukijaohjelmisto-ja-varmenteen-testaus">{$_('REOHJ_SIIRRY_OHJELMISTON')}</a>
+          href="https://dvv.fi/kortinlukijaohjelmisto">{$_('REOHJ_SIIRRY_OHJELMISTON')}</a>
       </div>
     </div>
   </div>
