@@ -5,11 +5,6 @@
   export let value;
   export let name;
 
-  export let model = {};
-  export let set = val => (value = val);
-
-  $: value = model[name];
-
   export let validation = () => true;
 
   let valid = true;

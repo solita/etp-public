@@ -9,10 +9,8 @@
   export let invalidMessage;
 
   export let model = {};
-  export let path = '';
-  export let set = val => (value = val);
 
-  $: value = model[path];
+  $: value = model[name];
 
   export let validation = () => true;
 
@@ -60,9 +58,7 @@ border-red
     class="input-parent w-full relative inline-block border-b-2 px-4 py-2
     border-darkgrey hover:bg-grey">
     <input
-      on:change={evt => {
-        set(evt.target.value);
-      }}
+      on:change
       on:focus={_ => (focused = true)}
       on:blur={_ => (focused = false)}
       {id}

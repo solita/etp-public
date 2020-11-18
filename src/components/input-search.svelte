@@ -3,10 +3,9 @@
 
   export let label;
   export let name;
-  export let model = {};
   export let validation = () => true;
 
-  $: value = model[name];
+  export let value;
 
   let id;
 
@@ -46,7 +45,7 @@
   <input
     {id}
     {name}
-    value
+    {value}
     placeholder={label}
     class="w-full focus:outline-none"
     on:change />
