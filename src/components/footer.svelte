@@ -49,7 +49,6 @@
         <section>
           <h2 class="mb-4">{$_('LAATIJOIDEN_PALVELU')}</h2>
           <ButtonLink
-            className="inline-flex space-x-2 pl-3 items-center"
             href={`https://private.${window.location.host}`}
             {...buttonLinkStyles.ashblue}>
             <img src={IconLogin} alt="Login icon" class="h-6" />
@@ -59,7 +58,6 @@
         <section class="py-4">
           <h2 class="mb-4">{$_('FOOTER_PALAUTE')}</h2>
           <ButtonLink
-            className="inline-flex space-x-2 pl-3 items-center"
             href={'https://www.ara.fi/fi-FI/ARA/Yhteystiedot/Anna_palautetta(1280)?r=10559'}
             {...buttonStyles.green}>
             <img src={IconChat} alt="Palaute icon" class="h-6" />
