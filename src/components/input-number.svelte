@@ -60,7 +60,6 @@ border-red
       value
       on:change
       type="number"
-      placeholder={label}
       class="w-full focus:outline-none"
       on:focus={() => (focused = true)}
       on:blur={() => (focused = false)} />

@@ -45,8 +45,8 @@ export const defaultSearchModel = () => ({
   'perustiedot.rakennustunnus': '',
   'perustiedot.valmistumisvuosi_min': '',
   'perustiedot.valmistumisvuosi_max': '',
-  laatimispaiva_min: '',
-  laatimispaiva_max: '',
+  allekirjoitusaika_min: '',
+  allekirjoitusaika_max: '',
   'voimassaolo-paattymisaika_min': '',
   'voimassaolo-paattymisaika_max': '',
   kayttotarkoitusluokka: '',
@@ -63,6 +63,8 @@ export const parseModel = () => ({
   versio: parsers.parseInteger,
   'perustiedot.valmistumisvuosi_min': parsers.parseInteger,
   'perustiedot.valmistumisvuosi_max': parsers.parseInteger,
+  allekirjoitusaika_min: parsers.parseDate,
+  allekirjoitusaika_max: parsers.parseDate,
   'voimassaolo-paattymisaika_min': parsers.parseDate,
   'voimassaolo-paattymisaika_max': parsers.parseDate,
   'tulokset.e-luku_min': parsers.parseInteger,
@@ -78,8 +80,8 @@ export const validationModel = () => ({
   'perustiedot.rakennustunnus': optionalRakennustunnus,
   'perustiedot.valmistumisvuosi_min': optionalRange,
   'perustiedot.valmistumisvuosi_max': optionalRange,
-  laatimispaiva_min: optionalDateBetween,
-  laatimispaiva_max: optionalDateBetween,
+  allekirjoitusaika_min: optionalDateBetween,
+  allekirjoitusaika_max: optionalDateBetween,
   'voimassaolo-paattymisaika_min': optionalDateBetween,
   'voimassaolo-paattymisaika_max': optionalDateBetween,
   kayttotarkoitusluokka: () => true,
@@ -95,6 +97,7 @@ export const includeInSearch = (key, value) => {
   const numberValue = parseInt(value);
   switch (key) {
     case 'versio':
+      debugger;
       return !isNaN(numberValue) && numberValue !== 0;
     case 'id':
     case 'perustiedot.valmistumisvuosi':
@@ -135,27 +138,34 @@ const gte = (key, model, format = a => a) => [
   format(model[`${key}_min`])
 ];
 
-export const where = (tarkennettu, model) => [
-  eq('id', model),
-  ...(tarkennettu
-    ? [
-        eq('versio', model),
-        eq('perustiedot.nimi', model),
-        eq('perustiedot.rakennustunnus', model),
-        gte('perustiedot.valmistumisvuosi', model),
-        lte('perustiedot.valmistumisvuosi', model),
-        gte('voimassaolo-paattymisaika', model),
-        lte('voimassaolo-paattymisaika', model),
-        gte('tulokset.e-luku', model),
-        lte('tulokset.e-luku', model),
-        ...(model['tulokset.e-luokka'].length
-          ? [eq('tulokset.e-luokka', model)]
-          : []),
-        gte('lahtotiedot.lammitetty-nettoala', model),
-        lte('lahtotiedot.lammitetty-nettoala', model)
-      ]
-    : [])
-];
+export const where = (tarkennettu, model) => {
+  const s = [
+    eq('id', model),
+    ...(tarkennettu
+      ? [
+          eq('versio', model),
+          eq('perustiedot.nimi', model),
+          eq('perustiedot.rakennustunnus', model),
+          gte('perustiedot.valmistumisvuosi', model),
+          lte('perustiedot.valmistumisvuosi', model),
+          gte('allekirjoitusaika', model),
+          lte('allekirjoitusaika', model),
+          gte('voimassaolo-paattymisaika', model),
+          lte('voimassaolo-paattymisaika', model),
+          gte('tulokset.e-luku', model),
+          lte('tulokset.e-luku', model),
+          ...(model['tulokset.e-luokka'].length
+            ? [eq('tulokset.e-luokka', model)]
+            : []),
+          gte('lahtotiedot.lammitetty-nettoala', model),
+          lte('lahtotiedot.lammitetty-nettoala', model)
+        ]
+      : [])
+  ];
+  console.log(s);
+
+  return s;
+};
 
 export const whereQueryString = where => {
   const qs = JSON.stringify([

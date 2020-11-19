@@ -8,6 +8,7 @@
   import InputDate from '@Component/input-date';
   import InputSelect from '@Component/input-select';
   import InputVersio from '@Component/input-versio';
+  import InputELuokka from '@Component/input-e-luokka';
   import InfoBlock from '@Component/info-block';
   import Container, { styles as containerStyles } from '@Component/container';
   import { _ } from '@Localization/localization';
@@ -32,10 +33,10 @@
   let idInput;
   let nimiInput;
   let rakennustunnusInput;
+  let allekirjoitusaikaMinInput;
+  let allekirjoitusaikaMaxInput;
   let voimassaoloMinInput;
   let voimassaoloMaxInput;
-  let laatimispaivaMinInput;
-  let laatimispaivaMaxInput;
   let valmistumisvuosiMinInput;
   let valmistumisvuosiMaxInput;
   let eLukuMinInput;
@@ -80,12 +81,12 @@
         ),
         2900
       ),
-      laatimispaiva_min: validationModel['laatimispaiva_min'](
+      allekirjoitusaika_min: validationModel['allekirjoitusaika_min'](
         '',
-        model['laatimispaiva_max']
+        model['allekirjoitusaika_max']
       ),
-      laatimispaiva_max: validationModel['laatimispaiva_max'](
-        model['laatimispaiva_min'],
+      allekirjoitusaika_max: validationModel['allekirjoitusaika_max'](
+        model['allekirjoitusaika_min'],
         ''
       ),
       'voimassaolo-paattymisaika_min': validationModel[
@@ -101,13 +102,11 @@
       'tulokset.e-luku_max': validationModel['tulokset.e-luku_max'](
         numberOrDefault(1, searchmodel['tulokset.e-luku_min']),
         1000
-      )
+      ),
+      'tulokset.e-luokka': validationModel['tulokset.e-luokka']
     };
 
-    return keys.map(item => {
-      //console.log(item, model[item], validate[item](model[item]));
-      return validate[item](model[item]);
-    });
+    return keys.map(item => validate[item](model[item]));
   };
 
   const numberOrDefault = (def, v) => {
@@ -137,7 +136,10 @@
 
   $: result = EtApi.energiatodistukset(fetch, {
     where: EtHakuUtils.whereQueryString(
-      EtHakuUtils.where(tarkennettuShown, parseValues(deserializedWhere))
+      EtHakuUtils.where(
+        tarkennettuShown,
+        parseValues(deserializedWhere)
+      ).map(([op, key, value]) => [op, `energiatodistus.${key}`, value])
     ),
     alue,
     offset,
@@ -145,7 +147,6 @@
   });
 
   const commitSearch = model => {
-    console.log('search');
     const where = EtHakuUtils.where(tarkennettuShown, parseValues(model));
     const whereString = EtHakuUtils.whereQueryString(where);
     const qs = [
@@ -159,35 +160,13 @@
       .filter(item => item.length)
       .join('&');
 
-    debugger;
-
     navigate(`/ethaku${qs.length ? `?${qs}` : ''}`);
   };
-
-  $: console.log(searchmodel['id']);
 </script>
 
 <style>
   .tarkennettu-label {
     @apply text-lg;
-  }
-
-  .checkbox-container input:focus ~ .checkbox-text {
-    @apply underline;
-  }
-  .checkbox-container input {
-    @apply absolute opacity-0 cursor-pointer select-none outline-none pointer-events-none;
-  }
-  .checkbox-container .material-icons {
-    @apply select-none text-4xl;
-  }
-  .checkbox-container input:checked ~ .checked,
-  .checkbox-container input ~ .unchecked {
-    @apply inline-block;
-  }
-  .checkbox-container input ~ .checked,
-  .checkbox-container input:checked ~ .unchecked {
-    @apply hidden;
   }
   .tarkennettu-row:focus-within .tarkennettu-label {
     @apply font-bold;
@@ -209,14 +188,25 @@
   <form
     class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto"
     on:change={async evt => {
-      console.log('change');
-      searchmodel = { ...searchmodel, [evt.target.name]: evt.target.value };
+      if (evt.target.name === 'tulokset.e-luokka') {
+        const currentSelection = [...new Set([
+            ...searchmodel['tulokset.e-luokka'],
+            evt.target.value
+          ])];
+
+        searchmodel = { ...searchmodel, 'tulokset.e-luokka': evt.target.checked ? currentSelection : currentSelection.filter(item => item !== evt.target.value) };
+      } else {
+        searchmodel = { ...searchmodel, [evt.target.name]: evt.target.value };
+      }
+
       await tick();
-      console.log('changetick');
+
       idInput.validate();
       if (tarkennettuShown) {
         nimiInput.validate();
         rakennustunnusInput.validate();
+        allekirjoitusaikaMinInput.validate();
+        allekirjoitusaikaMaxInput.validate();
         voimassaoloMinInput.validate();
         voimassaoloMaxInput.validate();
         valmistumisvuosiMinInput.validate();
@@ -396,10 +386,13 @@
             class="w-full md:w-1/2 flex flex-col md:flex-row justify-between items-center">
             <div class="w-full md:w-2/5">
               <InputDate
-                bind:this={laatimispaivaMinInput}
+                bind:this={allekirjoitusaikaMinInput}
+                model={searchmodel}
+                name={'allekirjoitusaika_min'}
                 label={'pp.kk.vvvv'}
-                max={''}
-                value={''} />
+                max={searchmodel['allekirjoitusaika_max']}
+                validation={validationModel['allekirjoitusaika_min']('', searchmodel['allekirjoitusaika_max'])}
+                invalidMessage={'Alkupäivämäärän tulee olla ennen loppupäivämäärää'} />
             </div>
             <span
               class="material-icons text-darkgrey w-full md:w-auto select-none">
@@ -407,10 +400,13 @@
             </span>
             <div class="w-full md:w-2/5">
               <InputDate
-                bind:this={laatimispaivaMaxInput}
+                bind:this={allekirjoitusaikaMaxInput}
+                model={searchmodel}
+                name={'allekirjoitusaika_max'}
                 label={'pp.kk.vvvv'}
-                min={''}
-                value={''} />
+                min={searchmodel['allekirjoitusaika_min']}
+                validation={validationModel['allekirjoitusaika_max'](searchmodel['allekirjoitusaika_min'], '')}
+                invalidMessage={'Loppupäivämäärän tulee olla alkupäivämäärän jälkeen'} />
             </div>
           </div>
         </div>
@@ -429,7 +425,7 @@
                 model={searchmodel}
                 name={'voimassaolo-paattymisaika_min'}
                 max={searchmodel['voimassaolo-paattymisaika_max']}
-                invalidMessage={'Alkupäivämäärä tulee olla loppupäivämäärää ennen'}
+                invalidMessage={'Alkupäivämäärän tulee olla ennen loppupäivämäärää'}
                 validation={validationModel['voimassaolo-paattymisaika_min']('', searchmodel['voimassaolo-paattymisaika_max'])} />
             </div>
             <span
@@ -443,7 +439,7 @@
                 model={searchmodel}
                 name={'voimassaolo-paattymisaika_max'}
                 min={searchmodel['voimassaolo-paattymisaika_min']}
-                invalidMessage={'Loppupäivämäärä tulee olla alkupäivämäärän jälkeen'}
+                invalidMessage={'Loppupäivämäärän tulee olla alkupäivämäärän jälkeen'}
                 validation={validationModel['voimassaolo-paattymisaika_max'](searchmodel['voimassaolo-paattymisaika_min'], '')} />
             </div>
           </div>
@@ -489,94 +485,7 @@
           </span>
           <div
             class="w-full md:w-1/2 flex flex-row flex-wrap sm:justify-between items-center">
-            <label
-              class="checkbox-container flex items-center px-3 py-2 md:p-0">
-              <input
-                type="checkbox"
-                bind:group={searchmodel['tulokset.e-luokka']}
-                value={'A'} />
-              <span class="material-icons checked text-green"> check_box </span>
-              <span class="material-icons unchecked">
-                check_box_outline_blank
-              </span>
-              <span class="ml-1 checkbox-text">A</span>
-            </label>
-
-            <label
-              class="checkbox-container flex items-center px-3 py-2 md:p-0">
-              <input
-                type="checkbox"
-                bind:group={searchmodel['tulokset.e-luokka']}
-                value={'B'} />
-              <span class="material-icons checked text-green"> check_box </span>
-              <span class="material-icons unchecked">
-                check_box_outline_blank
-              </span>
-              <span class="ml-1 checkbox-text">B</span>
-            </label>
-
-            <label
-              class="checkbox-container flex items-center px-3 py-2 md:p-0">
-              <input
-                type="checkbox"
-                bind:group={searchmodel['tulokset.e-luokka']}
-                value={'C'} />
-              <span class="material-icons checked text-green"> check_box </span>
-              <span class="material-icons unchecked">
-                check_box_outline_blank
-              </span>
-              <span class="ml-1 checkbox-text">C</span>
-            </label>
-            <label
-              class="checkbox-container flex items-center px-3 py-2 md:p-0">
-              <input
-                type="checkbox"
-                bind:group={searchmodel['tulokset.e-luokka']}
-                value={'D'} />
-              <span class="material-icons checked text-green"> check_box </span>
-              <span class="material-icons unchecked">
-                check_box_outline_blank
-              </span>
-              <span class="ml-1 checkbox-text">D</span>
-            </label>
-            <label
-              class="checkbox-container flex items-center px-3 py-2 md:p-0">
-              <input
-                type="checkbox"
-                bind:group={searchmodel['tulokset.e-luokka']}
-                value={'E'} />
-              <span class="material-icons checked text-green"> check_box </span>
-              <span class="material-icons unchecked">
-                check_box_outline_blank
-              </span>
-              <span class="ml-1 checkbox-text">E</span>
-            </label>
-
-            <label
-              class="checkbox-container flex items-center px-3 py-2 md:p-0">
-              <input
-                type="checkbox"
-                bind:group={searchmodel['tulokset.e-luokka']}
-                value={'F'} />
-              <span class="material-icons checked text-green"> check_box </span>
-              <span class="material-icons unchecked">
-                check_box_outline_blank
-              </span>
-              <span class="ml-1 checkbox-text">F</span>
-            </label>
-
-            <label
-              class="checkbox-container flex items-center px-3 py-2 md:p-0">
-              <input
-                type="checkbox"
-                bind:group={searchmodel['tulokset.e-luokka']}
-                value={'G'} />
-              <span class="material-icons checked text-green"> check_box </span>
-              <span class="material-icons unchecked">
-                check_box_outline_blank
-              </span>
-              <span class="ml-1 checkbox-text">G</span>
-            </label>
+            <InputELuokka group={searchmodel['tulokset.e-luokka']} />
           </div>
         </div>
         <div
