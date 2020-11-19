@@ -20,6 +20,7 @@
   import Energiatodistus from '@Page/energiatodistus';
   import LaatijaHaku from '@Page/laatijahaku';
   import Laatija from '@Page/laatija';
+  import Saavutettavuusseloste from '@Page/saavutettavuusseloste';
   import LaatijanKirjautuminen from '@Page/laatijankirjautuminen';
 
   let page;
@@ -41,6 +42,9 @@
   });
   router('/laatija', () => {
     page = Laatija;
+  });
+  router('/saavutettavuusseloste', () => {
+    page = Saavutettavuusseloste;
   });
   router('/laatijankirjautuminen', () => {
     page = LaatijanKirjautuminen;
