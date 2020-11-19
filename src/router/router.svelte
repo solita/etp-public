@@ -17,6 +17,7 @@
 
   import Home from '@Page/home';
   import EnergiatodistusHaku from '@Page/ethaku';
+  import Energiatodistus from '@Page/energiatodistus';
   import LaatijaHaku from '@Page/laatijahaku';
   import Laatija from '@Page/laatija';
   import LaatijanKirjautuminen from '@Page/laatijankirjautuminen';
@@ -31,6 +32,9 @@
   });
   router('/ethaku', () => {
     page = EnergiatodistusHaku;
+  });
+  router('/energiatodistus', () => {
+    page = Energiatodistus;
   });
   router('/laatijahaku', () => {
     page = LaatijaHaku;

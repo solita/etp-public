@@ -15,6 +15,6 @@
 <button
   on:click
   {type}
-  class={`w-full sm:w-auto m-1 uppercase text-sm font-bold tracking-wider rounded-full px-8 py-3 focus:outline-none text-${text} bg-${bg}`}>
+  class={`w-full flex space-x-2 items-center sm:w-auto m-1 uppercase text-sm font-bold tracking-wider rounded-full px-8 py-3 focus:outline-none text-${text} bg-${bg}`}>
   <slot />
 </button>
