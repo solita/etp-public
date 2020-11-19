@@ -135,11 +135,8 @@
   ).reduce((acc, item) => acc && item, true);
 
   $: result = EtApi.energiatodistukset(fetch, {
-    where: EtHakuUtils.whereQueryString(
-      EtHakuUtils.where(
-        tarkennettuShown,
-        parseValues(deserializedWhere)
-      ).map(([op, key, value]) => [op, `energiatodistus.${key}`, value])
+    where: EtHakuUtils.whereQuery(
+      EtHakuUtils.where(tarkennettuShown, parseValues(deserializedWhere))
     ),
     alue,
     offset,
@@ -148,7 +145,8 @@
 
   const commitSearch = model => {
     const where = EtHakuUtils.where(tarkennettuShown, parseValues(model));
-    const whereString = EtHakuUtils.whereQueryString(where);
+    const whereQuery = EtHakuUtils.whereQuery(where);
+    const whereString = JSON.stringify(whereQuery);
     const qs = [
       `${
         !whereString.length || whereString === '[[]]'

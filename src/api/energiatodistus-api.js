@@ -16,6 +16,10 @@ const zip = (arr1, arr2) => {
   return result;
 };
 
+export const namespaceSearchParams = ([and]) => [
+  [...and.map(([op, key, value]) => [op, `energiatodistus.${key}`, value])]
+];
+
 export const energiatodistukset = (fetch, opts) => {
   const filteredOpts = Object.keys(opts).reduce(
     (acc, item) => ({ ...acc, ...(opts[item] ? { [item]: opts[item] } : {}) }),
@@ -28,7 +32,13 @@ export const energiatodistukset = (fetch, opts) => {
     return Promise.resolve([]);
 
   const qs = encodeURI(
-    zip(Object.keys(filteredOpts), Object.values(filteredOpts))
+    zip(
+      Object.keys(filteredOpts),
+      Object.values({
+        ...filteredOpts,
+        where: JSON.stringify(namespaceSearchParams(filteredOpts.where))
+      })
+    )
       .map(item => item.join('='))
       .join('&')
   );

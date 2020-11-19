@@ -97,7 +97,6 @@ export const includeInSearch = (key, value) => {
   const numberValue = parseInt(value);
   switch (key) {
     case 'versio':
-      debugger;
       return !isNaN(numberValue) && numberValue !== 0;
     case 'id':
     case 'perustiedot.valmistumisvuosi':
@@ -121,63 +120,46 @@ export const deserializeWhere = (model, where) => {
 
   return and
     .map(([op, key, value]) => ({
-      [`${key}${op !== '=' ? (op === '>=' ? '_min' : '_max') : ''}`]: value + ''
+      [`${key}${
+        op !== '=' && op !== 'in' ? (op === '>=' ? '_min' : '_max') : ''
+      }`]: value + ''
     }))
     .reduce((acc, item) => ({ ...acc, ...item }), model);
 };
 
-const eq = (key, model, format = a => a) => ['=', key, format(model[key])];
-const lte = (key, model, format = a => a) => [
-  '<=',
-  key,
-  format(model[`${key}_max`])
+const eq = (key, model) => ['=', key, model[key]];
+const lte = (key, model) => ['<=', key, model[`${key}_max`]];
+const gte = (key, model) => ['>=', key, model[`${key}_min`]];
+
+const valueIn = (key, model) => ['in', key, model[key]];
+
+export const where = (tarkennettu, model) => [
+  eq('id', model),
+  ...(tarkennettu
+    ? [
+        eq('versio', model),
+        eq('perustiedot.nimi', model),
+        eq('perustiedot.rakennustunnus', model),
+        gte('perustiedot.valmistumisvuosi', model),
+        lte('perustiedot.valmistumisvuosi', model),
+        gte('allekirjoitusaika', model),
+        lte('allekirjoitusaika', model),
+        gte('voimassaolo-paattymisaika', model),
+        lte('voimassaolo-paattymisaika', model),
+        gte('tulokset.e-luku', model),
+        lte('tulokset.e-luku', model),
+        ...(model['tulokset.e-luokka'].length
+          ? [valueIn('tulokset.e-luokka', model)]
+          : []),
+        gte('lahtotiedot.lammitetty-nettoala', model),
+        lte('lahtotiedot.lammitetty-nettoala', model)
+      ]
+    : [])
 ];
-const gte = (key, model, format = a => a) => [
-  '>=',
-  key,
-  format(model[`${key}_min`])
+
+export const whereQuery = where => [
+  where.filter(item => {
+    const [value, key] = [...item].reverse();
+    return includeInSearch(key, value);
+  })
 ];
-
-export const where = (tarkennettu, model) => {
-  const s = [
-    eq('id', model),
-    ...(tarkennettu
-      ? [
-          eq('versio', model),
-          eq('perustiedot.nimi', model),
-          eq('perustiedot.rakennustunnus', model),
-          gte('perustiedot.valmistumisvuosi', model),
-          lte('perustiedot.valmistumisvuosi', model),
-          gte('allekirjoitusaika', model),
-          lte('allekirjoitusaika', model),
-          gte('voimassaolo-paattymisaika', model),
-          lte('voimassaolo-paattymisaika', model),
-          gte('tulokset.e-luku', model),
-          lte('tulokset.e-luku', model),
-          ...(model['tulokset.e-luokka'].length
-            ? [eq('tulokset.e-luokka', model)]
-            : []),
-          gte('lahtotiedot.lammitetty-nettoala', model),
-          lte('lahtotiedot.lammitetty-nettoala', model)
-        ]
-      : [])
-  ];
-  console.log(s);
-
-  return s;
-};
-
-export const whereQueryString = where => {
-  const qs = JSON.stringify([
-    where.filter(item => {
-      const [value, key] = [...item].reverse();
-      return includeInSearch(key, value);
-    })
-  ]);
-
-  return qs !== '[[]]' ? qs : '';
-};
-
-export const isValidSearch = (tarkennettu, where, keyword) => {
-  if (!keyword.length) return true;
-};
