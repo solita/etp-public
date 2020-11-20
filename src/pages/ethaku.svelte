@@ -10,8 +10,9 @@
   import InputVersio from '@Component/input-versio';
   import InputELuokka from '@Component/input-e-luokka';
   import InfoBlock from '@Component/info-block';
+  import Spinner from '@Component/spinner';
   import Container, { styles as containerStyles } from '@Component/container';
-  import { _ } from '@Localization/localization';
+  import { _, locale, labelLocale } from '@Localization/localization';
   import { navigate } from '@/router/router';
 
   import * as EtHakuUtils from '@/utilities/ethaku';
@@ -24,9 +25,7 @@
 
   const pageSize = 25;
 
-  let tarkennettuShown = true;
-
-  const luokat = ['test 1', 'test 2', 'test 3'];
+  let tarkennettuShown = false;
 
   const validationModel = EtHakuUtils.validationModel();
 
@@ -43,6 +42,26 @@
   let eLukuMaxInput;
   let nettoalaMinInput;
   let nettoalaMaxInput;
+
+  let kayttotarkoitusluokat = Promise.all([
+    EtApi.kayttotarkoitusluokat(fetch, 2013),
+    EtApi.kayttotarkoitusluokat(fetch, 2018),
+    EtApi.alakayttotarkoitusluokat(fetch, 2013),
+    EtApi.alakayttotarkoitusluokat(fetch, 2018)
+  ]).then(([kt2013, kt2018, akt2013, akt2018]) => ({
+    '0': {
+      kayttotarkoitusluokat: [],
+      alakayttotarkoitusluokat: []
+    },
+    '2013': {
+      kayttotarkoitusluokat: kt2013,
+      alakayttotarkoitusluokat: akt2013
+    },
+    '2018': {
+      kayttotarkoitusluokat: kt2018,
+      alakayttotarkoitusluokat: akt2018
+    }
+  }));
 
   const parseValues = model => {
     const parseModel = EtHakuUtils.parseModel();
@@ -102,11 +121,12 @@
       'tulokset.e-luku_max': validationModel['tulokset.e-luku_max'](
         numberOrDefault(1, searchmodel['tulokset.e-luku_min']),
         1000
-      ),
-      'tulokset.e-luokka': validationModel['tulokset.e-luokka']
+      )
     };
 
-    return keys.map(item => validate[item](model[item]));
+    return keys.map(item =>
+      validate[item] ? validate[item](model[item]) : true
+    );
   };
 
   const numberOrDefault = (def, v) => {
@@ -124,7 +144,13 @@
     where
   );
 
-  $: searchmodel = { ...deserializedWhere };
+  $: tarkennettuShown =
+    Object.keys(deserializedWhere).filter(item => item !== 'id').length > 0;
+
+  $: searchmodel = {
+    ...EtHakuUtils.defaultSearchModel(),
+    ...deserializedWhere
+  };
 
   $: setter = key => value => (searchmodel = { ...searchmodel, [key]: value });
 
@@ -136,7 +162,13 @@
 
   $: result = EtApi.energiatodistukset(fetch, {
     where: EtHakuUtils.whereQuery(
-      EtHakuUtils.where(tarkennettuShown, parseValues(deserializedWhere))
+      EtHakuUtils.where(
+        tarkennettuShown,
+        parseValues({
+          ...EtHakuUtils.defaultSearchModel(),
+          ...deserializedWhere
+        })
+      )
     ),
     alue,
     offset,
@@ -186,15 +218,36 @@
   <form
     class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto"
     on:change={async evt => {
-      if (evt.target.name === 'tulokset.e-luokka') {
-        const currentSelection = [...new Set([
-            ...searchmodel['tulokset.e-luokka'],
-            evt.target.value
-          ])];
+      switch (evt.target.name) {
+        case 'tulokset.e-luokka_in':
+          const currentSelection = [...new Set([
+              ...searchmodel['tulokset.e-luokka_in'],
+              evt.target.value
+            ])];
 
-        searchmodel = { ...searchmodel, 'tulokset.e-luokka': evt.target.checked ? currentSelection : currentSelection.filter(item => item !== evt.target.value) };
-      } else {
-        searchmodel = { ...searchmodel, [evt.target.name]: evt.target.value };
+          searchmodel = { ...searchmodel, 'tulokset.e-luokka_in': evt.target.checked ? currentSelection : currentSelection.filter(item => item !== evt.target.value) };
+          break;
+        case 'versio':
+          searchmodel = { ...searchmodel, versio: evt.target.value, 'perustiedot.kayttotarkoitus_in': [], 'perustiedot.kayttotarkoitus': '' };
+          break;
+        case 'perustiedot.kayttotarkoitus_in':
+          const alakayttotarkoitusluokat = await kayttotarkoitusluokat.then(
+            ktl =>
+              ktl[searchmodel['versio']]['alakayttotarkoitusluokat']
+                .filter(
+                  item =>
+                    item['kayttotarkoitusluokka-id'] ===
+                    parseInt(evt.target.value)
+                )
+                .map(item => item.id)
+          );
+
+          const alakayttotarkoitusluokka = alakayttotarkoitusluokat.includes(searchmodel['perustiedot.kayttotarkoitus']) ? searchmodel['perustiedot.kayttotarkoitus'] : '';
+
+          searchmodel = { ...searchmodel, [evt.target.name]: alakayttotarkoitusluokat, 'perustiedot.kayttotarkoitus': alakayttotarkoitusluokka };
+          break;
+        default:
+          searchmodel = { ...searchmodel, [evt.target.name]: evt.target.value };
       }
 
       await tick();
@@ -273,7 +326,7 @@
     {#if tarkennettuShown}
       <div
         class="tarkennettu-haku w-full lg:w-5/6 flex flex-col my-4 py-4 border-t-2 border-b-2 border-green space-y-2"
-        transition:slide>
+        transition:slide|local>
         <div
           class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
@@ -288,26 +341,66 @@
           </div>
         </div>
 
-        <div
-          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
-          <span
-            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
-            {$_('ETHAKU_KAYTTOTARKOITUSLUOKKA')}
-          </span>
-          <div class="w-full md:w-1/2">
-            <InputSelect options={luokat} label={$_('KAIKKI')} value={''} />
+        {#await kayttotarkoitusluokat}
+          <div
+            class="tarkennettu-row w-full mx-auto center flex justify-center">
+            <Spinner />
           </div>
-        </div>
-        <div
-          class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
-          <span
-            class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
-            {$_('ETHAKU_ALAKAYTTOTARKOITUSLUOKKA')}
-          </span>
-          <div class="w-full md:w-1/2">
-            <InputSelect options={luokat} label={$_('KAIKKI')} value={''} />
-          </div>
-        </div>
+        {:then ktluokat}
+          {#if searchmodel['versio'] !== '0'}
+            <div transition:slide|local class="w-full">
+              <div
+                class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
+                <span
+                  class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
+                  {$_('ETHAKU_KAYTTOTARKOITUSLUOKKA')}
+                </span>
+                <div class="w-full md:w-1/2">
+                  <InputSelect
+                    name={'perustiedot.kayttotarkoitus_in'}
+                    format={id => {
+                      if (id === -1) return $_('KAIKKI');
+                      const item = ktluokat[searchmodel['versio']]['kayttotarkoitusluokat'].find(item => item.id === parseInt(id));
+                      if (item) return labelLocale($locale, item);
+                      return $_('KAIKKI');
+                    }}
+                    options={[-1, ...ktluokat[searchmodel['versio']]['kayttotarkoitusluokat'].map(item => item['id'])]}
+                    value={ktluokat[searchmodel['versio']]['alakayttotarkoitusluokat'].find(item => item.id === searchmodel['perustiedot.kayttotarkoitus_in'][0])?.['kayttotarkoitusluokka-id'] || -1} />
+                </div>
+              </div>
+              <div
+                class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
+                <span
+                  class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
+                  {$_('ETHAKU_ALAKAYTTOTARKOITUSLUOKKA')}
+                </span>
+                <div class="w-full md:w-1/2">
+                  <InputSelect
+                    name={'perustiedot.kayttotarkoitus'}
+                    format={id => {
+                      if (id === '') return $_('KAIKKI');
+                      const item = ktluokat[searchmodel['versio']]['alakayttotarkoitusluokat'].find(item => item.id === id);
+                      if (item) return labelLocale($locale, item);
+                      return $_('KAIKKI');
+                    }}
+                    options={['', ...ktluokat[searchmodel['versio']][
+                        'alakayttotarkoitusluokat'
+                      ]
+                        .filter(item =>
+                          searchmodel['perustiedot.kayttotarkoitus_in'].length
+                            ? searchmodel[
+                                'perustiedot.kayttotarkoitus_in'
+                              ].includes(item['id'])
+                            : true
+                        )
+                        .map(item => item['id'])]}
+                    label={$_('KAIKKI')}
+                    value={searchmodel['perustiedot.kayttotarkoitus']} />
+                </div>
+              </div>
+            </div>
+          {/if}
+        {/await}
         <div
           class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
           <span
@@ -483,7 +576,9 @@
           </span>
           <div
             class="w-full md:w-1/2 flex flex-row flex-wrap sm:justify-between items-center">
-            <InputELuokka group={searchmodel['tulokset.e-luokka']} />
+            <InputELuokka
+              name={'tulokset.e-luokka_in'}
+              group={searchmodel['tulokset.e-luokka_in']} />
           </div>
         </div>
         <div

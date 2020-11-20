@@ -47,3 +47,12 @@ export const energiatodistukset = (fetch, opts) => {
 
   return fetchJson(fetch, url);
 };
+
+export const kayttotarkoitusluokat = (fetch, versio) =>
+  fetchJson(fetch, `${energiatodistuksetUrl}/kayttotarkoitusluokat/${versio}`);
+
+export const alakayttotarkoitusluokat = (fetch, versio) =>
+  fetchJson(
+    fetch,
+    `${energiatodistuksetUrl}/alakayttotarkoitusluokat/${versio}`
+  );

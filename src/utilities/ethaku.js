@@ -41,6 +41,8 @@ const optionalRakennustunnus = value =>
 export const defaultSearchModel = () => ({
   id: '',
   versio: '0',
+  'perustiedot.kayttotarkoitus_in': [],
+  'perustiedot.kayttotarkoitus': '',
   'perustiedot.nimi': '',
   'perustiedot.rakennustunnus': '',
   'perustiedot.valmistumisvuosi_min': '',
@@ -53,7 +55,7 @@ export const defaultSearchModel = () => ({
   alakayttotarkoitusluokka: '',
   'tulokset.e-luku_min': '',
   'tulokset.e-luku_max': '',
-  'tulokset.e-luokka': [],
+  'tulokset.e-luokka_in': [],
   'lahtotiedot.lammitetty-nettoala_min': '',
   'lahtotiedot.lammitetty-nettoala_max': ''
 });
@@ -76,6 +78,7 @@ export const parseModel = () => ({
 export const validationModel = () => ({
   id: optionalNumber,
   versio: () => true,
+  'perustiedot.kayttotarkoitus_in': () => true,
   'perustiedot.nimi': optionalString(100),
   'perustiedot.rakennustunnus': optionalRakennustunnus,
   'perustiedot.valmistumisvuosi_min': optionalRange,
@@ -88,7 +91,7 @@ export const validationModel = () => ({
   alakayttotarkoitusluokka: () => true,
   'tulokset.e-luku_min': optionalRange,
   'tulokset.e-luku_max': optionalRange,
-  'tulokset.e-luokka': () => true,
+  'tulokset.e-luokka_in': () => true,
   'lahtotiedot.lammitetty-nettoala_min': optionalNumber,
   'lahtotiedot.lammitetty-nettoala_max': optionalNumber
 });
@@ -119,25 +122,39 @@ export const deserializeWhere = (model, where) => {
   const [and] = res;
 
   return and
-    .map(([op, key, value]) => ({
-      [`${key}${
-        op !== '=' && op !== 'in' ? (op === '>=' ? '_min' : '_max') : ''
-      }`]: value + ''
-    }))
-    .reduce((acc, item) => ({ ...acc, ...item }), model);
+    .map(([op, key, value]) => {
+      let postfix = '';
+      switch (op) {
+        case 'in':
+          postfix = '_in';
+          break;
+        case '>=':
+          postfix = '_min';
+          break;
+        case '<=':
+          postfix = '_max';
+          break;
+      }
+
+      return { [`${key}${postfix}`]: op !== 'in' ? value + '' : value };
+    })
+    .reduce((acc, item) => ({ ...acc, ...item }), {});
 };
 
 const eq = (key, model) => ['=', key, model[key]];
 const lte = (key, model) => ['<=', key, model[`${key}_max`]];
 const gte = (key, model) => ['>=', key, model[`${key}_min`]];
 
-const valueIn = (key, model) => ['in', key, model[key]];
+const valueIn = (key, model) =>
+  model[`${key}_in`].length ? [['in', key, model[`${key}_in`]]] : [];
 
 export const where = (tarkennettu, model) => [
   eq('id', model),
   ...(tarkennettu
     ? [
         eq('versio', model),
+        ...valueIn('perustiedot.kayttotarkoitus', model),
+        eq('perustiedot.kayttotarkoitus', model),
         eq('perustiedot.nimi', model),
         eq('perustiedot.rakennustunnus', model),
         gte('perustiedot.valmistumisvuosi', model),
@@ -148,9 +165,7 @@ export const where = (tarkennettu, model) => [
         lte('voimassaolo-paattymisaika', model),
         gte('tulokset.e-luku', model),
         lte('tulokset.e-luku', model),
-        ...(model['tulokset.e-luokka'].length
-          ? [valueIn('tulokset.e-luokka', model)]
-          : []),
+        ...valueIn('tulokset.e-luokka', model),
         gte('lahtotiedot.lammitetty-nettoala', model),
         lte('lahtotiedot.lammitetty-nettoala', model)
       ]
