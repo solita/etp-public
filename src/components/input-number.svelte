@@ -9,8 +9,20 @@
   export let step;
   export let invalidMessage;
 
+  export let model = {};
+
+  $: value = model[name];
+
+  export let validation = () => true;
+
+  let valid = true;
+
+  export const validate = () => {
+    valid = validation(value);
+  };
+
   let id;
-  $: valid = ((min && value >= min) || !min) && ((max && value <= max) || !max);
+  let focused = false;
 
   onMount(() => (id = Math.random().toString(36).substr(2, 9)));
 </script>
@@ -20,23 +32,24 @@
     background-color: transparent;
   }
 
-  input::placeholder {
-    @apply text-darkgrey italic;
-  }
-
   .input-parent:focus-within {
     @apply bg-grey border-green;
+  }
+  .errortext {
+    @apply text-xs absolute;
+    bottom: -0.2em;
+    left: 0;
   }
 </style>
 
 <!-- purgecss: 
 border-red
 -->
-<div class="relative w-full  flex flex-col">
+<div class="relative w-full flex flex-col pb-8">
   <label for={id} class="sr-only">{label}</label>
   <div
     class:border-red={!valid && value}
-    class="input-parent w-full relative inline-block border-b-2 px-4 py-2 border-darkgrey
+    class="input-parent w-full relative inline-block border-b-2 px-4 py-2 border-darkgrey text-center
    hover:bg-grey">
     <input
       {id}
@@ -44,12 +57,14 @@ border-red
       {min}
       {max}
       {step}
-      bind:value
+      value
+      on:change
       type="number"
-      placeholder={label}
-      class="w-full focus:outline-none" />
+      class="w-full focus:outline-none"
+      on:focus={() => (focused = true)}
+      on:blur={() => (focused = false)} />
   </div>
-  {#if invalidMessage && !valid && value}
-    <span class="w-full text-xs">{invalidMessage}</span>
-  {:else}<span class="w-full text-xs invisible">III</span>{/if}
+  {#if !focused && invalidMessage && !valid && value}
+    <span class="errortext">{invalidMessage}</span>
+  {/if}
 </div>

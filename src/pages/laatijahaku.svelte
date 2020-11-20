@@ -21,9 +21,6 @@
   import Pagination from '@Component/pagination';
   import Seo from '@Component/seo';
 
-  const delayLaatijat = l =>
-    new Promise(resolve => setTimeout(() => resolve(l), 200));
-
   export let nimihaku = '';
   export let aluehaku = '';
   export let page = 0;

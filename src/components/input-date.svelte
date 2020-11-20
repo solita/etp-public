@@ -8,12 +8,20 @@
   export let max;
   export let invalidMessage;
 
-  let id;
+  export let model = {};
 
-  // TODO: compare value date to min and max
-  $: valid =
-    ((min && value.length >= min) || !min) &&
-    ((max && value.length <= max) || !max);
+  $: value = model[name];
+
+  export let validation = () => true;
+
+  let valid = true;
+
+  export const validate = () => {
+    valid = validation(value);
+  };
+
+  let id;
+  let focused;
 
   onMount(() => (id = Math.random().toString(36).substr(2, 9)));
 </script>
@@ -30,6 +38,12 @@
   .input-parent:focus-within {
     @apply bg-grey border-green;
   }
+
+  .errortext {
+    @apply text-xs absolute;
+    bottom: -0.4em;
+    left: 0;
+  }
 </style>
 
 <!-- purgecss: 
@@ -37,24 +51,27 @@ border-darkgrey
 border-green
 border-red
 -->
-<div class="relative w-full  flex flex-col">
+<div class="relative w-full  flex flex-col pb-8">
   <label for={id} class="sr-only">{label}</label>
   <div
     class:border-red={!valid && value}
     class="input-parent w-full relative inline-block border-b-2 px-4 py-2
     border-darkgrey hover:bg-grey">
     <input
+      on:change
+      on:focus={_ => (focused = true)}
+      on:blur={_ => (focused = false)}
       {id}
       {name}
       {min}
       {max}
-      bind:value
+      value
       placeholder={label}
       type="date"
       class="w-full focus:outline-none" />
   </div>
 
-  {#if invalidMessage && value && !valid}
-    <span class="w-full text-xs">{invalidMessage}</span>
-  {:else}<span class="w-full text-xs invisible">III</span>{/if}
+  {#if !focused && invalidMessage && !valid}
+    <span class="errortext">{invalidMessage}</span>
+  {/if}
 </div>

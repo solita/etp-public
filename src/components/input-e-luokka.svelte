@@ -1,0 +1,39 @@
+<script>
+  const luokat = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+
+  export let group = [];
+</script>
+
+<style>
+  .checkbox-container input:focus ~ .checkbox-text {
+    @apply underline;
+  }
+  .checkbox-container input {
+    @apply absolute opacity-0 cursor-pointer select-none outline-none pointer-events-none;
+  }
+  .checkbox-container .material-icons {
+    @apply select-none text-4xl;
+  }
+  .checkbox-container input:checked ~ .checked,
+  .checkbox-container input ~ .unchecked {
+    @apply inline-block;
+  }
+  .checkbox-container input ~ .checked,
+  .checkbox-container input:checked ~ .unchecked {
+    @apply hidden;
+  }
+</style>
+
+{#each luokat as luokka}
+  <label class="checkbox-container flex items-center px-3 py-2 md:p-0">
+    <input
+      on:change
+      name="tulokset.e-luokka"
+      type="checkbox"
+      bind:group
+      value={luokka} />
+    <span class="material-icons checked text-green"> check_box </span>
+    <span class="material-icons unchecked"> check_box_outline_blank </span>
+    <span class="ml-1 checkbox-text">{luokka}</span>
+  </label>
+{/each}

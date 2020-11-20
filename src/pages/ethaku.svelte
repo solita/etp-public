@@ -1,4 +1,5 @@
 <script>
+  import { tick } from 'svelte';
   import { slide } from 'svelte/transition';
   import Button, { styles as buttonStyles } from '@Component/button';
   import InputSearch from '@Component/input-search';
@@ -6,82 +7,165 @@
   import InputNumber from '@Component/input-number';
   import InputDate from '@Component/input-date';
   import InputSelect from '@Component/input-select';
+  import InputVersio from '@Component/input-versio';
+  import InputELuokka from '@Component/input-e-luokka';
   import InfoBlock from '@Component/info-block';
   import Container, { styles as containerStyles } from '@Component/container';
   import { _ } from '@Localization/localization';
+  import { navigate } from '@/router/router';
 
-  let tarkennettuShown = false;
+  import * as EtHakuUtils from '@/utilities/ethaku';
+  import * as EtApi from '@/api/energiatodistus-api';
+  import * as parsers from '@/utilities/parsers';
+
+  export let where = '[[]]';
+  export let alue = '';
+  export let offset = 0;
+
+  const pageSize = 25;
+
+  let tarkennettuShown = true;
 
   const luokat = ['test 1', 'test 2', 'test 3'];
 
-  let todistustunnus = '';
-  let alue = '';
-  let versio = '2018';
-  let nimi = '';
-  let rakennustunus = '';
-  let valmistumisvuosiMin = '';
-  let valmistumisvuosiMax = '';
-  let laatimispaivaMin = '';
-  let laatimispaivaMax = '';
-  let voimassaolopaivaMin = '';
-  let voimassaolopaivaMax = '';
-  let kayttotarkoitusluokka = '';
-  let alakayttotarkoitusluokka = '';
-  let eLukuMin = '';
-  let eLukuMax = '';
-  let eLukuChecked = 'A,B,C,D,E,F,G';
-  let nettoalaMin = '';
-  let nettoalaMax = '';
+  const validationModel = EtHakuUtils.validationModel();
 
-  const submitForm = () => {
-    let searchData = {
-      todistustunnus: todistustunnus,
-      alue: alue
+  let idInput;
+  let nimiInput;
+  let rakennustunnusInput;
+  let allekirjoitusaikaMinInput;
+  let allekirjoitusaikaMaxInput;
+  let voimassaoloMinInput;
+  let voimassaoloMaxInput;
+  let valmistumisvuosiMinInput;
+  let valmistumisvuosiMaxInput;
+  let eLukuMinInput;
+  let eLukuMaxInput;
+  let nettoalaMinInput;
+  let nettoalaMaxInput;
+
+  const parseValues = model => {
+    const parseModel = EtHakuUtils.parseModel();
+
+    return Object.keys(model).reduce(
+      (acc, item) => ({
+        ...acc,
+        [item]: parseModel[item] ? parseModel[item](model[item]) : model[item]
+      }),
+      {}
+    );
+  };
+
+  const validateValues = (tarkennettu, validationModel, model) => {
+    const keys = [
+      ...new Set(['id', ...(tarkennettu ? Object.keys(model) : [])])
+    ];
+
+    const validate = {
+      ...validationModel,
+      'perustiedot.valmistumisvuosi_min': validationModel[
+        'perustiedot.valmistumisvuosi_min'
+      ](
+        1000,
+        numberOrDefault(
+          new Date().getFullYear(),
+          searchmodel['perustiedot.valmistumisvuosi_max']
+        )
+      ),
+      'perustiedot.valmistumisvuosi_max': validationModel[
+        'perustiedot.valmistumisvuosi_max'
+      ](
+        numberOrDefault(
+          new Date().getFullYear(),
+          searchmodel['perustiedot.valmistumisvuosi_min']
+        ),
+        2900
+      ),
+      allekirjoitusaika_min: validationModel['allekirjoitusaika_min'](
+        '',
+        model['allekirjoitusaika_max']
+      ),
+      allekirjoitusaika_max: validationModel['allekirjoitusaika_max'](
+        model['allekirjoitusaika_min'],
+        ''
+      ),
+      'voimassaolo-paattymisaika_min': validationModel[
+        'voimassaolo-paattymisaika_min'
+      ]('', model['voimassaolo-paattymisaika_max']),
+      'voimassaolo-paattymisaika_max': validationModel[
+        'voimassaolo-paattymisaika_max'
+      ](model['voimassaolo-paattymisaika_min'], ''),
+      'tulokset.e-luku_min': validationModel['tulokset.e-luku_min'](
+        0,
+        numberOrDefault(1000, searchmodel['tulokset.e-luku_max'])
+      ),
+      'tulokset.e-luku_max': validationModel['tulokset.e-luku_max'](
+        numberOrDefault(1, searchmodel['tulokset.e-luku_min']),
+        1000
+      ),
+      'tulokset.e-luokka': validationModel['tulokset.e-luokka']
     };
 
-    if (tarkennettuShown) {
-      searchData.versio = versio;
-      searchData.nimi = nimi;
-      searchData.rakennustunus = rakennustunus;
-      searchData.valmistumisvuosiMin = valmistumisvuosiMin;
-      searchData.valmistumisvuosiMax = valmistumisvuosiMax;
-      searchData.laatimispaivaMin = laatimispaivaMin;
-      searchData.laatimispaivaMax = laatimispaivaMax;
-      searchData.voimassaolopaivaMin = voimassaolopaivaMin;
-      searchData.voimassaolopaivaMax = voimassaolopaivaMax;
-      searchData.kayttotarkoitusluokka = kayttotarkoitusluokka;
-      searchData.alakayttotarkoitusluokka = alakayttotarkoitusluokka;
-      searchData.eLukuMin = eLukuMin;
-      searchData.eLukuMax = eLukuMax;
-      searchData.eLukuChecked = eLukuChecked;
-      searchData.nettoalaMin = nettoalaMin;
-      searchData.nettoalaMax = nettoalaMax;
-    }
+    return keys.map(item => validate[item](model[item]));
+  };
 
-    console.log('submit');
-    console.log(searchData);
+  const numberOrDefault = (def, v) => {
+    const value = parsers.parseInteger(v);
+
+    if (isNaN(value)) return def;
+
+    return value;
+  };
+
+  $: keyword = alue;
+
+  $: deserializedWhere = EtHakuUtils.deserializeWhere(
+    EtHakuUtils.defaultSearchModel(),
+    where
+  );
+
+  $: searchmodel = { ...deserializedWhere };
+
+  $: setter = key => value => (searchmodel = { ...searchmodel, [key]: value });
+
+  $: isValid = validateValues(
+    tarkennettuShown,
+    validationModel,
+    searchmodel
+  ).reduce((acc, item) => acc && item, true);
+
+  $: result = EtApi.energiatodistukset(fetch, {
+    where: EtHakuUtils.whereQuery(
+      EtHakuUtils.where(tarkennettuShown, parseValues(deserializedWhere))
+    ),
+    alue,
+    offset,
+    limit: pageSize
+  });
+
+  const commitSearch = model => {
+    const where = EtHakuUtils.where(tarkennettuShown, parseValues(model));
+    const whereQuery = EtHakuUtils.whereQuery(where);
+    const whereString = JSON.stringify(whereQuery);
+    const qs = [
+      `${
+        !whereString.length || whereString === '[[]]'
+          ? ''
+          : `where=${whereString}`
+      }`,
+      `${keyword && keyword.length ? `keyword=${keyword}` : ''}`
+    ]
+      .filter(item => item.length)
+      .join('&');
+
+    navigate(`/ethaku${qs.length ? `?${qs}` : ''}`);
   };
 </script>
 
 <style>
-  .checkbox-container input:focus ~ .checkbox-text {
-    @apply underline;
+  .tarkennettu-label {
+    @apply text-lg;
   }
-  .checkbox-container input {
-    @apply absolute opacity-0 cursor-pointer select-none outline-none pointer-events-none;
-  }
-  .checkbox-container .material-icons {
-    @apply select-none text-4xl;
-  }
-  .checkbox-container input:checked ~ .checked,
-  .checkbox-container input ~ .unchecked {
-    @apply inline-block;
-  }
-  .checkbox-container input ~ .checked,
-  .checkbox-container input:checked ~ .unchecked {
-    @apply hidden;
-  }
-
   .tarkennettu-row:focus-within .tarkennettu-label {
     @apply font-bold;
   }
@@ -101,20 +185,62 @@
 <Container {...containerStyles.white}>
   <form
     class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto"
-    on:submit|preventDefault={submitForm}>
+    on:change={async evt => {
+      if (evt.target.name === 'tulokset.e-luokka') {
+        const currentSelection = [...new Set([
+            ...searchmodel['tulokset.e-luokka'],
+            evt.target.value
+          ])];
+
+        searchmodel = { ...searchmodel, 'tulokset.e-luokka': evt.target.checked ? currentSelection : currentSelection.filter(item => item !== evt.target.value) };
+      } else {
+        searchmodel = { ...searchmodel, [evt.target.name]: evt.target.value };
+      }
+
+      await tick();
+
+      idInput.validate();
+      if (tarkennettuShown) {
+        nimiInput.validate();
+        rakennustunnusInput.validate();
+        allekirjoitusaikaMinInput.validate();
+        allekirjoitusaikaMaxInput.validate();
+        voimassaoloMinInput.validate();
+        voimassaoloMaxInput.validate();
+        valmistumisvuosiMinInput.validate();
+        valmistumisvuosiMaxInput.validate();
+        eLukuMinInput.validate();
+        eLukuMaxInput.validate();
+        nettoalaMinInput.validate();
+        nettoalaMaxInput.validate();
+      }
+    }}
+    on:reset={async () => {
+      await tick();
+      tarkennettuShown = false;
+      keyword = '';
+      searchmodel = EtHakuUtils.defaultSearchModel();
+    }}
+    on:submit|preventDefault={() => commitSearch(searchmodel)}>
     <div class="flex flex-col md:flex-row items-center md:items-start">
       <div class="flex flex-col w-full md:w-9/12">
         <div class="w-full md:w-11/12">
           <InputSearch
+            bind:this={idInput}
             label={'Hae todistustunnuksella'}
-            bind:value={todistustunnus} />
+            value={searchmodel['id']}
+            name={'id'}
+            validation={validationModel.id} />
         </div>
         <aside class="font-normal text-xs italic mt-4">
           Voit hakea maakunnalla, kunnalla, postinumerolla tai -toimipaikalla.
         </aside>
         <div class="flex">
           <div class="w-full md:w-11/12">
-            <InputSearch label="Hae alueella" bind:value={alue} />
+            <InputSearch
+              label="Hae alueella"
+              value={keyword}
+              name={'keyword'} />
           </div>
         </div>
       </div>
@@ -155,40 +281,9 @@
             {$_('ETHAKU_VERSIO')}
           </span>
 
-          <div class="w-full md:w-1/2">
+          <div class="w-full md:w-1/2 pb-8">
             <div class="flex justify-start">
-              <label class="checkbox-container flex items-center p-2 md:p-0">
-                <input type="radio" bind:group={versio} value={'2013,2018'} />
-                <span class="material-icons checked text-green">
-                  radio_button_checked
-                </span>
-                <span class="material-icons unchecked">
-                  radio_button_unchecked
-                </span>
-                <span class="ml-1 checkbox-text">{$_('KAIKKI')}</span>
-              </label>
-              <label
-                class="checkbox-container flex items-center p-2 ml-3 md:p-0">
-                <input type="radio" bind:group={versio} value={'2018'} />
-                <span class="material-icons checked text-green">
-                  radio_button_checked
-                </span>
-                <span class="material-icons unchecked">
-                  radio_button_unchecked
-                </span>
-                <span class="ml-1 checkbox-text">2018</span>
-              </label>
-              <label
-                class="checkbox-container flex items-center p-2 ml-3 md:p-0">
-                <input type="radio" bind:group={versio} value={'2013'} />
-                <span class="material-icons checked text-green">
-                  radio_button_checked
-                </span>
-                <span class="material-icons unchecked">
-                  radio_button_unchecked
-                </span>
-                <span class="ml-1 checkbox-text">2013</span>
-              </label>
+              <InputVersio name={'versio'} model={searchmodel} />
             </div>
           </div>
         </div>
@@ -200,10 +295,7 @@
             {$_('ETHAKU_KAYTTOTARKOITUSLUOKKA')}
           </span>
           <div class="w-full md:w-1/2">
-            <InputSelect
-              options={luokat}
-              label={$_('KAIKKI')}
-              bind:value={kayttotarkoitusluokka} />
+            <InputSelect options={luokat} label={$_('KAIKKI')} value={''} />
           </div>
         </div>
         <div
@@ -213,10 +305,7 @@
             {$_('ETHAKU_ALAKAYTTOTARKOITUSLUOKKA')}
           </span>
           <div class="w-full md:w-1/2">
-            <InputSelect
-              options={luokat}
-              label={$_('KAIKKI')}
-              bind:value={alakayttotarkoitusluokka} />
+            <InputSelect options={luokat} label={$_('KAIKKI')} value={''} />
           </div>
         </div>
         <div
@@ -226,7 +315,13 @@
             {$_('ETHAKU_RAKENNUKSEN_NIMI')}
           </span>
           <div class="w-full md:w-1/2">
-            <InputText label={''} bind:value={nimi} />
+            <InputText
+              bind:this={nimiInput}
+              label={''}
+              value={searchmodel['perustiedot.nimi']}
+              name={'perustiedot.nimi'}
+              validation={validationModel['perustiedot.nimi']}
+              invalidMessage={'Nimi voi olla korkeintaan 100 merkkiä'} />
           </div>
         </div>
         <div
@@ -236,7 +331,13 @@
             {$_('ETHAKU_RAKENNUSTUNNUS')}
           </span>
           <div class="w-full md:w-1/2">
-            <InputText label={''} bind:value={rakennustunus} />
+            <InputText
+              bind:this={rakennustunnusInput}
+              label={''}
+              value={searchmodel['perustiedot.rakennustunnus']}
+              name={'perustiedot.rakennustunnus'}
+              validation={validationModel['perustiedot.rakennustunnus']}
+              invalidMessage={'Syötetty arvo ei ole oikeamuotoinen rakennustunnus'} />
           </div>
         </div>
         <div
@@ -245,26 +346,31 @@
             class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
             {$_('ETHAKU_RAKENNUS_VUOSI')}
           </span>
-          <div
-            class="w-full md:w-1/2 flex justify-between items-center text-center">
+          <div class="w-full md:w-1/2 flex justify-between items-center">
             <div class="w-2/5">
               <InputNumber
+                bind:this={valmistumisvuosiMinInput}
                 label={'vvvv'}
-                min="1000"
-                max={new Date().getFullYear()}
-                bind:value={valmistumisvuosiMin}
+                min="0"
+                max={numberOrDefault(new Date().getFullYear(), searchmodel['perustiedot.valmistumisvuosi_max'])}
+                model={searchmodel}
+                name={'perustiedot.valmistumisvuosi_min'}
                 step="1"
-                invalidMessage={'Sallittu arvo 1000-' + new Date().getFullYear()} />
+                validation={validationModel['perustiedot.valmistumisvuosi_min'](0, numberOrDefault(new Date().getFullYear(), searchmodel['perustiedot.valmistumisvuosi_max']))}
+                invalidMessage={'Arvon tulee olla loppuarvoa pienempi'} />
             </div>
             <span class="material-icons text-darkgrey"> horizontal_rule </span>
             <div class="w-2/5">
               <InputNumber
+                bind:this={valmistumisvuosiMaxInput}
                 label={'vvvv'}
-                min={new Date().getFullYear()}
-                bind:value={valmistumisvuosiMax}
+                min={numberOrDefault(new Date().getFullYear(), searchmodel['perustiedot.valmistumisvuosi_min'])}
+                model={searchmodel}
+                name={'perustiedot.valmistumisvuosi_max'}
                 max="2900"
                 step="1"
-                invalidMessage={'Sallittu arvo ' + new Date().getFullYear() + '-2900'} />
+                validation={validationModel['perustiedot.valmistumisvuosi_max'](numberOrDefault(new Date().getFullYear(), searchmodel['perustiedot.valmistumisvuosi_min']), 2900)}
+                invalidMessage={'Arvon tulee olla alkuarvoa suurempi'} />
             </div>
           </div>
         </div>
@@ -275,12 +381,16 @@
             {$_('ETHAKU_LAATIMISPAIVA')}
           </span>
           <div
-            class="w-full md:w-1/2 flex flex-col md:flex-row justify-between items-center text-center">
+            class="w-full md:w-1/2 flex flex-col md:flex-row justify-between items-center">
             <div class="w-full md:w-2/5">
               <InputDate
+                bind:this={allekirjoitusaikaMinInput}
+                model={searchmodel}
+                name={'allekirjoitusaika_min'}
                 label={'pp.kk.vvvv'}
-                max={laatimispaivaMax}
-                bind:value={laatimispaivaMin} />
+                max={searchmodel['allekirjoitusaika_max']}
+                validation={validationModel['allekirjoitusaika_min']('', searchmodel['allekirjoitusaika_max'])}
+                invalidMessage={'Alkupäivämäärän tulee olla ennen loppupäivämäärää'} />
             </div>
             <span
               class="material-icons text-darkgrey w-full md:w-auto select-none">
@@ -288,9 +398,13 @@
             </span>
             <div class="w-full md:w-2/5">
               <InputDate
+                bind:this={allekirjoitusaikaMaxInput}
+                model={searchmodel}
+                name={'allekirjoitusaika_max'}
                 label={'pp.kk.vvvv'}
-                min={laatimispaivaMin}
-                bind:value={laatimispaivaMax} />
+                min={searchmodel['allekirjoitusaika_min']}
+                validation={validationModel['allekirjoitusaika_max'](searchmodel['allekirjoitusaika_min'], '')}
+                invalidMessage={'Loppupäivämäärän tulee olla alkupäivämäärän jälkeen'} />
             </div>
           </div>
         </div>
@@ -301,12 +415,16 @@
             {$_('ETHAKU_VIIMEINEN_VOIMASSAOLOPAIVA')}
           </span>
           <div
-            class="w-full md:w-1/2 flex flex-col md:flex-row justify-between items-center text-center">
+            class="w-full md:w-1/2 flex flex-col md:flex-row justify-between items-center">
             <div class="w-full md:w-2/5">
               <InputDate
+                bind:this={voimassaoloMinInput}
                 label={'pp.kk.vvvv'}
-                max={voimassaolopaivaMax}
-                bind:value={voimassaolopaivaMin} />
+                model={searchmodel}
+                name={'voimassaolo-paattymisaika_min'}
+                max={searchmodel['voimassaolo-paattymisaika_max']}
+                invalidMessage={'Alkupäivämäärän tulee olla ennen loppupäivämäärää'}
+                validation={validationModel['voimassaolo-paattymisaika_min']('', searchmodel['voimassaolo-paattymisaika_max'])} />
             </div>
             <span
               class="material-icons text-darkgrey w-full md:w-auto select-none">
@@ -314,9 +432,13 @@
             </span>
             <div class="w-full md:w-2/5">
               <InputDate
+                bind:this={voimassaoloMaxInput}
                 label={'pp.kk.vvvv'}
-                min={voimassaolopaivaMin}
-                bind:value={voimassaolopaivaMax} />
+                model={searchmodel}
+                name={'voimassaolo-paattymisaika_max'}
+                min={searchmodel['voimassaolo-paattymisaika_min']}
+                invalidMessage={'Loppupäivämäärän tulee olla alkupäivämäärän jälkeen'}
+                validation={validationModel['voimassaolo-paattymisaika_max'](searchmodel['voimassaolo-paattymisaika_min'], '')} />
             </div>
           </div>
         </div>
@@ -326,23 +448,30 @@
             class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
             {$_('ETHAKU_E_KOKONAISLUKU')}
           </span>
-          <div
-            class="w-full md:w-1/2 flex justify-between items-center text-center">
+          <div class="w-full md:w-1/2 flex justify-between items-center">
             <div class="w-2/5">
               <InputNumber
+                bind:this={eLukuMinInput}
                 label={''}
                 min="0"
-                max={eLukuMax}
+                max={numberOrDefault(1000, searchmodel['tulokset.e-luku_max'])}
+                model={searchmodel}
+                name={'tulokset.e-luku_min'}
                 step="1"
-                bind:value={eLukuMin} />
+                validation={validationModel['tulokset.e-luku_min'](0, numberOrDefault(1000, searchmodel['tulokset.e-luku_max']))}
+                invalidMessage={'Arvon tulee olla loppuarvoa pienempi'} />
             </div>
             <span class="material-icons text-darkgrey"> horizontal_rule </span>
             <div class="w-2/5">
               <InputNumber
+                bind:this={eLukuMaxInput}
                 label={''}
-                min={eLukuMin}
+                min={numberOrDefault(1, searchmodel['tulokset.e-luku_min'])}
+                model={searchmodel}
+                name={'tulokset.e-luku_max'}
                 step="1"
-                bind:value={eLukuMax} />
+                validation={validationModel['tulokset.e-luku_max'](numberOrDefault(1, searchmodel['tulokset.e-luku_min']), 1000)}
+                invalidMessage={'Arvon tulee olla alkuarvoa suurempi'} />
             </div>
           </div>
         </div>
@@ -353,103 +482,8 @@
             {$_('ETHAKU_E_LUKU')}
           </span>
           <div
-            class="w-full md:w-1/2 flex flex-col xl:flex-row justify-start items-center">
-            <div
-              class="w-full xl:w-auto flex justify-between items-center xl:justify-start">
-              <label
-                class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
-                <input type="checkbox" bind:group={eLukuChecked} value={'A'} />
-                <span class="material-icons checked text-green">
-                  check_box
-                </span>
-                <span class="material-icons unchecked">
-                  check_box_outline_blank
-                </span>
-                <span class="ml-1 checkbox-text">A</span>
-              </label>
-
-              <label
-                class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
-                <input type="checkbox" bind:group={eLukuChecked} value={'B'} />
-                <span class="material-icons checked text-green">
-                  check_box
-                </span>
-                <span class="material-icons unchecked">
-                  check_box_outline_blank
-                </span>
-                <span class="ml-1 checkbox-text">B</span>
-              </label>
-
-              <label
-                class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
-                <input type="checkbox" bind:group={eLukuChecked} value={'C'} />
-                <span class="material-icons checked text-green">
-                  check_box
-                </span>
-                <span class="material-icons unchecked">
-                  check_box_outline_blank
-                </span>
-                <span class="ml-1 checkbox-text">C</span>
-              </label>
-              <label
-                class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
-                <input type="checkbox" bind:group={eLukuChecked} value={'D'} />
-                <span class="material-icons checked text-green">
-                  check_box
-                </span>
-                <span class="material-icons unchecked">
-                  check_box_outline_blank
-                </span>
-                <span class="ml-1 checkbox-text">D</span>
-              </label>
-            </div>
-            <div
-              class="w-full xl:w-auto flex justify-between items-center xl:justify-start">
-              <label
-                class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
-                <input type="checkbox" bind:group={eLukuChecked} value={'E'} />
-                <span class="material-icons checked text-green">
-                  check_box
-                </span>
-                <span class="material-icons unchecked">
-                  check_box_outline_blank
-                </span>
-                <span class="ml-1 checkbox-text">E</span>
-              </label>
-
-              <label
-                class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
-                <input type="checkbox" bind:group={eLukuChecked} value={'F'} />
-                <span class="material-icons checked text-green">
-                  check_box
-                </span>
-                <span class="material-icons unchecked">
-                  check_box_outline_blank
-                </span>
-                <span class="ml-1 checkbox-text">F</span>
-              </label>
-
-              <label
-                class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6">
-                <input type="checkbox" bind:group={eLukuChecked} value={'G'} />
-                <span class="material-icons checked text-green">
-                  check_box
-                </span>
-                <span class="material-icons unchecked">
-                  check_box_outline_blank
-                </span>
-                <span class="ml-1 checkbox-text">G</span>
-              </label>
-
-              <label
-                class="checkbox-container flex items-center p-2 md:p-0 xl:pr-6 invisible">
-                <input type="checkbox" />
-                <span class="material-icons inline-block">
-                  check_box_outline_blank
-                </span>
-                <span class="ml-1 checkbox-text">X</span>
-              </label>
-            </div>
+            class="w-full md:w-1/2 flex flex-row flex-wrap sm:justify-between items-center">
+            <InputELuokka group={searchmodel['tulokset.e-luokka']} />
           </div>
         </div>
         <div
@@ -458,21 +492,27 @@
             class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
             {$_('ETHAKU_LAMMITETTY_NETTOALA')}
           </span>
-          <div
-            class="w-full md:w-1/2 flex justify-between items-center text-center">
+          <div class="w-full md:w-1/2 flex justify-between items-center">
             <div class="w-2/5">
               <InputNumber
+                bind:this={nettoalaMinInput}
                 label={''}
                 min="0"
-                max={nettoalaMax}
-                bind:value={nettoalaMin} />
+                max={searchmodel['lahtotiedot.lammitetty-nettoala_max']}
+                model={searchmodel}
+                name={'lahtotiedot.lammitetty-nettoala_min'}
+                invalidMessage={'Arvon tulee olla loppuarvoa pienempi'} />
             </div>
             <span class="material-icons text-darkgrey"> horizontal_rule </span>
             <div class="w-2/5">
               <InputNumber
+                bind:this={nettoalaMaxInput}
                 label={''}
-                min={nettoalaMin}
-                bind:value={nettoalaMax} />
+                min={searchmodel['lahtotiedot.lammitetty-nettoala_min']}
+                model={searchmodel}
+                name={'lahtotiedot.lammitetty-nettoala_max'}
+                set={setter('lahtotiedot.lammitetty-nettoala_max')}
+                invalidMessage={'Arvon tulee olla alkuarvoa suurempi'} />
             </div>
           </div>
         </div>
@@ -480,17 +520,10 @@
     {/if}
 
     <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
-      <Button {...buttonStyles.green} type="submit">{$_('HAE')}</Button>
-      <Button
-        {...buttonStyles.ashblue}
-        type="reset"
-        on:click={() => {
-          // Empty button clears all inputs, but versio should never be empty
-          versio = '2013,2018';
-          // Checkboxes don't reset right so emptying array here
-          eLukuChecked = [];
-          tarkennettuShown = false;
-        }}>
+      <Button {...buttonStyles.green} disabled={!isValid} type="submit">
+        {$_('HAE')}
+      </Button>
+      <Button {...buttonStyles.ashblue} type="reset">
         {$_('HAKU_TYHJENNA')}
       </Button>
     </div>
