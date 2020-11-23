@@ -33,7 +33,8 @@
           <img src={Logo} alt="" />
           <h1 class="pl-2">{$_('ENERGIATODISTUSREKISTERI')}</h1>
         </div>
-        <nav class="font-semibold text-ashblue justify-start ml-4 mr-auto">
+        <nav
+          class="font-semibold text-ashblue justify-start ml-4 mr-auto hidden lg:block">
           <span
             lang="fi"
             class="cursor-pointer"
@@ -49,7 +50,7 @@
           </span>
         </nav>
         <a
-          class="text-ashblue flex items-center"
+          class="text-ashblue items-center hidden lg:flex"
           href="/rekisteroitymisohjeet"><span
             class="font-bold underline">{$_('REKISTEROITYMISOHJEET')}</span>
           <span class="material-icons"> chevron_right </span></a>
@@ -81,21 +82,27 @@
     </div>
   </Container>
   {#if mobileNavShown}
-    <div transition:slide class="lg:hidden">
+    <div transition:slide class="lg:hidden" on:click={(mobileNavShown = false)}>
       <NavBar />
 
       <nav class="font-semibold text-ashblue p-3 text-center mx-auto bg-grey">
         <span
           lang="fi"
           class="cursor-pointer p-2"
-          on:click={() => setLocale('fi')}>
+          on:click={() => {
+            mobileNavShown = false;
+            setLocale('fi');
+          }}>
           suomeksi
         </span>
         |
         <span
           lang="sv"
           class="cursor-pointer p-2"
-          on:click={() => setLocale('sv')}>
+          on:click={() => {
+            mobileNavShown = false;
+            setLocale('sv');
+          }}>
           på svenska
         </span>
       </nav>
