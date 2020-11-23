@@ -34,7 +34,7 @@
   }
   .icon {
     width: 2.5em;
-    height: auto;
+    height: 2.5em;
   }
 </style>
 

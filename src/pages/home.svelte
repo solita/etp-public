@@ -94,8 +94,8 @@
     </section>
     <section class="bg-white lg:w-2/3 lg:pl-8 px-2 sm:px-16 py-4 sm:py-16">
       <h2 class="mb-4 text-ashblue text-lg">{$_('LISATIETOA_TITLE')}</h2>
-      <div class="flex -mx-4 flex-col md:flex-row -my-4 md:my-0">
-        <section class="px-4 md:w-1/2 py-4 md:py-0">
+      <div class="flex flex-col md:flex-row md:space-x-2">
+        <section class="md:w-1/2 py-4 md:py-0">
           <h3 class="mb-4">{$_('LISATIETOA_MOTIVAN_PALVELUT')}</h3>
           <div class="flex flex-col -my-2">
             <div class="py-2">
@@ -119,7 +119,7 @@
             </a>
           </div>
         </section>
-        <section class="px-4 md:w-1/2 py-4 md:py-0">
+        <section class="md:w-1/2 py-4 md:py-0">
           <h3 class="mb-4">{$_('LISATIETOA_TILASTOT')}</h3>
           <div class="flex flex-col -my-2">
             <p class="block py-2">{$_('LISATIETOA_ARAN_JULKAISUT')}</p>

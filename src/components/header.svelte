@@ -28,10 +28,10 @@
   <Container {...containerStyles.white}>
     <div class="flex justify-between items-center px-2 py-2 xl:px-16">
       <div
-        class="flex justify-between items-center flex-col lg:flex-row lg:w-full">
+        class="flex justify-between items-center w-full">
         <div class="flex items-center">
           <img src={Logo} alt="" />
-          <h1 class="pl-2">{$_('ENERGIATODISTUSREKISTERI')}</h1>
+          <h1 class="pl-2 text-xs xs:text-base">{$_('ENERGIATODISTUSREKISTERI')}</h1>
         </div>
         <nav
           class="font-semibold text-ashblue justify-start ml-4 mr-auto hidden lg:block">
@@ -82,8 +82,8 @@
     </div>
   </Container>
   {#if mobileNavShown}
-    <div transition:slide class="lg:hidden" on:click={(mobileNavShown = false)}>
-      <NavBar />
+    <div transition:slide class="lg:hidden">
+      <NavBar/>
 
       <nav class="font-semibold text-ashblue p-3 text-center mx-auto bg-grey">
         <span
