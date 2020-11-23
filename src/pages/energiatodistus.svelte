@@ -1,10 +1,14 @@
 <script>
   import Container, { styles as containerStyles } from '@Component/container';
   import Button, { styles as buttonStyles } from '@Component/button';
+  import ButtonLink from '@Component/buttonlink';
   import Spinner from '@Component/spinner';
   import { onMount } from 'svelte';
   import { backReferred } from '@/router/router';
   import { _ } from '@Localization/localization';
+
+  import VirallinenMalli2013 from '@Asset/energiatodistusmalli_2013.pdf';
+  import VirallinenMalli2018 from '@Asset/energiatodistusmalli_2018.pdf';
 
   export let id = 0;
   export let versio = 2018;
@@ -158,14 +162,14 @@
               -
               {$_('ET_KOOSTE')}
             </h1>
-            <Button
+            <ButtonLink
               {...buttonStyles.ashblue}
-              on:click={() => {
-                backReferred('/laatijahaku');
-              }}>
+              target="_blank"
+              href={versio == "2013" ? VirallinenMalli2013 : VirallinenMalli2018}
+              >
               <span class="material-icons">visibility</span>
               <span class="whitespace-no-wrap"> {$_('ET_VIRALLINEN')}</span>
-            </Button>
+            </ButtonLink>
           </div>
         </div>
         <div class="w-full flex flex-col mx-auto items-center space-y-6">
