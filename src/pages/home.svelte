@@ -1,11 +1,13 @@
 <script>
   import EtHakuImage from '@Asset/ethaku.jpg';
   import LaatijaHakuImage from '@Asset/laatijahaku.jpg';
+  import ETMalli from '@Asset/energiatodistusmalli_2018.pdf';
 
   import BorderImage from '@Component/border-image';
 
   import Hero from '@Component/hero';
   import Button, { styles as buttonStyles } from '@Component/button';
+  import ButtonLink from '@Component/buttonlink';
   import Input from '@Component/input-search';
   import Container, { styles as containerStyles } from '@Component/container';
 
@@ -87,9 +89,11 @@
       <h2 class="mb-4 text-white">{$_('INFO_TITLE')}</h2>
       <p>{$_('INFO_KUVAUS')}</p>
       <div class="mt-4">
-        <Button {...buttonStyles.white}>
+        <ButtonLink {...buttonStyles.white}
+        href={ETMalli}
+        target="_blank">
           {$_('INFO_ENERGIATODISTUSMALLI')}
-        </Button>
+        </ButtonLink>
       </div>
     </section>
     <section class="bg-white lg:w-2/3 lg:pl-8 px-2 sm:px-16 py-4 sm:py-16">
