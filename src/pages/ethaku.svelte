@@ -20,7 +20,7 @@
   import * as parsers from '@/utilities/parsers';
 
   export let where = '[[]]';
-  export let alue = '';
+  export let keyword = '';
   export let offset = 0;
 
   const pageSize = 25;
@@ -137,8 +137,6 @@
     return value;
   };
 
-  $: keyword = alue;
-
   $: deserializedWhere = EtHakuUtils.deserializeWhere(
     EtHakuUtils.defaultSearchModel(),
     where
@@ -170,7 +168,7 @@
         })
       )
     ),
-    alue,
+    keyword,
     offset,
     limit: pageSize
   });
@@ -219,6 +217,9 @@
     class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto"
     on:change={async evt => {
       switch (evt.target.name) {
+        case 'keyword':
+          keyword = evt.target.value;
+          break;
         case 'tulokset.e-luokka_in':
           const currentSelection = [...new Set([
               ...searchmodel['tulokset.e-luokka_in'],
@@ -292,7 +293,7 @@
           <div class="w-full md:w-11/12">
             <InputSearch
               label="Hae alueella"
-              value={keyword}
+              value={keyword ?? ''}
               name={'keyword'} />
           </div>
         </div>
