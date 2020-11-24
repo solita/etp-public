@@ -8,11 +8,13 @@
   import NavButton, { styles as navbuttonStyles } from '@Component/nav-button';
   import Container, { styles as containerStyles } from '@Component/container';
   import { _ } from '@Localization/localization';
+
+  export let navButtonClicked = () => {};
 </script>
 
 <Container {...containerStyles.mainnavigation}>
   <nav class="flex xl:px-16 flex-col lg:flex-row">
-    <NavButton link="/" {...navbuttonStyles.lightgreen} iconLeft={IconHome}>
+    <NavButton link="/" {...navbuttonStyles.lightgreen} iconLeft={IconHome} click={navButtonClicked}>
       <span slot="title" class="uppercase">{$_('NAVBAR_ETUSIVU')}</span>
       <span slot="subtitle" class="italic font-light text-sm">
         {$_('NAVBAR_ETUSIVU_KUVAUS')}
@@ -21,7 +23,8 @@
     <NavButton
       link="/ethaku"
       {...navbuttonStyles.green}
-      iconLeft={IconSearchFile}>
+      iconLeft={IconSearchFile}
+      click={navButtonClicked}>
       <span slot="title" class="uppercase">
         {$_('NAVBAR_ENERGIATODISTUSHAKU')}
       </span>
@@ -32,7 +35,8 @@
     <NavButton
       link="/laatijahaku"
       {...navbuttonStyles.darkgreen}
-      iconLeft={IconSearchPerson}>
+      iconLeft={IconSearchPerson}
+      click={navButtonClicked}>
       <span slot="title" class="uppercase">{$_('NAVBAR_LAATIJAHAKU')}</span>
       <span slot="subtitle" class="italic font-light text-sm">
         {$_('NAVBAR_LAATIJAHAKU_KUVAUS')}
@@ -42,7 +46,8 @@
       link={`https://private.${window.location.host}`}
       {...navbuttonStyles.ashblue}
       iconLeft={IconLogin}
-      iconRight={IconNext}>
+      iconRight={IconNext}
+      click={navButtonClicked}>
       <span slot="title" class="uppercase">{$_('NAVBAR_KIRJAUTUMINEN')}</span>
       <span slot="subtitle" class="italic font-light text-sm">
         {$_('NAVBAR_KIRJAUTUMINEN_KUVAUS')}

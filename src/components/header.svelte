@@ -6,6 +6,10 @@
   import { setLocale, _ } from '@Localization/localization';
 
   let mobileNavShown = false;
+
+  const closeMobileNav = () => {
+    mobileNavShown = false;
+  };
 </script>
 
 <style>
@@ -83,14 +87,14 @@
   </Container>
   {#if mobileNavShown}
     <div transition:slide class="lg:hidden">
-      <NavBar/>
+      <NavBar navButtonClicked={closeMobileNav}/>
 
       <nav class="font-semibold text-ashblue p-3 text-center mx-auto bg-grey">
         <span
           lang="fi"
           class="cursor-pointer p-2"
           on:click={() => {
-            mobileNavShown = false;
+            closeMobileNav();
             setLocale('fi');
           }}>
           suomeksi
@@ -100,7 +104,7 @@
           lang="sv"
           class="cursor-pointer p-2"
           on:click={() => {
-            mobileNavShown = false;
+            closeMobileNav();
             setLocale('sv');
           }}>
           på svenska
