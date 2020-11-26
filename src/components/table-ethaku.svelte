@@ -9,14 +9,6 @@
 </script>
 
 <style>
-  .icon {
-    width: 1.6em;
-    height: auto;
-  }
-  .icon.smaller {
-    width: 1.3em;
-  }
-
   /* Table styling in main.css */
 </style>
 
@@ -42,14 +34,17 @@
           <tbody>
             {#each eTodistukset as todistus}
               <tr>
-                <td data-title={$_('ETHAKU_TH_TUNNUS')}>{todistus.tunnus}</td>
-                <td data-title={$_('ETHAKU_TH_ETLUOKKA')}>{todistus.luokka}</td>
-                <td data-title={$_('ETHAKU_TH_OSOITE')}>{todistus.osoite}</td>
+                <td data-title={$_('ETHAKU_TH_TUNNUS')}>{todistus.id}</td>
+                <td data-title={$_('ETHAKU_TH_ETLUOKKA')}>
+                  <strong>{todistus.tulokset['e-luokka']}</strong>
+                  <span class="text-xs">{todistus.versio}</span>
+                </td>
+                <td data-title={$_('ETHAKU_TH_OSOITE')}>{todistus.perustiedot['katuosoite-fi']}</td>
                 <td data-title={$_('ETHAKU_TH_KAYTTOTARKOITUS')}>
-                  {todistus.tarkoitus}
+                  {todistus.perustiedot.kayttotarkoitus}
                 </td>
                 <td data-title={$_('ETHAKU_TH_VOIMASSA')}>
-                  {todistus.voimassa}
+                  -{todistus['voimassaolo-paattymisaika']}
                 </td>
               </tr>
             {/each}

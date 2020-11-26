@@ -14,6 +14,8 @@
   import Container, { styles as containerStyles } from '@Component/container';
   import { _, locale, labelLocale } from '@Localization/localization';
   import { navigate } from '@/router/router';
+  import TableEThaku from '@Component/table-ethaku';
+  import Pagination from '@Component/pagination';
 
   import * as EtHakuUtils from '@/utilities/ethaku';
   import * as EtApi from '@/api/energiatodistus-api';
@@ -22,6 +24,7 @@
   export let where = '[[]]';
   export let alue = '';
   export let offset = 0;
+  export let page = 0;
 
   const pageSize = 25;
 
@@ -174,6 +177,11 @@
     offset,
     limit: pageSize
   });
+
+  $: {
+    console.log("result");
+    console.log(result);
+  }
 
   const commitSearch = model => {
     const where = EtHakuUtils.where(tarkennettuShown, parseValues(model));
@@ -623,4 +631,32 @@
       </Button>
     </div>
   </form>
+</Container>
+
+
+
+<Container {...containerStyles.white}>
+  {#await result}
+    <div class="flex justify-center">
+      <Spinner />
+    </div>
+  {:then et}
+    <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
+      <TableEThaku
+        etCount={et.length}
+        eTodistukset={et.slice(page * pageSize, (page + 1) * pageSize)}
+        let:currentPageItemCount
+        {page}>
+        <div slot="pagination">
+          <Pagination
+            {page}
+            {pageSize}
+            {currentPageItemCount}
+            itemCount={et.length}/>
+        </div>
+      </TableEThaku>
+    </div>
+  {:catch error}
+    <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">{error}</div>
+  {/await}
 </Container>
