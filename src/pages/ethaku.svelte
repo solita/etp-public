@@ -26,7 +26,7 @@
   export let offset = 0;
   export let page = 0;
 
-  const pageSize = 25;
+  const pageSize = 3;
 
   let tarkennettuShown = false;
 
@@ -178,10 +178,6 @@
     limit: pageSize
   });
 
-  $: {
-    console.log("result");
-    console.log(result);
-  }
 
   const commitSearch = model => {
     const where = EtHakuUtils.where(tarkennettuShown, parseValues(model));
@@ -636,11 +632,14 @@
 
 
 <Container {...containerStyles.white}>
-  {#await result}
+  {#await 
+  Promise.all([result,
+    Promise.resolve(parseInt(page ?? 0)),
+    Promise.resolve(pageSize)])}
     <div class="flex justify-center">
       <Spinner />
     </div>
-  {:then et}
+  {:then [et, page, pageSize]}
     <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
       <TableEThaku
         etCount={et.length}

@@ -15,10 +15,8 @@
 <div class="table-container">
   {#if etCount < 1}
     <span>Ei tuloksia.</span>
-    <slot name="filter" />
   {:else}
     <h2>Tuloksia {etCount}</h2>
-    <slot name="filter" />
     {#if currentPageItemCount > 0}
       <div class="w-full overflow-auto">
         <table class="w-full table-auto text-left my-2">
@@ -34,7 +32,7 @@
           <tbody>
             {#each eTodistukset as todistus}
               <tr>
-                <td data-title={$_('ETHAKU_TH_TUNNUS')}>{todistus.id}</td>
+              <td data-title={$_('ETHAKU_TH_TUNNUS')}><a href={'/energiatodistus?id='+todistus.id+'&versio='+todistus.versio}>{todistus.id}</a></td>
                 <td data-title={$_('ETHAKU_TH_ETLUOKKA')}>
                   <strong>{todistus.tulokset['e-luokka']}</strong>
                   <span class="text-xs">{todistus.versio}</span>
@@ -44,7 +42,7 @@
                   {todistus.perustiedot.kayttotarkoitus}
                 </td>
                 <td data-title={$_('ETHAKU_TH_VOIMASSA')}>
-                  -{todistus['voimassaolo-paattymisaika']}
+                  {new Date(todistus['voimassaolo-paattymisaika']).toLocaleDateString()}
                 </td>
               </tr>
             {/each}
