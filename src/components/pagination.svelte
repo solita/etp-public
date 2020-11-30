@@ -1,4 +1,6 @@
 <script>
+  import { _ } from '@Localization/localization';
+
   export let page;
   export let pageSize;
   export let itemCount;
@@ -50,7 +52,7 @@
   class="flex w-full align-center items-center justify-center my-1 flex-col
   md:flex-row relative">
   <span class="top-0 left-0 md:justify-self-start relative md:absolute">
-    {itemCount ? `Tulokset ${page * pageSize + 1}...${page * pageSize + currentPageItemCount}/${itemCount}` : ''}
+    {itemCount ? `${$_('HAKU_TULOKSIA_EI')} ${(page * pageSize + 1)}...${page * pageSize + currentPageItemCount}/${itemCount}` : ''}
   </span>
   <nav class="pagination w-full md:w-auto select-none">
     {#if numberOfPages > 1}
@@ -58,7 +60,7 @@
         class="uppercase mr-2 hidden md:inline-block"
         href={page > 0 ? queryStringFn(page - 1) : null}
         class:text-lightgrey={page <= 0}>
-        edellinen
+        {$_('PAGI_EDELLINEN')}
       </a>
       <a
         class="material-icons md:hidden px-2 py-2 md:py-0"
@@ -87,7 +89,7 @@
         class="uppercase ml-2 hidden md:inline-block"
         href={page + 1 < numberOfPages ? queryStringFn(page + 1) : null}
         class:text-lightgrey={page + 1 >= numberOfPages}>
-        seuraava
+        {$_('PAGI_SEURAAVA')}
       </a>
       <a
         class="material-icons md:hidden px-2 py-2 md:py-0"

@@ -1,6 +1,5 @@
 <script>
-  import * as LaatijaUtils from '@/utilities/laatija';
-  import { locale, labelLocale } from '@Localization/localization';
+  import { _ } from '@Localization/localization';
 
   import IconWeb from '@Asset/icons/web.svg';
   import IconMail from '@Asset/icons/mail.svg';
@@ -28,39 +27,41 @@
 
 <div class="table-container">
   {#if laatijaCount < 1}
-    <span>Ei tuloksia.</span>
+    <span>{$_('HAKU_TULOKSIA_EI')}</span>
     <slot name="filter" />
   {:else}
-    <h2>Tuloksia {laatijaCount}</h2>
+    <h2>{$_('HAKU_TULOKSIA')} {laatijaCount}</h2>
     <slot name="filter" />
     {#if currentPageItemCount > 0}
       <div class="w-full overflow-auto">
         <table class="w-full table-auto text-left my-2">
           <thead>
             <tr>
-              <th>Nimi</th>
-              <th>Pätevyys</th>
-              <th>Päätoiminta-alue</th>
-              <th>Postitoimipaikka</th>
-              <th>WWW</th>
-              <th>Email</th>
-              <th>Puhelinnumero</th>
+              <th>{$_('LHAKU_TH_NIMI')}</th>
+              <th>{$_('LHAKU_TH_PATEVYYS')}</th>
+              <th>{$_('LHAKU_TH_PAATOIMINTAALUE')}</th>
+              <th>{$_('LHAKU_TH_POSTITOIMIPAIKKA')}</th>
+              <th>{$_('LHAKU_TH_WWW')}</th>
+              <th>{$_('LHAKU_TH_EMAIL')}</th>
+              <th>{$_('LHAKU_TH_PUH')}</th>
             </tr>
           </thead>
           <tbody>
             {#each laatijat as laatija}
               <tr>
-                <td data-title="Nimi">
+                <td data-title={$_('LHAKU_TH_NIMI')}>
                   <a href="/laatija?id={laatija.id}">{laatija.nimi}</a>
                 </td>
-                <td data-title="Pätevyys">{laatija.patevyys}</td>
-                <td data-title="Päätoiminta-alue">
+                <td data-title={$_('LHAKU_TH_PATEVYYS')}>
+                  {laatija.patevyys}
+                </td>
+                <td data-title={$_('LHAKU_TH_PAATOIMINTAALUE')}>
                   {laatija['toimintaalue-nimi']}
                 </td>
-                <td data-title="Postitoimipaikka">
+                <td data-title={$_('LHAKU_TH_POSTITOIMIPAIKKA')}>
                   {laatija.postitoimipaikka}
                 </td>
-                <td data-title="WWW">
+                <td data-title={$_('LHAKU_TH_WWW')}>
                   {#if laatija.wwwosoite}
                     <a href={laatija.wwwosoite} title={laatija.wwwosoite}>
                       <img
@@ -70,7 +71,7 @@
                     </a>
                   {/if}
                 </td>
-                <td data-title="Email">
+                <td data-title={$_('LHAKU_TH_EMAIL')}>
                   {#if laatija.email}
                     <a href="mailto:{laatija.email}" title={laatija.email}>
                       <img
@@ -80,7 +81,7 @@
                     </a>
                   {/if}
                 </td>
-                <td data-title="Puhelinnumero">
+                <td data-title={$_('LHAKU_TH_PUH')}>
                   {#if laatija.puhelin}
                     <a
                       class="inline-flex"

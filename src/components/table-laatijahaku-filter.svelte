@@ -1,5 +1,5 @@
 <script>
-  import { locale, labelLocale } from '@Localization/localization';
+  import { _, locale, labelLocale } from '@Localization/localization';
 
   export let patevyydet;
   export let showPatevyydet = '1,2';
@@ -82,14 +82,14 @@
         value={'1,2'}
         on:change />
       <span class="radio-visual" />
-      Kaikki tasot
+      {$_('LHAKU_FILTER_KAIKKI')}
     </label>
 
     <div class="icon-container hidden md:block">
       <span class="material-icons text-green">error_outline</span>
       <div class="info-popup">
-        <strong>Kaikki:</strong>
-        <p>{'Perustason ja ylemmän tason laatijat näkyvät tuloksissa.'}</p>
+        <strong>{$_('LHAKU_KAIKKI_TITLE')}</strong>
+        <p>{$_('LHAKU_KAIKKI_TEXT')}</p>
       </div>
     </div>
   </div>
@@ -107,9 +107,9 @@
     <div class="icon-container hidden md:block">
       <span class="material-icons text-green">error_outline</span>
       <div class="info-popup">
-        <strong>Perustaso:</strong>
+        <strong>{$_('LHAKU_PERUSTASO_TITLE')}</strong>
         <p>
-          {'Voi laatia energiatodistuksen rakennukselle tai rakennuksen osalle, \njossa laskennallisen kokonaisenergiankulutuksen laskemiseen \nkäytetään kuukausitason laskentamenetelmää. \nTyypillinen tällainen rakennus on esimerkiksi omakotitalo.'}
+          {$_('LHAKU_PERUSTASO_TEXT')}
         </p>
       </div>
     </div>
@@ -129,8 +129,8 @@
       <!-- <img class="icon" src={IconInfo} alt="Info icon" /> -->
       <span class="material-icons text-green">error_outline</span>
       <div class="info-popup">
-        <strong>Ylempi taso:</strong>
-        <p>{'Vain ylemmän tason laatijat näkyvät tuloksissa.'}</p>
+        <strong>{$_('LHAKU_YLEMPITASO_TITLE')}</strong>
+        <p>{$_('LHAKU_YLEMPITASO_TEXT')}</p>
       </div>
     </div>
   </div>

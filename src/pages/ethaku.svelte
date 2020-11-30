@@ -207,13 +207,8 @@
 
 <Container {...containerStyles.beige}>
   <InfoBlock
-    title="Tarvitset energiatodistuksen myydessä, vuokratessa ja rakennuslupaa
-  hakiessa">
-    Energiatodistus tarvitaan lähes aina myytäessä asuntoa tai rakennusta. Se on
-    hyvä hankkia jo ennen myyntiin laittoa. Lain mukaan energiatehokkuusluokan
-    pitää näkyä myynti-ilmoituksessa ja energiatodistuksen olla nähtävillä
-    asunnon tai talon esittelyssä. Energiatodistus tarvitaan myös lähes aina
-    haettaessa rakennuslupaa ja päivitettävä, kun rakennus otetaan käyttöön.
+    title={$_('ETHAKU_INFO_TITLE')}>
+    {$_('ETHAKU_INFO_TEXT')}
   </InfoBlock>
 </Container>
 <Container {...containerStyles.white}>
@@ -285,18 +280,18 @@
         <div class="w-full md:w-11/12">
           <InputSearch
             bind:this={idInput}
-            label={'Hae todistustunnuksella'}
+            label={$_('ETHAKU_HAE_TUNNUKSELLA')}
             value={searchmodel['id']}
             name={'id'}
             validation={validationModel.id} />
         </div>
         <aside class="font-normal text-xs italic mt-4">
-          Voit hakea maakunnalla, kunnalla, postinumerolla tai -toimipaikalla.
+          {$_('ETHAKU_HAE_ASIDE')}
         </aside>
         <div class="flex">
           <div class="w-full md:w-11/12">
             <InputSearch
-              label="Hae alueella"
+              label={$_('ETHAKU_HAE_ALUEELLA')}
               value={keyword ?? ''}
               name={'keyword'} />
           </div>
@@ -304,9 +299,7 @@
       </div>
       <aside
         class="mt-4 md:mt-0 md:w-3/12 md:pl-4 md:border-l-8 border-ashblue text-ashblue italic text-sm">
-        Energiatodistuksesta saa nähtäväksi koosteen eli kahden ensimmäisen
-        sivun tiedot (henkilötietosuojan vuoksi ei kuitenkaan 1-2 huoneistoa
-        koskevista kohteista).
+        {$_('ETHAKU_ASIDE')}
       </aside>
     </div>
     <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">

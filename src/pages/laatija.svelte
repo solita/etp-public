@@ -1,11 +1,8 @@
 <script>
   import {
-    laatijat as laatijatStore,
-    patevyydet,
-    toimintaalueet
+    laatijat as laatijatStore
   } from '@/stores';
-  import * as LaatijaUtils from '@/utilities/laatija';
-  import * as GeoUtils from '@/utilities/geo';
+  import { _ } from '@Localization/localization';
 
   import Container, { styles as containerStyles } from '@Component/container';
   import Button, { styles as buttonStyles } from '@Component/button';
@@ -37,7 +34,7 @@
             backReferred('/laatijahaku');
           }}>
           <span class="material-icons">arrow_back</span>
-          <span>Takaisin laatijahakuun</span>
+          <span>{$_('LAATIJA_TAKAISIN')}</span>
         </Button>
       </div>
     </div>
@@ -52,29 +49,29 @@
         class="flex flex-col px-4 lg:px-8 xl:px-16 mx-auto items-start mb-16">
         <h1 class="text-xl my-8">{laatija.nimi}</h1>
         <div class="flex flex-col md:flex-row space-x-2 my-1 w-full">
-          <strong class="w-full md:w-1/3">Pätevyystaso:</strong>
+          <strong class="w-full md:w-1/3">{$_('LAATIJA_PATEVYYSTASO')}:</strong>
           <span>{laatija.patevyys}</span>
         </div>
         <div class="flex flex-col md:flex-row space-x-2 my-1 w-full">
-          <strong class="w-full md:w-1/3">Pätevyyden voimassaoloaika:</strong>
+          <strong class="w-full md:w-1/3">{$_('LAATIJA_VOIMASSAOLOAIKA')}:</strong>
           <span>
             {Intl.DateTimeFormat('fi-FI').format(new Date(laatija.toteamispaivamaara))}
             - {Intl.DateTimeFormat('fi-FI').format(new Date(laatija['voimassaolo-paattymisaika']))}
           </span>
         </div>
         <div class="flex flex-col md:flex-row space-x-2 my-1 w-full">
-          <strong class="w-full md:w-1/3">Päätoiminta-alue:</strong>
+          <strong class="w-full md:w-1/3">{$_('LAATIJA_PAATOIMINTAALUE')}:</strong>
           <span>{laatija['toimintaalue-nimi']}</span>
         </div>
         {#if laatija['muuttoimintaalueet-nimet'].length}
           <div class="flex flex-col md:flex-row space-x-2 my-1 w-full">
-            <strong class="w-full md:w-1/3">Muut toimintaalueet:</strong>
+            <strong class="w-full md:w-1/3">{$_('LAATIJA_MUUT_TOIMINTAALUEET')}:</strong>
             <span>{laatija['muuttoimintaalueet-nimet'].join(', ')}</span>
           </div>
         {/if}
         {#if laatija.jakeluosoite}
           <div class="flex flex-col md:flex-row space-x-2 my-1 w-full">
-            <strong class="w-full md:w-1/3">Osoite:</strong>
+            <strong class="w-full md:w-1/3">{$_('LAATIJA_OSOITE')}:</strong>
             <span>
               {laatija.jakeluosoite}, {laatija.postinumero}
               {laatija.postitoimipaikka}
@@ -83,19 +80,19 @@
         {/if}
         {#if laatija.wwwosoite}
           <div class="flex flex-col md:flex-row space-x-2 my-1 w-full">
-            <strong class="w-full md:w-1/3">www-osoite</strong>
+            <strong class="w-full md:w-1/3">{$_('LAATIJA_WWW')}:</strong>
             <a href={laatija.wwwosoite}>{laatija.wwwosoite.split('//')[1]}</a>
           </div>
         {/if}
         {#if laatija.email}
           <div class="flex flex-col md:flex-row space-x-2 my-1 w-full">
-            <strong class="w-full md:w-1/3">Sähköpostiosoite</strong>
+            <strong class="w-full md:w-1/3">{$_('LAATIJA_EMAIL')}:</strong>
             <a href="mailto:{laatija.email}">{laatija.email}</a>
           </div>
         {/if}
         {#if laatija.puhelin}
           <div class="flex flex-col md:flex-row space-x-2 my-1 w-full">
-            <strong class="w-full md:w-1/3">Puhelinnumero</strong>
+            <strong class="w-full md:w-1/3">{$_('LAATIJA_PUH')}:</strong>
             <a href="tel:{laatija.puhelin}">{laatija.puhelin}</a>
           </div>
         {/if}

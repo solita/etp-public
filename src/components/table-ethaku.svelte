@@ -14,9 +14,9 @@
 
 <div class="table-container">
   {#if etCount < 1}
-    <span>Ei tuloksia.</span>
+    <span>{$_('HAKU_TULOKSIA_EI')}</span>
   {:else}
-    <h2>Tuloksia {etCount}</h2>
+    <h2>{$_('HAKU_TULOKSIA')} {etCount}</h2>
     {#if currentPageItemCount > 0}
       <div class="w-full overflow-auto">
         <table class="w-full table-auto text-left my-2">

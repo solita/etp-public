@@ -3,6 +3,7 @@
   import * as GeoUtils from '@/utilities/geo';
   import * as FormUtils from '@/utilities/form';
   import { navigate } from '@/router/router';
+  import { _ } from '@Localization/localization';
   import {
     laatijat as laatijatStore,
     patevyydet,
@@ -90,10 +91,8 @@
   }} />
 
 <Container {...containerStyles.beige}>
-  <InfoBlock title="Laatijalla pitää olla pätevyys">
-    Energiatodistuksen voi laatia vain siihen pätevöitynyt tekniikan alan
-    ammattilainen. He ovat suorittaneet virallisen pätevyystentin. Jos laatijaa
-    ei löydy haustamme, hänellä ei ole pätevyyttä todistuksen tekoon.
+  <InfoBlock title="{$_('LHAKU_INFO_TITLE')}">
+    {$_('LHAKU_INFO_TEXT')}
   </InfoBlock>
 </Container>
 <Container {...containerStyles.white}>
@@ -107,14 +106,14 @@
         }}
         on:reset|preventDefault={_ => commitSearch('', '')}>
         <div class="w-full md:w-11/12">
-          <Input label={'Hae nimellä'} name="nimi" value={nimihaku} />
+          <Input label={$_('LHAKU_HAE_NIMELLA')} name="nimi" value={nimihaku} />
         </div>
         <aside class="font-normal text-xs italic mt-4">
-          Voit hakea maakunnalla, kunnalla, postinumerolla tai -toimipaikalla.
+          {$_('LHAKU_HAE_ASIDE')}
         </aside>
         <div class="flex">
           <div class="w-full md:w-11/12">
-            <Input label="Hae alueella" name="alue" value={aluehaku} />
+            <Input label={$_('LHAKU_HAE_ALUEELLA')} name="alue" value={aluehaku} />
           </div>
         </div>
         <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
@@ -124,10 +123,7 @@
     </div>
     <aside
       class="mt-4 md:mt-0 md:w-3/12 md:pl-4 md:border-l-8 border-ashblue text-ashblue italic text-sm">
-      Ylempi pätevyystaso vaaditaan kun lämmönsiirron kokonaisenergiankulutuksen
-      laskennassa tulee ottaa huomioon rakenteiden lämmönvarausominaisuus ajasta
-      riippuvaisenna. Käytännössä näitä kohteita ovat jäähdytetyt
-      uudisrakennukset.
+      {$_('LHAKU_ASIDE')}
     </aside>
   </div>
 </Container>
