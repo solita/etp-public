@@ -26,7 +26,7 @@
   export let offset = 0;
   export let page = 0;
 
-  const pageSize = 3;
+  const pageSize = 100;
 
   let tarkennettuShown = false;
 
