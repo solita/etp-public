@@ -24,6 +24,7 @@
   export let text;
   export let background;
   export let iconLeft;
+  export let click = () => {};
 
   import { activePath } from '@Router/router';
 </script>
@@ -34,7 +35,7 @@
   }
   .icon {
     width: 2.5em;
-    height: auto;
+    height: 2.5em;
   }
 </style>
 
@@ -65,7 +66,8 @@ border-white
   xl:items-center md:items-start border-l-4 lg:border-l-0 
   border-{$activePath === link ? text : background} lg:border-{background} 
   lg:shadow-{$activePath === link ? background : 'none'} focus:underline"
-  href={link}>
+  href={link}
+  on:click={click}>
   {#if iconLeft}
     <img
       class="icon inline-block flex-none"

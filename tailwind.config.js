@@ -29,6 +29,7 @@ module.exports = {
         ashblue: '0px 6px 0px 0px #2e5053'
       },
       screens: {
+        xs: '400px',
         xxl: '1440px'
       }
     }
