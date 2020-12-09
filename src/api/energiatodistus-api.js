@@ -1,6 +1,7 @@
 const baseUrl = '/api/public';
 
 const energiatodistuksetUrl = `${baseUrl}/energiatodistukset`;
+const energiatodistuksetCountUrl = `${energiatodistuksetUrl}/count`;
 
 const fetchJson = (fetch, url) => fetch(url).then(response => response.json());
 
@@ -42,6 +43,34 @@ export const energiatodistukset = (fetch, opts) => {
   );
 
   const url = `${energiatodistuksetUrl}${qs.length ? `?${qs}` : ''}`;
+
+  return fetchJson(fetch, url);
+};
+
+export const energiatodistuksetCount = (fetch, opts) => {
+  const filteredOpts = Object.keys(opts).reduce(
+    (acc, item) => ({ ...acc, ...(opts[item] ? { [item]: opts[item] } : {}) }),
+    {}
+  );
+
+  if (
+    !Object.keys(filteredOpts).some(item => ['where', 'keyword'].includes(item))
+  )
+    return Promise.resolve([]);
+
+  const qs = encodeURI(
+    zip(
+      Object.keys(filteredOpts),
+      Object.values({
+        ...filteredOpts,
+        where: JSON.stringify(namespaceSearchParams(filteredOpts.where))
+      })
+    )
+      .map(item => item.join('='))
+      .join('&')
+  );
+
+  const url = `${energiatodistuksetCountUrl}${qs.length ? `?${qs}` : ''}`;
 
   return fetchJson(fetch, url);
 };
