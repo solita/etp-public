@@ -1,5 +1,6 @@
 <script>
   import { _ } from '@Localization/localization';
+  import { navigate } from '@/router/router';
   export let etCount;
   export let eTodistukset;
   export let postinumerot;
@@ -36,8 +37,8 @@
           </thead>
           <tbody>
             {#each eTodistukset as todistus}
-              <tr>
-              <td data-title={$_('ETHAKU_TH_TUNNUS')}><a href={'/energiatodistus?id='+todistus.id+'&versio='+todistus.versio}>{todistus.id}</a></td>
+              <tr on:click={navigate('/energiatodistus?id='+todistus.id+'&versio='+todistus.versio)} class="cursor-pointer">
+              <td data-title={$_('ETHAKU_TH_TUNNUS')}>{todistus.id}</td>
                 <td data-title={$_('ETHAKU_TH_ETLUOKKA')}>
                   <strong>{todistus.tulokset['e-luokka']}</strong>
                   <span class="text-xs">{todistus.versio}</span>
