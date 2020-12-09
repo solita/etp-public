@@ -315,7 +315,7 @@
             <span
               class="w-full md:w-1/2">{energiatodistus.perustiedot.valmistumisvuosi}</span>
           </div>
-          {#if versio == '2018'}
+          {#if energiatodistus.versio == '2018'}
             <div
               class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
               <span
@@ -480,7 +480,7 @@
             <span
               class="w-full md:w-1/3">{`${formats.formatNumber(energiatodistus.tulokset['e-luku'])} ${$_('ET_ELUKU_F')}`}</span>
           </div>
-          {#if versio == '2018'}
+          {#if energiatodistus.versio == '2018'}
             <div
               class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
               <span
