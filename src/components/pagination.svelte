@@ -52,7 +52,7 @@
   class="flex w-full align-center items-center justify-center my-1 flex-col
   md:flex-row relative">
   <span class="top-0 left-0 md:justify-self-start relative md:absolute">
-    {itemCount ? `${$_('HAKU_TULOKSIA_EI')} ${(page * pageSize + 1)}...${page * pageSize + currentPageItemCount}/${itemCount}` : ''}
+    {itemCount ? `${$_('HAKU_TULOKSET')} ${(page * pageSize + 1)}...${page * pageSize + currentPageItemCount}/${itemCount}` : ''}
   </span>
   <nav class="pagination w-full md:w-auto select-none">
     {#if numberOfPages > 1}
