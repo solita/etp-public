@@ -60,3 +60,15 @@ export const laatimisvaiheet = fetch =>
 
 export const kielisyys = fetch =>
   fetchJson(fetch, `${energiatodistuksetUrl}/kielisyys`);
+
+export const eLuokka = (
+  fetch,
+  versio,
+  alakayttotarkoitusluokka,
+  nettoala,
+  eLuku
+) =>
+  fetchJson(
+    fetch,
+    `${energiatodistuksetUrl}/e-luokka/${versio}/${alakayttotarkoitusluokka}/${nettoala}/${eLuku}`
+  );

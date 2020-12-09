@@ -55,6 +55,9 @@
 
   const path = (path, obj) => path.reduce((acc, p) => acc[p], obj);
 
+  const aperture = (n, arr) =>
+    arr.reduce((acc, _, index) => [...acc, arr.slice(index, index + n)], []);
+
   const perLammitettyNettoala = (energiatodistus, n) =>
     fxmath.round(0, n / energiatodistus.lahtotiedot['lammitetty-nettoala']);
 
@@ -64,6 +67,15 @@
       ['tulokset', 'kaytettavat-energiamuodot', energiamuoto],
       energiatodistus
     );
+
+  const rajaArvot = ranges => {
+    const r = aperture(2, [
+      -1,
+      ...ranges.map(range => range[0])
+    ]).map(([head, ...tail]) => [head + 1, ...tail]);
+
+    return ranges.map((range, index) => [range[1], r[index].join('-')]);
+  };
 
   $: deserializedWhere = EtHakuUtils.deserializeWhere(
     EtHakuUtils.defaultSearchModel(),
@@ -108,12 +120,19 @@
         pn => pn.id === parseInt(energiatodistus.perustiedot.postinumero, 10)
       );
 
-      return [
-        energiatodistus,
-        laatimisvaihe,
-        alakayttotarkoitusluokka,
-        postinumero
-      ];
+      return Promise.all([
+        Promise.resolve(energiatodistus),
+        Promise.resolve(laatimisvaihe),
+        Promise.resolve(alakayttotarkoitusluokka),
+        Promise.resolve(postinumero),
+        EtApi.eLuokka(
+          fetch,
+          energiatodistus.versio,
+          energiatodistus.perustiedot.kayttotarkoitus,
+          energiatodistus.lahtotiedot['lammitetty-nettoala'],
+          energiatodistus.tulokset['e-luku']
+        )
+      ]);
     }
   );
 
@@ -236,7 +255,8 @@
         <div class="flex justify-center">
           <Spinner />
         </div>
-      {:then [energiatodistus, laatimisvaihe, alakayttotarkoitusluokka, postinumero]}
+      {:then [energiatodistus, laatimisvaihe, alakayttotarkoitusluokka, postinumero, eLuokka]}
+        {console.log(rajaArvot(eLuokka['raja-asteikko']))}
         <div class="w-full flex mx-auto mb-8">
           <div
             class="w-full flex flex-col md:flex-row justify-between items-center">
@@ -590,7 +610,9 @@
                 <td class="py-4 w-4/5 justify-end text-right" colspan="4">
                   {$_('ET_VERTAILULUKU')}
                 </td>
-                <td class="py-4">{energiatodistus.tulokset['e-luku']}</td>
+                <td class="py-4">
+                  {formats.formatNumber(energiatodistus.tulokset['e-luku'])}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -605,21 +627,22 @@
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
             <span
-              class="w-full md:w-1/3 text-ashblue">{$_('ET_KAYTETTY_KUOKITTELU')}:</span>
-            <span class="w-full md:w-2/3">{'???????'}</span>
+              class="w-full md:w-1/3 text-ashblue">{$_('ET_KAYTETTY_LUOKITTELU')}:</span>
+            <span
+              class="w-full md:w-2/3">{eLuokka.kayttotarkoitus['label-fi']}</span>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
             <span
               class="w-full md:w-1/3 text-ashblue">{$_('ET_LUOKKIEN_RAJAT')}</span>
             <div class="w-full md:w-2/3 flex flex-col md:flex-row md:space-x-1">
-              <div><strong>A</strong> <span>(0-80)</span></div>
-              <div><strong>B</strong> <span>(81-110)</span></div>
-              <div><strong>C</strong> <span>(111-150)</span></div>
-              <div><strong>D</strong> <span>(151-210)</span></div>
-              <div><strong>E</strong> <span>(211-340)</span></div>
-              <div><strong>F</strong> <span>(341-410)</span></div>
-              <div><strong>G</strong> <span>(411-)</span></div>
+              {#each rajaArvot(eLuokka['raja-asteikko']) as arvo}
+                <div><strong>{arvo[0]}</strong> <span>({arvo[1]})</span></div>
+              {/each}
+              <div>
+                <strong>G</strong>
+                <span>({eLuokka['raja-asteikko'][eLuokka['raja-asteikko'].length - 1][0]}-)</span>
+              </div>
             </div>
           </div>
           <div
