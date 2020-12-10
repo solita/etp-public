@@ -11,9 +11,17 @@
   import Input from '@Component/input-search';
   import Container, { styles as containerStyles } from '@Component/container';
 
+  import { navigate } from '@/router/router';
+
   import Seo from '@Component/seo';
 
   import { _ } from '@Localization/localization';
+
+  let etHakuId = '';
+  let etHakuKeyword = '';
+
+  let laatijahakuNimi = '';
+  let laatijahakuAlue = '';
 </script>
 
 <style>
@@ -41,19 +49,40 @@
           <p>{$_('HOME_ENERGIATODISTUSHAKU_KUVAUS')}</p>
         </div>
         <div class="flex flex-col items-start -my-4">
-          <strong class="block py-4">
-            {$_('HOME_ENERGIATODISTUSHAKU_TITLE')}
-          </strong>
-          <Input
-            label={$_('HOME_ENERGIATODISTUSHAKU_TODISTUSTUNNUKSELLA')}
-            value={''} />
-          <aside class="italic text-sm font-normal mt-4">
-            {$_('HOME_ENERGIATODISTUSHAKU_ASIDE')}
-          </aside>
-          <Input label={$_('HOME_ENERGIATODISTUSHAKU_ALUEELLA')} value={''} />
-          <div class="mt-4">
-            <Button {...buttonStyles.green}>{$_('HAE')}</Button>
-          </div>
+          <form
+            on:submit|preventDefault={_ => {
+              const id = parseInt(etHakuId, 10);
+              const idQuery = !isNaN(id) ? `where=${JSON.stringify([
+                    [['=', 'id', id]]
+                  ])}` : '';
+              const keywordQuery = etHakuKeyword.length ? `keyword=${etHakuKeyword}` : '';
+
+              const query = [idQuery, keywordQuery]
+                .filter(item => item.length)
+                .join('&');
+
+              navigate(['/ethaku', query]
+                  .filter(item => item.length)
+                  .join('?'));
+            }}>
+            <strong class="block py-4">
+              {$_('HOME_ENERGIATODISTUSHAKU_TITLE')}
+            </strong>
+            <Input
+              label={$_('HOME_ENERGIATODISTUSHAKU_TODISTUSTUNNUKSELLA')}
+              value={etHakuId}
+              on:change={evt => (etHakuId = evt.target.value)} />
+            <aside class="italic text-sm font-normal mt-4">
+              {$_('HOME_ENERGIATODISTUSHAKU_ASIDE')}
+            </aside>
+            <Input
+              label={$_('HOME_ENERGIATODISTUSHAKU_ALUEELLA')}
+              value={etHakuKeyword}
+              on:change={evt => (etHakuKeyword = evt.target.value)} />
+            <div class="mt-4">
+              <Button {...buttonStyles.green}>{$_('HAE')}</Button>
+            </div>
+          </form>
         </div>
       </section>
       <section
@@ -67,15 +96,35 @@
           <p>{$_('HOME_LAATIJAHAKU_KUVAUS')}</p>
         </div>
         <div class="flex flex-col items-start -my-4">
-          <strong class="block py-4">{$_('HOME_LAATIJAHAKU_TITLE')}</strong>
-          <Input label={$_('HOME_LAATIJAHAKU_NIMELLA')} value={''} />
-          <aside class="italic text-sm font-normal mt-4">
-            {$_('HOME_LAATIJAHAKU_ASIDE')}
-          </aside>
-          <Input label={$_('HOME_LAATIJAHAKU_ALUEELLA')} value={''} />
-          <div class="mt-4">
-            <Button {...buttonStyles.green}>{$_('HAE')}</Button>
-          </div>
+          <form
+            on:submit|preventDefault={_ => {
+              const nameQuery = laatijahakuNimi.length ? `nimihaku=${laatijahakuNimi}` : '';
+              const alueQuery = laatijahakuAlue.length ? `aluehaku=${laatijahakuAlue}` : '';
+
+              const query = [nameQuery, alueQuery]
+                .filter(item => item.length)
+                .join('&');
+
+              navigate(['/laatijahaku', query]
+                  .filter(item => item.length)
+                  .join('?'));
+            }}>
+            <strong class="block py-4">{$_('HOME_LAATIJAHAKU_TITLE')}</strong>
+            <Input
+              label={$_('HOME_LAATIJAHAKU_NIMELLA')}
+              value={laatijahakuNimi}
+              on:change={evt => (laatijahakuNimi = evt.target.value)} />
+            <aside class="italic text-sm font-normal mt-4">
+              {$_('HOME_LAATIJAHAKU_ASIDE')}
+            </aside>
+            <Input
+              label={$_('HOME_LAATIJAHAKU_ALUEELLA')}
+              value={laatijahakuAlue}
+              on:change={evt => (laatijahakuAlue = evt.target.value)} />
+            <div class="mt-4">
+              <Button {...buttonStyles.green}>{$_('HAE')}</Button>
+            </div>
+          </form>
         </div>
       </section>
     </div>
@@ -89,9 +138,7 @@
       <h2 class="mb-4 text-white">{$_('INFO_TITLE')}</h2>
       <p>{$_('INFO_KUVAUS')}</p>
       <div class="mt-4">
-        <ButtonLink {...buttonStyles.white}
-        href={ETMalli}
-        target="_blank">
+        <ButtonLink {...buttonStyles.white} href={ETMalli} target="_blank">
           {$_('INFO_ENERGIATODISTUSMALLI')}
         </ButtonLink>
       </div>
