@@ -1,6 +1,5 @@
 <script>
   import { _ } from '@Localization/localization';
-  import { navigate } from '@/router/router';
   export let etCount;
   export let eTodistukset;
   export let postinumerot;
@@ -16,6 +15,13 @@
 
 <style>
   /* Table styling in main.css */
+
+  td {
+    @apply p-0;
+  }
+  td a{
+    @apply px-4 py-2;
+  }
 </style>
 
 <div class="table-container">
@@ -37,11 +43,20 @@
           </thead>
           <tbody>
             {#each eTodistukset as todistus}
-              <tr on:click={navigate('/energiatodistus?id='+todistus.id+'&versio='+todistus.versio)} class="cursor-pointer">
-              <td data-title={$_('ETHAKU_TH_TUNNUS')}>{todistus.id}</td>
+              <tr>
+              <td data-title={$_('ETHAKU_TH_TUNNUS')}>
+                <a href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}>{todistus.id}</a>
+              </td>
                 <td data-title={$_('ETHAKU_TH_ETLUOKKA')}>
-                  <strong>{todistus.tulokset['e-luokka']}</strong>
-                  <span class="text-xs">{todistus.versio}</span>
+                  <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}>
+                    <strong>{todistus.tulokset['e-luokka']}</strong>
+                    <span class="text-xs">{todistus.versio}</span>
+                  </a>
+                </td>
+                <td data-title={$_('ETHAKU_TH_OSOITE')}>
+                  <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}>
+                    {todistus.perustiedot['katuosoite-fi']}
+                  </a>
                 </td>
               <td data-title={$_('ETHAKU_TH_OSOITE')}>
                 {`${todistus.perustiedot['katuosoite-fi']}, 
@@ -49,10 +64,14 @@
                   ${findPostitoimipaikka(todistus.perustiedot.postinumero)}
                   `}</td>
                 <td data-title={$_('ETHAKU_TH_KAYTTOTARKOITUS')}>
-                  {todistus.perustiedot.kayttotarkoitus}
+                  <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}>
+                    {todistus.perustiedot.kayttotarkoitus}
+                  </a>
                 </td>
                 <td data-title={$_('ETHAKU_TH_VOIMASSA')}>
-                  {new Date(todistus['voimassaolo-paattymisaika']).toLocaleDateString()}
+                  <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}>
+                    {new Date(todistus['voimassaolo-paattymisaika']).toLocaleDateString()}
+                  </a>
                 </td>
               </tr>
             {/each}
