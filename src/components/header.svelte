@@ -31,27 +31,28 @@
 <header>
   <Container {...containerStyles.white}>
     <div class="flex justify-between items-center px-2 py-2 xl:px-16">
-      <div
-        class="flex justify-between items-center w-full">
+      <div class="flex justify-between items-center w-full">
         <div class="flex items-center">
           <img src={Logo} alt="" />
-          <h1 class="pl-2 text-xs xs:text-base">{$_('ENERGIATODISTUSREKISTERI')}</h1>
+          <h1 class="pl-2 text-xs xs:text-base">
+            {$_('ENERGIATODISTUSREKISTERI')}
+          </h1>
         </div>
         <nav
           class="font-semibold text-ashblue justify-start ml-4 mr-auto hidden lg:block">
-          <span
+          <button
             lang="fi"
-            class="cursor-pointer"
+            class="font-semibold"
             on:click={() => setLocale('fi')}>
             suomeksi
-          </span>
+          </button>
           |
-          <span
+          <button
             lang="sv"
-            class="cursor-pointer"
+            class="font-semibold"
             on:click={() => setLocale('sv')}>
             på svenska
-          </span>
+          </button>
         </nav>
         <a
           class="text-ashblue items-center hidden lg:flex"
@@ -87,7 +88,7 @@
   </Container>
   {#if mobileNavShown}
     <div transition:slide class="lg:hidden">
-      <NavBar navButtonClicked={closeMobileNav}/>
+      <NavBar navButtonClicked={closeMobileNav} />
 
       <nav class="font-semibold text-ashblue p-3 text-center mx-auto bg-grey">
         <span
