@@ -2,8 +2,7 @@
   import { _ } from '@Localization/localization';
   export let etCount;
   export let eTodistukset;
-
-  let currentPageItemCount = eTodistukset.length;
+  export let postinumerot;
 
   $: currentPageItemCount = eTodistukset.length;
 </script>
@@ -37,7 +36,13 @@
                   <strong>{todistus.tulokset['e-luokka']}</strong>
                   <span class="text-xs">{todistus.versio}</span>
                 </td>
-                <td data-title={$_('ETHAKU_TH_OSOITE')}>{todistus.perustiedot['katuosoite-fi']}</td>
+              <td data-title={$_('ETHAKU_TH_OSOITE')}>
+                {`${todistus.perustiedot['katuosoite-fi']}, 
+                  ${todistus.perustiedot.postinumero} 
+                  ${postinumerot.find(postinum => {
+                    if (postinum.id === (parseInt(todistus.perustiedot.postinumero) +18697) )
+                      return postinum['label-fi'];
+                    }) || ''}`}</td>
                 <td data-title={$_('ETHAKU_TH_KAYTTOTARKOITUS')}>
                   {todistus.perustiedot.kayttotarkoitus}
                 </td>
