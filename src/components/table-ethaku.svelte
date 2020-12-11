@@ -40,7 +40,7 @@
                 {`${todistus.perustiedot['katuosoite-fi']}, 
                   ${todistus.perustiedot.postinumero} 
                   ${postinumerot.find(postinum => {
-                    if (postinum.id === (parseInt(todistus.perustiedot.postinumero) +18697) )
+                    if (postinum.id === (parseInt(todistus.perustiedot.postinumero)) )
                       return postinum['label-fi'];
                     }) || ''}`}</td>
                 <td data-title={$_('ETHAKU_TH_KAYTTOTARKOITUS')}>
