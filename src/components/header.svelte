@@ -32,12 +32,12 @@
   <Container {...containerStyles.white}>
     <div class="flex justify-between items-center px-2 py-2 xl:px-16">
       <div class="flex justify-between items-center w-full">
-        <div class="flex items-center">
+        <a class="flex items-center" href="/">
           <img src={Logo} alt="" />
           <h1 class="pl-2 text-xs xs:text-base">
             {$_('ENERGIATODISTUSREKISTERI')}
           </h1>
-        </div>
+        </a>
         <nav
           class="font-semibold text-ashblue justify-start ml-4 mr-auto hidden lg:block">
           <button
@@ -91,25 +91,25 @@
       <NavBar navButtonClicked={closeMobileNav} />
 
       <nav class="font-semibold text-ashblue p-3 text-center mx-auto bg-grey">
-        <span
+        <button
           lang="fi"
-          class="cursor-pointer p-2"
+          class="p-2 font-semibold"
           on:click={() => {
             closeMobileNav();
             setLocale('fi');
           }}>
           suomeksi
-        </span>
+        </button>
         |
-        <span
+        <button
           lang="sv"
-          class="cursor-pointer p-2"
+          class="p-2 font-semibold"
           on:click={() => {
             closeMobileNav();
             setLocale('sv');
           }}>
           på svenska
-        </span>
+        </button>
       </nav>
     </div>
   {/if}
