@@ -94,8 +94,8 @@ export const validationModel = () => ({
   'tulokset.e-luku_min': optionalRange,
   'tulokset.e-luku_max': optionalRange,
   'tulokset.e-luokka_in': () => true,
-  'lahtotiedot.lammitetty-nettoala_min': optionalNumber,
-  'lahtotiedot.lammitetty-nettoala_max': optionalNumber
+  'lahtotiedot.lammitetty-nettoala_min': optionalRange,
+  'lahtotiedot.lammitetty-nettoala_max': optionalRange
 });
 
 export const includeInSearch = (key, value) => {
