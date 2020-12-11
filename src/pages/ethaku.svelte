@@ -16,6 +16,7 @@
   import { navigate } from '@/router/router';
   import TableEThaku from '@Component/table-ethaku';
   import Pagination from '@Component/pagination';
+  import { postinumerot } from '@/stores';
 
   import * as EtHakuUtils from '@/utilities/ethaku';
   import * as EtApi from '@/api/energiatodistus-api';
@@ -629,17 +630,18 @@
   {#await 
   Promise.all([result,
     Promise.resolve(parseInt(page ?? 0)),
-    Promise.resolve(pageSize)])}
+    Promise.resolve(pageSize), $postinumerot])}
     <div class="flex justify-center">
       <Spinner />
     </div>
-  {:then [et, page, pageSize]}
+  {:then [et, page, pageSize, postinumerot]}
     <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
       <TableEThaku
         etCount={et.length}
         eTodistukset={et.slice(page * pageSize, (page + 1) * pageSize)}
         let:currentPageItemCount
-        {page}>
+        {page}
+        {postinumerot}>
         <div slot="pagination">
           <Pagination
             {page}
