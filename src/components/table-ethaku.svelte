@@ -5,6 +5,12 @@
   export let postinumerot;
 
   $: currentPageItemCount = eTodistukset.length;
+
+  const findPostitoimipaikka = (postinumero) => {
+    let foundPostinumero = postinumerot.find(postinum => postinum.id === parseInt(postinumero));
+    if (foundPostinumero) return foundPostinumero['label-fi'];
+    else return '';
+  }
 </script>
 
 <style>
@@ -39,10 +45,8 @@
               <td data-title={$_('ETHAKU_TH_OSOITE')}>
                 {`${todistus.perustiedot['katuosoite-fi']}, 
                   ${todistus.perustiedot.postinumero} 
-                  ${postinumerot.find(postinum => {
-                    if (postinum.id === (parseInt(todistus.perustiedot.postinumero)) )
-                      return postinum['label-fi'];
-                    }) || ''}`}</td>
+                  ${findPostitoimipaikka(todistus.perustiedot.postinumero)}
+                  `}</td>
                 <td data-title={$_('ETHAKU_TH_KAYTTOTARKOITUS')}>
                   {todistus.perustiedot.kayttotarkoitus}
                 </td>
