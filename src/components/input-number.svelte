@@ -57,7 +57,7 @@ border-red
       {min}
       {max}
       {step}
-      value
+      {value}
       on:change
       type="number"
       class="w-full focus:outline-none"

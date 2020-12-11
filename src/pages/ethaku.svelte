@@ -222,8 +222,7 @@
 </style>
 
 <Container {...containerStyles.beige}>
-  <InfoBlock
-    title={$_('ETHAKU_INFO_TITLE')}>
+  <InfoBlock title={$_('ETHAKU_INFO_TITLE')}>
     {$_('ETHAKU_INFO_TEXT')}
   </InfoBlock>
 </Container>
@@ -638,8 +637,6 @@
     </div>
   </form>
 </Container>
-
-
 
 <Container {...containerStyles.white}>
   {#await Promise.all([
