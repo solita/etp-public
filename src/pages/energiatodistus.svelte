@@ -136,11 +136,6 @@
     }
   );
 
-  $: {
-    console.log('RESULT');
-    energiatodistusPromise.then(console.log);
-  }
-
   onMount(() => component.scrollIntoView());
 </script>
 
@@ -256,7 +251,6 @@
           <Spinner />
         </div>
       {:then [energiatodistus, laatimisvaihe, alakayttotarkoitusluokka, postinumero, eLuokka]}
-        {console.log(rajaArvot(eLuokka['raja-asteikko']))}
         <div class="w-full flex mx-auto mb-8">
           <div
             class="w-full flex flex-col md:flex-row justify-between items-center">
