@@ -1,5 +1,4 @@
 import parseISO from 'date-fns/parseISO';
-import formatISO from 'date-fns/formatISO';
 
 export const match = (exp, value) => {
   const m = value.match(exp);
@@ -13,7 +12,7 @@ export const parseInteger = value =>
 
 export const parseDate = value => {
   try {
-    return formatISO(parseISO(value.trim()), { representation: 'date' });
+    return parseISO(value.trim());
   } catch (e) {
     return '';
   }

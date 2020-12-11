@@ -1,5 +1,3 @@
-import * as EtHakuUtils from '@/utilities/ethaku';
-
 const baseUrl = '/api/public';
 
 const energiatodistuksetUrl = `${baseUrl}/energiatodistukset`;
@@ -55,4 +53,22 @@ export const alakayttotarkoitusluokat = (fetch, versio) =>
   fetchJson(
     fetch,
     `${energiatodistuksetUrl}/alakayttotarkoitusluokat/${versio}`
+  );
+
+export const laatimisvaiheet = fetch =>
+  fetchJson(fetch, `${energiatodistuksetUrl}/laatimisvaiheet`);
+
+export const kielisyys = fetch =>
+  fetchJson(fetch, `${energiatodistuksetUrl}/kielisyys`);
+
+export const eLuokka = (
+  fetch,
+  versio,
+  alakayttotarkoitusluokka,
+  nettoala,
+  eLuku
+) =>
+  fetchJson(
+    fetch,
+    `${energiatodistuksetUrl}/e-luokka/${versio}/${alakayttotarkoitusluokka}/${nettoala}/${eLuku}`
   );

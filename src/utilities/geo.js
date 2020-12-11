@@ -65,3 +65,6 @@ export const findToimintaalueIds = (
     ...findToimintaalueetByMaakunta(haku, toimintaalueet)
   ]);
 };
+
+export const padPostinumero = postinumero =>
+  `00000${postinumero}`.split('').reverse().slice(0, 5).reverse().join('');
