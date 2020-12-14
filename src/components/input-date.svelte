@@ -1,6 +1,9 @@
 <script>
   import { onMount } from 'svelte';
 
+  import * as parsers from '@/utilities/parsers';
+  import * as formats from '@/utilities/formats';
+
   export let label;
   export let value;
   export let name;
@@ -10,7 +13,7 @@
 
   export let model = {};
 
-  $: value = model[name];
+  $: value = parsers.parseDate(model[name]);
 
   export let validation = () => true;
 
@@ -65,7 +68,7 @@ border-red
       {name}
       {min}
       {max}
-      value
+      value={formats.formatDateISO(value)}
       placeholder={label}
       type="date"
       class="w-full focus:outline-none" />

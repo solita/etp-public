@@ -667,7 +667,7 @@
                 console.log('print clicked');
               }}>
               <span class="material-icons align-middle">print</span>
-              <span class="whitespace-no-wrap"> {$_('TULOSTA')} </span>
+              <span class="whitespace-no-wrap"> {$_('TULOSTA_KOOSTE')} </span>
             </Button>
           </div>
         </div>

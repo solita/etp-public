@@ -1,6 +1,8 @@
 import * as parsers from '@/utilities/parsers';
+import * as formats from '@/utilities/formats';
 
 import isValid from 'date-fns/isValid';
+import isDate from 'date-fns/isDate';
 import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
 import isEqual from 'date-fns/isEqual';
@@ -92,8 +94,8 @@ export const validationModel = () => ({
   'tulokset.e-luku_min': optionalRange,
   'tulokset.e-luku_max': optionalRange,
   'tulokset.e-luokka_in': () => true,
-  'lahtotiedot.lammitetty-nettoala_min': optionalNumber,
-  'lahtotiedot.lammitetty-nettoala_max': optionalNumber
+  'lahtotiedot.lammitetty-nettoala_min': optionalRange,
+  'lahtotiedot.lammitetty-nettoala_max': optionalRange
 });
 
 export const includeInSearch = (key, value) => {
@@ -107,7 +109,7 @@ export const includeInSearch = (key, value) => {
     case 'lahtotiedot.lammitetty-nettoala':
       return !isNaN(numberValue) && numberValue > 0;
     default:
-      return value.length;
+      return value.length > 0;
   }
 };
 
@@ -141,9 +143,25 @@ export const deserializeWhere = (model, where) => {
     .reduce((acc, item) => ({ ...acc, ...item }), {});
 };
 
+const isValidDate = date => !isNaN(date.getTime());
+
 const eq = (key, model) => ['=', key, model[key]];
 const lte = (key, model) => ['<=', key, model[`${key}_max`]];
 const gte = (key, model) => ['>=', key, model[`${key}_min`]];
+const lteDate = (key, model) => [
+  '<=',
+  key,
+  isValidDate(model[`${key}_max`])
+    ? formats.formatApiDate(model[`${key}_max`])
+    : ''
+];
+const gteDate = (key, model) => [
+  '>=',
+  key,
+  isValidDate(model[`${key}_min`])
+    ? formats.formatApiDate(model[`${key}_min`])
+    : ''
+];
 
 const valueIn = (key, model) =>
   model[`${key}_in`].length ? [['in', key, model[`${key}_in`]]] : [];
@@ -159,10 +177,10 @@ export const where = (tarkennettu, model) => [
         eq('perustiedot.rakennustunnus', model),
         gte('perustiedot.valmistumisvuosi', model),
         lte('perustiedot.valmistumisvuosi', model),
-        gte('allekirjoitusaika', model),
-        lte('allekirjoitusaika', model),
-        gte('voimassaolo-paattymisaika', model),
-        lte('voimassaolo-paattymisaika', model),
+        gteDate('allekirjoitusaika', model),
+        lteDate('allekirjoitusaika', model),
+        gteDate('voimassaolo-paattymisaika', model),
+        lteDate('voimassaolo-paattymisaika', model),
         gte('tulokset.e-luku', model),
         lte('tulokset.e-luku', model),
         ...valueIn('tulokset.e-luokka', model),

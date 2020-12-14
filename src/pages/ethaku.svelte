@@ -222,8 +222,7 @@
 </style>
 
 <Container {...containerStyles.beige}>
-  <InfoBlock
-    title={$_('ETHAKU_INFO_TITLE')}>
+  <InfoBlock title={$_('ETHAKU_INFO_TITLE')}>
     {$_('ETHAKU_INFO_TEXT')}
   </InfoBlock>
 </Container>
@@ -459,11 +458,11 @@
                 bind:this={valmistumisvuosiMinInput}
                 label={'vvvv'}
                 min="0"
-                max={numberOrDefault(new Date().getFullYear(), searchmodel['perustiedot.valmistumisvuosi_max'])}
+                max={numberOrDefault(10000000000, searchmodel['perustiedot.valmistumisvuosi_max'])}
                 model={searchmodel}
                 name={'perustiedot.valmistumisvuosi_min'}
                 step="1"
-                validation={validationModel['perustiedot.valmistumisvuosi_min'](0, numberOrDefault(new Date().getFullYear(), searchmodel['perustiedot.valmistumisvuosi_max']))}
+                validation={validationModel['perustiedot.valmistumisvuosi_min'](0, numberOrDefault(10000000000, searchmodel['perustiedot.valmistumisvuosi_max']))}
                 invalidMessage={'Arvon tulee olla loppuarvoa pienempi'} />
             </div>
             <span class="material-icons text-darkgrey"> horizontal_rule </span>
@@ -471,12 +470,12 @@
               <InputNumber
                 bind:this={valmistumisvuosiMaxInput}
                 label={'vvvv'}
-                min={numberOrDefault(new Date().getFullYear(), searchmodel['perustiedot.valmistumisvuosi_min'])}
+                min={numberOrDefault(0, searchmodel['perustiedot.valmistumisvuosi_min'])}
                 model={searchmodel}
                 name={'perustiedot.valmistumisvuosi_max'}
-                max="2900"
+                max="10000000000"
                 step="1"
-                validation={validationModel['perustiedot.valmistumisvuosi_max'](numberOrDefault(new Date().getFullYear(), searchmodel['perustiedot.valmistumisvuosi_min']), 2900)}
+                validation={validationModel['perustiedot.valmistumisvuosi_max'](numberOrDefault(0, searchmodel['perustiedot.valmistumisvuosi_min']), 10000000000)}
                 invalidMessage={'Arvon tulee olla alkuarvoa suurempi'} />
             </div>
           </div>
@@ -561,11 +560,11 @@
                 bind:this={eLukuMinInput}
                 label={''}
                 min="0"
-                max={numberOrDefault(1000, searchmodel['tulokset.e-luku_max'])}
+                max={numberOrDefault(10000000000, searchmodel['tulokset.e-luku_max'])}
                 model={searchmodel}
                 name={'tulokset.e-luku_min'}
                 step="1"
-                validation={validationModel['tulokset.e-luku_min'](0, numberOrDefault(1000, searchmodel['tulokset.e-luku_max']))}
+                validation={validationModel['tulokset.e-luku_min'](0, numberOrDefault(10000000000, searchmodel['tulokset.e-luku_max']))}
                 invalidMessage={'Arvon tulee olla loppuarvoa pienempi'} />
             </div>
             <span class="material-icons text-darkgrey"> horizontal_rule </span>
@@ -574,10 +573,11 @@
                 bind:this={eLukuMaxInput}
                 label={''}
                 min={numberOrDefault(1, searchmodel['tulokset.e-luku_min'])}
+                max="10000000000"
                 model={searchmodel}
                 name={'tulokset.e-luku_max'}
                 step="1"
-                validation={validationModel['tulokset.e-luku_max'](numberOrDefault(1, searchmodel['tulokset.e-luku_min']), 1000)}
+                validation={validationModel['tulokset.e-luku_max'](numberOrDefault(1, searchmodel['tulokset.e-luku_min']), 10000000000)}
                 invalidMessage={'Arvon tulee olla alkuarvoa suurempi'} />
             </div>
           </div>
@@ -607,9 +607,10 @@
                 bind:this={nettoalaMinInput}
                 label={''}
                 min="0"
-                max={searchmodel['lahtotiedot.lammitetty-nettoala_max']}
+                max={numberOrDefault(10000000000, searchmodel['lahtotiedot.lammitetty-nettoala_max'])}
                 model={searchmodel}
                 name={'lahtotiedot.lammitetty-nettoala_min'}
+                validation={validationModel['lahtotiedot.lammitetty-nettoala_min'](0, numberOrDefault(10000000000, searchmodel['lahtotiedot.lammitetty-nettoala_max']))}
                 invalidMessage={'Arvon tulee olla loppuarvoa pienempi'} />
             </div>
             <span class="material-icons text-darkgrey"> horizontal_rule </span>
@@ -617,10 +618,12 @@
               <InputNumber
                 bind:this={nettoalaMaxInput}
                 label={''}
-                min={searchmodel['lahtotiedot.lammitetty-nettoala_min']}
+                min={numberOrDefault(0, searchmodel['lahtotiedot.lammitetty-nettoala_min'])}
+                max="10000000000"
                 model={searchmodel}
                 name={'lahtotiedot.lammitetty-nettoala_max'}
                 set={setter('lahtotiedot.lammitetty-nettoala_max')}
+                validation={validationModel['lahtotiedot.lammitetty-nettoala_max'](numberOrDefault(0, searchmodel['lahtotiedot.lammitetty-nettoala_min']), 10000000000)}
                 invalidMessage={'Arvon tulee olla alkuarvoa suurempi'} />
             </div>
           </div>
@@ -638,8 +641,6 @@
     </div>
   </form>
 </Container>
-
-
 
 <Container {...containerStyles.white}>
   {#await Promise.all([
