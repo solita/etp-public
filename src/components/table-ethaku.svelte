@@ -53,16 +53,13 @@
                     <span class="text-xs">{todistus.versio}</span>
                   </a>
                 </td>
-                <td data-title={$_('ETHAKU_TH_OSOITE')}>
-                  <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}>
-                    {todistus.perustiedot['katuosoite-fi']}
-                  </a>
-                </td>
               <td data-title={$_('ETHAKU_TH_OSOITE')}>
+                <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}>
                 {`${todistus.perustiedot['katuosoite-fi']}, 
                   ${todistus.perustiedot.postinumero} 
                   ${findPostitoimipaikka(todistus.perustiedot.postinumero)}
-                  `}</td>
+                  `}
+                  </a></td>
                 <td data-title={$_('ETHAKU_TH_KAYTTOTARKOITUS')}>
                   <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}>
                     {todistus.perustiedot.kayttotarkoitus}
