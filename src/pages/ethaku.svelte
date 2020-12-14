@@ -24,10 +24,10 @@
 
   export let where = '[[]]';
   export let keyword = '';
-  export let offset = 0;
   export let page = 0;
-
-  const pageSize = 100;
+  
+  const pageSize = 10;
+  $: offset = pageSize * page;
 
   let tarkennettuShown = false;
 
@@ -177,6 +177,21 @@
     limit: pageSize
   });
 
+  // same params as for result, different API/URL 
+  $: etTotalcount = EtApi.energiatodistuksetCount(fetch, {
+    where: EtHakuUtils.whereQuery(
+      EtHakuUtils.where(
+        tarkennettuShown,
+        parseValues({
+          ...EtHakuUtils.defaultSearchModel(),
+          ...deserializedWhere
+        })
+      )
+    ),
+    keyword
+  }).then(result => {
+    return result.count;
+  });
 
   const commitSearch = model => {
     const where = EtHakuUtils.where(tarkennettuShown, parseValues(model));
@@ -627,18 +642,19 @@
 
 
 <Container {...containerStyles.white}>
-  {#await 
-  Promise.all([result,
+  {#await Promise.all([
+    result,
+    etTotalcount,
     Promise.resolve(parseInt(page ?? 0)),
-    Promise.resolve(pageSize), $postinumerot])}
+    $postinumerot])}
     <div class="flex justify-center">
       <Spinner />
     </div>
-  {:then [et, page, pageSize, postinumerot]}
+  {:then [et, count, page, postinumerot]}
     <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
       <TableEThaku
-        etCount={et.length}
-        eTodistukset={et.slice(page * pageSize, (page + 1) * pageSize)}
+        etCount={count}
+        eTodistukset={et}
         let:currentPageItemCount
         {page}
         {postinumerot}>
@@ -647,7 +663,25 @@
             {page}
             {pageSize}
             {currentPageItemCount}
-            itemCount={et.length}/>
+            itemCount={count}
+            queryStringFn={(page) => {
+              const where = EtHakuUtils.where(tarkennettuShown, parseValues(searchmodel));
+              const whereQuery = EtHakuUtils.whereQuery(where);
+              const whereString = JSON.stringify(whereQuery);
+              const qs = [
+                `${
+                  !whereString.length || whereString === '[[]]'
+                    ? ''
+                    : `where=${whereString}`
+                }`,
+                `${keyword && keyword.length ? `keyword=${keyword}` : ''}`
+              ]
+                .filter(item => item.length)
+                .join('&');
+
+              return `/ethaku${qs.length ? `?${qs}&page=${page}` : `?page=${page}`}`;
+            }}
+            />
         </div>
       </TableEThaku>
     </div>
