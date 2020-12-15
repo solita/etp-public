@@ -1,7 +1,7 @@
 <script context="module">
   export const styles = {
     green: { text: 'white', bg: 'green', focus: 'darkgreen' },
-    white: { text: 'ashblue', bg: 'white', focus: 'darkgrey' },
+    white: { text: 'ashblue', bg: 'white', focus: 'grey' },
     ashblue: { text: 'white', bg: 'ashblue', focus: 'darkashblue' }
   };
 </script>
@@ -16,14 +16,36 @@
 </script>
 
 <style>
-  button:focus:not(:disabled), button:active:not(:disabled), button:hover:not(:disabled){
-    box-shadow:
-      inset 0 0 0 3px #fff,
-      0 0 0 1px #aaa;
-  }
-</style>
-<!-- purgecss: bg-lightgrey bg-green bg-white bg-ashblue bg-darkgreen bg-darkgrey bg-darkashblue cursor-not-allowed shadow-none -->
+button:focus:not(:disabled), button:active:not(:disabled), button:hover:not(:disabled){
+  box-shadow:
+    inset 0 0 0 3px #fff,
+    0 0 0 1px #979797;
+}
+button.bg-white:focus:not(:disabled), button.bg-white:active:not(:disabled), button.bg-white:hover:not(:disabled){
+  box-shadow:
+    inset 0 0 0 3px #2e5053,
+    0 0 0 1px #fff;
+}
 
+.bg-ashblue:hover, .bg-ashblue:focus{
+  @apply bg-darkashblue;
+}
+.bg-green:hover, .bg-green:focus{
+  @apply bg-darkgreen;
+}
+</style>
+
+<!-- purgecss: 
+  bg-lightgrey
+  bg-green
+  bg-white
+  bg-ashblue
+  bg-darkgreen
+  bg-grey
+  bg-darkashblue
+  cursor-not-allowed
+  shadow-none
+-->
 <button
   on:click
   {disabled}
