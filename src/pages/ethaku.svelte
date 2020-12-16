@@ -27,11 +27,9 @@
   export let page = 0;
   
   const pageSize = 10;
-  $: offset = pageSize * page;
-
   let tarkennettuShown = false;
-
   const validationModel = EtHakuUtils.validationModel();
+
 
   let idInput;
   let nimiInput;
@@ -173,8 +171,10 @@
       )
     ),
     keyword,
-    offset,
-    limit: pageSize
+    offset: pageSize * page,
+    limit: pageSize,
+    sort: 'energiatodistus.id',
+    order: 'desc'
   });
 
   // same params as for result, different API/URL 
@@ -647,18 +647,20 @@
     result,
     etTotalcount,
     Promise.resolve(parseInt(page ?? 0)),
-    $postinumerot])}
+    $postinumerot,
+    kayttotarkoitusluokat])}
     <div class="flex justify-center">
       <Spinner />
     </div>
-  {:then [et, count, page, postinumerot]}
+  {:then [et, count, page, postinumerot, kayttotarkoitusluokat]}
     <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
       <TableEThaku
         etCount={count}
         eTodistukset={et}
         let:currentPageItemCount
         {page}
-        {postinumerot}>
+        {postinumerot}
+        {kayttotarkoitusluokat}>
         <div slot="pagination">
           <Pagination
             {page}
