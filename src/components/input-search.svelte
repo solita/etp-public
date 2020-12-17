@@ -4,11 +4,9 @@
   export let label;
   export let name;
   export let validation = () => true;
-
   export let value;
 
   let id;
-
   let valid = true;
 
   export const validate = () => {
@@ -38,7 +36,7 @@
   <input
     {id}
     {name}
-    {value}
+    value={ value ?? ''}
     placeholder={label}
     class="w-full focus:outline-none"
     on:change />
