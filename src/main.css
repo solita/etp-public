@@ -52,6 +52,8 @@ input {
 }
 .table-container tbody tr:hover .text-green {
   @apply text-black underline;
+.table-container td span.m-title {
+  @apply hidden;
 }
 
 @media screen and (max-width: 768px) {
@@ -67,7 +69,7 @@ input {
   .table-container thead,
   .table-container tbody,
   .table-container th,
-  .table-container td,
+  /* .table-container td, */
   .table-container tr {
     display: block;
   }
@@ -83,13 +85,17 @@ input {
   }
 
   .table-container td {
-    padding-left: 50%;
+    /* padding-left: 50%; */
     text-align: left;
     min-height: 2.5em;
-    @apply relative border-0 border-b border-darkgrey whitespace-normal;
+    @apply flex flex-col border-0 border-b border-black whitespace-normal;
   }
 
-  .table-container td:before {
+  .table-container td span.m-title {
+    @apply block text-green font-bold whitespace-no-wrap;
+  }
+
+  /* .table-container td:before {
     top: 0.5em;
     left: 0.5em;
     text-align: left;
@@ -99,5 +105,5 @@ input {
 
   .table-container td:before {
     content: attr(data-title);
-  }
+  } */
 }
