@@ -50,8 +50,10 @@
             {#each laatijat as laatija}
               <tr>
                 <td>
-                  <span class="m-title">{$_('LHAKU_TH_NIMI')}</span>
-                  <a class="text-black underline md:text-green md:no-underline" href="/laatija?id={laatija.id}">{laatija.nimi || '-'}</a>
+                  <a class="text-green text-xl flex items-center md:text-base" href="/laatija?id={laatija.id}">
+                    <span class="underline md:no-underline">{laatija.nimi || '-'}</span>
+                    <span class="material-icons px-1 md:hidden">launch</span>
+                  </a>
                 </td>
                 <td>
                   <span class="m-title">{$_('LHAKU_TH_PATEVYYS')}</span>
