@@ -1,7 +1,9 @@
+const format = require('date-fns/format');
+
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
+const GenerateJsonPlugin = require('generate-json-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 
@@ -126,6 +128,12 @@ module.exports = {
   mode,
   plugins: [
     new CleanWebpackPlugin(),
+    new GenerateJsonPlugin('version.json', {
+      version: `${prod ? 'build' : 'dev'} - ${format(
+        Date.now(),
+        'yyyy-MM-dd-HH-mm'
+      )}`
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css'
     }),
