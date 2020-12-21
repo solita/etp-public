@@ -50,7 +50,7 @@
             {#each laatijat as laatija}
               <tr>
                 <td data-title={$_('LHAKU_TH_NIMI')}>
-                  <a href="/laatija?id={laatija.id}">{laatija.nimi}</a>
+                  <a href="/laatija?id={laatija.id}" class="text-green">{laatija.nimi}</a>
                 </td>
                 <td data-title={$_('LHAKU_TH_PATEVYYS')}>
                   {laatija.patevyys}

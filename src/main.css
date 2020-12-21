@@ -47,15 +47,14 @@ input {
   @apply bg-grey;
 }
 
-.table-container td:first-child {
-  @apply text-green;
+.table-container tbody tr:hover {
+  @apply bg-lightgreen;
+}
+.table-container tbody tr:hover .text-green {
+  @apply text-black underline;
 }
 
 @media screen and (max-width: 768px) {
-  .table-container td:first-child {
-    @apply text-black;
-  }
-
   .table-container tbody {
     @apply border-t border-b;
   }

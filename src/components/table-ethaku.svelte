@@ -1,8 +1,10 @@
 <script>
   import { _ } from '@Localization/localization';
+import { parse } from 'path';
   export let etCount;
   export let eTodistukset;
   export let postinumerot;
+  export let kayttotarkoitusluokat;
 
   $: currentPageItemCount = eTodistukset.length;
 
@@ -11,11 +13,21 @@
     if (foundPostinumero) return foundPostinumero['label-fi'];
     else return '';
   }
+
+  const findKayttotarkoitusluokka = (kt, versio) => {
+    let aktluokat;
+    if(parseInt(versio) === 2013) aktluokat = kayttotarkoitusluokat['2013'].alakayttotarkoitusluokat;
+    else if(parseInt(versio) === 2018) aktluokat = kayttotarkoitusluokat['2018'].alakayttotarkoitusluokat;
+    else return '';
+
+    let foundKayttotarkoitusluokka = aktluokat.find(aktluokka => aktluokka.id === kt);
+    if (foundKayttotarkoitusluokka) return foundKayttotarkoitusluokka['label-fi'];
+    else return '';
+  }
 </script>
 
 <style>
   /* Table styling in main.css */
-
   td {
     @apply p-0;
   }
@@ -62,7 +74,7 @@
                   </a></td>
                 <td data-title={$_('ETHAKU_TH_KAYTTOTARKOITUS')}>
                   <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}>
-                    {todistus.perustiedot.kayttotarkoitus}
+                    {findKayttotarkoitusluokka(todistus.perustiedot.kayttotarkoitus, todistus.versio)}
                   </a>
                 </td>
                 <td data-title={$_('ETHAKU_TH_VOIMASSA')}>
