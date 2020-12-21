@@ -49,19 +49,26 @@
           <tbody>
             {#each laatijat as laatija}
               <tr>
-                <td data-title={$_('LHAKU_TH_NIMI')}>
-                  <a href="/laatija?id={laatija.id}" class="text-green">{laatija.nimi}</a>
+                <td>
+                  <a class="text-green text-xl flex items-center md:text-base" href="/laatija?id={laatija.id}">
+                    <span class="underline md:no-underline">{laatija.nimi || '-'}</span>
+                    <span class="material-icons px-1 md:hidden">launch</span>
+                  </a>
                 </td>
-                <td data-title={$_('LHAKU_TH_PATEVYYS')}>
-                  {laatija.patevyys}
+                <td>
+                  <span class="m-title">{$_('LHAKU_TH_PATEVYYS')}</span>
+                  <span>{laatija.patevyys || '-'}</span>
                 </td>
-                <td data-title={$_('LHAKU_TH_PAATOIMINTAALUE')}>
-                  {laatija['toimintaalue-nimi']}
+                <td>
+                  <span class="m-title">{$_('LHAKU_TH_PAATOIMINTAALUE')}</span>
+                  <span>{laatija['toimintaalue-nimi'] || '-'}</span>
                 </td>
-                <td data-title={$_('LHAKU_TH_POSTITOIMIPAIKKA')}>
-                  {laatija.postitoimipaikka}
+                <td>
+                  <span class="m-title">{$_('LHAKU_TH_POSTITOIMIPAIKKA')}</span>
+                  <span>{laatija.postitoimipaikka || '-'}</span>
                 </td>
-                <td data-title={$_('LHAKU_TH_WWW')}>
+                <td>
+                  <span class="m-title">{$_('LHAKU_TH_WWW')}</span>
                   {#if laatija.wwwosoite}
                     <a href={laatija.wwwosoite} title={laatija.wwwosoite}>
                       <img
@@ -69,9 +76,12 @@
                         src={IconWeb}
                         alt="Website link icon" />
                     </a>
+                  {:else}
+                  <span>-</span>
                   {/if}
                 </td>
-                <td data-title={$_('LHAKU_TH_EMAIL')}>
+                <td>
+                  <span class="m-title">{$_('LHAKU_TH_EMAIL')}</span>
                   {#if laatija.email}
                     <a href="mailto:{laatija.email}" title={laatija.email}>
                       <img
@@ -79,9 +89,12 @@
                         src={IconMail}
                         alt="Email icon" />
                     </a>
+                  {:else}
+                  <span>-</span>
                   {/if}
                 </td>
-                <td data-title={$_('LHAKU_TH_PUH')}>
+                <td>
+                  <span class="m-title">{$_('LHAKU_TH_PUH')}</span>
                   {#if laatija.puhelin}
                     <a
                       class="inline-flex"
@@ -93,6 +106,8 @@
                         alt="Phone icon" />
                       <span>{laatija.puhelin}</span>
                     </a>
+                  {:else}
+                  <span>-</span>
                   {/if}
                 </td>
               </tr>

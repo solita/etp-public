@@ -56,30 +56,34 @@ import { parse } from 'path';
           <tbody>
             {#each eTodistukset as todistus}
               <tr>
-              <td data-title={$_('ETHAKU_TH_TUNNUS')}>
-                <a href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}>{todistus.id}</a>
+              <td data-title=''>
+                <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}><span class='m-title'>{$_('ETHAKU_TH_TUNNUS')}</span>
+                {todistus.id}</a>
               </td>
-                <td data-title={$_('ETHAKU_TH_ETLUOKKA')}>
-                  <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}>
+                <td data-title=''>
+                  <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}><span class='m-title'>{$_('ETHAKU_TH_ETLUOKKA')}</span>
+                  
                     <strong>{todistus.tulokset['e-luokka']}</strong>
                     <span class="text-xs">{todistus.versio}</span>
                   </a>
                 </td>
-              <td data-title={$_('ETHAKU_TH_OSOITE')}>
-                <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}>
+              <td data-title=''>
+                <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}><span class='m-title'>{$_('ETHAKU_TH_OSOITE')}</span>
+                
                 {`${todistus.perustiedot['katuosoite-fi']}, 
                   ${todistus.perustiedot.postinumero} 
                   ${findPostitoimipaikka(todistus.perustiedot.postinumero)}
                   `}
                   </a></td>
-                <td data-title={$_('ETHAKU_TH_KAYTTOTARKOITUS')}>
-                  <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}>
+                <td data-title=''>
+                  <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}><span class='m-title'>{$_('ETHAKU_TH_KAYTTOTARKOITUS')}</span>
                     {findKayttotarkoitusluokka(todistus.perustiedot.kayttotarkoitus, todistus.versio)}
                   </a>
                 </td>
-                <td data-title={$_('ETHAKU_TH_VOIMASSA')}>
-                  <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}>
-                    {new Date(todistus['voimassaolo-paattymisaika']).toLocaleDateString()}
+                <td data-title=''>
+                  <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}><span class='m-title'>{$_('ETHAKU_TH_VOIMASSA')}</span>
+                  
+                    {new Date(todistus['voimassaolo-paattymisaika']).toLocaleDateString() || ''}
                   </a>
                 </td>
               </tr>

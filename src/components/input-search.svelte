@@ -4,11 +4,9 @@
   export let label;
   export let name;
   export let validation = () => true;
-
   export let value;
 
   let id;
-
   let valid = true;
 
   export const validate = () => {
@@ -26,13 +24,6 @@
   input::placeholder {
     @apply text-black;
   }
-
-  span.material-icons {
-    top: 0.05em;
-    right: 0.2em;
-    font-size: 2.2em;
-    @apply absolute select-none pointer-events-none my-auto text-ashblue font-semibold;
-  }
 </style>
 
 <!-- purgecss: invalid -->
@@ -45,9 +36,8 @@
   <input
     {id}
     {name}
-    {value}
+    value={ value ?? ''}
     placeholder={label}
     class="w-full focus:outline-none"
     on:change />
-  <span class="material-icons"> search </span>
 </div>

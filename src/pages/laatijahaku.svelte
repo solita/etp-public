@@ -117,7 +117,7 @@
           </div>
         </div>
         <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
-          <Button type={'submit'} {...buttonStyles.green}>Hae</Button>
+          <Button type={'submit'} {...buttonStyles.green}>{$_('HAE')}</Button>
         </div>
       </form>
     </div>
