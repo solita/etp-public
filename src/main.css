@@ -52,6 +52,7 @@ input {
 }
 .table-container tbody tr:hover .text-green {
   @apply text-black underline;
+}
 .table-container td span.m-title {
   @apply hidden;
 }
