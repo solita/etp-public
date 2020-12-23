@@ -135,7 +135,7 @@
       ]);
     }
   );
-
+  
   onMount(() => component.scrollIntoView());
 </script>
 
@@ -276,7 +276,7 @@
               class="w-full md:w-1/2 text-ashblue">{$_('ET_TODISTETUNNUS')}:</span>
             <span class="w-full md:w-1/2">{energiatodistus.id}</span>
           </div>
-          {#if (versio = '2018')}
+          {#if (versio == '2018')}
             <div
               class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
               <span
