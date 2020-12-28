@@ -6,13 +6,15 @@ module.exports = {
       white: '#ffffff',
       lightgreen: '#c5e191',
       green: '#538000',
-      darkgreen: '#345000',
+      altgreen: '#345000',
+      darkgreen: '#466B00',
       ashblue: '#2e5053',
       darkashblue: '#343841',
       beige: '#f2f8e7',
+      lightbeige: '#f1efe4',
       lightgrey: '#e0e0e0',
-      darkgrey: '#979797',
-      red: '#EE0000'
+      darkgrey: '#919191',
+      red: '#9E0000'
     },
     extend: {
       fontFamily: {
@@ -26,7 +28,7 @@ module.exports = {
       boxShadow: {
         lightgreen: '0px 6px 0px 0px #c5e191',
         green: '0px 6px 0px 0px #538000',
-        darkgreen: '0px 6px 0px 0px #345000',
+        altgreen: '0px 6px 0px 0px #345000',
         ashblue: '0px 6px 0px 0px #2e5053'
       },
       screens: {

@@ -291,7 +291,7 @@
     }}
     on:submit|preventDefault={() => commitSearch(searchmodel)}>
     <div class="flex flex-col md:flex-row items-center md:items-start">
-      <div class="flex flex-col w-full md:w-9/12">
+      <div class="flex flex-col w-full md:w-7/12">
         <div class="w-full md:w-11/12">
           <InputSearch
             bind:this={idInput}
@@ -313,7 +313,7 @@
         </div>
       </div>
       <aside
-        class="mt-4 md:mt-0 md:w-3/12 md:pl-4 md:border-l-8 border-ashblue text-ashblue italic text-sm">
+        class="mt-4 md:mt-0 md:w-1/2 md:pl-4 md:border-l-8 border-ashblue text-ashblue italic text-sm">
         {$_('ETHAKU_ASIDE')}
       </aside>
     </div>
@@ -423,7 +423,7 @@
           <div class="w-full md:w-1/2">
             <InputText
               bind:this={nimiInput}
-              label={''}
+              label={$_('ETHAKU_RAKENNUKSEN_NIMI')}
               value={searchmodel['perustiedot.nimi']}
               name={'perustiedot.nimi'}
               validation={validationModel['perustiedot.nimi']}
@@ -439,7 +439,7 @@
           <div class="w-full md:w-1/2">
             <InputText
               bind:this={rakennustunnusInput}
-              label={''}
+              label={$_('ETHAKU_RAKENNUSTUNNUS')}
               value={searchmodel['perustiedot.rakennustunnus']}
               name={'perustiedot.rakennustunnus'}
               validation={validationModel['perustiedot.rakennustunnus']}
@@ -456,7 +456,8 @@
             <div class="w-2/5">
               <InputNumber
                 bind:this={valmistumisvuosiMinInput}
-                label={'vvvv'}
+                label={$_('ETHAKU_RAKENNUS_VUOSI')}
+                placeholder={'vvvv'}
                 min="0"
                 max={numberOrDefault(10000000000, searchmodel['perustiedot.valmistumisvuosi_max'])}
                 model={searchmodel}
@@ -469,7 +470,8 @@
             <div class="w-2/5">
               <InputNumber
                 bind:this={valmistumisvuosiMaxInput}
-                label={'vvvv'}
+                label={$_('ETHAKU_RAKENNUS_VUOSI')}
+                placeholder={'vvvv'}
                 min={numberOrDefault(0, searchmodel['perustiedot.valmistumisvuosi_min'])}
                 model={searchmodel}
                 name={'perustiedot.valmistumisvuosi_max'}
@@ -493,7 +495,8 @@
                 bind:this={allekirjoitusaikaMinInput}
                 model={searchmodel}
                 name={'allekirjoitusaika_min'}
-                label={'pp.kk.vvvv'}
+                label={$_('ETHAKU_LAATIMISPAIVA')}
+                placeholder={'pp.kk.vvvv'}
                 max={searchmodel['allekirjoitusaika_max']}
                 validation={validationModel['allekirjoitusaika_min']('', searchmodel['allekirjoitusaika_max'])}
                 invalidMessage={'Alkupäivämäärän tulee olla ennen loppupäivämäärää'} />
@@ -507,7 +510,8 @@
                 bind:this={allekirjoitusaikaMaxInput}
                 model={searchmodel}
                 name={'allekirjoitusaika_max'}
-                label={'pp.kk.vvvv'}
+                label={$_('ETHAKU_LAATIMISPAIVA')}
+                placeholder={'pp.kk.vvvv'}
                 min={searchmodel['allekirjoitusaika_min']}
                 validation={validationModel['allekirjoitusaika_max'](searchmodel['allekirjoitusaika_min'], '')}
                 invalidMessage={'Loppupäivämäärän tulee olla alkupäivämäärän jälkeen'} />
@@ -525,7 +529,8 @@
             <div class="w-full md:w-2/5">
               <InputDate
                 bind:this={voimassaoloMinInput}
-                label={'pp.kk.vvvv'}
+                label={$_('ETHAKU_VIIMEINEN_VOIMASSAOLOPAIVA')}
+                placeholder={'pp.kk.vvvv'}
                 model={searchmodel}
                 name={'voimassaolo-paattymisaika_min'}
                 max={searchmodel['voimassaolo-paattymisaika_max']}
@@ -589,7 +594,7 @@
             {$_('ETHAKU_E_LUKU')}
           </span>
           <div
-            class="w-full md:w-1/2 flex flex-row flex-wrap sm:justify-between items-center">
+            class="w-full md:w-1/2">
             <InputELuokka
               name={'tulokset.e-luokka_in'}
               group={searchmodel['tulokset.e-luokka_in']} />
@@ -605,7 +610,7 @@
             <div class="w-2/5">
               <InputNumber
                 bind:this={nettoalaMinInput}
-                label={''}
+                label={$_('ETHAKU_LAMMITETTY_NETTOALA')}
                 min="0"
                 max={numberOrDefault(10000000000, searchmodel['lahtotiedot.lammitetty-nettoala_max'])}
                 model={searchmodel}
@@ -617,7 +622,7 @@
             <div class="w-2/5">
               <InputNumber
                 bind:this={nettoalaMaxInput}
-                label={''}
+                label={$_('ETHAKU_LAMMITETTY_NETTOALA')}
                 min={numberOrDefault(0, searchmodel['lahtotiedot.lammitetty-nettoala_min'])}
                 max="10000000000"
                 model={searchmodel}

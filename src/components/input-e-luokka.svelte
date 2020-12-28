@@ -24,7 +24,7 @@
     @apply hidden;
   }
 </style>
-
+<fieldset class="flex flex-row flex-wrap sm:justify-between items-center">
 {#each luokat as luokka}
   <label class="checkbox-container flex items-center px-3 py-2 md:p-0">
     <input on:change {name} type="checkbox" bind:group value={luokka} />
@@ -33,3 +33,4 @@
     <span class="ml-1 checkbox-text">{luokka}</span>
   </label>
 {/each}
+</fieldset>

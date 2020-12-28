@@ -264,7 +264,7 @@
               {...buttonStyles.ashblue}
               target="_blank"
               href={energiatodistus.versio == '2013' ? VirallinenMalli2013 : VirallinenMalli2018}>
-              <span class="material-icons">visibility</span>
+              <span class="material-icons">picture_as_pdf</span>
               <span class="whitespace-no-wrap"> {$_('ET_VIRALLINEN')}</span>
             </ButtonLink>
           </div>
@@ -276,7 +276,7 @@
               class="w-full md:w-1/2 text-ashblue">{$_('ET_TODISTETUNNUS')}:</span>
             <span class="w-full md:w-1/2">{energiatodistus.id}</span>
           </div>
-          {#if (versio == '2018')}
+          {#if (versio == '2018') && energiatodistus?.perustiedot?.rakennustunnus}
             <div
               class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
               <span
@@ -539,23 +539,23 @@
         </div>
 
         <div class="overflow-x-auto w-full">
-          <table class="table-fixed mx-auto my-8 font-bold text-center">
-            <thead class="bg-beige text-green align-center">
+          <table class="table-fixed mx-auto my-8 font-normal text-center">
+            <thead class="bg-lightbeige text-green align-center py-4">
               <tr>
-                <th class="w-1/5 pl-2 text-left" rowspan="2">
+                <th class="font-normal py-4 w-1/5 pl-2 text-left" rowspan="2">
                   {$_('ET_ENERGIAMUOTO')}
                 </th>
-                <th class="w-2/5" colspan="2">{$_('ET_OSTOENERGIA')}</th>
-                <th class="w-1/5" rowspan="2">
+                <th class="font-normal pt-4 w-2/5" colspan="2">{$_('ET_OSTOENERGIA')}</th>
+                <th class="font-normal py-4 w-1/5" rowspan="2">
                   {$_('ET_ENERGIAMUODON_KERROIN')}
                 </th>
-                <th class="w-1/5" rowspan="2">
+                <th class="font-normal py-4 w-1/5" rowspan="2">
                   {$_('ET_ENERGIAMUODON_PAINOTETTU')}
                 </th>
               </tr>
               <tr>
-                <th>{$_('ET_ILMANVAIHTO_1')}</th>
-                <th>{$_('ET_ILMANVAIHTO_2')}</th>
+                <th class="font-normal pb-4">{$_('ET_ILMANVAIHTO_1')}</th>
+                <th class="font-normal pb-4">{$_('ET_ILMANVAIHTO_2')}</th>
               </tr>
             </thead>
             <tbody>
@@ -600,7 +600,7 @@
                   {formats.formatNumber(perLammitettyNettoala(energiatodistus, energiamuotokerroinTulo(energiatodistus, 'uusiutuva-polttoaine')))}
                 </td>
               </tr>
-              <tr class="border-t border-grey">
+              <tr class="border-t border-grey font-bold">
                 <td class="py-4 w-4/5 justify-end text-right" colspan="4">
                   {$_('ET_VERTAILULUKU')}
                 </td>
@@ -629,7 +629,7 @@
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
             <span
               class="w-full md:w-1/3 text-ashblue">{$_('ET_LUOKKIEN_RAJAT')}</span>
-            <div class="w-full md:w-2/3 flex flex-col md:flex-row md:space-x-1">
+            <div class="w-full md:w-2/3 flex flex-col md:flex-row md:space-x-3">
               {#each rajaArvot(eLuokka['raja-asteikko']) as arvo}
                 <div><strong>{arvo[0]}</strong> <span>({arvo[1]})</span></div>
               {/each}
@@ -651,7 +651,7 @@
           <p class="w-full">{$_('ET_ELUKU_PERUSTUU')}</p>
         </div>
 
-        <div class="w-full flex flex-col mx-auto items-center space-y-6 mt-6">
+        <div class="w-full flex flex-col mx-auto items-center space-y-6 my-6">
           <h2 class="w-full text-green uppercase text-xl">
             {$_('ET_ENERGIATEHOKKUUTTA_PARANTAVIA')}
           </h2>
@@ -660,7 +660,7 @@
           <p class="w-full">
             {$locale == 'sv' ? energiatodistus.perustiedot['keskeiset-suositukset-sv'] : energiatodistus.perustiedot['keskeiset-suositukset-fi']}
           </p>
-          <div class="w-full">
+          <div class="w-full hidden">
             <Button
               {...buttonStyles.green}
               on:click={() => {

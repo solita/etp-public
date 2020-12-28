@@ -14,14 +14,6 @@
 </script>
 
 <style>
-  .icon {
-    width: 1.6em;
-    height: auto;
-  }
-  .icon.smaller {
-    width: 1.3em;
-  }
-
   /* Table styling in main.css */
 </style>
 
@@ -50,9 +42,9 @@
             {#each laatijat as laatija}
               <tr>
                 <td>
-                  <a class="text-green text-xl flex items-center md:text-base" href="/laatija?id={laatija.id}">
+                  <a class="text-darkgreen text-xl flex items-center md:text-base" href="/laatija?id={laatija.id}">
                     <span class="underline md:no-underline">{laatija.nimi || '-'}</span>
-                    <span class="material-icons px-1 md:hidden">launch</span>
+                    <span class="material-icons px-1 md:hidden">navigate_next</span>
                   </a>
                 </td>
                 <td>
@@ -67,27 +59,25 @@
                   <span class="m-title">{$_('LHAKU_TH_POSTITOIMIPAIKKA')}</span>
                   <span>{laatija.postitoimipaikka || '-'}</span>
                 </td>
-                <td>
+                <td class="text-center">
                   <span class="m-title">{$_('LHAKU_TH_WWW')}</span>
                   {#if laatija.wwwosoite}
-                    <a href={laatija.wwwosoite} title={laatija.wwwosoite}>
-                      <img
-                        class="icon md:mx-auto"
-                        src={IconWeb}
-                        alt="Website link icon" />
+                    <a href={'laatija.wwwosoite'} title={laatija.wwwosoite}>
+                      <span class="material-icons text-darkgreen">
+                        public
+                        </span>
                     </a>
                   {:else}
                   <span>-</span>
                   {/if}
                 </td>
-                <td>
+                <td class="text-center">
                   <span class="m-title">{$_('LHAKU_TH_EMAIL')}</span>
                   {#if laatija.email}
                     <a href="mailto:{laatija.email}" title={laatija.email}>
-                      <img
-                        class="icon md:mx-auto"
-                        src={IconMail}
-                        alt="Email icon" />
+                      <span class="material-icons text-darkgreen">
+                        alternate_email
+                        </span>
                     </a>
                   {:else}
                   <span>-</span>
@@ -100,11 +90,10 @@
                       class="inline-flex"
                       href="tel:{laatija.puhelin}"
                       title={laatija.puhelin}>
-                      <img
-                        class="icon smaller mr-1"
-                        src={IconPhone}
-                        alt="Phone icon" />
-                      <span>{laatija.puhelin}</span>
+                      <span class="material-icons text-darkgreen">
+                        call
+                        </span>
+                      <span class="text-darkgreen">{laatija.puhelin}</span>
                     </a>
                   {:else}
                   <span>-</span>
