@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
 
   export let label;
+  export let placeholder;
   export let value;
   export let name;
   export let min;
@@ -58,6 +59,7 @@ border-red
       {max}
       {step}
       {value}
+      {placeholder}
       on:change
       type="number"
       class="w-full focus:outline-none"

@@ -72,7 +72,7 @@
   }
 </style>
 
-<div class="flex flex-col md:flex-row">
+<fieldset class="flex flex-col md:flex-row">
   <div class="flex items-start space-x-1 py-3 md:py-0 mr-3">
     <label class="radio-container">
       <input
@@ -134,4 +134,4 @@
       </div>
     </div>
   </div>
-</div>
+</fieldset>
