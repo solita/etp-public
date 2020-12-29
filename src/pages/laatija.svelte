@@ -98,7 +98,7 @@
         {/if}
       </div>
     {:catch error}
-      <div class="px-3 pb-8 lg:p-8 xl:p-16 w-full">{error}</div>
+      <div class="px-3 pb-8 lg:p-8 xl:p-16 w-full">{$_('SERVER_ERROR')}</div>
     {/await}
   </Container>
 </div>

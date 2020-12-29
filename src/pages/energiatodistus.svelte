@@ -98,7 +98,7 @@
       limit: 1
     }).then(results => {
       if (results.length > 0) return results[0];
-      else throw 'Energiatodistuksen hakemisessa tapahtui virhe.';
+      else throw '...';
     }),
     EtApi.laatimisvaiheet(fetch),
     EtApi.alakayttotarkoitusluokat(fetch, versio),
@@ -316,11 +316,11 @@
                 class="w-full md:w-1/2 text-ashblue">{$_('ET_LAATIMISVAIHE')}:</span>
               <span class="w-full md:w-1/2">{laatimisvaihe['label-fi']}</span>
             </div>
-            {#if laatimisvaihe.id === 0}
+            {#if laatimisvaihe.id === 2}
               <div
                 class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
                 <span
-                  class="w-full md:w-1/2 text-ashblue">{$_('ET_HAVANNOINTI')}:</span>
+                  class="w-full md:w-1/2 text-ashblue">{$_('ET_HAVAINNOINTI')}:</span>
                 <span
                   class="w-full md:w-1/2">{formats.formatDate(parseDate(energiatodistus.perustiedot.havainnointikaynti))}</span>
               </div>
@@ -672,7 +672,7 @@
           </div>
         </div>
       {:catch error}
-        <div class="px-3 pb-8 md:p-8 xl:p-16 w-full">{error}</div>
+        <div class="px-3 pb-8 md:p-8 xl:p-16 w-full">{$_('SERVER_ERROR')}</div>
       {/await}
     </div>
   </Container>

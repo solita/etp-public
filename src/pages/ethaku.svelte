@@ -348,9 +348,7 @@
           </span>
 
           <div class="w-full md:w-1/2 pb-8">
-            <div class="flex justify-start">
               <InputVersio name={'versio'} model={searchmodel} />
-            </div>
           </div>
         </div>
 
@@ -694,6 +692,6 @@
       </TableEThaku>
     </div>
   {:catch error}
-    <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">{error}</div>
+    <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">{$_('SERVER_ERROR')}</div>
   {/await}
 </Container>
