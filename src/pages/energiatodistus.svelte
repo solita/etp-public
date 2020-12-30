@@ -480,7 +480,7 @@
               <span
                 class="w-full md:w-2/3 text-ashblue">{$_('ET_VAATIMUSTASO')}:</span>
               <span
-                class="w-full md:w-1/3">{'≤ 105 ' + $_('ET_ELUKU_VAATIMUS_F')}</span>
+                class="w-full md:w-1/3">{`≤ ${eLuokka['raja-uusi-2018']} ${$_('ET_ELUKU_VAATIMUS_F')}`}</span>
             </div>
           {/if}
           <div
