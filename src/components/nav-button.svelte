@@ -55,16 +55,16 @@ shadow-none
 border-lightgreen
 border-green
 border-darkgreen
+border-altgreen
 border-ashblue
 border-black
 border-white
 -->
 <a
   class="flex box-border lg:flex-full flex-auto py-4 xl:py-6 px-2 navcontainer 
-  bg-{background} text-{text} focus:z-10 hover:z-10 hover:underline 
+  bg-{background} text-{text} border-{text} focus:z-10 hover:z-10 hover:underline 
   focus:outline-none xl:flex-row lg:flex-col flex-row lg:items-center 
-  xl:items-center md:items-start border-l-4 lg:border-l-0 
-  border-{$activePath === link ? text : background} lg:border-{background} 
+  xl:items-center md:items-start {$activePath === link ? 'border-l-4' : 'border-l-0'} lg:border-l-0 lg:border-{background} 
   lg:shadow-{$activePath === link ? background : 'none'} focus:underline"
   href={link}
   on:click={click}>
