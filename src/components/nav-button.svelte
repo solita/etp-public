@@ -64,8 +64,11 @@ border-white
   class="flex box-border lg:flex-full flex-auto py-4 xl:py-6 px-2 navcontainer 
   bg-{background} text-{text} border-{text} focus:z-10 hover:z-10 hover:underline 
   focus:outline-none xl:flex-row lg:flex-col flex-row lg:items-center 
-  xl:items-center md:items-start {$activePath === link ? 'border-l-4' : 'border-l-0'} lg:border-l-0 lg:border-{background} 
-  lg:shadow-{$activePath === link ? background : 'none'} focus:underline"
+  xl:items-center md:items-start {$activePath === link ? 'border-l-4' : 'border-l-0'} lg:border-l-0 lg:border-{background} focus:underline"
+  class:shadow-lightgreen={$activePath === link && background === 'lightgreen'}
+  class:shadow-green={$activePath === link && background === 'green'}
+  class:shadow-altgreen={$activePath === link && background === 'altgreen'}
+  class:shadow-ashblue ={$activePath === link && background === 'ashblue'}
   href={link}
   on:click={click}>
   {#if iconLeft}
