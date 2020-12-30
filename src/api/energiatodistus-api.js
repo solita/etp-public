@@ -87,6 +87,13 @@ export const alakayttotarkoitusluokat = (fetch, versio) =>
 export const laatimisvaiheet = fetch =>
   fetchJson(fetch, `${energiatodistuksetUrl}/laatimisvaiheet`);
 
+export const lammonjako = fetch =>
+  fetchJson(fetch, `${energiatodistuksetUrl}/lammonjako`);
+export const lammitysmuoto = fetch =>
+  fetchJson(fetch, `${energiatodistuksetUrl}/lammitysmuoto`);
+export const ilmanvaihtotyyppi = fetch =>
+  fetchJson(fetch, `${energiatodistuksetUrl}/ilmanvaihtotyyppi`);
+
 export const kielisyys = fetch =>
   fetchJson(fetch, `${energiatodistuksetUrl}/kielisyys`);
 
