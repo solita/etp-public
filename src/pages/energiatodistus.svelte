@@ -157,11 +157,6 @@
       ]);
     }
   );
-
-  $: {
-    console.log("ET ET ET ET ET ET ET");
-    console.log(energiatodistusPromise);
-  }
   
   onMount(() => component.scrollIntoView());
 </script>
