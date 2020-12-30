@@ -50,8 +50,11 @@ input {
 .table-container tbody tr:hover {
   @apply bg-lightgreen;
 }
-.table-container tbody tr:hover .text-green {
+.table-container tbody tr:hover .text-darkgreen {
   @apply text-black underline;
+}
+.table-container tbody tr:hover .material-icons.text-darkgreen {
+  @apply no-underline;
 }
 .table-container td span.m-title {
   @apply hidden;

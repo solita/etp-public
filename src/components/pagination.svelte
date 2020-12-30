@@ -35,7 +35,7 @@
 
 <style>
   .pagination {
-    @apply flex mx-auto text-green text-center font-semibold;
+    @apply flex mx-auto text-darkgreen text-center font-semibold;
   }
 
   .pagelink {
@@ -59,13 +59,13 @@
       <a
         class="uppercase mr-2 hidden md:inline-block"
         href={page > 0 ? queryStringFn(page - 1) : null}
-        class:text-lightgrey={page <= 0}>
+        class:text-darkgrey={page <= 0}>
         {$_('PAGI_EDELLINEN')}
       </a>
       <a
         class="material-icons md:hidden px-2 py-2 md:py-0"
         href={page > 0 ? queryStringFn(page - 1) : null}
-        class:text-lightgrey={page <= 0}>
+        class:text-darkgrey={page <= 0}>
         navigate_before
       </a>
 
@@ -78,7 +78,7 @@
           {:else}
             <a
               class="pagelink uppercase py-2 md:py-0 flex-grow"
-              class:text-black={page === link}
+              class:text-darkgrey={page === link}
               href={page !== link ? queryStringFn(link) : null}>
               {link + 1}
             </a>
@@ -88,13 +88,13 @@
       <a
         class="uppercase ml-2 hidden md:inline-block"
         href={page + 1 < numberOfPages ? queryStringFn(page + 1) : null}
-        class:text-lightgrey={page + 1 >= numberOfPages}>
+        class:text-darkgrey={page + 1 >= numberOfPages}>
         {$_('PAGI_SEURAAVA')}
       </a>
       <a
         class="material-icons md:hidden px-2 py-2 md:py-0"
         href={page + 1 < numberOfPages ? queryStringFn(page + 1) : null}
-        class:text-lightgrey={page + 1 >= numberOfPages}>
+        class:text-darkgrey={page + 1 >= numberOfPages}>
         navigate_next
       </a>
     {/if}

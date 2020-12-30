@@ -14,6 +14,10 @@
     background-position: right 0 bottom -150px;
   }
 
+  .title-text {
+    font-size: 1.1em;
+  }
+
   @media screen and (max-width: 1024px) {
     .hero {
       background-position: left -200px bottom -150px;
@@ -34,8 +38,8 @@
       class="w-full xl:w-1/3 lg:w-5/12 sm:w-7/12 bg-white text-ashblue sm:mx-16 py-8
       px-2 sm:px-12">
       <div class="items-center mb-8 hidden sm:flex">
-        <img src={Logo} alt="" />
-        <h2 class="pl-2 font-bold">{$_('ENERGIATODISTUSREKISTERI')}</h2>
+        <img src={Logo} alt="Asumisen rahoitus-ja kehittämiskeskuksen (ARA) logo." class="h-14"/>
+        <h2 class="pl-2 font-bold title-text">{$_('ENERGIATODISTUSREKISTERI')}</h2>
       </div>
       <strong class="block mb-8">{$_('HERO_DESCRIPTION')}</strong>
       <Button {...buttonStyles.green}>{$_('ALOITA')}</Button>

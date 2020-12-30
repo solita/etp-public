@@ -47,6 +47,6 @@ a.bg-white:focus:not(:disabled), a.bg-white:active:not(:disabled), a.bg-white:ho
 -->
 <a
   {href} {target}
-  class={`w-full sm:w-auto m-1 uppercase text-sm font-bold tracking-wider rounded-full px-8 py-3 focus:outline-none text-${text} bg-${bg} hover:bg-${focus} focus:bg-${focus} inline-flex space-x-2 items-center`}>
+  class={`inline-flex m-1 uppercase text-sm font-bold tracking-wider rounded-full px-8 py-3 focus:outline-none text-${text} bg-${bg} hover:bg-${focus} focus:bg-${focus} space-x-3 items-center`}>
   <slot />
 </a>

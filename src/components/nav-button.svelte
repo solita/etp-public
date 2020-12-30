@@ -10,7 +10,7 @@
     },
     darkgreen: {
       text: 'white',
-      background: 'darkgreen'
+      background: 'altgreen'
     },
     ashblue: {
       text: 'white',
@@ -43,13 +43,13 @@
 dark 
 bg-lightgreen 
 bg-green 
-bg-darkgreen 
+bg-altgreen 
 bg-ashblue
 text-white
 text-black
 shadow-lightgreen
 shadow-green
-shadow-darkgreen
+shadow-altgreen
 shadow-ashblue 
 shadow-none 
 border-lightgreen
@@ -70,7 +70,7 @@ border-white
   on:click={click}>
   {#if iconLeft}
     <img
-      class="icon inline-block flex-none"
+      class="icon inline-block flex-none mx-2"
       class:dark={text === 'black'}
       src={iconLeft}
       alt="Icon" />

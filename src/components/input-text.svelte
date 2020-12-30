@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
 
   export let label;
+  export let placeholder;
   export let value;
   export let name;
 
@@ -53,7 +54,7 @@ border-red
       {id}
       {name}
       bind:value
-      placeholder={label}
+      {placeholder}
       class="w-full focus:outline-none"
       on:focus={() => (focused = true)}
       on:blur={() => (focused = false)}

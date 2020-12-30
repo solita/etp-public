@@ -42,7 +42,7 @@
   "HOME_ENERGIATODISTUSHAKU_KUVAUS": "Palvelusta pystyt nopeasti tarkistamaan onko rakennukselle laadittu energiatodistus. Rekisteristä löydät 1.5.2015 alkaen laaditut todistukset.",
   "HOME_ENERGIATODISTUSHAKU_TITLE": "Hae energiatodistusta",
   "HOME_ENERGIATODISTUSHAKU_TODISTUSTUNNUKSELLA": "Hae todistustunnuksella",
-  "HOME_ENERGIATODISTUSHAKU_ASIDE": "Voit hakea hallintoalueella, kunnalla, postinumerolla, toimipaikalla tai katuosoitteella",
+  "HOME_ENERGIATODISTUSHAKU_ASIDE": "Voit hakea maakunnalla, kunnalla, postinumerolla, toimipaikalla tai katuosoitteella",
   "HOME_ENERGIATODISTUSHAKU_ALUEELLA": "Hae alueella",
   "HOME_LAATIJAHAKU": "Tarvitsetko energiatodistuksen? Löydä laatija!",
   "HOME_LAATIJAHAKU_KUVAUS": "Jos olet myymässä tai vuokraamassa rakennusta tai asuntoa, löydät laatijarekisteristä ne henkilöt, joilla on lainmukainen, virallinen pätevyys energiatodistusten tekoon.",
@@ -99,7 +99,7 @@
   "ET_RAKENNUS_KAYTTOTARKOITUS": "Rakennuksen käyttötarkoitusluokka",
   "ET_RAKENNUS_VUOSI": "Rakennuksen valmistumisvuosi",
   "ET_LAATIMISVAIHE": "Laatimisvaihe",
-  "ET_HAVANNOINTI": "Havannointikäynnin päivämäärä",
+  "ET_HAVAINNOINTI": "Havainnointikäynnin päivämäärä",
   "ET_LUOKKA": "Energiatehokkuusluokka",
   "ET_ELUKU": "Rakennuksen laskennallinen kokonaisenergiankulutus eli E-luku",
   "ET_ELUKU_F": "kWhE/(m²vuosi)",
@@ -134,7 +134,7 @@
   "INFO_KUVAUS": "Mistä tunnistaa virallisen energiatodistuksen? Kaikista 1.5.2015 jälkeen laadituissa virallisissa energiatodistuksissa on todistustunnus, jolla löydät todistuksen tästä palvelusta. Sen lisäksi todistus on värisävyltään sininen, sähköisesti allekirjoitettu ja pituudeltaan 8 sivua sekä voimassa 10 vuotta. Myös aiempi ”vihreä energiatodistus” voi olla virallinen. Todistuksessa mainitaan aina sen viimeinen voimassaolopäivä.",
   "INFO_ENERGIATODISTUSMALLI": "Katso energiatodistusmalli",
   "LISATIETOA_TITLE": "Lisätietoa energiatodistuksista",
-  "LISATIETOA_MOTIVAN_PALVELUT": "Motiva Oy:n energiatodistuspavelu",
+  "LISATIETOA_MOTIVAN_PALVELUT": "Motiva Oy:n energiatodistuspalvelu",
   "LISATIETOA_KULUTTAJALLE": "Tietoa kuluttajalle",
   "LISATIETOA_ENERGIATODISTUS": "Mikä on energiatodistus?",
   "LISATIETOA_LUKEMINEN": "Miten luen energiatodistusta?",
@@ -169,7 +169,7 @@
   "REOHJ_TEHNYT_KOKEEN_ENNEN": "Jos olet tehnyt pätevyyskokeen ennen 1.5.2015",
   "REOHJ_JALKEEN_1": "Kirjaudu Suomi.fi-tunnuksilla sisään.",
   "REOHJ_JALKEEN_2": "Tarkasta, että omat tietosi ovat palvelussa oikein.",
-  "REOHJ_KIRJAUTUMINEN_EI_ONNISTU": "Jos kirjautuminen ei onnistu, on mahdollista, että pätevyyden toteaja ei ole vielä rekisteröinyt sinua laatijarekisteriin. Odota xx viikkoa/päivää/…? kokeen suorituksen jälkeen. Tai ota yhteyttä tahoon, jonka kokeen olet suorittanut.",
+  "REOHJ_KIRJAUTUMINEN_EI_ONNISTU": "Jos kirjautuminen ei onnistu, on mahdollista, että pätevyyden toteaja ei ole vielä rekisteröinyt sinua laatijarekisteriin. Odota, että saat pätevyyden toteajalta laskun. Laskun eräpäivän jälkeen pätevyyden toteaja lisää sinut laatijarekisteriin, jos olet suorittanut maksun.",
   "REOHJ_ENNEN": "Lähetä sähköposti otsikolla ”Pyyntö rekisteröityä laatijarekisteriin” ja nimesi sähköpostiosoitteeseen: energiatodistus@ara.fi.\n Saat vastauksena erillisen turvasähköpostin, jossa pyydämme tiedot, joita tarvitsemme rekisteriin lisäämistä varten. Käsittelemme ja tarkastamme tietosi sekä viemme ne palveluun, jonka jälkeen saat sähköpostilla ohjeet palveluun kirjautumiseen.",
   "REOHJ_TARVITSET": "Tarvitset sähköisen henkilökortin, kortinlukulaitteen ja -ohjelmiston",
   "REOHJ_HANKI": "Hanki sähköinen henkilökortti, kortinlukulaite ja -ohjelmisto energiatodistusten sähköiseen allekirjoittamiseen.\n Sähköinen henkilökortti (HST-kortti) eli varmennekortti tarvitaan allekirjoittamisessa.",
@@ -178,5 +178,6 @@
   "REOHJ_LISATIETOJA": "Lisätietoja varmennekortista löydät Digi- ja väestötietoviraston sivuilta:",
   "REOHJ_SIIRRY_DVV": "Siirry DVV:n sivuille",
   "REOHJ_KORTINLUKULAITTEEN": "Kortinlukulaitteen voi ostaa elektroniikkaliikkeistä.\n mPollux Digisign -kortinlukuohjelmiston voi ladata ja asentaa Digi- ja väestötietovirastosta.",
-  "REOHJ_SIIRRY_OHJELMISTON": "Siirry ohjelmiston sivulle dvv.fi:ssä"
+  "REOHJ_SIIRRY_OHJELMISTON": "Siirry ohjelmiston sivulle dvv.fi:ssä",
+  "SERVER_ERROR": "Tietoja ei pystytty hakemaan. Yritä hetken kuluttua uudelleen."
 }

@@ -48,8 +48,8 @@
           <h2 class="mb-4">{$_('HOME_ENERGIATODISTUSHAKU')}</h2>
           <p>{$_('HOME_ENERGIATODISTUSHAKU_KUVAUS')}</p>
         </div>
-        <div class="flex flex-col items-start -my-4">
-          <form
+        <div class="flex flex-col items-start">
+          <form class="w-full"
             on:submit|preventDefault={_ => {
               const id = parseInt(etHakuId, 10);
               const idQuery = !isNaN(id) ? `where=${JSON.stringify([
@@ -65,20 +65,22 @@
                   .filter(item => item.length)
                   .join('?'));
             }}>
-            <strong class="block py-4">
+            <h3 class="block pt-4 pb-1">
               {$_('HOME_ENERGIATODISTUSHAKU_TITLE')}
-            </strong>
-            <Input
+            </h3>
+            <div class=w-4/5><Input
               label={$_('HOME_ENERGIATODISTUSHAKU_TODISTUSTUNNUKSELLA')}
               value={etHakuId}
               on:change={evt => (etHakuId = evt.target.value)} />
+              </div>
             <aside class="italic text-sm font-normal mt-4">
               {$_('HOME_ENERGIATODISTUSHAKU_ASIDE')}
             </aside>
-            <Input
+            <div class=w-4/5><Input
               label={$_('HOME_ENERGIATODISTUSHAKU_ALUEELLA')}
               value={etHakuKeyword}
               on:change={evt => (etHakuKeyword = evt.target.value)} />
+              </div>
             <div class="mt-4">
               <Button {...buttonStyles.green}>{$_('HAE')}</Button>
             </div>
@@ -95,8 +97,8 @@
           <h2 class="mb-4">{$_('HOME_LAATIJAHAKU')}</h2>
           <p>{$_('HOME_LAATIJAHAKU_KUVAUS')}</p>
         </div>
-        <div class="flex flex-col items-start -my-4">
-          <form
+        <div class="flex flex-col items-start">
+          <form class="w-full"
             on:submit|preventDefault={_ => {
               const nameQuery = laatijahakuNimi.length ? `nimihaku=${laatijahakuNimi}` : '';
               const alueQuery = laatijahakuAlue.length ? `aluehaku=${laatijahakuAlue}` : '';
@@ -109,18 +111,20 @@
                   .filter(item => item.length)
                   .join('?'));
             }}>
-            <strong class="block py-4">{$_('HOME_LAATIJAHAKU_TITLE')}</strong>
-            <Input
+            <h3 class="block mt-4 pb-1">{$_('HOME_LAATIJAHAKU_TITLE')}</h3>
+            <div class=w-4/5><Input
               label={$_('HOME_LAATIJAHAKU_NIMELLA')}
               value={laatijahakuNimi}
               on:change={evt => (laatijahakuNimi = evt.target.value)} />
+            </div>
             <aside class="italic text-sm font-normal mt-4">
               {$_('HOME_LAATIJAHAKU_ASIDE')}
             </aside>
-            <Input
+            <div class=w-4/5><Input
               label={$_('HOME_LAATIJAHAKU_ALUEELLA')}
               value={laatijahakuAlue}
               on:change={evt => (laatijahakuAlue = evt.target.value)} />
+          </div>
             <div class="mt-4">
               <Button {...buttonStyles.green}>{$_('HAE')}</Button>
             </div>
@@ -133,19 +137,20 @@
 <Container {...containerStyles.ashbluewhite}>
   <article class="flex lg:flex-row flex-col">
     <section
-      class="text-white bg-ashblue lg:w-1/3 py-4 sm:py-16 px-2 sm:px-16 lg:pr-4">
-      <span class="font-icon text-6xl">info</span>
-      <h2 class="mb-4 text-white">{$_('INFO_TITLE')}</h2>
+      class="text-white bg-ashblue lg:w-1/3 py-4 sm:py-16 px-2 sm:px-16 lg:pr-8">
+      <!-- <span class="font-icon text-6xl">info</span> -->
+      <h2 class="mb-4 text-lg text-white">{$_('INFO_TITLE')}</h2>
       <p>{$_('INFO_KUVAUS')}</p>
       <div class="mt-4">
         <ButtonLink {...buttonStyles.white} href={ETMalli} target="_blank">
-          {$_('INFO_ENERGIATODISTUSMALLI')}
+          <span class="material-icons">picture_as_pdf</span>
+          <span>{$_('INFO_ENERGIATODISTUSMALLI')}</span>
         </ButtonLink>
       </div>
     </section>
     <section class="bg-white lg:w-2/3 lg:pl-8 px-2 sm:px-16 py-4 sm:py-16">
       <h2 class="mb-4 text-ashblue text-lg">{$_('LISATIETOA_TITLE')}</h2>
-      <div class="flex flex-col md:flex-row md:space-x-2">
+      <div class="flex flex-col md:flex-row md:space-x-10">
         <section class="md:w-1/2 py-4 md:py-0">
           <h3 class="mb-4">{$_('LISATIETOA_MOTIVAN_PALVELUT')}</h3>
           <div class="flex flex-col -my-2">
@@ -165,7 +170,7 @@
                 <li>{$_('LISATIETOA_PATEVYYS')}</li>
               </ul>
             </div>
-            <a href="/" class="block py-2 underline text-green">
+            <a href="https://www.motiva.fi/ratkaisut/energiatodistusneuvonta" class="block py-2 underline text-darkgreen">
               {$_('LISATIETOA_MOTIVA_LINKKI')}
             </a>
           </div>
@@ -174,7 +179,7 @@
           <h3 class="mb-4">{$_('LISATIETOA_TILASTOT')}</h3>
           <div class="flex flex-col -my-2">
             <p class="block py-2">{$_('LISATIETOA_ARAN_JULKAISUT')}</p>
-            <a href="/" class="block py-2 underline text-green">
+            <a href="https://www.ara.fi/fi-FI/Tietopankki/Tilastot_ja_selvitykset/Energiatodistukset" class="block py-2 underline text-darkgreen">
               {$_('LISATIETOA_TILASTOT_LINKKI')}
             </a>
           </div>

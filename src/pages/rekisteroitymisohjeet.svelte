@@ -44,20 +44,20 @@
         <div class="flex flex-col md:flex-row md:space-x-1">
           <span>{$_('REOHJ_POLIISILTA')}</span>
           <a
-            class="text-green"
-            href="https://www.poliisi.fi/henkilokortti/henkilokortin_hakeminen">{$_('REOHJ_SIIRRY_POLIISIN')}</a>
+            class="text-darkgreen"
+            href="https://poliisi.fi/etusivu">{$_('REOHJ_SIIRRY_POLIISIN')}</a>
         </div>
         <div class="flex flex-col md:flex-row md:space-x-1">
           <span>{$_('REOHJ_LISATIETOJA')}</span>
           <a
-            class="text-green"
+            class="text-darkgreen"
             href="https://dvv.fi/varmenteet">{$_('REOHJ_SIIRRY_DVV')}</a>
         </div>
       </div>
       <div>
         <p>{$_('REOHJ_KORTINLUKULAITTEEN')}</p>
         <a
-          class="text-green"
+          class="text-darkgreen"
           href="https://dvv.fi/kortinlukijaohjelmisto">{$_('REOHJ_SIIRRY_OHJELMISTON')}</a>
       </div>
     </div>

@@ -53,6 +53,6 @@ button.bg-white:focus:not(:disabled), button.bg-white:active:not(:disabled), but
   class:bg-lightgrey={disabled}
   class:cursor-not-allowed={disabled}
   class:shadow-none={disabled}
-  class={`w-full flex space-x-2 items-center sm:w-auto m-1 uppercase text-sm font-bold tracking-wider rounded-full px-8 py-3 focus:outline-none text-${text} bg-${bg} hover:bg-${disabled ? 'lightgrey' : focus} focus:bg-${disabled ? 'lightgrey' : focus} border-transparent`}>
+  class={`inline-flex space-x-3 items-center m-1 uppercase text-sm font-bold tracking-wider rounded-full px-8 py-3 focus:outline-none text-${text} bg-${bg} hover:bg-${disabled ? 'lightgrey' : focus} focus:bg-${disabled ? 'lightgrey' : focus} border-transparent`}>
   <slot />
 </button>

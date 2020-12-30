@@ -5,6 +5,7 @@
   import * as formats from '@/utilities/formats';
 
   export let label;
+  export let placeholder;
   export let value;
   export let name;
   export let min;
@@ -69,7 +70,7 @@ border-red
       {min}
       {max}
       value={formats.formatDateISO(value)}
-      placeholder={label}
+      {placeholder}
       type="date"
       class="w-full focus:outline-none" />
   </div>

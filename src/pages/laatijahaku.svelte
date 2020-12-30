@@ -60,6 +60,7 @@
   );
 
   const commitSearch = (nimihaku, aluehaku) => {
+    filterPatevyydet = '1,2';
     const qs = [
       ...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []),
       ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []),
@@ -98,7 +99,7 @@
 <Container {...containerStyles.white}>
   <div
     class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto flex flex-col md:flex-row items-center md:items-start">
-    <div class="flex flex-col w-full md:w-9/12">
+    <div class="flex flex-col w-full md:w-7/12">
       <form
         on:submit|preventDefault={evt => {
           const fd = FormUtils.deserialize(evt.target);
@@ -122,7 +123,7 @@
       </form>
     </div>
     <aside
-      class="mt-4 md:mt-0 md:w-3/12 md:pl-4 md:border-l-8 border-ashblue text-ashblue italic text-sm">
+      class="mt-4 md:mt-0 md:w-1/2 md:pl-4 md:border-l-8 border-ashblue text-ashblue italic text-sm">
       {$_('LHAKU_ASIDE')}
     </aside>
   </div>
@@ -166,6 +167,6 @@
       </TableLaatijahaku>
     </div>
   {:catch error}
-    <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">{error}</div>
+    <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">{$_('SERVER_ERROR')}</div>
   {/await}
 </Container>

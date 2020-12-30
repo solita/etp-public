@@ -3,7 +3,7 @@
   import Logo from '@Asset/logo.svg';
   import NavBar from '@Component/nav-bar';
   import Container, { styles as containerStyles } from '@Component/container';
-  import { setLocale, _ } from '@Localization/localization';
+  import { setLocale, locale, _ } from '@Localization/localization';
 
   let mobileNavShown = false;
 
@@ -33,8 +33,8 @@
     <div class="flex justify-between items-center px-2 py-2 xl:px-16">
       <div class="flex justify-between items-center w-full">
         <a class="flex items-center" href="/">
-          <img src={Logo} alt="" />
-          <h1 class="pl-2 text-xs xs:text-base">
+          <img src={Logo} alt="Asumisen rahoitus-ja kehittämiskeskuksen (ARA) logo." class="h-12"/>
+          <h1 class="pl-2 text-xs xs:text-base tracking-widest">
             {$_('ENERGIATODISTUSREKISTERI')}
           </h1>
         </a>
@@ -43,6 +43,8 @@
           <button
             lang="fi"
             class="font-semibold"
+            class:underline={$locale == 'sv'}
+            class:text-darkgreen={$locale == 'sv'}
             on:click={() => setLocale('fi')}>
             suomeksi
           </button>
@@ -50,6 +52,8 @@
           <button
             lang="sv"
             class="font-semibold"
+            class:underline={$locale == 'fi'}
+            class:text-darkgreen={$locale == 'fi'}
             on:click={() => setLocale('sv')}>
             på svenska
           </button>
@@ -58,7 +62,7 @@
           class="text-ashblue items-center hidden lg:flex"
           href="/rekisteroitymisohjeet"><span
             class="font-bold underline">{$_('REKISTEROITYMISOHJEET')}</span>
-          <span class="material-icons"> chevron_right </span></a>
+          <span class="material-icons" aria-hidden="true"> chevron_right </span></a>
       </div>
       <button
         class="flex items-center lg:hidden focus:outline-none rounded-md text-green"
@@ -89,11 +93,16 @@
   {#if mobileNavShown}
     <div transition:slide class="lg:hidden">
       <NavBar navButtonClicked={closeMobileNav} />
-
+      <a class="text-ashblue items-center justify-center flex py-4 bg-white" href="/rekisteroitymisohjeet">
+        <span class="font-bold underline">{$_('REKISTEROITYMISOHJEET')}</span>
+        <span class="material-icons" aria-hidden="true"> chevron_right </span>
+      </a>
       <nav class="font-semibold text-ashblue p-3 text-center mx-auto bg-grey">
         <button
           lang="fi"
           class="p-2 font-semibold"
+          class:underline={$locale == 'sv'}
+          class:text-darkgreen={$locale == 'sv'}
           on:click={() => {
             closeMobileNav();
             setLocale('fi');
@@ -104,6 +113,8 @@
         <button
           lang="sv"
           class="p-2 font-semibold"
+          class:underline={$locale == 'fi'}
+          class:text-darkgreen={$locale == 'fi'}
           on:click={() => {
             closeMobileNav();
             setLocale('sv');
