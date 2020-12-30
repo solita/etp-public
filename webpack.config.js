@@ -134,6 +134,9 @@ module.exports = {
         'yyyy-MM-dd-HH-mm'
       )}`
     }),
+    new GenerateJsonPlugin('config.json', {
+      showTestEnvNotification: true
+    }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css'
     }),
