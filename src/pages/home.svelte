@@ -22,6 +22,8 @@
 
   let laatijahakuNimi = '';
   let laatijahakuAlue = '';
+
+  let scrollOnAloita = null;
 </script>
 
 <style>
@@ -34,14 +36,14 @@
   title="Energiatodistusrekisterin kotisivu"
   descriptionFi="Energiatodistusrekisterin kotisivu" />
 
-<Hero />
+<Hero buttonClick={() => scrollOnAloita.scrollIntoView()}/>
 
 <Container {...containerStyles.beige}>
   <article class="flex pb-16 px-2 sm:px-16">
     <div class="flex sm:-mx-16 flex-col lg:flex-row">
       <section
         class="lg:w-1/2 justify-between sm:px-16 flex flex-col flex-auto">
-        <div class="flex justify-center lg:justify-start">
+        <div class="flex justify-center lg:justify-start" bind:this={scrollOnAloita}>
           <BorderImage src={EtHakuImage} />
         </div>
         <div>

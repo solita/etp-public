@@ -5,6 +5,8 @@
   import Container, { styles as containerStyles } from '@Component/container';
 
   import { _ } from '@Localization/localization';
+
+  export let buttonClick;
 </script>
 
 <style>
@@ -42,7 +44,7 @@
         <h2 class="pl-2 font-bold title-text">{$_('ENERGIATODISTUSREKISTERI')}</h2>
       </div>
       <strong class="block mb-8">{$_('HERO_DESCRIPTION')}</strong>
-      <Button {...buttonStyles.green}>{$_('ALOITA')}</Button>
+      <Button {...buttonStyles.green} on:click={buttonClick}>{$_('ALOITA')}</Button>
     </section>
   </div>
 </Container>
