@@ -4,6 +4,13 @@
   export let nofollow = true;
   export let descriptionFi;
   export let descriptionSv;
+
+  $: {
+    document.title = title;
+
+    if (descriptionSv) document.documentElement.setAttribute('lang','sv');
+    if (descriptionFi) document.documentElement.setAttribute('lang','fi');
+  }
 </script>
 
 <svelte:head>

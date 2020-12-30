@@ -2,7 +2,8 @@
   import {
     laatijat as laatijatStore
   } from '@/stores';
-  import { _ } from '@Localization/localization';
+  import { _, locale } from '@Localization/localization';
+  import Seo from '@Component/seo';
 
   import Container, { styles as containerStyles } from '@Component/container';
   import Button, { styles as buttonStyles } from '@Component/button';
@@ -23,6 +24,11 @@
   onMount(() => component.scrollIntoView());
 </script>
 
+<Seo
+  title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('ET_LAATIJA')}"
+  descriptionFi={$locale == 'fi' ? $_('ET_LAATIJA') : undefined}
+  descriptionSv={$locale == 'sv' ? $_('ET_LAATIJA') : undefined}
+  />
 <div bind:this={component}>
   <Container {...containerStyles.beige}>
     <div

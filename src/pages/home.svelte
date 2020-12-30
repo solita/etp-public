@@ -15,7 +15,7 @@
 
   import Seo from '@Component/seo';
 
-  import { _ } from '@Localization/localization';
+  import { _, locale } from '@Localization/localization';
 
   let etHakuId = '';
   let etHakuKeyword = '';
@@ -33,8 +33,10 @@
 </style>
 
 <Seo
-  title="Energiatodistusrekisterin kotisivu"
-  descriptionFi="Energiatodistusrekisterin kotisivu" />
+  title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('NAVBAR_ETUSIVU')}"
+  descriptionFi={$locale == 'fi' ? $_('HERO_DESCRIPTION') : undefined}
+  descriptionSv={$locale == 'sv' ? $_('HERO_DESCRIPTION') : undefined}
+  />
 
 <Hero buttonClick={() => scrollOnAloita.scrollIntoView()}/>
 

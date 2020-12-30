@@ -5,7 +5,8 @@
   import Spinner from '@Component/spinner';
   import { onMount } from 'svelte';
   import { backReferred } from '@/router/router';
-  import { _, locale, labelLocale } from '@Localization/localization';
+  import { _, locale } from '@Localization/localization';
+  import Seo from '@Component/seo';
 
   import { parseDate } from '@/utilities/parsers';
   import * as formats from '@/utilities/formats';
@@ -251,6 +252,12 @@
   }
 </style>
 
+
+<Seo
+  title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('ENERGIATODISTUS')}"
+  descriptionFi={$locale == 'fi' ? $_('ENERGIATODISTUS') : undefined}
+  descriptionSv={$locale == 'sv' ? $_('ENERGIATODISTUS') : undefined}
+  />
 <div bind:this={component}>
   <Container {...containerStyles.beige}>
     <div

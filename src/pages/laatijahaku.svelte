@@ -3,7 +3,7 @@
   import * as GeoUtils from '@/utilities/geo';
   import * as FormUtils from '@/utilities/form';
   import { navigate } from '@/router/router';
-  import { _ } from '@Localization/localization';
+  import { _, locale } from '@Localization/localization';
   import {
     laatijat as laatijatStore,
     patevyydet,
@@ -77,10 +77,6 @@
   };
 </script>
 
-<Seo
-  title="Energiatodistusrekisteri - Laatijahaku"
-  descriptionSv="Laatijahaku" />
-
 <svelte:window
   on:popstate={_ => {
     haetutToimintaalueet = Promise.all([
@@ -90,6 +86,12 @@
       $postinumerot
     ]).then(([...args]) => GeoUtils.findToimintaalueIds(...args));
   }} />
+
+<Seo
+  title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('NAVBAR_LAATIJAHAKU')}"
+  descriptionFi={$locale == 'fi' ? $_('NAVBAR_LAATIJAHAKU_KUVAUS') : undefined}
+  descriptionSv={$locale == 'sv' ? $_('NAVBAR_LAATIJAHAKU_KUVAUS') : undefined}
+/>
 
 <Container {...containerStyles.beige}>
   <InfoBlock title="{$_('LHAKU_INFO_TITLE')}">
