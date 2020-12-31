@@ -593,21 +593,6 @@
               </div>
             {/if}
 
-            {#if lammonjako || energiatodistus?.lahtotiedot?.lammitys?.lammonjako['kuvaus-fi']}
-              <div class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-                <span class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_LAMMONJAKO')}:</span>
-                  {#if lammonjako && lammonjako.id !== 12}
-                <span class="w-full md:w-1/2">
-                  {lammonjako['label-fi'] || ''}
-                </span>
-                {:else}
-                <span class="w-full md:w-1/2">
-                  {energiatodistus.lahtotiedot.lammitys.lammonjako['kuvaus-fi']}
-                </span>
-                {/if}
-              </div>
-            {/if}
-
           {:else if energiatodistus?.lahtotiedot?.lammitys['lammitysmuoto-1']['kuvaus-fi'] || energiatodistus?.lahtotiedot?.lammitys['lammitysmuoto-2']['kuvaus-fi']}
             <div class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
               <span class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_KUVAUS')}:</span>
@@ -616,6 +601,22 @@
                 {energiatodistus.lahtotiedot.lammitys['lammitysmuoto-2']['kuvaus-fi'] || ''}</span>
             </div>
           {/if}
+
+
+          {#if lammonjako || energiatodistus?.lahtotiedot?.lammitys?.lammonjako['kuvaus-fi']}
+          <div class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+            <span class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_LAMMONJAKO')}:</span>
+              {#if lammonjako && lammonjako.id !== 12}
+            <span class="w-full md:w-1/2">
+              {lammonjako['label-fi'] || ''}
+            </span>
+            {:else}
+            <span class="w-full md:w-1/2">
+              {energiatodistus.lahtotiedot.lammitys.lammonjako['kuvaus-fi']}
+            </span>
+            {/if}
+          </div>
+        {/if}
 
           {#if ilmanvaihtotyyppi || energiatodistus?.lahtotiedot?.ilmanvaihto['kuvaus-fi']}
             <div
