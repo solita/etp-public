@@ -39,7 +39,6 @@
             {$_('ENERGIATODISTUSREKISTERI')}
           </h1>
         </a>
-        // TODO: Find a proper fix for 1006 and reenable language selection in /energiatodistus
         {#if $activePath !== '/energiatodistus'}
         <nav
           class="font-semibold text-ashblue justify-start ml-4 mr-auto hidden lg:block">
