@@ -37,6 +37,12 @@
     );
   };
 
+  const selectShownKatuosoite = (l, perustiedot) => {
+    if (l == 'sv' && perustiedot['katuosoite-sv']) return perustiedot['katuosoite-sv'];
+    else if(l == 'fi' && !perustiedot['katuosoite-fi']) return perustiedot['katuosoite-sv'];
+    else return perustiedot['katuosoite-fi'];
+  }
+
   const energiamuotokertoimet = {
     2018: {
       'fossiilinen-polttoaine': 1,
@@ -328,9 +334,9 @@
             <span
               class="w-full md:w-1/2 text-ashblue">{$_('ET_RAKENNUS_NIMI')}:</span>
             <span
-              class="w-full md:w-1/2">{`${energiatodistus.perustiedot.nimi}, ${energiatodistus.perustiedot['katuosoite-fi']}, ${GeoUtils.padPostinumero(energiatodistus.perustiedot.postinumero)} `}
+              class="w-full md:w-1/2">{`${energiatodistus.perustiedot.nimi}, ${selectShownKatuosoite($locale, energiatodistus.perustiedot)}, ${GeoUtils.padPostinumero(energiatodistus.perustiedot.postinumero)} `}
               <span
-                class="capitalize">{postinumero['label-fi'].toLowerCase()}</span>
+                class="capitalize">{$locale=='sv' ? postinumero['label-sv'].toLowerCase():postinumero['label-fi'].toLowerCase()}</span>
             </span>
           </div>
           <div
@@ -338,7 +344,7 @@
             <span
               class="w-full md:w-1/2 text-ashblue">{$_('ET_RAKENNUS_KAYTTOTARKOITUS')}:</span>
             <span
-              class="w-full md:w-1/2">{alakayttotarkoitusluokka['label-fi']}</span>
+              class="w-full md:w-1/2">{$locale == 'sv' ? alakayttotarkoitusluokka['label-sv'] : alakayttotarkoitusluokka['label-fi']}</span>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">

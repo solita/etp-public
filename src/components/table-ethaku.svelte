@@ -1,5 +1,5 @@
 <script>
-  import { _ } from '@Localization/localization';
+  import { _, locale } from '@Localization/localization';
   import { parseDate } from '@/utilities/parsers';
   import * as formats from '@/utilities/formats';
   export let etCount;
@@ -11,7 +11,7 @@
 
   const findPostitoimipaikka = (postinumero) => {
     let foundPostinumero = postinumerot.find(postinum => postinum.id === parseInt(postinumero));
-    if (foundPostinumero) return foundPostinumero['label-fi'];
+    if (foundPostinumero) return foundPostinumero;
     else return '';
   }
 
@@ -22,8 +22,14 @@
     else return '';
 
     let foundKayttotarkoitusluokka = aktluokat.find(aktluokka => aktluokka.id === kt);
-    if (foundKayttotarkoitusluokka) return foundKayttotarkoitusluokka['label-fi'];
+    if (foundKayttotarkoitusluokka) return foundKayttotarkoitusluokka;
     else return '';
+  }
+
+  const selectShownKatuosoite = (l, perustiedot) => {
+    if (l == 'sv' && perustiedot['katuosoite-sv']) return perustiedot['katuosoite-sv'];
+    else if(l == 'fi' && !perustiedot['katuosoite-fi']) return perustiedot['katuosoite-sv'];
+    else return perustiedot['katuosoite-fi'];
   }
 </script>
 
@@ -70,15 +76,14 @@
                 </td>
               <td data-title=''>
                 <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}><span class='m-title'>{$_('ETHAKU_TH_OSOITE')}</span>
-                
-                {`${todistus.perustiedot['katuosoite-fi']}, 
+                {`${selectShownKatuosoite($locale, todistus.perustiedot)}, 
                   ${todistus.perustiedot.postinumero} 
-                  ${findPostitoimipaikka(todistus.perustiedot.postinumero)}
+                  ${$locale == 'sv' ? findPostitoimipaikka(todistus.perustiedot.postinumero)['label-sv'] : findPostitoimipaikka(todistus.perustiedot.postinumero)['label-fi']}
                   `}
                   </a></td>
                 <td data-title=''>
                   <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}><span class='m-title'>{$_('ETHAKU_TH_KAYTTOTARKOITUS')}</span>
-                    {findKayttotarkoitusluokka(todistus.perustiedot.kayttotarkoitus, todistus.versio)}
+                    {$locale == 'sv' ? findKayttotarkoitusluokka(todistus.perustiedot.kayttotarkoitus, todistus.versio)['label-sv'] : findKayttotarkoitusluokka(todistus.perustiedot.kayttotarkoitus, todistus.versio)['label-fi']}
                   </a>
                 </td>
                 <td data-title=''>
