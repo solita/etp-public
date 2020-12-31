@@ -9,6 +9,8 @@
   import ImgLogo from '@Asset/ara_logo.png';
 
   import { _ } from '@Localization/localization';
+
+  const configPromise = fetch('config.json').then(response => response.json());
 </script>
 
 <Container {...containerStyles.grey}>
@@ -30,9 +32,9 @@
             class="underline text-darkgreen">energiatodistus@ara.fi</a>
         </address>
         <address class="not-italic flex flex-col">
-            <span>Asumisen rahoitus- ja kehittämiskeskus</span>
-            <span>PL 30</span>
-            <span>15141 LAHTI</span>
+          <span>Asumisen rahoitus- ja kehittämiskeskus</span>
+          <span>PL 30</span>
+          <span>15141 LAHTI</span>
         </address>
         <address class="not-italic">
           <span>{$_('PUHELINVAIHDE')}:</span>
@@ -45,12 +47,14 @@
       <div class="md:w-1/3 flex flex-col py-4 md:py-0">
         <section>
           <h2 class="mb-4">{$_('LAATIJOIDEN_PALVELU')}</h2>
-          <ButtonLink
-            href={`https://private.${window.location.host}`}
-            {...buttonLinkStyles.ashblue}>
-            <img src={IconLogin} alt="Login icon" class="h-6" />
-            <span>{$_('KIRJAUDU')}</span>
-          </ButtonLink>
+          {#await configPromise then config}
+            <ButtonLink
+              href={config.privateSiteUrl}
+              {...buttonLinkStyles.ashblue}>
+              <img src={IconLogin} alt="Login icon" class="h-6" />
+              <span>{$_('KIRJAUDU')}</span>
+            </ButtonLink>
+          {/await}
         </section>
         <section class="py-4">
           <h2 class="mb-4">{$_('FOOTER_PALAUTE')}</h2>
@@ -68,7 +72,7 @@
       <img
         class="pt-8"
         src={ImgLogo}
-        alt="Asumisen rahoitus-ja kehittämiskeskuksen (ARA) logo."/>
+        alt="Asumisen rahoitus-ja kehittämiskeskuksen (ARA) logo." />
     </div>
   </footer>
 </Container>

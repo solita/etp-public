@@ -9,12 +9,17 @@
   import Container, { styles as containerStyles } from '@Component/container';
   import { _ } from '@Localization/localization';
 
+  const configPromise = fetch('config.json').then(response => response.json());
   export let navButtonClicked = () => {};
 </script>
 
 <Container {...containerStyles.mainnavigation}>
   <nav class="flex xl:px-16 flex-col lg:flex-row">
-    <NavButton link="/" {...navbuttonStyles.lightgreen} iconLeft={IconHome} click={navButtonClicked}>
+    <NavButton
+      link="/"
+      {...navbuttonStyles.lightgreen}
+      iconLeft={IconHome}
+      click={navButtonClicked}>
       <span slot="title" class="uppercase">{$_('NAVBAR_ETUSIVU')}</span>
       <span slot="subtitle" class="font-light text-sm">
         {$_('NAVBAR_ETUSIVU_KUVAUS')}
@@ -42,19 +47,21 @@
         {$_('NAVBAR_LAATIJAHAKU_KUVAUS')}
       </span>
     </NavButton>
-    <NavButton
-      link={`https://private.${window.location.host}`}
-      {...navbuttonStyles.ashblue}
-      iconLeft={IconLogin}
-      iconRight={IconNext}
-      click={navButtonClicked}>
-      <span slot="title" class="uppercase">{$_('NAVBAR_KIRJAUTUMINEN')}</span>
-      <span slot="subtitle" class="font-light text-sm">
-        {$_('NAVBAR_KIRJAUTUMINEN_KUVAUS')}
-      </span>
-      <span slot="iconright" class="font-icon lg:text-6xl text-3xl">
-        chevron_right
-      </span>
-    </NavButton>
+    {#await configPromise then config}
+      <NavButton
+        link={config.privateSiteUrl}
+        {...navbuttonStyles.ashblue}
+        iconLeft={IconLogin}
+        iconRight={IconNext}
+        click={navButtonClicked}>
+        <span slot="title" class="uppercase">{$_('NAVBAR_KIRJAUTUMINEN')}</span>
+        <span slot="subtitle" class="font-light text-sm">
+          {$_('NAVBAR_KIRJAUTUMINEN_KUVAUS')}
+        </span>
+        <span slot="iconright" class="font-icon lg:text-6xl text-3xl">
+          chevron_right
+        </span>
+      </NavButton>
+    {/await}
   </nav>
 </Container>
