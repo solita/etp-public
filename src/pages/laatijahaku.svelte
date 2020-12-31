@@ -27,15 +27,6 @@
   export let page = 0;
   export let filterPatevyydet = '1,2';
 
-  $: {
-    // Quickfix to prevent an error.
-    // ---
-    // When navigating to laatijahaku from navbar link while filterPatevyydet is set as an URL parameter,
-    // filterPatevyydet for some reason becomes undefined and stays undefined when making LaatijaUtils.laatijatByHakukriteerit call, causing an error
-    // ---
-    if(!filterPatevyydet) filterPatevyydet = '1,2';
-  }
-
   const pageSize = 10;
 
   let shownLaatijat = new Promise(() => {});
@@ -178,6 +169,6 @@
       </TableLaatijahaku>
     </div>
   {:catch error}
-    <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">{$_('SERVER_ERROR') + ` (${error})`}</div>
+    <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">{$_('SERVER_ERROR')}</div>
   {/await}
 </Container>
