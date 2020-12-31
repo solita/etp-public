@@ -41,7 +41,6 @@ border-green
       title={disabled ? disabledLabel : ''}
       bind:value
       on:blur|stopPropagation={evt => evt.target.dispatchEvent(new Event('change'))}>
-      <!-- <option value="-1" class="hidden">{label}</option> -->
       {#each options as op}
         <option value={op}>{format(op)}</option>
       {/each}
