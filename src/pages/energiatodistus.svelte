@@ -5,7 +5,8 @@
   import Spinner from '@Component/spinner';
   import { onMount } from 'svelte';
   import { backReferred } from '@/router/router';
-  import { _, locale, labelLocale } from '@Localization/localization';
+  import { _, locale } from '@Localization/localization';
+  import Seo from '@Component/seo';
 
   import { parseDate } from '@/utilities/parsers';
   import * as formats from '@/utilities/formats';
@@ -102,13 +103,19 @@
     }),
     EtApi.laatimisvaiheet(fetch),
     EtApi.alakayttotarkoitusluokat(fetch, versio),
-    GeoApi.postinumerot(fetch)
+    GeoApi.postinumerot(fetch),
+    EtApi.lammonjako(fetch),
+    EtApi.lammitysmuoto(fetch),
+    EtApi.ilmanvaihtotyyppi(fetch),
   ]).then(
     ([
       energiatodistus,
       laatimisvaiheet,
       alakayttotarkoitusluokat,
-      postinumerot
+      postinumerot,
+      lammonjakotyypit,
+      lammitysmuoto,
+      ilmanvaihtotyypit
     ]) => {
       const laatimisvaihe = laatimisvaiheet.find(
         lv => lv.id === energiatodistus.perustiedot.laatimisvaihe
@@ -119,12 +126,28 @@
       const postinumero = postinumerot.find(
         pn => pn.id === parseInt(energiatodistus.perustiedot.postinumero, 10)
       );
+      const lammonjako = lammonjakotyypit.find(
+        lj => lj.id === parseInt(energiatodistus.lahtotiedot.lammitys.lammonjako.id, 10)
+      );
+      const lammitysmuoto1 = lammitysmuoto.find(
+        lm => lm.id === parseInt(energiatodistus.lahtotiedot.lammitys['lammitysmuoto-1'].id, 10)
+      );
+      const lammitysmuoto2 = lammitysmuoto.find(
+        lm => lm.id === parseInt(energiatodistus.lahtotiedot.lammitys['lammitysmuoto-2'].id, 10)
+      );
+      const ilmanvaihtotyyppi = ilmanvaihtotyypit.find(
+        iv => iv.id === parseInt(energiatodistus.lahtotiedot.ilmanvaihto['tyyppi-id'], 10)
+      );
 
       return Promise.all([
         Promise.resolve(energiatodistus),
         Promise.resolve(laatimisvaihe),
         Promise.resolve(alakayttotarkoitusluokka),
         Promise.resolve(postinumero),
+        Promise.resolve(lammonjako),
+        Promise.resolve(lammitysmuoto1),
+        Promise.resolve(lammitysmuoto2),
+        Promise.resolve(ilmanvaihtotyyppi),
         EtApi.eLuokka(
           fetch,
           energiatodistus.versio,
@@ -229,6 +252,12 @@
   }
 </style>
 
+
+<Seo
+  title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('ENERGIATODISTUS')}"
+  descriptionFi={$locale == 'fi' ? $_('ENERGIATODISTUS') : undefined}
+  descriptionSv={$locale == 'sv' ? $_('ENERGIATODISTUS') : undefined}
+  />
 <div bind:this={component}>
   <Container {...containerStyles.beige}>
     <div
@@ -250,7 +279,16 @@
         <div class="flex justify-center">
           <Spinner />
         </div>
-      {:then [energiatodistus, laatimisvaihe, alakayttotarkoitusluokka, postinumero, eLuokka]}
+      {:then [energiatodistus, 
+          laatimisvaihe, 
+          alakayttotarkoitusluokka, 
+          postinumero, 
+          lammonjako, 
+          lammitysmuoto1, 
+          lammitysmuoto2, 
+          ilmanvaihtotyyppi, 
+          eLuokka
+        ]}
         <div class="w-full flex mx-auto mb-8">
           <div
             class="w-full flex flex-col md:flex-row justify-between items-center">
@@ -480,7 +518,7 @@
               <span
                 class="w-full md:w-2/3 text-ashblue">{$_('ET_VAATIMUSTASO')}:</span>
               <span
-                class="w-full md:w-1/3">{'≤ 105 ' + $_('ET_ELUKU_VAATIMUS_F')}</span>
+                class="w-full md:w-1/3">{`≤ ${eLuokka['raja-uusi-2018']} ${$_('ET_ELUKU_VAATIMUS_F')}`}</span>
             </div>
           {/if}
           <div
@@ -521,21 +559,80 @@
             <span
               class="w-full md:w-1/2">{formats.formatNumber(energiatodistus.lahtotiedot['lammitetty-nettoala'])}</span>
           </div>
-          <div
-            class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <span
-              class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_KUVAUS')}:</span>
-            <span class="w-full md:w-1/2">
-              {energiatodistus.lahtotiedot.lammitys['lammitysmuoto-1']['kuvaus-fi'] || ''}
-              {energiatodistus.lahtotiedot.lammitys['lammitysmuoto-2']['kuvaus-fi'] || ''}</span>
-          </div>
-          <div
-            class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <span
-              class="w-full md:w-1/2 text-ashblue">{$_('ET_ILMANVAIHTO_KUVAUS')}:</span>
-            <span
-              class="w-full md:w-1/2">{energiatodistus.lahtotiedot.ilmanvaihto['kuvaus-fi']}</span>
-          </div>
+
+          {#if parseInt(versio) === 2018}
+            {#if lammitysmuoto1 || energiatodistus?.lahtotiedot?.lammitys['lammitysmuoto-1']['kuvaus-fi']}
+              <div
+                class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+                <span class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_KUVAUS')}:</span>
+                  {#if lammitysmuoto1 && lammitysmuoto1.id !== 9}
+                <span class="w-full md:w-1/2">
+                  {lammitysmuoto1['label-fi']}
+                </span>
+                {:else}
+                <span class="w-full md:w-1/2">
+                  {energiatodistus.lahtotiedot.lammitys['lammitysmuoto-1']['kuvaus-fi']}
+                </span>
+                {/if}
+              </div>
+            {/if}
+
+            {#if lammitysmuoto2 || energiatodistus?.lahtotiedot?.lammitys['lammitysmuoto-2']['kuvaus-fi']}
+              <div
+                class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+                <span class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_2')}:</span>
+                  {#if lammitysmuoto2 && lammitysmuoto2.id !== 9}
+                <span class="w-full md:w-1/2">
+                  {lammitysmuoto2['label-fi']}
+                </span>
+                {:else}
+                <span class="w-full md:w-1/2">
+                  {energiatodistus.lahtotiedot.lammitys['lammitysmuoto-2']['kuvaus-fi']}
+                </span>
+                {/if}
+              </div>
+            {/if}
+
+            {#if lammonjako || energiatodistus?.lahtotiedot?.lammitys?.lammonjako['kuvaus-fi']}
+              <div class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+                <span class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_LAMMONJAKO')}:</span>
+                  {#if lammonjako && lammonjako.id !== 12}
+                <span class="w-full md:w-1/2">
+                  {lammonjako['label-fi'] || ''}
+                </span>
+                {:else}
+                <span class="w-full md:w-1/2">
+                  {energiatodistus.lahtotiedot.lammitys.lammonjako['kuvaus-fi']}
+                </span>
+                {/if}
+              </div>
+            {/if}
+
+          {:else if energiatodistus?.lahtotiedot?.lammitys['lammitysmuoto-1']['kuvaus-fi'] || energiatodistus?.lahtotiedot?.lammitys['lammitysmuoto-2']['kuvaus-fi']}
+            <div class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+              <span class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_KUVAUS')}:</span>
+              <span class="w-full md:w-1/2">
+                {energiatodistus.lahtotiedot.lammitys['lammitysmuoto-1']['kuvaus-fi'] || ''}
+                {energiatodistus.lahtotiedot.lammitys['lammitysmuoto-2']['kuvaus-fi'] || ''}</span>
+            </div>
+          {/if}
+
+          {#if ilmanvaihtotyyppi || energiatodistus?.lahtotiedot?.ilmanvaihto['kuvaus-fi']}
+            <div
+              class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+              <span
+                class="w-full md:w-1/2 text-ashblue">{$_('ET_ILMANVAIHTO_KUVAUS')}:</span>
+              {#if parseInt(versio) === 2018 && ilmanvaihtotyyppi && ilmanvaihtotyyppi.id !== 6}
+              <span class="w-full md:w-1/2">
+                {ilmanvaihtotyyppi['label-fi']}
+              </span>
+              {:else}
+              <span class="w-full md:w-1/2">
+                {energiatodistus.lahtotiedot.ilmanvaihto['kuvaus-fi']}
+              </span>
+              {/if}
+            </div>
+          {/if}
         </div>
 
         <div class="overflow-x-auto w-full">

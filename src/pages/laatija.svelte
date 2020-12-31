@@ -2,13 +2,16 @@
   import {
     laatijat as laatijatStore
   } from '@/stores';
-  import { _ } from '@Localization/localization';
+  import { _, locale } from '@Localization/localization';
+  import Seo from '@Component/seo';
 
   import Container, { styles as containerStyles } from '@Component/container';
   import Button, { styles as buttonStyles } from '@Component/button';
   import Spinner from '@Component/spinner';
   import { onMount } from 'svelte';
   import { backReferred } from '@/router/router';
+  import { parseDate } from '@/utilities/parsers';
+  import * as formats from '@/utilities/formats';
 
   export let id;
 
@@ -23,6 +26,11 @@
   onMount(() => component.scrollIntoView());
 </script>
 
+<Seo
+  title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('ET_LAATIJA')}"
+  descriptionFi={$locale == 'fi' ? $_('ET_LAATIJA') : undefined}
+  descriptionSv={$locale == 'sv' ? $_('ET_LAATIJA') : undefined}
+  />
 <div bind:this={component}>
   <Container {...containerStyles.beige}>
     <div
@@ -55,8 +63,7 @@
         <div class="flex flex-col md:flex-row text-lg space-x-2 my-1 w-full">
           <strong class="w-full md:w-1/3 text-lg text-ashblue tracking-widest">{$_('LAATIJA_VOIMASSAOLOAIKA')}:</strong>
           <span>
-            {Intl.DateTimeFormat('fi-FI').format(new Date(laatija.toteamispaivamaara))}
-            - {Intl.DateTimeFormat('fi-FI').format(new Date(laatija['voimassaolo-paattymisaika']))}
+            {formats.formatDate(parseDate(laatija.toteamispaivamaara))} - {formats.formatExclusiveEndDate(parseDate(laatija['voimassaolo-paattymisaika']))}
           </span>
         </div>
         <div class="flex flex-col md:flex-row text-lg space-x-2 my-1 w-full">

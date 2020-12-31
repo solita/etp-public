@@ -142,7 +142,8 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       title: 'ETP - public',
-      template: './src/template.html'
+      template: './src/template.html',
+      favicon: './assets/favicon.png'
     })
     // uncomment to see treeview of generated bundle after build
     // new BundleAnalyzerPlugin()

@@ -15,13 +15,15 @@
 
   import Seo from '@Component/seo';
 
-  import { _ } from '@Localization/localization';
+  import { _, locale } from '@Localization/localization';
 
   let etHakuId = '';
   let etHakuKeyword = '';
 
   let laatijahakuNimi = '';
   let laatijahakuAlue = '';
+
+  let scrollOnAloita = null;
 </script>
 
 <style>
@@ -31,17 +33,19 @@
 </style>
 
 <Seo
-  title="Energiatodistusrekisterin kotisivu"
-  descriptionFi="Energiatodistusrekisterin kotisivu" />
+  title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('NAVBAR_ETUSIVU')}"
+  descriptionFi={$locale == 'fi' ? $_('HERO_DESCRIPTION') : undefined}
+  descriptionSv={$locale == 'sv' ? $_('HERO_DESCRIPTION') : undefined}
+  />
 
-<Hero />
+<Hero buttonClick={() => scrollOnAloita.scrollIntoView()}/>
 
 <Container {...containerStyles.beige}>
   <article class="flex pb-16 px-2 sm:px-16">
     <div class="flex sm:-mx-16 flex-col lg:flex-row">
       <section
         class="lg:w-1/2 justify-between sm:px-16 flex flex-col flex-auto">
-        <div class="flex justify-center lg:justify-start">
+        <div class="flex justify-center lg:justify-start" bind:this={scrollOnAloita}>
           <BorderImage src={EtHakuImage} />
         </div>
         <div>

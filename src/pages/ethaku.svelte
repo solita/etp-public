@@ -13,6 +13,7 @@
   import Spinner from '@Component/spinner';
   import Container, { styles as containerStyles } from '@Component/container';
   import { _, locale, labelLocale } from '@Localization/localization';
+  import Seo from '@Component/seo';
   import { navigate } from '@/router/router';
   import TableEThaku from '@Component/table-ethaku';
   import Pagination from '@Component/pagination';
@@ -220,6 +221,12 @@
     @apply font-bold;
   }
 </style>
+
+<Seo
+  title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('NAVBAR_ENERGIATODISTUSHAKU')}"
+  descriptionFi={$locale == 'fi' ? $_('NAVBAR_ENERGIATODISTUSHAKU_KUVAUS') : undefined}
+  descriptionSv={$locale == 'sv' ? $_('NAVBAR_ENERGIATODISTUSHAKU_KUVAUS') : undefined}
+  />
 
 <Container {...containerStyles.beige}>
   <InfoBlock title={$_('ETHAKU_INFO_TITLE')}>

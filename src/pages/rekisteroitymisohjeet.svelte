@@ -1,7 +1,8 @@
 <script>
   import Container, { styles as containerStyles } from '@Component/container';
   import InfoBlock from '@Component/info-block';
-  import { _ } from '@Localization/localization';
+  import { _, locale } from '@Localization/localization';
+  import Seo from '@Component/seo';
 </script>
 
 <style>
@@ -12,6 +13,12 @@
     @apply mb-2;
   }
 </style>
+
+<Seo
+  title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('REKISTEROITYMISOHJEET')}"
+  descriptionFi={$locale == 'fi' ? $_('REOHJ_INFO_TITLE') : undefined}
+  descriptionSv={$locale == 'sv' ? $_('REOHJ_INFO_TITLE') : undefined}
+/>
 
 <Container {...containerStyles.beige}>
   <InfoBlock title={$_('REOHJ_INFO_TITLE')}>{$_('REOHJ_INFO_TEXT')}</InfoBlock>

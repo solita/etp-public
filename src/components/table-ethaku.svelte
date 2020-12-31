@@ -1,6 +1,7 @@
 <script>
   import { _ } from '@Localization/localization';
-import { parse } from 'path';
+  import { parseDate } from '@/utilities/parsers';
+  import * as formats from '@/utilities/formats';
   export let etCount;
   export let eTodistukset;
   export let postinumerot;
@@ -82,8 +83,7 @@ import { parse } from 'path';
                 </td>
                 <td data-title=''>
                   <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}`}><span class='m-title'>{$_('ETHAKU_TH_VOIMASSA')}</span>
-                  
-                    {new Date(todistus['voimassaolo-paattymisaika']).toLocaleDateString() || ''}
+                    {formats.formatDate(parseDate(todistus?.allekirjoitusaika))} - {formats.formatExclusiveEndDate(parseDate(todistus['voimassaolo-paattymisaika']))}
                   </a>
                 </td>
               </tr>

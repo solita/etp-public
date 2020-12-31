@@ -62,7 +62,7 @@
                 <td class="text-center">
                   <span class="m-title">{$_('LHAKU_TH_WWW')}</span>
                   {#if laatija.wwwosoite}
-                    <a href={'laatija.wwwosoite'} title={laatija.wwwosoite}>
+                    <a href={laatija.wwwosoite} title={!laatija.wwwosoite?.match(/^https+:\/\//) ? laatija.wwwosoite?.split('//')[1] : laatija.wwwosoite}>
                       <span class="material-icons text-darkgreen">
                         public
                         </span>
