@@ -3,10 +3,17 @@ import formatISO from 'date-fns/formatISO';
 
 export const formatApiDate = date => date.toJSON();
 
-export const formatDate = date => Intl.DateTimeFormat('fi').format(date);
+export const formatDate = date =>
+  Intl.DateTimeFormat('fi-FI', {
+    timeZone: 'Europe/Helsinki',
+    dateStyle: 'medium'
+  }).format(date);
 
 export const formatExclusiveEndDate = date =>
-  Intl.DateTimeFormat('fi').format(subDays(date, 1));
+  Intl.DateTimeFormat('fi-FI', {
+    timeZone: 'Europe/Helsinki',
+    dateStyle: 'medium'
+  }).format(subDays(date, 1));
 
 export const formatNumber = n => Intl.NumberFormat('fi').format(n);
 

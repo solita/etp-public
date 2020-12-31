@@ -88,7 +88,7 @@
         {#if laatija.wwwosoite}
           <div class="flex flex-col md:flex-row text-lg space-x-2 my-1 w-full">
             <strong class="w-full md:w-1/3 text-lg text-ashblue tracking-widest">{$_('LAATIJA_WWW')}:</strong>
-            <a class="text-darkgreen underline" href={laatija.wwwosoite}>{laatija.wwwosoite.split('//')[1]}</a>
+            <a class="text-darkgreen underline" href={laatija.wwwosoite}>{laatija.wwwosoite}</a>
           </div>
         {/if}
         {#if laatija.email}

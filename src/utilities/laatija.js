@@ -88,10 +88,7 @@ export const deserialize = (locale, patevyydet, toimintaalueet) => laatija => ({
       labelLocale(locale, GeoUtils.findToimintaalue(toimintaalueet, ta)) ?? ''
   ),
   postitoimipaikka: laatija.postitoimipaikka ?? '',
-  wwwosoite:
-    laatija.wwwosoite && !laatija.wwwosoite?.match(/^https+:\/\//)
-      ? `//${laatija.wwwosoite}`
-      : laatija.wwwosoite
+  wwwosoite: laatija.wwwosoite
 });
 
 export const sliceLaatijaTable = (page, pagesize, laatijat) =>

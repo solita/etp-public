@@ -19,6 +19,7 @@
       <section class="md:w-1/3 py-4 md:py-0">
         <h2 class="mb-4">{$_('FOOTER_LAKI')}</h2>
         <p>{$_('FOOTER_ARA_VIRANOMAINEN')}</p>
+        <br>
         <a
           href="https://www.ara.fi"
           class="underline text-darkgreen">{$_('FOOTER_ARA_LINKKI')}</a>
@@ -32,9 +33,9 @@
             class="underline text-darkgreen">energiatodistus@ara.fi</a>
         </address>
         <address class="not-italic flex flex-col">
-          <span>Asumisen rahoitus- ja kehittämiskeskus</span>
-          <span>PL 30</span>
-          <span>15141 LAHTI</span>
+            <span>{$_('FOOTER_OSOITE_1')}</span>
+            <span>PL 30</span>
+            <span>15141 LAHTI</span>
         </address>
         <address class="not-italic">
           <span>{$_('PUHELINVAIHDE')}:</span>
