@@ -549,7 +549,8 @@
             <div class="w-full md:w-2/5">
               <InputDate
                 bind:this={voimassaoloMaxInput}
-                label={'pp.kk.vvvv'}
+                label={$_('ETHAKU_VIIMEINEN_VOIMASSAOLOPAIVA')}
+                placeholder={'pp.kk.vvvv'}
                 model={searchmodel}
                 name={'voimassaolo-paattymisaika_max'}
                 min={searchmodel['voimassaolo-paattymisaika_min']}
@@ -568,7 +569,7 @@
             <div class="w-2/5">
               <InputNumber
                 bind:this={eLukuMinInput}
-                label={''}
+                label={$_('ETHAKU_E_KOKONAISLUKU')}
                 min="0"
                 max={numberOrDefault(10000000000, searchmodel['tulokset.e-luku_max'])}
                 model={searchmodel}
@@ -581,7 +582,7 @@
             <div class="w-2/5">
               <InputNumber
                 bind:this={eLukuMaxInput}
-                label={''}
+                label={$_('ETHAKU_E_KOKONAISLUKU')}
                 min={numberOrDefault(1, searchmodel['tulokset.e-luku_min'])}
                 max="10000000000"
                 model={searchmodel}
