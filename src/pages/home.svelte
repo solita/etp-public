@@ -38,7 +38,7 @@
   descriptionSv={$locale == 'sv' ? $_('HERO_DESCRIPTION') : undefined}
   />
 
-<Hero buttonClick={() => scrollOnAloita.scrollIntoView()}/>
+<Hero buttonClick={() => scrollOnAloita.scrollIntoView({ behavior: 'smooth'})}/>
 
 <Container {...containerStyles.beige}>
   <article class="flex pb-16 px-2 sm:px-16">
