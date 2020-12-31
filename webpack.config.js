@@ -135,7 +135,8 @@ module.exports = {
       )}`
     }),
     new GenerateJsonPlugin('config.json', {
-      showTestEnvNotification: true
+      showTestEnvNotification: true,
+      privateSiteUrl: 'https://localhost:3000'
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css'
