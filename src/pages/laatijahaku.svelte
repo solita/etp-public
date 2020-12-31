@@ -28,6 +28,7 @@
   export let filterPatevyydet = '1,2';
   
   $: {
+    // TODO
     // Quickfix to prevent an error.
     // ---
     // When navigating to laatijahaku from navbar link while filterPatevyydet is set as an URL parameter,
