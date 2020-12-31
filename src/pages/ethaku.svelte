@@ -365,17 +365,18 @@
             <Spinner />
           </div>
         {:then ktluokat}
-          {#if searchmodel['versio'] !== '0'}
-            <div transition:slide|local class="w-full">
+            <div class="w-full">
               <div
                 class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
                 <span
-                  class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
+                  class="tarkennettu-label w-full md:w-1/2 tracking-widest {searchmodel['versio'] === '0' ? 'text-darkgrey' : 'text-ashblue'}">
                   {$_('ETHAKU_KAYTTOTARKOITUSLUOKKA')}
                 </span>
                 <div class="w-full md:w-1/2">
                   <InputSelect
                     name={'perustiedot.kayttotarkoitus_in'}
+                    disabled={searchmodel['versio'] === '0'}
+                    disabledLabel={$_('ETHAKU_VALITSE_VERSIO')}
                     format={id => {
                       if (id === -1) return $_('KAIKKI');
                       const item = ktluokat[searchmodel['versio']]['kayttotarkoitusluokat'].find(item => item.id === parseInt(id));
@@ -383,18 +384,21 @@
                       return $_('KAIKKI');
                     }}
                     options={[-1, ...ktluokat[searchmodel['versio']]['kayttotarkoitusluokat'].map(item => item['id'])]}
+                    label={$_('ETHAKU_KAYTTOTARKOITUSLUOKKA')}
                     value={ktluokat[searchmodel['versio']]['alakayttotarkoitusluokat'].find(item => item.id === searchmodel['perustiedot.kayttotarkoitus_in'][0])?.['kayttotarkoitusluokka-id'] || -1} />
                 </div>
               </div>
               <div
                 class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
                 <span
-                  class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
+                  class="tarkennettu-label w-full md:w-1/2 tracking-widest {searchmodel['versio'] === '0' ? 'text-darkgrey' : 'text-ashblue'}">
                   {$_('ETHAKU_ALAKAYTTOTARKOITUSLUOKKA')}
                 </span>
                 <div class="w-full md:w-1/2">
                   <InputSelect
                     name={'perustiedot.kayttotarkoitus'}
+                    disabled={searchmodel['versio'] === '0'}
+                    disabledLabel={$_('ETHAKU_VALITSE_VERSIO')}
                     format={id => {
                       if (id === '') return $_('KAIKKI');
                       const item = ktluokat[searchmodel['versio']]['alakayttotarkoitusluokat'].find(item => item.id === id);
@@ -412,12 +416,11 @@
                             : true
                         )
                         .map(item => item['id'])]}
-                    label={$_('KAIKKI')}
+                    label={$_('ETHAKU_ALAKAYTTOTARKOITUSLUOKKA')}
                     value={searchmodel['perustiedot.kayttotarkoitus']} />
                 </div>
               </div>
             </div>
-          {/if}
         {/await}
         <div
           class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
