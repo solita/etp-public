@@ -4,6 +4,7 @@
   import NavBar from '@Component/nav-bar';
   import Container, { styles as containerStyles } from '@Component/container';
   import { setLocale, locale, _ } from '@Localization/localization';
+  import { activePath } from '@Router/router';
 
   let mobileNavShown = false;
 
@@ -38,6 +39,7 @@
             {$_('ENERGIATODISTUSREKISTERI')}
           </h1>
         </a>
+        {#if $activePath !== '/energiatodistus'}
         <nav
           class="font-semibold text-ashblue justify-start ml-4 mr-auto hidden lg:block">
           <button
@@ -58,6 +60,7 @@
             på svenska
           </button>
         </nav>
+        {/if}
         <a
           class="text-ashblue items-center hidden lg:flex"
           href="/rekisteroitymisohjeet"><span
@@ -97,6 +100,8 @@
         <span class="font-bold underline">{$_('REKISTEROITYMISOHJEET')}</span>
         <span class="material-icons" aria-hidden="true"> chevron_right </span>
       </a>
+
+      {#if $activePath !== '/energiatodistus'}
       <nav class="font-semibold text-ashblue p-3 text-center mx-auto bg-grey">
         <button
           lang="fi"
@@ -122,6 +127,7 @@
           på svenska
         </button>
       </nav>
+      {/if}
     </div>
   {/if}
 
