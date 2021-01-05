@@ -27,7 +27,10 @@
   export let page = 0;
   export let filterPatevyydet = '1,2';
   
+  let resultsElement;
   $: {
+    if(nimihaku || aluehaku || page > 0) resultsElement?.scrollIntoView({ behavior: 'smooth'});
+
     // TODO
     // Quickfix to prevent an error.
     // ---
@@ -37,9 +40,9 @@
     if(!filterPatevyydet) filterPatevyydet = '1,2';
   }
   const pageSize = 10;
-
+  
   let shownLaatijat = new Promise(() => {});
-
+  
   $: haetutToimintaalueet = Promise.all([
     Promise.resolve(aluehaku ?? ''),
     $toimintaalueet,
@@ -141,6 +144,7 @@
 </Container>
 
 <Container {...containerStyles.white}>
+  <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full" bind:this={resultsElement}>
   {#await Promise.all([
     shownLaatijat,
     haetutToimintaalueet,
@@ -153,7 +157,6 @@
       <Spinner />
     </div>
   {:then [l, h, patevyydet, page, pageSize, filterPatevyydet]}
-    <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
       <TableLaatijahaku
         laatijaCount={l.length}
         laatijat={l.slice(page * pageSize, (page + 1) * pageSize)}
@@ -176,8 +179,8 @@
             queryStringFn={page => `/laatijahaku?${[...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []), ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []), ...[['filterPatevyydet', filterPatevyydet].join('=')], ...[['page', page].join('=')]].join('&')}`} />
         </div>
       </TableLaatijahaku>
-    </div>
   {:catch error}
-    <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">{$_('SERVER_ERROR')}</div>
+    <span>{$_('SERVER_ERROR')}</span>
   {/await}
+  </div>
 </Container>

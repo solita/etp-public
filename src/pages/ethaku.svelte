@@ -1,5 +1,5 @@
 <script>
-  import { tick } from 'svelte';
+  import { onMount, tick } from 'svelte';
   import { slide } from 'svelte/transition';
   import Button, { styles as buttonStyles } from '@Component/button';
   import InputSearch from '@Component/input-search';
@@ -29,6 +29,8 @@
   
   const pageSize = 10;
   let tarkennettuShown = false;
+  let resultsElement;
+  const animationDuration = 400;
   const validationModel = EtHakuUtils.validationModel();
 
 
@@ -210,7 +212,21 @@
       .join('&');
 
     navigate(`/ethaku${qs.length ? `?${qs}` : ''}`);
+
+    if(tarkennettuShown && !Object.keys(deserializedWhere).filter(item => item !== 'id').length > 0) {
+      setTimeout(() => {
+        resultsElement?.scrollIntoView({ behavior: 'smooth'});
+      }, animationDuration+1);
+    } else {
+      resultsElement?.scrollIntoView({ behavior: 'smooth'});
+    }
   };
+
+  onMount(() => {
+    if(keyword || page > 0 || (where && where != '[[]]')) {
+      resultsElement?.scrollIntoView({ behavior: 'smooth'});
+    }
+  });
 </script>
 
 <style>
@@ -346,7 +362,7 @@
     {#if tarkennettuShown}
       <div
         class="tarkennettu-haku w-full lg:w-5/6 flex flex-col my-4 py-4 border-t-2 border-b-2 border-green space-y-2"
-        transition:slide|local>
+        transition:slide|local="{{duration: animationDuration}}">
         <div
           class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
@@ -657,6 +673,7 @@
 </Container>
 
 <Container {...containerStyles.white}>
+  <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full" bind:this={resultsElement}>
   {#await Promise.all([
     result,
     etTotalcount,
@@ -667,7 +684,6 @@
       <Spinner />
     </div>
   {:then [et, count, page, postinumerot, kayttotarkoitusluokat]}
-    <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
       <TableEThaku
         etCount={count}
         eTodistukset={et}
@@ -701,8 +717,8 @@
             />
         </div>
       </TableEThaku>
-    </div>
   {:catch error}
-    <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">{$_('SERVER_ERROR')}</div>
+    <span>{$_('SERVER_ERROR')}</span>
   {/await}
+  </div>
 </Container>
