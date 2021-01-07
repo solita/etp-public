@@ -566,7 +566,6 @@
               class="w-full md:w-1/2">{formats.formatNumber(energiatodistus.lahtotiedot['lammitetty-nettoala'])}</span>
           </div>
 
-          {#if parseInt(versio) === 2018}
             {#if lammitysmuoto1 || energiatodistus?.lahtotiedot?.lammitys['lammitysmuoto-1']['kuvaus-fi']}
               <div
                 class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
@@ -589,24 +588,15 @@
                 <span class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_2')}:</span>
                   {#if lammitysmuoto2 && lammitysmuoto2.id !== 9}
                 <span class="w-full md:w-1/2">
-                  {lammitysmuoto2['label-fi']}
+                  {lammitysmuoto2['label-fi'] || ''}
                 </span>
                 {:else}
                 <span class="w-full md:w-1/2">
-                  {energiatodistus.lahtotiedot.lammitys['lammitysmuoto-2']['kuvaus-fi']}
+                  {energiatodistus.lahtotiedot.lammitys['lammitysmuoto-2']['kuvaus-fi'] || ''}
                 </span>
                 {/if}
               </div>
             {/if}
-
-          {:else if energiatodistus?.lahtotiedot?.lammitys['lammitysmuoto-1']['kuvaus-fi'] || energiatodistus?.lahtotiedot?.lammitys['lammitysmuoto-2']['kuvaus-fi']}
-            <div class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-              <span class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_KUVAUS')}:</span>
-              <span class="w-full md:w-1/2">
-                {energiatodistus.lahtotiedot.lammitys['lammitysmuoto-1']['kuvaus-fi'] || ''}
-                {energiatodistus.lahtotiedot.lammitys['lammitysmuoto-2']['kuvaus-fi'] || ''}</span>
-            </div>
-          {/if}
 
 
           {#if lammonjako || energiatodistus?.lahtotiedot?.lammitys?.lammonjako['kuvaus-fi']}
@@ -618,7 +608,7 @@
             </span>
             {:else}
             <span class="w-full md:w-1/2">
-              {energiatodistus.lahtotiedot.lammitys.lammonjako['kuvaus-fi']}
+              {energiatodistus.lahtotiedot.lammitys.lammonjako['kuvaus-fi'] || ''}
             </span>
             {/if}
           </div>
@@ -629,13 +619,13 @@
               class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
               <span
                 class="w-full md:w-1/2 text-ashblue">{$_('ET_ILMANVAIHTO_KUVAUS')}:</span>
-              {#if parseInt(versio) === 2018 && ilmanvaihtotyyppi && ilmanvaihtotyyppi.id !== 6}
+              {#if ilmanvaihtotyyppi && ilmanvaihtotyyppi.id !== 6}
               <span class="w-full md:w-1/2">
-                {ilmanvaihtotyyppi['label-fi']}
+                {ilmanvaihtotyyppi['label-fi'] || ''}
               </span>
               {:else}
               <span class="w-full md:w-1/2">
-                {energiatodistus.lahtotiedot.ilmanvaihto['kuvaus-fi']}
+                {energiatodistus.lahtotiedot.ilmanvaihto['kuvaus-fi'] || ''}
               </span>
               {/if}
             </div>
