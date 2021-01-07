@@ -14,6 +14,7 @@
   import * as formats from '@/utilities/formats';
 
   export let id;
+  let ref = '';
 
   let component = null;
   $: laatijaPromise = $laatijatStore.then(laatijat => {
@@ -23,7 +24,13 @@
     return Promise.reject('Laatijaa ei löytynyt.');
   });
 
-  onMount(() => component.scrollIntoView());
+  onMount(() => {
+    component.scrollIntoView();
+
+    ref = window.history.state.path.includes("&ref=") ? decodeURIComponent(window.history.state.path.split("&ref=")[1]) : '';
+    if(ref) 
+      window.history.replaceState({}, document.title, window.history.state.path.split("&ref=")[0]);
+    });
 </script>
 
 <Seo
@@ -39,7 +46,7 @@
         <Button
           {...buttonStyles.green}
           on:click={() => {
-            backReferred('/laatijahaku');
+            backReferred(ref ? '/laatijahaku?'+ref : '/laatijahaku');
           }}>
           <span class="material-icons">arrow_back</span>
           <span>{$_('LAATIJA_TAKAISIN')}</span>

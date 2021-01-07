@@ -22,7 +22,7 @@
 
   export let id;
   export let versio;
-
+  let ref = '';
   let component = null;
 
   const parseValues = model => {
@@ -165,7 +165,13 @@
     }
   );
   
-  onMount(() => component.scrollIntoView());
+  onMount(() => {
+    component.scrollIntoView();
+
+    ref = window.history.state.path.includes("&ref=") ? decodeURIComponent(window.history.state.path.split("&ref=")[1]) : '';
+    if(ref) 
+      window.history.replaceState({}, document.title, window.history.state.path.split("&ref=")[0]);
+    });
 </script>
 
 <style>
@@ -271,7 +277,7 @@
       <Button
         {...buttonStyles.green}
         on:click={() => {
-          backReferred('/ethaku');
+          backReferred(ref ? '/ethaku?'+ref : '/ethaku');
         }}>
         <span class="material-icons align-middle">arrow_back</span>
         <span class="whitespace-no-wrap">{$_('ET_BACK')}</span>

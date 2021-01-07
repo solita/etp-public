@@ -1,16 +1,11 @@
 <script>
   import { _ } from '@Localization/localization';
 
-  import IconWeb from '@Asset/icons/web.svg';
-  import IconMail from '@Asset/icons/mail.svg';
-  import IconPhone from '@Asset/icons/phone.svg';
-
   export let laatijaCount;
   export let laatijat;
 
-  let currentPageItemCount = laatijat.length;
-
   $: currentPageItemCount = laatijat.length;
+  $: ref = window.history.state.path.includes("?") ? `&ref=${encodeURIComponent(window.history.state.path.split('?')[1])}` : '';
 </script>
 
 <style>
@@ -42,7 +37,7 @@
             {#each laatijat as laatija}
               <tr>
                 <td>
-                  <a class="text-darkgreen text-xl flex items-center md:text-base" href="/laatija?id={laatija.id}">
+                  <a class="text-darkgreen text-xl flex items-center md:text-base" href="/laatija?id={laatija.id}{ref}">
                     <span class="underline md:no-underline">{laatija.nimi || '-'}</span>
                     <span class="material-icons px-1 md:hidden">navigate_next</span>
                   </a>
