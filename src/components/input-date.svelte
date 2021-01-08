@@ -32,7 +32,7 @@
 
 <style>
   input {
-    background-color: transparent;
+    background-color: white;
   }
 
   input::placeholder {
