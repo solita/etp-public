@@ -7,7 +7,6 @@
   export let options = [];
   export let name;
   export let disabled;
-  export let disabledLabel;
 
   let id;
 
@@ -31,14 +30,13 @@ border-green
 <div class="relative w-full flex flex-col pb-8">
   <label for={id} class="sr-only">{label}</label>
   <div
-    class="input-parent w-full relative inline-block border-b-2 px-2 py-2 border-darkgrey {disabled ? 'cursor-not-allowed': 'hover:bg-grey'}">
+    class="input-parent w-full relative inline-block border-b-2 px-2 py-2 {disabled ? 'cursor-not-allowed text-darkgrey border-grey': 'hover:bg-grey border-darkgrey'}">
     <select
       class="w-full h-full"
       class:cursor-not-allowed={disabled}
       {id}
       {name}
       {disabled}
-      title={disabled ? disabledLabel : ''}
       bind:value
       on:blur|stopPropagation={evt => evt.target.dispatchEvent(new Event('change'))}>
       {#each options as op}

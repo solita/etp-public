@@ -392,8 +392,9 @@
                   <InputSelect
                     name={'perustiedot.kayttotarkoitus_in'}
                     disabled={searchmodel['versio'] === '0'}
-                    disabledLabel={$_('ETHAKU_VALITSE_VERSIO')}
                     format={id => {
+                      if (searchmodel['versio'] === '0')
+                       return $_('ETHAKU_VALITSE_VERSIO');
                       if (id === -1) return $_('KAIKKI');
                       const item = ktluokat[searchmodel['versio']]['kayttotarkoitusluokat'].find(item => item.id === parseInt(id));
                       if (item) return labelLocale($locale, item);
@@ -414,8 +415,9 @@
                   <InputSelect
                     name={'perustiedot.kayttotarkoitus'}
                     disabled={searchmodel['versio'] === '0'}
-                    disabledLabel={$_('ETHAKU_VALITSE_VERSIO')}
                     format={id => {
+                      if (searchmodel['versio'] === '0')
+                        return $_('ETHAKU_VALITSE_VERSIO');
                       if (id === '') return $_('KAIKKI');
                       const item = ktluokat[searchmodel['versio']]['alakayttotarkoitusluokat'].find(item => item.id === id);
                       if (item) return labelLocale($locale, item);
