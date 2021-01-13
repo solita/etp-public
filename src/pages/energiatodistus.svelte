@@ -2,6 +2,7 @@
   import Container, { styles as containerStyles } from '@Component/container';
   import Button, { styles as buttonStyles } from '@Component/button';
   import ButtonLink from '@Component/buttonlink';
+  import LineText from '@Component/et-line-text';
   import Spinner from '@Component/spinner';
   import { onMount } from 'svelte';
   import { backReferred } from '@/router/router';
@@ -164,6 +165,20 @@
       ]);
     }
   );
+
+  const rajaShownForTehokkuusluokka = (eLuokka, rowELuokka) => {
+    if (versio == 2013) return "C" === rowELuokka;
+
+    const raja2018 = eLuokka['raja-uusi-2018'];
+    const asteikko = eLuokka['raja-asteikko'];
+
+    for (const raja of asteikko) {
+      if (raja2018 > raja[0] && raja[1] == rowELuokka){
+        return true;
+      }
+    }
+    return false;
+  }
   
   onMount(() => {
     component.scrollIntoView();
@@ -384,7 +399,7 @@
                 <span class="text-green text-lg">{$_('ET_LUOKKA')}</span>
               </div>
             </div>
-            <div class="w-full flex border-b border-black">
+            <div class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, "A") ? 'border-dotted border-b-4' : 'border-b'}">
               <div
                 class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
                 <span
@@ -403,7 +418,11 @@
                 {/if}
               </div>
             </div>
-            <div class="w-full flex border-b border-black">
+
+            {#if rajaShownForTehokkuusluokka(eLuokka, "A")}
+              <LineText />
+            {/if}
+            <div class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, "B") ? 'border-dotted border-b-4' : 'border-b'}">
               <div
                 class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
                 <span
@@ -422,7 +441,10 @@
                 {/if}
               </div>
             </div>
-            <div class="w-full flex border-b border-black">
+            {#if rajaShownForTehokkuusluokka(eLuokka, "B")}
+              <LineText />
+            {/if}
+            <div class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, "C") ? 'border-dotted border-b-4' : 'border-b'}">
               <div
                 class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
                 <span
@@ -441,7 +463,10 @@
                 {/if}
               </div>
             </div>
-            <div class="w-full flex border-b border-black">
+            {#if rajaShownForTehokkuusluokka(eLuokka, "C")}
+              <LineText />
+            {/if}
+            <div class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, "D") ? 'border-dotted border-b-4' : 'border-b'}">
               <div
                 class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
                 <span
@@ -460,7 +485,10 @@
                 {/if}
               </div>
             </div>
-            <div class="w-full flex border-b border-black">
+            {#if rajaShownForTehokkuusluokka(eLuokka, "D")}
+              <LineText />
+            {/if}
+            <div class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, "E") ? 'border-dotted border-b-4' : 'border-b'}">
               <div
                 class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
                 <span
@@ -479,7 +507,10 @@
                 {/if}
               </div>
             </div>
-            <div class="w-full flex border-b border-black">
+            {#if rajaShownForTehokkuusluokka(eLuokka, "E")}
+              <LineText />
+            {/if}
+            <div class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, "F") ? 'border-dotted border-b-4' : 'border-b'}">
               <div
                 class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
                 <span
@@ -498,7 +529,10 @@
                 {/if}
               </div>
             </div>
-            <div class="w-full flex border-b border-black">
+            {#if rajaShownForTehokkuusluokka(eLuokka, "F")}
+              <LineText />
+            {/if}
+            <div class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, "G") ? 'border-dotted border-b-4' : 'border-b'}">
               <div
                 class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
                 <span
@@ -517,6 +551,9 @@
                 {/if}
               </div>
             </div>
+            {#if rajaShownForTehokkuusluokka(eLuokka, "G")}
+              <LineText />
+            {/if}
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
