@@ -86,7 +86,9 @@
     </label>
 
     <div class="icon-container hidden md:block">
-      <span class="material-icons text-green">error_outline</span>
+      <span
+        class="material-icons text-green"
+        aria-hidden="true">error_outline</span>
       <div class="info-popup">
         <strong>{$_('LHAKU_KAIKKI_TITLE')}</strong>
         <p>{$_('LHAKU_KAIKKI_TEXT')}</p>
@@ -105,12 +107,12 @@
       {labelLocale($locale, patevyydet[0])}
     </label>
     <div class="icon-container hidden md:block">
-      <span class="material-icons text-green">error_outline</span>
+      <span
+        class="material-icons text-green"
+        aria-hidden="true">error_outline</span>
       <div class="info-popup">
         <strong>{$_('LHAKU_PERUSTASO_TITLE')}</strong>
-        <p>
-          {$_('LHAKU_PERUSTASO_TEXT')}
-        </p>
+        <p>{$_('LHAKU_PERUSTASO_TEXT')}</p>
       </div>
     </div>
   </div>
@@ -126,8 +128,9 @@
       {labelLocale($locale, patevyydet[1])}
     </label>
     <div class="icon-container hidden md:block">
-      <!-- <img class="icon" src={IconInfo} alt="Info icon" /> -->
-      <span class="material-icons text-green">error_outline</span>
+      <span
+        class="material-icons text-green"
+        aria-hidden="true">error_outline</span>
       <div class="info-popup">
         <strong>{$_('LHAKU_YLEMPITASO_TITLE')}</strong>
         <p>{$_('LHAKU_YLEMPITASO_TEXT')}</p>

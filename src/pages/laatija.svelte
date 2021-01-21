@@ -1,7 +1,5 @@
 <script>
-  import {
-    laatijat as laatijatStore
-  } from '@/stores';
+  import { laatijat as laatijatStore } from '@/stores';
   import { _, locale } from '@Localization/localization';
   import Seo from '@Component/seo';
 
@@ -27,17 +25,22 @@
   onMount(() => {
     component.scrollIntoView();
 
-    ref = window.history.state.path.includes("&ref=") ? decodeURIComponent(window.history.state.path.split("&ref=")[1]) : '';
-    if(ref) 
-      window.history.replaceState({}, document.title, window.history.state.path.split("&ref=")[0]);
-    });
+    ref = window.history.state.path.includes('&ref=')
+      ? decodeURIComponent(window.history.state.path.split('&ref=')[1])
+      : '';
+    if (ref)
+      window.history.replaceState(
+        {},
+        document.title,
+        window.history.state.path.split('&ref=')[0]
+      );
+  });
 </script>
 
 <Seo
   title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('ET_LAATIJA')}"
   descriptionFi={$locale == 'fi' ? $_('ET_LAATIJA') : undefined}
-  descriptionSv={$locale == 'sv' ? $_('ET_LAATIJA') : undefined}
-  />
+  descriptionSv={$locale == 'sv' ? $_('ET_LAATIJA') : undefined} />
 <div bind:this={component}>
   <Container {...containerStyles.beige}>
     <div
@@ -46,9 +49,9 @@
         <Button
           {...buttonStyles.green}
           on:click={() => {
-            backReferred(ref ? '/laatijahaku?'+ref : '/laatijahaku');
+            backReferred(ref ? '/laatijahaku?' + ref : '/laatijahaku');
           }}>
-          <span class="material-icons">arrow_back</span>
+          <span class="material-icons" aria-hidden="true">arrow_back</span>
           <span>{$_('LAATIJA_TAKAISIN')}</span>
         </Button>
       </div>
@@ -64,50 +67,67 @@
         class="flex flex-col px-4 lg:px-8 xl:px-16 mx-auto items-start mb-16">
         <h1 class="text-xl my-8">{laatija.nimi}</h1>
         <div class="flex flex-col md:flex-row text-lg space-x-2 my-1 w-full">
-          <strong class="w-full md:w-1/3 text-lg text-ashblue tracking-widest">{$_('LAATIJA_PATEVYYSTASO')}:</strong>
+          <strong
+            class="w-full md:w-1/3 text-lg text-ashblue tracking-widest">{$_('LAATIJA_PATEVYYSTASO')}:</strong>
           <span>{laatija.patevyys}</span>
         </div>
         <div class="flex flex-col md:flex-row text-lg space-x-2 my-1 w-full">
-          <strong class="w-full md:w-1/3 text-lg text-ashblue tracking-widest">{$_('LAATIJA_VOIMASSAOLOAIKA')}:</strong>
+          <strong
+            class="w-full md:w-1/3 text-lg text-ashblue tracking-widest">{$_('LAATIJA_VOIMASSAOLOAIKA')}:</strong>
           <span>
-            {formats.formatDate(parseDate(laatija.toteamispaivamaara))} - {formats.formatExclusiveEndDate(parseDate(laatija['voimassaolo-paattymisaika']))}
+            {formats.formatDate(parseDate(laatija.toteamispaivamaara))}
+            -
+            {formats.formatExclusiveEndDate(parseDate(laatija['voimassaolo-paattymisaika']))}
           </span>
         </div>
         <div class="flex flex-col md:flex-row text-lg space-x-2 my-1 w-full">
-          <strong class="w-full md:w-1/3 text-lg text-ashblue tracking-widest">{$_('LAATIJA_PAATOIMINTAALUE')}:</strong>
+          <strong
+            class="w-full md:w-1/3 text-lg text-ashblue tracking-widest">{$_('LAATIJA_PAATOIMINTAALUE')}:</strong>
           <span>{laatija['toimintaalue-nimi']}</span>
         </div>
         {#if laatija['muuttoimintaalueet-nimet'].length}
           <div class="flex flex-col md:flex-row text-lg space-x-2 my-1 w-full">
-            <strong class="w-full md:w-1/3 text-lg text-ashblue tracking-widest">{$_('LAATIJA_MUUT_TOIMINTAALUEET')}:</strong>
+            <strong
+              class="w-full md:w-1/3 text-lg text-ashblue tracking-widest">{$_('LAATIJA_MUUT_TOIMINTAALUEET')}:</strong>
             <span>{laatija['muuttoimintaalueet-nimet'].join(', ')}</span>
           </div>
         {/if}
         {#if laatija.jakeluosoite}
           <div class="flex flex-col md:flex-row text-lg space-x-2 my-1 w-full">
-            <strong class="w-full md:w-1/3 text-lg text-ashblue tracking-widest">{$_('LAATIJA_OSOITE')}:</strong>
+            <strong
+              class="w-full md:w-1/3 text-lg text-ashblue tracking-widest">{$_('LAATIJA_OSOITE')}:</strong>
             <span>
-              {laatija.jakeluosoite}, {laatija.postinumero}
+              {laatija.jakeluosoite},
+              {laatija.postinumero}
               {laatija.postitoimipaikka}
             </span>
           </div>
         {/if}
         {#if laatija.wwwosoite}
           <div class="flex flex-col md:flex-row text-lg space-x-2 my-1 w-full">
-            <strong class="w-full md:w-1/3 text-lg text-ashblue tracking-widest">{$_('LAATIJA_WWW')}:</strong>
-            <a class="text-darkgreen underline" href={laatija.wwwosoite}>{laatija.wwwosoite}</a>
+            <strong
+              class="w-full md:w-1/3 text-lg text-ashblue tracking-widest">{$_('LAATIJA_WWW')}:</strong>
+            <a
+              class="text-darkgreen underline"
+              href={laatija.wwwosoite}>{laatija.wwwosoite}</a>
           </div>
         {/if}
         {#if laatija.email}
           <div class="flex flex-col md:flex-row text-lg space-x-2 my-1 w-full">
-            <strong class="w-full md:w-1/3 text-lg text-ashblue tracking-widest">{$_('LAATIJA_EMAIL')}:</strong>
-            <a class="text-darkgreen underline" href="mailto:{laatija.email}">{laatija.email}</a>
+            <strong
+              class="w-full md:w-1/3 text-lg text-ashblue tracking-widest">{$_('LAATIJA_EMAIL')}:</strong>
+            <a
+              class="text-darkgreen underline"
+              href="mailto:{laatija.email}">{laatija.email}</a>
           </div>
         {/if}
         {#if laatija.puhelin}
           <div class="flex flex-col md:flex-row text-lg space-x-2 my-1 w-full">
-            <strong class="w-full md:w-1/3 text-lg text-ashblue tracking-widest">{$_('LAATIJA_PUH')}:</strong>
-            <a class="text-darkgreen underline" href="tel:{laatija.puhelin}">{laatija.puhelin}</a>
+            <strong
+              class="w-full md:w-1/3 text-lg text-ashblue tracking-widest">{$_('LAATIJA_PUH')}:</strong>
+            <a
+              class="text-darkgreen underline"
+              href="tel:{laatija.puhelin}">{laatija.puhelin}</a>
           </div>
         {/if}
       </div>

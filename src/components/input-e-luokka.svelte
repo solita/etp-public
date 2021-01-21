@@ -24,13 +24,18 @@
     @apply hidden;
   }
 </style>
+
 <fieldset class="flex flex-row flex-wrap sm:justify-between items-center">
-{#each luokat as luokka}
-  <label class="checkbox-container flex items-center px-3 py-2 md:p-0">
-    <input on:change {name} type="checkbox" bind:group value={luokka} />
-    <span class="material-icons checked text-green"> check_box </span>
-    <span class="material-icons unchecked"> check_box_outline_blank </span>
-    <span class="ml-1 checkbox-text">{luokka}</span>
-  </label>
-{/each}
+  {#each luokat as luokka}
+    <label class="checkbox-container flex items-center px-3 py-2 md:p-0">
+      <input on:change {name} type="checkbox" bind:group value={luokka} />
+      <span class="material-icons checked text-green" aria-hidden="true">
+        check_box
+      </span>
+      <span class="material-icons unchecked" aria-hidden="true">
+        check_box_outline_blank
+      </span>
+      <span class="ml-1 checkbox-text">{luokka}</span>
+    </label>
+  {/each}
 </fieldset>

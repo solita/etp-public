@@ -35,17 +35,19 @@
 <Seo
   title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('NAVBAR_ETUSIVU')}"
   descriptionFi={$locale == 'fi' ? $_('HERO_DESCRIPTION') : undefined}
-  descriptionSv={$locale == 'sv' ? $_('HERO_DESCRIPTION') : undefined}
-  />
+  descriptionSv={$locale == 'sv' ? $_('HERO_DESCRIPTION') : undefined} />
 
-<Hero buttonClick={() => scrollOnAloita.scrollIntoView({ behavior: 'smooth'})}/>
+<Hero
+  buttonClick={() => scrollOnAloita.scrollIntoView({ behavior: 'smooth' })} />
 
 <Container {...containerStyles.beige}>
   <article class="flex pb-16 px-2 sm:px-16">
     <div class="flex sm:-mx-16 flex-col lg:flex-row">
       <section
         class="lg:w-1/2 justify-between sm:px-16 flex flex-col flex-auto">
-        <div class="flex justify-center lg:justify-start" bind:this={scrollOnAloita}>
+        <div
+          class="flex justify-center lg:justify-start"
+          bind:this={scrollOnAloita}>
           <BorderImage src={EtHakuImage} />
         </div>
         <div>
@@ -53,7 +55,8 @@
           <p>{$_('HOME_ENERGIATODISTUSHAKU_KUVAUS')}</p>
         </div>
         <div class="flex flex-col items-start">
-          <form class="w-full"
+          <form
+            class="w-full"
             on:submit|preventDefault={_ => {
               const id = parseInt(etHakuId, 10);
               const idQuery = !isNaN(id) ? `where=${JSON.stringify([
@@ -72,19 +75,21 @@
             <h3 class="block pt-4 pb-1">
               {$_('HOME_ENERGIATODISTUSHAKU_TITLE')}
             </h3>
-            <div class=w-4/5><Input
-              label={$_('HOME_ENERGIATODISTUSHAKU_TODISTUSTUNNUKSELLA')}
-              value={etHakuId}
-              on:change={evt => (etHakuId = evt.target.value)} />
-              </div>
+            <div class="w-4/5">
+              <Input
+                label={$_('HOME_ENERGIATODISTUSHAKU_TODISTUSTUNNUKSELLA')}
+                value={etHakuId}
+                on:change={evt => (etHakuId = evt.target.value)} />
+            </div>
             <aside class="italic text-sm font-normal mt-4">
               {$_('HOME_ENERGIATODISTUSHAKU_ASIDE')}
             </aside>
-            <div class=w-4/5><Input
-              label={$_('HOME_ENERGIATODISTUSHAKU_ALUEELLA')}
-              value={etHakuKeyword}
-              on:change={evt => (etHakuKeyword = evt.target.value)} />
-              </div>
+            <div class="w-4/5">
+              <Input
+                label={$_('HOME_ENERGIATODISTUSHAKU_ALUEELLA')}
+                value={etHakuKeyword}
+                on:change={evt => (etHakuKeyword = evt.target.value)} />
+            </div>
             <div class="mt-4">
               <Button {...buttonStyles.green}>{$_('HAE')}</Button>
             </div>
@@ -102,7 +107,8 @@
           <p>{$_('HOME_LAATIJAHAKU_KUVAUS')}</p>
         </div>
         <div class="flex flex-col items-start">
-          <form class="w-full"
+          <form
+            class="w-full"
             on:submit|preventDefault={_ => {
               const nameQuery = laatijahakuNimi.length ? `nimihaku=${laatijahakuNimi}` : '';
               const alueQuery = laatijahakuAlue.length ? `aluehaku=${laatijahakuAlue}` : '';
@@ -116,19 +122,21 @@
                   .join('?'));
             }}>
             <h3 class="block mt-4 pb-1">{$_('HOME_LAATIJAHAKU_TITLE')}</h3>
-            <div class=w-4/5><Input
-              label={$_('HOME_LAATIJAHAKU_NIMELLA')}
-              value={laatijahakuNimi}
-              on:change={evt => (laatijahakuNimi = evt.target.value)} />
+            <div class="w-4/5">
+              <Input
+                label={$_('HOME_LAATIJAHAKU_NIMELLA')}
+                value={laatijahakuNimi}
+                on:change={evt => (laatijahakuNimi = evt.target.value)} />
             </div>
             <aside class="italic text-sm font-normal mt-4">
               {$_('HOME_LAATIJAHAKU_ASIDE')}
             </aside>
-            <div class=w-4/5><Input
-              label={$_('HOME_LAATIJAHAKU_ALUEELLA')}
-              value={laatijahakuAlue}
-              on:change={evt => (laatijahakuAlue = evt.target.value)} />
-          </div>
+            <div class="w-4/5">
+              <Input
+                label={$_('HOME_LAATIJAHAKU_ALUEELLA')}
+                value={laatijahakuAlue}
+                on:change={evt => (laatijahakuAlue = evt.target.value)} />
+            </div>
             <div class="mt-4">
               <Button {...buttonStyles.green}>{$_('HAE')}</Button>
             </div>
@@ -147,7 +155,7 @@
       <p>{$_('INFO_KUVAUS')}</p>
       <div class="mt-4">
         <ButtonLink {...buttonStyles.white} href={ETMalli} target="_blank">
-          <span class="material-icons">picture_as_pdf</span>
+          <span class="material-icons" aria-hidden="true">picture_as_pdf</span>
           <span>{$_('INFO_ENERGIATODISTUSMALLI')}</span>
         </ButtonLink>
       </div>
@@ -174,7 +182,9 @@
                 <li>{$_('LISATIETOA_PATEVYYS')}</li>
               </ul>
             </div>
-            <a href="https://www.motiva.fi/ratkaisut/energiatodistusneuvonta" class="block py-2 underline text-darkgreen">
+            <a
+              href="https://www.motiva.fi/ratkaisut/energiatodistusneuvonta"
+              class="block py-2 underline text-darkgreen">
               {$_('LISATIETOA_MOTIVA_LINKKI')}
             </a>
           </div>
@@ -183,7 +193,9 @@
           <h3 class="mb-4">{$_('LISATIETOA_TILASTOT')}</h3>
           <div class="flex flex-col -my-2">
             <p class="block py-2">{$_('LISATIETOA_ARAN_JULKAISUT')}</p>
-            <a href="https://www.ara.fi/fi-FI/Tietopankki/Tilastot_ja_selvitykset/Energiatodistukset" class="block py-2 underline text-darkgreen">
+            <a
+              href="https://www.ara.fi/fi-FI/Tietopankki/Tilastot_ja_selvitykset/Energiatodistukset"
+              class="block py-2 underline text-darkgreen">
               {$_('LISATIETOA_TILASTOT_LINKKI')}
             </a>
           </div>

@@ -329,7 +329,9 @@
         on:click={() => {
           backReferred(ref ? '/ethaku?' + ref : '/ethaku');
         }}>
-        <span class="material-icons align-middle">arrow_back</span>
+        <span
+          class="material-icons align-middle"
+          aria-hidden="true">arrow_back</span>
         <span class="whitespace-no-wrap">{$_('ET_BACK')}</span>
       </Button>
       <span class="flex-grow mr-2"> {$_('ET_KUVAUS')} </span>
@@ -355,7 +357,9 @@
               {...buttonStyles.ashblue}
               target="_blank"
               href={energiatodistus.versio == '2013' ? VirallinenMalli2013 : VirallinenMalli2018}>
-              <span class="material-icons">picture_as_pdf</span>
+              <span
+                class="material-icons"
+                aria-hidden="true">picture_as_pdf</span>
               <span class="whitespace-no-wrap"> {$_('ET_VIRALLINEN')}</span>
             </ButtonLink>
           </div>
@@ -839,7 +843,9 @@
           </p>
           <div class="w-full">
             <Button {...buttonStyles.green} on:click={() => window.print()}>
-              <span class="material-icons align-middle">print</span>
+              <span
+                class="material-icons align-middle"
+                aria-hidden="true">print</span>
               <span class="whitespace-no-wrap"> {$_('TULOSTA_KOOSTE')} </span>
             </Button>
           </div>
