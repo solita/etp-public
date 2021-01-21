@@ -5,11 +5,10 @@ const energiatodistuksetCountUrl = `${energiatodistuksetUrl}/count`;
 
 const fetchJson = (fetch, url) => fetch(url).then(response => response.json());
 
-const zip = (arr1, arr2) => {
+const zip = obj => {
   const result = [];
-  const len = Math.min(arr1.length, arr2.length);
-  for (let i = 0; i < len; ++i) {
-    result[i] = [arr1[i], arr2[i]];
+  for (const key in obj) {
+    result.push([key, obj[key]]);
   }
 
   return result;
@@ -30,14 +29,13 @@ export const energiatodistukset = (fetch, opts) => {
   )
     return Promise.resolve([]);
 
+  if (filteredOpts?.where)
+    filteredOpts.where = JSON.stringify(
+      namespaceSearchParams(filteredOpts.where)
+    );
+
   const qs = encodeURI(
-    zip(
-      Object.keys(filteredOpts),
-      Object.values({
-        ...filteredOpts,
-        where: JSON.stringify(namespaceSearchParams(filteredOpts.where))
-      })
-    )
+    zip(filteredOpts)
       .map(item => item.join('='))
       .join('&')
   );
@@ -58,14 +56,13 @@ export const energiatodistuksetCount = (fetch, opts) => {
   )
     return Promise.resolve([]);
 
+  if (filteredOpts.where)
+    filteredOpts.where = JSON.stringify(
+      namespaceSearchParams(filteredOpts.where)
+    );
+
   const qs = encodeURI(
-    zip(
-      Object.keys(filteredOpts),
-      Object.values({
-        ...filteredOpts,
-        where: JSON.stringify(namespaceSearchParams(filteredOpts.where))
-      })
-    )
+    zip(filteredOpts)
       .map(item => item.join('='))
       .join('&')
   );
