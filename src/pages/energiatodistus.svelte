@@ -291,6 +291,12 @@
     border-bottom: 1.3rem solid transparent;
   }
 
+  @media print {
+    .graph-container {
+      height: fit-content;
+      transform: scale(0.8);
+    }
+  }
   @media screen and (min-width: 640px) {
     .graph-color-a {
       padding-right: 10%;
@@ -421,7 +427,10 @@
               </div>
             {/if}
           {/if}
-          <div class="w-full my-8 flex flex-col bg-white pbb-always pbi-avoid">
+        </div>
+        <div
+          class="w-full my-8 print:my-0 pbb-always pbi-avoid graph-container">
+          <div class="w-full flex flex-col bg-white">
             <div class="w-full flex border-b border-black pbb-always">
               <div class="w-0 md:w-1/2 md:border-r border-black p-2" />
               <div
@@ -430,9 +439,9 @@
               </div>
             </div>
             <div
-              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'A') ? 'border-dotted border-b-4' : 'border-b'}">
+              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'A') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-3 print:py-1">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-a pr-1 md:pr-auto">A</span>
                 <div class="arrow-right" />
@@ -454,9 +463,9 @@
               <LineText />
             {/if}
             <div
-              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'B') ? 'border-dotted border-b-4' : 'border-b'}">
+              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'B') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-3 print:py-1">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-b pr-1 md:pr-auto">B</span>
                 <div class="arrow-right" />
@@ -477,9 +486,9 @@
               <LineText />
             {/if}
             <div
-              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'C') ? 'border-dotted border-b-4' : 'border-b'}">
+              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'C') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-3 print:py-1">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-c pr-1 md:pr-auto">C</span>
                 <div class="arrow-right" />
@@ -500,9 +509,9 @@
               <LineText />
             {/if}
             <div
-              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'D') ? 'border-dotted border-b-4' : 'border-b'}">
+              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'D') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-3 print:py-1">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-d pr-1 md:pr-auto">D</span>
                 <div class="arrow-right" />
@@ -523,9 +532,9 @@
               <LineText />
             {/if}
             <div
-              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'E') ? 'border-dotted border-b-4' : 'border-b'}">
+              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'E') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-3 print:py-1">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-e pr-1 md:pr-auto">E</span>
                 <div class="arrow-right" />
@@ -546,9 +555,9 @@
               <LineText />
             {/if}
             <div
-              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'F') ? 'border-dotted border-b-4' : 'border-b'}">
+              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'F') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-3 print:py-1">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-f pr-1 md:pr-auto">F</span>
                 <div class="arrow-right" />
@@ -569,9 +578,9 @@
               <LineText />
             {/if}
             <div
-              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'G') ? 'border-dotted border-b-4' : 'border-b'}">
+              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'G') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="graph-row flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
+                class="graph-row flex items-center justify-start w-1/2 border-r border-black px-2 py-3 print:py-1">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-g pr-1 md:pr-auto">G</span>
                 <div class="arrow-right" />
@@ -592,6 +601,8 @@
               <LineText />
             {/if}
           </div>
+        </div>
+        <div class="w-full flex flex-col mx-auto items-center space-y-6">
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-start justify-start">
             <span class="w-full md:w-2/3 text-ashblue">{$_('ET_ELUKU')}:</span>
