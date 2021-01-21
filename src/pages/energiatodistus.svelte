@@ -222,8 +222,10 @@
     /* page-break-inside: avoid; */
   }
   .pbi-avoid,
-  span,
+  p,
+  h1,
   h2,
+  span,
   strong {
     page-break-inside: avoid;
   }
@@ -344,7 +346,7 @@
     </div>
   </Container>
   <Container {...containerStyles.white}>
-    <div class="sm:px-16 sm:py-8 px-4 py-4 text-lg">
+    <div class="sm:px-16 sm:py-8 px-4 py-4 text-lg print:text-sm">
       {#await energiatodistusPromise}
         <div class="flex justify-center">
           <Spinner />
@@ -370,7 +372,8 @@
             </ButtonLink>
           </div>
         </div>
-        <div class="w-full flex flex-col mx-auto items-center space-y-6">
+        <div
+          class="w-full flex flex-col mx-auto items-center space-y-6 print:space-y-2 print:space-y-2">
           <div
             class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
             <span
@@ -428,8 +431,7 @@
             {/if}
           {/if}
         </div>
-        <div
-          class="w-full my-8 print:my-0 pbb-always pbi-avoid graph-container">
+        <div class="w-full my-8 print:my-0 pbi-avoid graph-container">
           <div class="w-full flex flex-col bg-white">
             <div class="w-full flex border-b border-black pbb-always">
               <div class="w-0 md:w-1/2 md:border-r border-black p-2" />
@@ -441,7 +443,7 @@
             <div
               class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'A') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-3 print:py-1">
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-a pr-1 md:pr-auto">A</span>
                 <div class="arrow-right" />
@@ -465,7 +467,7 @@
             <div
               class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'B') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-3 print:py-1">
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-b pr-1 md:pr-auto">B</span>
                 <div class="arrow-right" />
@@ -488,7 +490,7 @@
             <div
               class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'C') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-3 print:py-1">
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-c pr-1 md:pr-auto">C</span>
                 <div class="arrow-right" />
@@ -511,7 +513,7 @@
             <div
               class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'D') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-3 print:py-1">
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-d pr-1 md:pr-auto">D</span>
                 <div class="arrow-right" />
@@ -534,7 +536,7 @@
             <div
               class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'E') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-3 print:py-1">
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-e pr-1 md:pr-auto">E</span>
                 <div class="arrow-right" />
@@ -557,7 +559,7 @@
             <div
               class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'F') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-3 print:py-1">
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-f pr-1 md:pr-auto">F</span>
                 <div class="arrow-right" />
@@ -580,7 +582,7 @@
             <div
               class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'G') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="graph-row flex items-center justify-start w-1/2 border-r border-black px-2 py-3 print:py-1">
+                class="graph-row flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-g pr-1 md:pr-auto">G</span>
                 <div class="arrow-right" />
@@ -602,7 +604,8 @@
             {/if}
           </div>
         </div>
-        <div class="w-full flex flex-col mx-auto items-center space-y-6">
+        <div
+          class="w-full flex flex-col mx-auto items-center space-y-6 print:space-y-2 pbb-always">
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-start justify-start">
             <span class="w-full md:w-2/3 text-ashblue">{$_('ET_ELUKU')}:</span>
@@ -803,7 +806,7 @@
         </div>
 
         <span
-          class="w-full flex bg-ashblue text-white uppercase px-4 py-3 my-4 print:text-sm pbi-avoid">
+          class="w-full flex bg-ashblue text-white uppercase px-4 py-3 my-4 print:text-sm pbi-avoid pbb-always">
           {$_('ET_RAKENNUKSEN_ET_LUOKKA')}
         </span>
 
