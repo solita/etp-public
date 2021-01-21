@@ -33,6 +33,11 @@ button.bg-white:focus:not(:disabled), button.bg-white:active:not(:disabled), but
 .bg-green:hover, .bg-green:focus{
   @apply bg-darkgreen;
 }
+@media print {
+  button {
+    display: none;
+  }
+}
 </style>
 
 <!-- purgecss: 

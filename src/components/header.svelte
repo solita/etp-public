@@ -27,6 +27,12 @@
   button:focus .menu-icon-border {
     @apply border-ashblue font-bold text-ashblue;
   }
+
+  @media print {
+    header {
+      display: none;
+    }
+  }
 </style>
 
 <header>
