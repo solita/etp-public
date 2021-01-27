@@ -27,6 +27,12 @@
   button:focus .menu-icon-border {
     @apply border-ashblue font-bold text-ashblue;
   }
+
+  @media print {
+    header {
+      display: none;
+    }
+  }
 </style>
 
 <header>
@@ -34,38 +40,43 @@
     <div class="flex justify-between items-center px-2 py-2 xl:px-16">
       <div class="flex justify-between items-center w-full">
         <a class="flex items-center" href="/">
-          <img src={Logo} alt="Asumisen rahoitus-ja kehittämiskeskuksen (ARA) logo." class="h-12"/>
+          <img
+            src={Logo}
+            alt="Asumisen rahoitus-ja kehittämiskeskuksen (ARA) logo."
+            class="h-12" />
           <h1 class="pl-2 text-xs xs:text-base tracking-widest">
             {$_('ENERGIATODISTUSREKISTERI')}
           </h1>
         </a>
         {#if $activePath !== '/energiatodistus'}
-        <nav
-          class="font-semibold text-ashblue justify-start ml-4 mr-auto hidden lg:block">
-          <button
-            lang="fi"
-            class="font-semibold"
-            class:underline={$locale == 'sv'}
-            class:text-darkgreen={$locale == 'sv'}
-            on:click={() => setLocale('fi')}>
-            suomeksi
-          </button>
-          |
-          <button
-            lang="sv"
-            class="font-semibold"
-            class:underline={$locale == 'fi'}
-            class:text-darkgreen={$locale == 'fi'}
-            on:click={() => setLocale('sv')}>
-            på svenska
-          </button>
-        </nav>
+          <nav
+            class="font-semibold text-ashblue justify-start ml-4 mr-auto hidden lg:block">
+            <button
+              lang="fi"
+              class="font-semibold"
+              class:underline={$locale == 'sv'}
+              class:text-darkgreen={$locale == 'sv'}
+              on:click={() => setLocale('fi')}>
+              suomeksi
+            </button>
+            |
+            <button
+              lang="sv"
+              class="font-semibold"
+              class:underline={$locale == 'fi'}
+              class:text-darkgreen={$locale == 'fi'}
+              on:click={() => setLocale('sv')}>
+              på svenska
+            </button>
+          </nav>
         {/if}
         <a
           class="text-ashblue items-center hidden lg:flex"
           href="/rekisteroitymisohjeet"><span
             class="font-bold underline">{$_('REKISTEROITYMISOHJEET')}</span>
-          <span class="material-icons" aria-hidden="true"> chevron_right </span></a>
+          <span class="material-icons" aria-hidden="true">
+            chevron_right
+          </span></a>
       </div>
       <button
         class="flex items-center lg:hidden focus:outline-none rounded-md text-green"
@@ -79,12 +90,14 @@
           {#if mobileNavShown}
             <span
               class="material-icons menu-icon w-full h-full"
+              aria-hidden="true"
               transition:scale>
               close
             </span>
           {:else}
             <span
               class="material-icons menu-icon w-full h-full"
+              aria-hidden="true"
               transition:scale>
               menu
             </span>
@@ -96,37 +109,39 @@
   {#if mobileNavShown}
     <div transition:slide class="lg:hidden">
       <NavBar navButtonClicked={closeMobileNav} />
-      <a class="text-ashblue items-center justify-center flex py-4 bg-white" href="/rekisteroitymisohjeet">
+      <a
+        class="text-ashblue items-center justify-center flex py-4 bg-white"
+        href="/rekisteroitymisohjeet">
         <span class="font-bold underline">{$_('REKISTEROITYMISOHJEET')}</span>
         <span class="material-icons" aria-hidden="true"> chevron_right </span>
       </a>
 
       {#if $activePath !== '/energiatodistus'}
-      <nav class="font-semibold text-ashblue p-3 text-center mx-auto bg-grey">
-        <button
-          lang="fi"
-          class="p-2 font-semibold"
-          class:underline={$locale == 'sv'}
-          class:text-darkgreen={$locale == 'sv'}
-          on:click={() => {
-            closeMobileNav();
-            setLocale('fi');
-          }}>
-          suomeksi
-        </button>
-        |
-        <button
-          lang="sv"
-          class="p-2 font-semibold"
-          class:underline={$locale == 'fi'}
-          class:text-darkgreen={$locale == 'fi'}
-          on:click={() => {
-            closeMobileNav();
-            setLocale('sv');
-          }}>
-          på svenska
-        </button>
-      </nav>
+        <nav class="font-semibold text-ashblue p-3 text-center mx-auto bg-grey">
+          <button
+            lang="fi"
+            class="p-2 font-semibold"
+            class:underline={$locale == 'sv'}
+            class:text-darkgreen={$locale == 'sv'}
+            on:click={() => {
+              closeMobileNav();
+              setLocale('fi');
+            }}>
+            suomeksi
+          </button>
+          |
+          <button
+            lang="sv"
+            class="p-2 font-semibold"
+            class:underline={$locale == 'fi'}
+            class:text-darkgreen={$locale == 'fi'}
+            on:click={() => {
+              closeMobileNav();
+              setLocale('sv');
+            }}>
+            på svenska
+          </button>
+        </nav>
       {/if}
     </div>
   {/if}

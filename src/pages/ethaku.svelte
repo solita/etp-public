@@ -1,5 +1,5 @@
 <script>
-  import { tick } from 'svelte';
+  import { onMount, tick } from 'svelte';
   import { slide } from 'svelte/transition';
   import Button, { styles as buttonStyles } from '@Component/button';
   import InputSearch from '@Component/input-search';
@@ -26,11 +26,12 @@
   export let where = '[[]]';
   export let keyword = '';
   export let page = 0;
-  
+
   const pageSize = 10;
   let tarkennettuShown = false;
+  let resultsElement;
+  const animationDuration = 400;
   const validationModel = EtHakuUtils.validationModel();
-
 
   let idInput;
   let nimiInput;
@@ -178,7 +179,7 @@
     order: 'desc'
   });
 
-  // same params as for result, different API/URL 
+  // same params as for result, different API/URL
   $: etTotalcount = EtApi.energiatodistuksetCount(fetch, {
     where: EtHakuUtils.whereQuery(
       EtHakuUtils.where(
@@ -210,7 +211,24 @@
       .join('&');
 
     navigate(`/ethaku${qs.length ? `?${qs}` : ''}`);
+
+    if (
+      tarkennettuShown &&
+      !Object.keys(deserializedWhere).filter(item => item !== 'id').length > 0
+    ) {
+      setTimeout(() => {
+        resultsElement?.scrollIntoView({ behavior: 'smooth' });
+      }, animationDuration + 1);
+    } else {
+      resultsElement?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
+
+  onMount(() => {
+    if (keyword || page > 0 || (where && where != '[[]]')) {
+      resultsElement?.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
 </script>
 
 <style>
@@ -225,8 +243,7 @@
 <Seo
   title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('NAVBAR_ENERGIATODISTUSHAKU')}"
   descriptionFi={$locale == 'fi' ? $_('NAVBAR_ENERGIATODISTUSHAKU_KUVAUS') : undefined}
-  descriptionSv={$locale == 'sv' ? $_('NAVBAR_ENERGIATODISTUSHAKU_KUVAUS') : undefined}
-  />
+  descriptionSv={$locale == 'sv' ? $_('NAVBAR_ENERGIATODISTUSHAKU_KUVAUS') : undefined} />
 
 <Container {...containerStyles.beige}>
   <InfoBlock title={$_('ETHAKU_INFO_TITLE')}>
@@ -346,7 +363,7 @@
     {#if tarkennettuShown}
       <div
         class="tarkennettu-haku w-full lg:w-5/6 flex flex-col my-4 py-4 border-t-2 border-b-2 border-green space-y-2"
-        transition:slide|local>
+        transition:slide|local={{ duration: animationDuration }}>
         <div
           class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
           <span
@@ -355,7 +372,7 @@
           </span>
 
           <div class="w-full md:w-1/2 pb-8">
-              <InputVersio name={'versio'} model={searchmodel} />
+            <InputVersio name={'versio'} model={searchmodel} />
           </div>
         </div>
 
@@ -365,62 +382,62 @@
             <Spinner />
           </div>
         {:then ktluokat}
-            <div class="w-full">
-              <div
-                class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
-                <span
-                  class="tarkennettu-label w-full md:w-1/2 tracking-widest {searchmodel['versio'] === '0' ? 'text-darkgrey' : 'text-ashblue'}">
-                  {$_('ETHAKU_KAYTTOTARKOITUSLUOKKA')}
-                </span>
-                <div class="w-full md:w-1/2">
-                  <InputSelect
-                    name={'perustiedot.kayttotarkoitus_in'}
-                    disabled={searchmodel['versio'] === '0'}
-                    disabledLabel={$_('ETHAKU_VALITSE_VERSIO')}
-                    format={id => {
-                      if (id === -1) return $_('KAIKKI');
-                      const item = ktluokat[searchmodel['versio']]['kayttotarkoitusluokat'].find(item => item.id === parseInt(id));
-                      if (item) return labelLocale($locale, item);
-                      return $_('KAIKKI');
-                    }}
-                    options={[-1, ...ktluokat[searchmodel['versio']]['kayttotarkoitusluokat'].map(item => item['id'])]}
-                    label={$_('ETHAKU_KAYTTOTARKOITUSLUOKKA')}
-                    value={ktluokat[searchmodel['versio']]['alakayttotarkoitusluokat'].find(item => item.id === searchmodel['perustiedot.kayttotarkoitus_in'][0])?.['kayttotarkoitusluokka-id'] || -1} />
-                </div>
-              </div>
-              <div
-                class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
-                <span
-                  class="tarkennettu-label w-full md:w-1/2 tracking-widest {searchmodel['versio'] === '0' ? 'text-darkgrey' : 'text-ashblue'}">
-                  {$_('ETHAKU_ALAKAYTTOTARKOITUSLUOKKA')}
-                </span>
-                <div class="w-full md:w-1/2">
-                  <InputSelect
-                    name={'perustiedot.kayttotarkoitus'}
-                    disabled={searchmodel['versio'] === '0'}
-                    disabledLabel={$_('ETHAKU_VALITSE_VERSIO')}
-                    format={id => {
-                      if (id === '') return $_('KAIKKI');
-                      const item = ktluokat[searchmodel['versio']]['alakayttotarkoitusluokat'].find(item => item.id === id);
-                      if (item) return labelLocale($locale, item);
-                      return $_('KAIKKI');
-                    }}
-                    options={['', ...ktluokat[searchmodel['versio']][
-                        'alakayttotarkoitusluokat'
-                      ]
-                        .filter(item =>
-                          searchmodel['perustiedot.kayttotarkoitus_in'].length
-                            ? searchmodel[
-                                'perustiedot.kayttotarkoitus_in'
-                              ].includes(item['id'])
-                            : true
-                        )
-                        .map(item => item['id'])]}
-                    label={$_('ETHAKU_ALAKAYTTOTARKOITUSLUOKKA')}
-                    value={searchmodel['perustiedot.kayttotarkoitus']} />
-                </div>
+          <div class="w-full">
+            <div
+              class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
+              <span
+                class="tarkennettu-label w-full md:w-1/2 tracking-widest {searchmodel['versio'] === '0' ? 'text-darkgrey' : 'text-ashblue'}">
+                {$_('ETHAKU_KAYTTOTARKOITUSLUOKKA')}
+              </span>
+              <div class="w-full md:w-1/2">
+                <InputSelect
+                  name={'perustiedot.kayttotarkoitus_in'}
+                  disabled={searchmodel['versio'] === '0'}
+                  format={id => {
+                    if (searchmodel['versio'] === '0') return $_('ETHAKU_VALITSE_VERSIO');
+                    if (id === -1) return $_('KAIKKI');
+                    const item = ktluokat[searchmodel['versio']]['kayttotarkoitusluokat'].find(item => item.id === parseInt(id));
+                    if (item) return labelLocale($locale, item);
+                    return $_('KAIKKI');
+                  }}
+                  options={[-1, ...ktluokat[searchmodel['versio']]['kayttotarkoitusluokat'].map(item => item['id'])]}
+                  label={$_('ETHAKU_KAYTTOTARKOITUSLUOKKA')}
+                  value={ktluokat[searchmodel['versio']]['alakayttotarkoitusluokat'].find(item => item.id === searchmodel['perustiedot.kayttotarkoitus_in'][0])?.['kayttotarkoitusluokka-id'] || -1} />
               </div>
             </div>
+            <div
+              class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
+              <span
+                class="tarkennettu-label w-full md:w-1/2 tracking-widest {searchmodel['versio'] === '0' ? 'text-darkgrey' : 'text-ashblue'}">
+                {$_('ETHAKU_ALAKAYTTOTARKOITUSLUOKKA')}
+              </span>
+              <div class="w-full md:w-1/2">
+                <InputSelect
+                  name={'perustiedot.kayttotarkoitus'}
+                  disabled={searchmodel['versio'] === '0'}
+                  format={id => {
+                    if (searchmodel['versio'] === '0') return $_('ETHAKU_VALITSE_VERSIO');
+                    if (id === '') return $_('KAIKKI');
+                    const item = ktluokat[searchmodel['versio']]['alakayttotarkoitusluokat'].find(item => item.id === id);
+                    if (item) return labelLocale($locale, item);
+                    return $_('KAIKKI');
+                  }}
+                  options={['', ...ktluokat[searchmodel['versio']][
+                      'alakayttotarkoitusluokat'
+                    ]
+                      .filter(item =>
+                        searchmodel['perustiedot.kayttotarkoitus_in'].length
+                          ? searchmodel[
+                              'perustiedot.kayttotarkoitus_in'
+                            ].includes(item['id'])
+                          : true
+                      )
+                      .map(item => item['id'])]}
+                  label={$_('ETHAKU_ALAKAYTTOTARKOITUSLUOKKA')}
+                  value={searchmodel['perustiedot.kayttotarkoitus']} />
+              </div>
+            </div>
+          </div>
         {/await}
         <div
           class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
@@ -474,7 +491,9 @@
                 validation={validationModel['perustiedot.valmistumisvuosi_min'](0, numberOrDefault(10000000000, searchmodel['perustiedot.valmistumisvuosi_max']))}
                 invalidMessage={'Arvon tulee olla loppuarvoa pienempi'} />
             </div>
-            <span class="material-icons text-darkgrey"> horizontal_rule </span>
+            <span class="material-icons text-darkgrey" aria-hidden="true">
+              horizontal_rule
+            </span>
             <div class="w-2/5">
               <InputNumber
                 bind:this={valmistumisvuosiMaxInput}
@@ -510,7 +529,8 @@
                 invalidMessage={'Alkupäivämäärän tulee olla ennen loppupäivämäärää'} />
             </div>
             <span
-              class="material-icons text-darkgrey w-full md:w-auto select-none">
+              class="material-icons text-darkgrey w-full md:w-auto select-none"
+              aria-hidden="true">
               horizontal_rule
             </span>
             <div class="w-full md:w-2/5">
@@ -546,7 +566,8 @@
                 validation={validationModel['voimassaolo-paattymisaika_min']('', searchmodel['voimassaolo-paattymisaika_max'])} />
             </div>
             <span
-              class="material-icons text-darkgrey w-full md:w-auto select-none">
+              class="material-icons text-darkgrey w-full md:w-auto select-none"
+              aria-hidden="true">
               horizontal_rule
             </span>
             <div class="w-full md:w-2/5">
@@ -581,7 +602,9 @@
                 validation={validationModel['tulokset.e-luku_min'](0, numberOrDefault(10000000000, searchmodel['tulokset.e-luku_max']))}
                 invalidMessage={'Arvon tulee olla loppuarvoa pienempi'} />
             </div>
-            <span class="material-icons text-darkgrey"> horizontal_rule </span>
+            <span class="material-icons text-darkgrey" aria-hidden="true">
+              horizontal_rule
+            </span>
             <div class="w-2/5">
               <InputNumber
                 bind:this={eLukuMaxInput}
@@ -602,8 +625,7 @@
             class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
             {$_('ETHAKU_E_LUKU')}
           </span>
-          <div
-            class="w-full md:w-1/2">
+          <div class="w-full md:w-1/2">
             <InputELuokka
               name={'tulokset.e-luokka_in'}
               group={searchmodel['tulokset.e-luokka_in']} />
@@ -627,7 +649,9 @@
                 validation={validationModel['lahtotiedot.lammitetty-nettoala_min'](0, numberOrDefault(10000000000, searchmodel['lahtotiedot.lammitetty-nettoala_max']))}
                 invalidMessage={'Arvon tulee olla loppuarvoa pienempi'} />
             </div>
-            <span class="material-icons text-darkgrey"> horizontal_rule </span>
+            <span class="material-icons text-darkgrey" aria-hidden="true">
+              horizontal_rule
+            </span>
             <div class="w-2/5">
               <InputNumber
                 bind:this={nettoalaMaxInput}
@@ -657,17 +681,20 @@
 </Container>
 
 <Container {...containerStyles.white}>
-  {#await Promise.all([
-    result,
-    etTotalcount,
-    Promise.resolve(parseInt(page ?? 0)),
-    $postinumerot,
-    kayttotarkoitusluokat])}
-    <div class="flex justify-center">
-      <Spinner />
-    </div>
-  {:then [et, count, page, postinumerot, kayttotarkoitusluokat]}
-    <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
+  <div
+    class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full"
+    bind:this={resultsElement}>
+    {#await Promise.all([
+      result,
+      etTotalcount,
+      Promise.resolve(parseInt(page ?? 0)),
+      $postinumerot,
+      kayttotarkoitusluokat
+    ])}
+      <div class="flex justify-center">
+        <Spinner />
+      </div>
+    {:then [et, count, page, postinumerot, kayttotarkoitusluokat]}
       <TableEThaku
         etCount={count}
         eTodistukset={et}
@@ -681,7 +708,7 @@
             {pageSize}
             {currentPageItemCount}
             itemCount={count}
-            queryStringFn={(page) => {
+            queryStringFn={page => {
               const where = EtHakuUtils.where(tarkennettuShown, parseValues(searchmodel));
               const whereQuery = EtHakuUtils.whereQuery(where);
               const whereString = JSON.stringify(whereQuery);
@@ -697,12 +724,11 @@
                 .join('&');
 
               return `/ethaku${qs.length ? `?${qs}&page=${page}` : `?page=${page}`}`;
-            }}
-            />
+            }} />
         </div>
       </TableEThaku>
-    </div>
-  {:catch error}
-    <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">{$_('SERVER_ERROR')}</div>
-  {/await}
+    {:catch error}
+      <span>{$_('SERVER_ERROR')}</span>
+    {/await}
+  </div>
 </Container>

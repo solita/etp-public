@@ -33,7 +33,8 @@ module.exports = {
       },
       screens: {
         xs: '400px',
-        xxl: '1440px'
+        xxl: '1440px',
+        print: { raw: 'print' }
       }
     }
   },

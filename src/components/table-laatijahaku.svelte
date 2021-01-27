@@ -1,16 +1,13 @@
 <script>
   import { _ } from '@Localization/localization';
 
-  import IconWeb from '@Asset/icons/web.svg';
-  import IconMail from '@Asset/icons/mail.svg';
-  import IconPhone from '@Asset/icons/phone.svg';
-
   export let laatijaCount;
   export let laatijat;
 
-  let currentPageItemCount = laatijat.length;
-
   $: currentPageItemCount = laatijat.length;
+  $: ref = window.history.state.path.includes('?')
+    ? `&ref=${encodeURIComponent(window.history.state.path.split('?')[1])}`
+    : '';
 </script>
 
 <style>
@@ -42,9 +39,14 @@
             {#each laatijat as laatija}
               <tr>
                 <td>
-                  <a class="text-darkgreen text-xl flex items-center md:text-base" href="/laatija?id={laatija.id}">
-                    <span class="underline md:no-underline">{laatija.nimi || '-'}</span>
-                    <span class="material-icons px-1 md:hidden">navigate_next</span>
+                  <a
+                    class="text-darkgreen text-xl flex items-center md:text-base"
+                    href="/laatija?id={laatija.id}{ref}">
+                    <span
+                      class="underline md:no-underline">{laatija.nimi || '-'}</span>
+                    <span
+                      class="material-icons px-1 md:hidden"
+                      aria-hidden="true">navigate_next</span>
                   </a>
                 </td>
                 <td>
@@ -63,25 +65,25 @@
                   <span class="m-title">{$_('LHAKU_TH_WWW')}</span>
                   {#if laatija.wwwosoite}
                     <a href={laatija.wwwosoite} title={laatija.wwwosoite}>
-                      <span class="material-icons text-darkgreen">
+                      <span
+                        class="material-icons text-darkgreen"
+                        aria-hidden="true">
                         public
-                        </span>
+                      </span>
                     </a>
-                  {:else}
-                  <span>-</span>
-                  {/if}
+                  {:else}<span>-</span>{/if}
                 </td>
                 <td class="text-center">
                   <span class="m-title">{$_('LHAKU_TH_EMAIL')}</span>
                   {#if laatija.email}
                     <a href="mailto:{laatija.email}" title={laatija.email}>
-                      <span class="material-icons text-darkgreen">
+                      <span
+                        class="material-icons text-darkgreen"
+                        aria-hidden="true">
                         alternate_email
-                        </span>
+                      </span>
                     </a>
-                  {:else}
-                  <span>-</span>
-                  {/if}
+                  {:else}<span>-</span>{/if}
                 </td>
                 <td>
                   <span class="m-title">{$_('LHAKU_TH_PUH')}</span>
@@ -90,14 +92,14 @@
                       class="inline-flex"
                       href="tel:{laatija.puhelin}"
                       title={laatija.puhelin}>
-                      <span class="material-icons text-darkgreen">
+                      <span
+                        class="material-icons text-darkgreen"
+                        aria-hidden="true">
                         call
-                        </span>
+                      </span>
                       <span class="text-darkgreen">{laatija.puhelin}</span>
                     </a>
-                  {:else}
-                  <span>-</span>
-                  {/if}
+                  {:else}<span>-</span>{/if}
                 </td>
               </tr>
             {/each}

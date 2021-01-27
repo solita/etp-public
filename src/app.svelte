@@ -37,7 +37,7 @@
     </main>
 
     <Footer />
-    {#await configPromise then config}
+    <!-- {#await configPromise then config}
       {#if config.showTestEnvNotification}
         <div class="sticky bottom-0">
           <Container {...containerStyles.red}>
@@ -45,6 +45,6 @@
           </Container>
         </div>
       {/if}
-    {/await}
+    {/await} -->
   </div>
 </Localization>

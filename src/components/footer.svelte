@@ -13,6 +13,14 @@
   const configPromise = fetch('config.json').then(response => response.json());
 </script>
 
+<style>
+  @media print {
+    footer {
+      display: none;
+    }
+  }
+</style>
+
 <Container {...containerStyles.grey}>
   <footer class="flex flex-col bg-grey px-2 sm:px-16 py-4 sm:py-16">
     <article class="flex flex-col md:flex-row md:my-0 md:space-x-10">

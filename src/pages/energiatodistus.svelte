@@ -2,6 +2,7 @@
   import Container, { styles as containerStyles } from '@Component/container';
   import Button, { styles as buttonStyles } from '@Component/button';
   import ButtonLink from '@Component/buttonlink';
+  import LineText from '@Component/et-line-text';
   import Spinner from '@Component/spinner';
   import { onMount } from 'svelte';
   import { backReferred } from '@/router/router';
@@ -22,7 +23,7 @@
 
   export let id;
   export let versio;
-
+  let ref = '';
   let component = null;
 
   const parseValues = model => {
@@ -38,10 +39,12 @@
   };
 
   const selectShownKatuosoite = (l, perustiedot) => {
-    if (l == 'sv' && perustiedot['katuosoite-sv']) return perustiedot['katuosoite-sv'];
-    else if(l == 'fi' && !perustiedot['katuosoite-fi']) return perustiedot['katuosoite-sv'];
+    if (l == 'sv' && perustiedot['katuosoite-sv'])
+      return perustiedot['katuosoite-sv'];
+    else if (l == 'fi' && !perustiedot['katuosoite-fi'])
+      return perustiedot['katuosoite-sv'];
     else return perustiedot['katuosoite-fi'];
-  }
+  };
 
   const energiamuotokertoimet = {
     2018: {
@@ -112,7 +115,7 @@
     GeoApi.postinumerot(fetch),
     EtApi.lammonjako(fetch),
     EtApi.lammitysmuoto(fetch),
-    EtApi.ilmanvaihtotyyppi(fetch),
+    EtApi.ilmanvaihtotyyppi(fetch)
   ]).then(
     ([
       energiatodistus,
@@ -133,16 +136,30 @@
         pn => pn.id === parseInt(energiatodistus.perustiedot.postinumero, 10)
       );
       const lammonjako = lammonjakotyypit.find(
-        lj => lj.id === parseInt(energiatodistus.lahtotiedot.lammitys.lammonjako.id, 10)
+        lj =>
+          lj.id ===
+          parseInt(energiatodistus.lahtotiedot.lammitys.lammonjako.id, 10)
       );
       const lammitysmuoto1 = lammitysmuoto.find(
-        lm => lm.id === parseInt(energiatodistus.lahtotiedot.lammitys['lammitysmuoto-1'].id, 10)
+        lm =>
+          lm.id ===
+          parseInt(
+            energiatodistus.lahtotiedot.lammitys['lammitysmuoto-1'].id,
+            10
+          )
       );
       const lammitysmuoto2 = lammitysmuoto.find(
-        lm => lm.id === parseInt(energiatodistus.lahtotiedot.lammitys['lammitysmuoto-2'].id, 10)
+        lm =>
+          lm.id ===
+          parseInt(
+            energiatodistus.lahtotiedot.lammitys['lammitysmuoto-2'].id,
+            10
+          )
       );
       const ilmanvaihtotyyppi = ilmanvaihtotyypit.find(
-        iv => iv.id === parseInt(energiatodistus.lahtotiedot.ilmanvaihto['tyyppi-id'], 10)
+        iv =>
+          iv.id ===
+          parseInt(energiatodistus.lahtotiedot.ilmanvaihto['tyyppi-id'], 10)
       );
 
       return Promise.all([
@@ -164,11 +181,54 @@
       ]);
     }
   );
-  
-  onMount(() => component.scrollIntoView());
+
+  const rajaShownForTehokkuusluokka = (eLuokka, rowELuokka) => {
+    if (versio == 2013) return 'C' === rowELuokka;
+
+    const raja2018 = eLuokka['raja-uusi-2018'];
+    const asteikko = eLuokka['raja-asteikko'];
+
+    for (const raja of asteikko) {
+      if (raja2018 > raja[0] && raja[1] == rowELuokka) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  onMount(() => {
+    component.scrollIntoView();
+
+    ref = window.history.state.path.includes('&ref=')
+      ? decodeURIComponent(window.history.state.path.split('&ref=')[1])
+      : '';
+    if (ref)
+      window.history.replaceState(
+        {},
+        document.title,
+        window.history.state.path.split('&ref=')[0]
+      );
+  });
 </script>
 
 <style>
+  * {
+    color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .pbb-always {
+    page-break-before: always;
+    /* page-break-inside: avoid; */
+  }
+  .pbi-avoid,
+  p,
+  h1,
+  h2,
+  span,
+  strong {
+    page-break-inside: avoid;
+  }
   .graph-color-a {
     background-color: #1d8c38;
   }
@@ -218,6 +278,27 @@
     border-left-color: #bc000b;
   }
 
+  .arrow-left {
+    width: 0;
+    height: 0;
+    border-top: 1.4rem solid transparent;
+    border-right: 2.8rem solid #000;
+    border-bottom: 1.3rem solid transparent;
+  }
+  .arrow-right {
+    width: 0;
+    height: 0;
+    border-top: 1.4rem solid transparent;
+    border-left: 2.8rem solid;
+    border-bottom: 1.3rem solid transparent;
+  }
+
+  @media print {
+    .graph-container {
+      height: fit-content;
+      transform: scale(0.8);
+    }
+  }
   @media screen and (min-width: 640px) {
     .graph-color-a {
       padding-right: 10%;
@@ -241,29 +322,12 @@
       padding-right: 70%;
     }
   }
-
-  .arrow-left {
-    width: 0;
-    height: 0;
-    border-top: 1.4rem solid transparent;
-    border-right: 2.8rem solid #000;
-    border-bottom: 1.3rem solid transparent;
-  }
-  .arrow-right {
-    width: 0;
-    height: 0;
-    border-top: 1.4rem solid transparent;
-    border-left: 2.8rem solid;
-    border-bottom: 1.3rem solid transparent;
-  }
 </style>
-
 
 <Seo
   title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('ENERGIATODISTUS')}"
   descriptionFi={$locale == 'fi' ? $_('ENERGIATODISTUS') : undefined}
-  descriptionSv={$locale == 'sv' ? $_('ENERGIATODISTUS') : undefined}
-  />
+  descriptionSv={$locale == 'sv' ? $_('ENERGIATODISTUS') : undefined} />
 <div bind:this={component}>
   <Container {...containerStyles.beige}>
     <div
@@ -271,30 +335,23 @@
       <Button
         {...buttonStyles.green}
         on:click={() => {
-          backReferred('/ethaku');
+          backReferred(ref ? '/ethaku?' + ref : '/ethaku');
         }}>
-        <span class="material-icons align-middle">arrow_back</span>
+        <span
+          class="material-icons align-middle"
+          aria-hidden="true">arrow_back</span>
         <span class="whitespace-no-wrap">{$_('ET_BACK')}</span>
       </Button>
       <span class="flex-grow mr-2"> {$_('ET_KUVAUS')} </span>
     </div>
   </Container>
   <Container {...containerStyles.white}>
-    <div class="sm:px-16 sm:py-8 px-4 py-4 text-lg">
+    <div class="sm:px-16 sm:py-8 px-4 py-4 text-lg print:text-sm">
       {#await energiatodistusPromise}
         <div class="flex justify-center">
           <Spinner />
         </div>
-      {:then [energiatodistus, 
-          laatimisvaihe, 
-          alakayttotarkoitusluokka, 
-          postinumero, 
-          lammonjako, 
-          lammitysmuoto1, 
-          lammitysmuoto2, 
-          ilmanvaihtotyyppi, 
-          eLuokka
-        ]}
+      {:then [energiatodistus, laatimisvaihe, alakayttotarkoitusluokka, postinumero, lammonjako, lammitysmuoto1, lammitysmuoto2, ilmanvaihtotyyppi, eLuokka]}
         <div class="w-full flex mx-auto mb-8">
           <div
             class="w-full flex flex-col md:flex-row justify-between items-center">
@@ -308,21 +365,24 @@
               {...buttonStyles.ashblue}
               target="_blank"
               href={energiatodistus.versio == '2013' ? VirallinenMalli2013 : VirallinenMalli2018}>
-              <span class="material-icons">picture_as_pdf</span>
+              <span
+                class="material-icons"
+                aria-hidden="true">picture_as_pdf</span>
               <span class="whitespace-no-wrap"> {$_('ET_VIRALLINEN')}</span>
             </ButtonLink>
           </div>
         </div>
-        <div class="w-full flex flex-col mx-auto items-center space-y-6">
+        <div
+          class="w-full flex flex-col mx-auto items-center space-y-6 print:space-y-2 print:space-y-2">
           <div
-            class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+            class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
             <span
               class="w-full md:w-1/2 text-ashblue">{$_('ET_TODISTETUNNUS')}:</span>
             <span class="w-full md:w-1/2">{energiatodistus.id}</span>
           </div>
-          {#if (versio == '2018') && energiatodistus?.perustiedot?.rakennustunnus}
+          {#if versio == '2018' && energiatodistus?.perustiedot?.rakennustunnus}
             <div
-              class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+              class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
               <span
                 class="w-full md:w-1/2 text-ashblue">{$_('ET_PYSYVA_RAKENNUSTUNNUS')}:</span>
               <span
@@ -330,24 +390,24 @@
             </div>
           {/if}
           <div
-            class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+            class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
             <span
               class="w-full md:w-1/2 text-ashblue">{$_('ET_RAKENNUS_NIMI')}:</span>
             <span
               class="w-full md:w-1/2">{`${energiatodistus.perustiedot.nimi}, ${selectShownKatuosoite($locale, energiatodistus.perustiedot)}, ${GeoUtils.padPostinumero(energiatodistus.perustiedot.postinumero)} `}
               <span
-                class="capitalize">{$locale=='sv' ? postinumero['label-sv'].toLowerCase():postinumero['label-fi'].toLowerCase()}</span>
+                class="capitalize">{$locale == 'sv' ? postinumero['label-sv'].toLowerCase() : postinumero['label-fi'].toLowerCase()}</span>
             </span>
           </div>
           <div
-            class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+            class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
             <span
               class="w-full md:w-1/2 text-ashblue">{$_('ET_RAKENNUS_KAYTTOTARKOITUS')}:</span>
             <span
               class="w-full md:w-1/2">{$locale == 'sv' ? alakayttotarkoitusluokka['label-sv'] : alakayttotarkoitusluokka['label-fi']}</span>
           </div>
           <div
-            class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+            class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
             <span
               class="w-full md:w-1/2 text-ashblue">{$_('ET_RAKENNUS_VUOSI')}:</span>
             <span
@@ -355,14 +415,14 @@
           </div>
           {#if energiatodistus.versio == '2018'}
             <div
-              class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+              class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
               <span
                 class="w-full md:w-1/2 text-ashblue">{$_('ET_LAATIMISVAIHE')}:</span>
               <span class="w-full md:w-1/2">{laatimisvaihe['label-fi']}</span>
             </div>
             {#if laatimisvaihe.id === 2}
               <div
-                class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+                class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
                 <span
                   class="w-full md:w-1/2 text-ashblue">{$_('ET_HAVAINNOINTI')}:</span>
                 <span
@@ -370,17 +430,20 @@
               </div>
             {/if}
           {/if}
-          <div class="w-full my-8 flex flex-col bg-white">
-            <div class="w-full flex border-b border-black">
+        </div>
+        <div class="w-full my-8 print:my-0 pbi-avoid graph-container">
+          <div class="w-full flex flex-col bg-white">
+            <div class="w-full flex border-b border-black pbb-always">
               <div class="w-0 md:w-1/2 md:border-r border-black p-2" />
               <div
                 class="w-full md:w-1/2 px-2 py-4 flex justify-end md:justify-start md:pl-10">
                 <span class="text-green text-lg">{$_('ET_LUOKKA')}</span>
               </div>
             </div>
-            <div class="w-full flex border-b border-black">
+            <div
+              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'A') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-a pr-1 md:pr-auto">A</span>
                 <div class="arrow-right" />
@@ -397,9 +460,14 @@
                 {/if}
               </div>
             </div>
-            <div class="w-full flex border-b border-black">
+
+            {#if rajaShownForTehokkuusluokka(eLuokka, 'A')}
+              <LineText />
+            {/if}
+            <div
+              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'B') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-b pr-1 md:pr-auto">B</span>
                 <div class="arrow-right" />
@@ -416,9 +484,13 @@
                 {/if}
               </div>
             </div>
-            <div class="w-full flex border-b border-black">
+            {#if rajaShownForTehokkuusluokka(eLuokka, 'B')}
+              <LineText />
+            {/if}
+            <div
+              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'C') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-c pr-1 md:pr-auto">C</span>
                 <div class="arrow-right" />
@@ -435,9 +507,13 @@
                 {/if}
               </div>
             </div>
-            <div class="w-full flex border-b border-black">
+            {#if rajaShownForTehokkuusluokka(eLuokka, 'C')}
+              <LineText />
+            {/if}
+            <div
+              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'D') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-d pr-1 md:pr-auto">D</span>
                 <div class="arrow-right" />
@@ -454,15 +530,19 @@
                 {/if}
               </div>
             </div>
-            <div class="w-full flex border-b border-black">
+            {#if rajaShownForTehokkuusluokka(eLuokka, 'D')}
+              <LineText />
+            {/if}
+            <div
+              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'E') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-e pr-1 md:pr-auto">E</span>
                 <div class="arrow-right" />
               </div>
               <div
-                class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
+                class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 print:py-2 md:pl-10">
                 {#if energiatodistus.tulokset['e-luokka'] == 'E'}
                   <div class="arrow-left" />
                   <div
@@ -473,9 +553,13 @@
                 {/if}
               </div>
             </div>
-            <div class="w-full flex border-b border-black">
+            {#if rajaShownForTehokkuusluokka(eLuokka, 'E')}
+              <LineText />
+            {/if}
+            <div
+              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'F') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
+                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-f pr-1 md:pr-auto">F</span>
                 <div class="arrow-right" />
@@ -492,9 +576,13 @@
                 {/if}
               </div>
             </div>
-            <div class="w-full flex border-b border-black">
+            {#if rajaShownForTehokkuusluokka(eLuokka, 'F')}
+              <LineText />
+            {/if}
+            <div
+              class="w-full flex border-black {rajaShownForTehokkuusluokka(eLuokka, 'G') ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
               <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4">
+                class="graph-row flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
                 <span
                   class="inline-block font-bold py-1 px-4 text-2xl graph-color-g pr-1 md:pr-auto">G</span>
                 <div class="arrow-right" />
@@ -511,16 +599,22 @@
                 {/if}
               </div>
             </div>
+            {#if rajaShownForTehokkuusluokka(eLuokka, 'G')}
+              <LineText />
+            {/if}
           </div>
+        </div>
+        <div
+          class="w-full flex flex-col mx-auto items-center space-y-6 print:space-y-2 pbb-always">
           <div
-            class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+            class="flex flex-col md:flex-row space-x-2 w-full items-start justify-start">
             <span class="w-full md:w-2/3 text-ashblue">{$_('ET_ELUKU')}:</span>
             <span
               class="w-full md:w-1/3">{`${formats.formatNumber(energiatodistus.tulokset['e-luku'])} ${$_('ET_ELUKU_F')}`}</span>
           </div>
           {#if energiatodistus.versio == '2018'}
             <div
-              class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+              class="flex flex-col md:flex-row space-x-2 w-full items-start justify-start">
               <span
                 class="w-full md:w-2/3 text-ashblue">{$_('ET_VAATIMUSTASO')}:</span>
               <span
@@ -528,14 +622,14 @@
             </div>
           {/if}
           <div
-            class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+            class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
             <span
               class="w-full md:w-1/2 text-ashblue">{$_('ET_LAATIJA')}:</span>
             <span
               class="w-full md:w-1/2">{energiatodistus['laatija-fullname']}</span>
           </div>
           <div
-            class="flex flex-col md:flex-row md:space-x-2 w-full items-center justify-center">
+            class="flex flex-col md:flex-row print:flex-row md:space-x-2 w-full items-start justify-start">
             <div class="flex flex-col w-full md:w-1/2">
               <span
                 class="w-full md:w-1/2 text-ashblue">{$_('ET_LAATIMISPAIVA')}:</span>
@@ -551,95 +645,100 @@
           </div>
         </div>
 
-        <h2 class="w-full text-green uppercase text-xl mt-8">
+        <h2 class="w-full text-green uppercase text-xl mt-8 pbi-avoid">
           {$_('ET_YHTEENVETO')}
         </h2>
         <span
-          class="w-full flex bg-ashblue text-white uppercase px-4 py-3 my-4">
+          class="w-full flex bg-ashblue text-white uppercase px-4 py-3 my-4 print:text-sm pbi-avoid">
           {$_('ET_LASKETTU_KOKONAISENERGIA')}</span>
-        <div class="w-full flex flex-col mx-auto items-center space-y-6 my-8">
+        <div class="w-full flex flex-col mx-auto items-start space-y-6 my-8">
           <div
-            class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+            class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
             <span
               class="w-full md:w-1/2 text-ashblue">{$_('ET_NETTOALA')}:</span>
             <span
               class="w-full md:w-1/2">{formats.formatNumber(energiatodistus.lahtotiedot['lammitetty-nettoala'])}</span>
           </div>
 
-            {#if lammitysmuoto1 || energiatodistus?.lahtotiedot?.lammitys['lammitysmuoto-1']['kuvaus-fi']}
-              <div
-                class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-                <span class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_KUVAUS')}:</span>
-                  {#if lammitysmuoto1 && lammitysmuoto1.id !== 9}
+          {#if lammitysmuoto1 || energiatodistus?.lahtotiedot?.lammitys['lammitysmuoto-1']['kuvaus-fi']}
+            <div
+              class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
+              <span
+                class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_KUVAUS')}:</span>
+              {#if lammitysmuoto1 && lammitysmuoto1.id !== 9}
                 <span class="w-full md:w-1/2">
                   {lammitysmuoto1['label-fi']}
                 </span>
-                {:else}
+              {:else}
                 <span class="w-full md:w-1/2">
                   {energiatodistus.lahtotiedot.lammitys['lammitysmuoto-1']['kuvaus-fi']}
                 </span>
-                {/if}
-              </div>
-            {/if}
+              {/if}
+            </div>
+          {/if}
 
-            {#if lammitysmuoto2 || energiatodistus?.lahtotiedot?.lammitys['lammitysmuoto-2']['kuvaus-fi']}
-              <div
-                class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-                <span class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_2')}:</span>
-                  {#if lammitysmuoto2 && lammitysmuoto2.id !== 9}
-                <span class="w-full md:w-1/2">
-                  {lammitysmuoto2['label-fi'] || ''}
-                </span>
-                {:else}
-                <span class="w-full md:w-1/2">
-                  {energiatodistus.lahtotiedot.lammitys['lammitysmuoto-2']['kuvaus-fi'] || ''}
-                </span>
-                {/if}
-              </div>
-            {/if}
-
-
-          {#if lammonjako || energiatodistus?.lahtotiedot?.lammitys?.lammonjako['kuvaus-fi']}
-          <div class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-            <span class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_LAMMONJAKO')}:</span>
-              {#if lammonjako && lammonjako.id !== 12}
-            <span class="w-full md:w-1/2">
-              {lammonjako['label-fi'] || ''}
-            </span>
-            {:else}
-            <span class="w-full md:w-1/2">
-              {energiatodistus.lahtotiedot.lammitys.lammonjako['kuvaus-fi'] || ''}
-            </span>
-            {/if}
-          </div>
-        {/if}
-
-          {#if ilmanvaihtotyyppi || energiatodistus?.lahtotiedot?.ilmanvaihto['kuvaus-fi']}
+          {#if lammitysmuoto2 || energiatodistus?.lahtotiedot?.lammitys['lammitysmuoto-2']['kuvaus-fi']}
             <div
               class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
               <span
+                class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_2')}:</span>
+              {#if lammitysmuoto2 && lammitysmuoto2.id !== 9}
+                <span class="w-full md:w-1/2">
+                  {lammitysmuoto2['label-fi'] || ''}
+                </span>
+              {:else}
+                <span class="w-full md:w-1/2">
+                  {energiatodistus.lahtotiedot.lammitys['lammitysmuoto-2']['kuvaus-fi'] || ''}
+                </span>
+              {/if}
+            </div>
+          {/if}
+
+          {#if lammonjako || energiatodistus?.lahtotiedot?.lammitys?.lammonjako['kuvaus-fi']}
+            <div
+              class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
+              <span
+                class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_LAMMONJAKO')}:</span>
+              {#if lammonjako && lammonjako.id !== 12}
+                <span class="w-full md:w-1/2">
+                  {lammonjako['label-fi'] || ''}
+                </span>
+              {:else}
+                <span class="w-full md:w-1/2">
+                  {energiatodistus.lahtotiedot.lammitys.lammonjako['kuvaus-fi'] || ''}
+                </span>
+              {/if}
+            </div>
+          {/if}
+
+          {#if ilmanvaihtotyyppi || energiatodistus?.lahtotiedot?.ilmanvaihto['kuvaus-fi']}
+            <div
+              class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
+              <span
                 class="w-full md:w-1/2 text-ashblue">{$_('ET_ILMANVAIHTO_KUVAUS')}:</span>
               {#if ilmanvaihtotyyppi && ilmanvaihtotyyppi.id !== 6}
-              <span class="w-full md:w-1/2">
-                {ilmanvaihtotyyppi['label-fi'] || ''}
-              </span>
+                <span class="w-full md:w-1/2">
+                  {ilmanvaihtotyyppi['label-fi'] || ''}
+                </span>
               {:else}
-              <span class="w-full md:w-1/2">
-                {energiatodistus.lahtotiedot.ilmanvaihto['kuvaus-fi'] || ''}
-              </span>
+                <span class="w-full md:w-1/2">
+                  {energiatodistus.lahtotiedot.ilmanvaihto['kuvaus-fi'] || ''}
+                </span>
               {/if}
             </div>
           {/if}
         </div>
 
-        <div class="overflow-x-auto w-full">
+        <div class="overflow-x-auto w-full pbi-avoid">
           <table class="table-fixed mx-auto my-8 font-normal text-center">
             <thead class="bg-lightbeige text-green align-center py-4">
               <tr>
                 <th class="font-normal py-4 w-1/5 pl-2 text-left" rowspan="2">
                   {$_('ET_ENERGIAMUOTO')}
                 </th>
-                <th class="font-normal pt-4 w-2/5" colspan="2">{$_('ET_OSTOENERGIA')}</th>
+                <th class="font-normal pt-4 w-2/5" colspan="2">
+                  {$_('ET_OSTOENERGIA')}
+                </th>
                 <th class="font-normal py-4 w-1/5" rowspan="2">
                   {$_('ET_ENERGIAMUODON_KERROIN')}
                 </th>
@@ -707,23 +806,24 @@
         </div>
 
         <span
-          class="w-full flex bg-ashblue text-white uppercase px-4 py-3 my-4">
+          class="w-full flex bg-ashblue text-white uppercase px-4 py-3 my-4 print:text-sm pbi-avoid pbb-always">
           {$_('ET_RAKENNUKSEN_ET_LUOKKA')}
         </span>
 
-        <div class="w-full flex flex-col mx-auto items-center space-y-6 my-8">
+        <div class="w-full flex flex-col mx-auto items-start space-y-6 my-8">
           <div
-            class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+            class="flex flex-col md:flex-row space-x-2 w-full items-start justify-start">
             <span
               class="w-full md:w-1/3 text-ashblue">{$_('ET_KAYTETTY_LUOKITTELU')}:</span>
             <span
               class="w-full md:w-2/3">{eLuokka.kayttotarkoitus['label-fi']}</span>
           </div>
           <div
-            class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+            class="flex flex-col md:flex-row space-x-2 w-full items-start justify-start">
             <span
               class="w-full md:w-1/3 text-ashblue">{$_('ET_LUOKKIEN_RAJAT')}</span>
-            <div class="w-full md:w-2/3 flex flex-col md:flex-row md:space-x-3">
+            <div
+              class="w-full md:w-2/3 flex flex-col md:flex-row print:flex-row md:space-x-3 print:space-x-2">
               {#each rajaArvot(eLuokka['raja-asteikko']) as arvo}
                 <div><strong>{arvo[0]}</strong> <span>({arvo[1]})</span></div>
               {/each}
@@ -734,7 +834,7 @@
             </div>
           </div>
           <div
-            class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
+            class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
             <span
               class="w-full md:w-1/3 text-ashblue">{$_('ET_RAKENNUKSEN_E_LUOKKA')}</span>
             <div class="w-full md:w-2/3">
@@ -745,22 +845,21 @@
           <p class="w-full">{$_('ET_ELUKU_PERUSTUU')}</p>
         </div>
 
-        <div class="w-full flex flex-col mx-auto items-center space-y-6 my-6">
+        <div
+          class="w-full flex flex-col mx-auto items-start space-y-6 my-6 pbi-avoid">
           <h2 class="w-full text-green uppercase text-xl">
             {$_('ET_ENERGIATEHOKKUUTTA_PARANTAVIA')}
           </h2>
           <span
-            class="w-full bg-ashblue text-white uppercase px-4 py-3 my-4">{$_('ET_LASKETTU_KOKONAIS')}</span>
+            class="w-full bg-ashblue text-white uppercase px-4 py-3 my-4 print:text-sm">{$_('ET_LASKETTU_KOKONAIS')}</span>
           <p class="w-full">
             {$locale == 'sv' ? energiatodistus.perustiedot['keskeiset-suositukset-sv'] : energiatodistus.perustiedot['keskeiset-suositukset-fi']}
           </p>
-          <div class="w-full hidden">
-            <Button
-              {...buttonStyles.green}
-              on:click={() => {
-                console.log('print clicked');
-              }}>
-              <span class="material-icons align-middle">print</span>
+          <div class="w-full">
+            <Button {...buttonStyles.green} on:click={() => window.print()}>
+              <span
+                class="material-icons align-middle"
+                aria-hidden="true">print</span>
               <span class="whitespace-no-wrap"> {$_('TULOSTA_KOOSTE')} </span>
             </Button>
           </div>

@@ -32,6 +32,12 @@ a.bg-white:focus:not(:disabled), a.bg-white:active:not(:disabled), a.bg-white:ho
 .bg-green:hover, .bg-green:focus{
   @apply bg-darkgreen;
 }
+
+@media print {
+  a {
+    display: none;
+  }
+}
 </style>
 
 <!-- purgecss: 
