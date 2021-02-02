@@ -125,6 +125,8 @@
   "ET_SAHKO": "El",
   "ET_KAUKOLAMPO": "Fjärrvärme",
   "ET_UUDISTUVA_POLTTOAINE": "Förnybart bränsle",
+  "ET_FOSSIILINEN_POLTTOAINE": "Fossila bränslen",
+  "ET_KAUKOJAAHDYTYS": "Fjärrkyla",
   "ET_VERTAILULUKU": "Jämförelsetal för energieffektivitet (E-tal)",
   "ET_RAKENNUKSEN_ET_LUOKKA": "Byggnadens energiprestandaklass",
   "ET_KAYTETTY_LUOKITTELU": "Klassificeringsskala som använts för E-talet",
