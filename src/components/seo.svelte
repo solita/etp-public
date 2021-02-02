@@ -1,15 +1,15 @@
 <script>
   export let title;
-  export let noindex = true;
-  export let nofollow = true;
+  export let noindex = false;
+  export let nofollow = false;
   export let descriptionFi;
   export let descriptionSv;
 
   $: {
     document.title = title;
 
-    if (descriptionSv) document.documentElement.setAttribute('lang','sv');
-    if (descriptionFi) document.documentElement.setAttribute('lang','fi');
+    if (descriptionSv) document.documentElement.setAttribute('lang', 'sv');
+    if (descriptionFi) document.documentElement.setAttribute('lang', 'fi');
   }
 </script>
 

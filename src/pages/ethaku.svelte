@@ -241,6 +241,7 @@
 </style>
 
 <Seo
+  nofollow={true}
   title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('NAVBAR_ENERGIATODISTUSHAKU')}"
   descriptionFi={$locale == 'fi' ? $_('NAVBAR_ENERGIATODISTUSHAKU_KUVAUS') : undefined}
   descriptionSv={$locale == 'sv' ? $_('NAVBAR_ENERGIATODISTUSHAKU_KUVAUS') : undefined} />
