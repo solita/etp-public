@@ -125,6 +125,8 @@
   "ET_SAHKO": "Sähkö",
   "ET_KAUKOLAMPO": "Kaukolämpö",
   "ET_UUDISTUVA_POLTTOAINE": "Uudistuva polttoaine",
+  "ET_FOSSIILINEN_POLTTOAINE": "Fossiilinen polttoaine",
+  "ET_KAUKOJAAHDYTYS": "Kaukojäähdytys",
   "ET_VERTAILULUKU": "Energiatehokkuuden vertailuluku (E-luku)",
   "ET_RAKENNUKSEN_ET_LUOKKA": "Rakennuksen energiatehokkuusluokka",
   "ET_KAYTETTY_LUOKITTELU": "Käytetty E-luvun luokitteluasteikko",
