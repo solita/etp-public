@@ -23,7 +23,7 @@
   import * as EtApi from '@/api/energiatodistus-api';
   import * as parsers from '@/utilities/parsers';
 
-  export let where = '[[]]';
+  export let where = '';
   export let keyword = '';
   export let page = 0;
 
@@ -162,49 +162,50 @@
     searchmodel
   ).reduce((acc, item) => acc && item, true);
 
-  $: result = EtApi.energiatodistukset(fetch, {
-    where: EtHakuUtils.whereQuery(
-      EtHakuUtils.where(
-        tarkennettuShown,
-        parseValues({
-          ...EtHakuUtils.defaultSearchModel(),
-          ...deserializedWhere
-        })
-      )
-    ),
-    keyword,
-    offset: pageSize * page,
-    limit: pageSize,
-    sort: 'energiatodistus.id',
-    order: 'desc'
-  });
+  let result;
+  let etTotalcount;
+  $: {
+    if (where) {
+      result = EtApi.energiatodistukset(fetch, {
+        where: EtHakuUtils.whereQuery(
+          EtHakuUtils.where(
+            tarkennettuShown,
+            parseValues({
+              ...EtHakuUtils.defaultSearchModel(),
+              ...deserializedWhere
+            })
+          )
+        ),
+        keyword,
+        offset: pageSize * page,
+        limit: pageSize,
+        sort: 'energiatodistus.id',
+        order: 'desc'
+      });
 
-  // same params as for result, different API/URL
-  $: etTotalcount = EtApi.energiatodistuksetCount(fetch, {
-    where: EtHakuUtils.whereQuery(
-      EtHakuUtils.where(
-        tarkennettuShown,
-        parseValues({
-          ...EtHakuUtils.defaultSearchModel(),
-          ...deserializedWhere
-        })
-      )
-    ),
-    keyword
-  }).then(result => {
-    return result.count;
-  });
+      etTotalcount = EtApi.energiatodistuksetCount(fetch, {
+        where: EtHakuUtils.whereQuery(
+          EtHakuUtils.where(
+            tarkennettuShown,
+            parseValues({
+              ...EtHakuUtils.defaultSearchModel(),
+              ...deserializedWhere
+            })
+          )
+        ),
+        keyword
+      }).then(result => {
+        return result.count;
+      });
+    }
+  }
 
   const commitSearch = model => {
     const where = EtHakuUtils.where(tarkennettuShown, parseValues(model));
     const whereQuery = EtHakuUtils.whereQuery(where);
     const whereString = JSON.stringify(whereQuery);
     const qs = [
-      `${
-        !whereString.length || whereString === '[[]]'
-          ? ''
-          : `where=${whereString}`
-      }`,
+      `${!whereString.length ? '[[]]' : `where=${whereString}`}`,
       `${keyword && keyword.length ? `keyword=${keyword}` : ''}`
     ]
       .filter(item => item.length)
@@ -681,55 +682,57 @@
   </form>
 </Container>
 
-<Container {...containerStyles.white}>
-  <div
-    class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full"
-    bind:this={resultsElement}>
-    {#await Promise.all([
-      result,
-      etTotalcount,
-      Promise.resolve(parseInt(page ?? 0)),
-      $postinumerot,
-      kayttotarkoitusluokat
-    ])}
-      <div class="flex justify-center">
-        <Spinner />
-      </div>
-    {:then [et, count, page, postinumerot, kayttotarkoitusluokat]}
-      <TableEThaku
-        etCount={count}
-        eTodistukset={et}
-        let:currentPageItemCount
-        {page}
-        {postinumerot}
-        {kayttotarkoitusluokat}>
-        <div slot="pagination">
-          <Pagination
-            {page}
-            {pageSize}
-            {currentPageItemCount}
-            itemCount={count}
-            queryStringFn={page => {
-              const where = EtHakuUtils.where(tarkennettuShown, parseValues(searchmodel));
-              const whereQuery = EtHakuUtils.whereQuery(where);
-              const whereString = JSON.stringify(whereQuery);
-              const qs = [
-                `${
-                  !whereString.length || whereString === '[[]]'
-                    ? ''
-                    : `where=${whereString}`
-                }`,
-                `${keyword && keyword.length ? `keyword=${keyword}` : ''}`
-              ]
-                .filter(item => item.length)
-                .join('&');
-
-              return `/ethaku${qs.length ? `?${qs}&page=${page}` : `?page=${page}`}`;
-            }} />
+{#if where}
+  <Container {...containerStyles.white}>
+    <div
+      class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full"
+      bind:this={resultsElement}>
+      {#await Promise.all([
+        result,
+        etTotalcount,
+        Promise.resolve(parseInt(page ?? 0)),
+        $postinumerot,
+        kayttotarkoitusluokat
+      ])}
+        <div class="flex justify-center">
+          <Spinner />
         </div>
-      </TableEThaku>
-    {:catch error}
-      <span>{$_('SERVER_ERROR')}</span>
-    {/await}
-  </div>
-</Container>
+      {:then [et, count, page, postinumerot, kayttotarkoitusluokat]}
+        <TableEThaku
+          etCount={count}
+          eTodistukset={et}
+          let:currentPageItemCount
+          {page}
+          {postinumerot}
+          {kayttotarkoitusluokat}>
+          <div slot="pagination">
+            <Pagination
+              {page}
+              {pageSize}
+              {currentPageItemCount}
+              itemCount={count}
+              queryStringFn={page => {
+                const where = EtHakuUtils.where(tarkennettuShown, parseValues(searchmodel));
+                const whereQuery = EtHakuUtils.whereQuery(where);
+                const whereString = JSON.stringify(whereQuery);
+                const qs = [
+                  `${
+                    !whereString.length || whereString === '[[]]'
+                      ? ''
+                      : `where=${whereString}`
+                  }`,
+                  `${keyword && keyword.length ? `keyword=${keyword}` : ''}`
+                ]
+                  .filter(item => item.length)
+                  .join('&');
+
+                return `/ethaku${qs.length ? `?${qs}&page=${page}` : `?page=${page}`}`;
+              }} />
+          </div>
+        </TableEThaku>
+      {:catch error}
+        <span>{$_('SERVER_ERROR')}</span>
+      {/await}
+    </div>
+  </Container>
+{/if}
