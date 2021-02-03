@@ -26,10 +26,11 @@
   export let aluehaku = '';
   export let page = 0;
   export let filterPatevyydet = '1,2';
-  
+
   let resultsElement;
   $: {
-    if(nimihaku || aluehaku || page > 0) resultsElement?.scrollIntoView({ behavior: 'smooth'});
+    if (nimihaku || aluehaku || page > 0)
+      resultsElement?.scrollIntoView({ behavior: 'smooth' });
 
     // TODO
     // Quickfix to prevent an error.
@@ -37,12 +38,12 @@
     // When navigating to laatijahaku from navbar link while filterPatevyydet is set as an URL parameter,
     // filterPatevyydet for some reason becomes undefined and stays undefined when making LaatijaUtils.laatijatByHakukriteerit call, causing an error
     // ---
-    if(!filterPatevyydet) filterPatevyydet = '1,2';
+    if (!filterPatevyydet) filterPatevyydet = '1,2';
   }
   const pageSize = 10;
-  
+
   let shownLaatijat = new Promise(() => {});
-  
+
   $: haetutToimintaalueet = Promise.all([
     Promise.resolve(aluehaku ?? ''),
     $toimintaalueet,
@@ -100,15 +101,13 @@
   }} />
 
 <Seo
+  nofollow={true}
   title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('NAVBAR_LAATIJAHAKU')}"
   descriptionFi={$locale == 'fi' ? $_('NAVBAR_LAATIJAHAKU_KUVAUS') : undefined}
-  descriptionSv={$locale == 'sv' ? $_('NAVBAR_LAATIJAHAKU_KUVAUS') : undefined}
-/>
+  descriptionSv={$locale == 'sv' ? $_('NAVBAR_LAATIJAHAKU_KUVAUS') : undefined} />
 
 <Container {...containerStyles.beige}>
-  <InfoBlock title="{$_('LHAKU_INFO_TITLE')}">
-    {$_('LHAKU_INFO_TEXT')}
-  </InfoBlock>
+  <InfoBlock title={$_('LHAKU_INFO_TITLE')}>{$_('LHAKU_INFO_TEXT')}</InfoBlock>
 </Container>
 <Container {...containerStyles.white}>
   <div
@@ -128,7 +127,10 @@
         </aside>
         <div class="flex">
           <div class="w-full md:w-11/12">
-            <Input label={$_('LHAKU_HAE_ALUEELLA')} name="alue" value={aluehaku} />
+            <Input
+              label={$_('LHAKU_HAE_ALUEELLA')}
+              name="alue"
+              value={aluehaku} />
           </div>
         </div>
         <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
@@ -144,19 +146,21 @@
 </Container>
 
 <Container {...containerStyles.white}>
-  <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full" bind:this={resultsElement}>
-  {#await Promise.all([
-    shownLaatijat,
-    haetutToimintaalueet,
-    $patevyydet,
-    Promise.resolve(parseInt(page ?? 0)),
-    Promise.resolve(pageSize),
-    Promise.resolve(filterPatevyydet)
-  ])}
-    <div class="flex justify-center">
-      <Spinner />
-    </div>
-  {:then [l, h, patevyydet, page, pageSize, filterPatevyydet]}
+  <div
+    class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full"
+    bind:this={resultsElement}>
+    {#await Promise.all([
+      shownLaatijat,
+      haetutToimintaalueet,
+      $patevyydet,
+      Promise.resolve(parseInt(page ?? 0)),
+      Promise.resolve(pageSize),
+      Promise.resolve(filterPatevyydet)
+    ])}
+      <div class="flex justify-center">
+        <Spinner />
+      </div>
+    {:then [l, h, patevyydet, page, pageSize, filterPatevyydet]}
       <TableLaatijahaku
         laatijaCount={l.length}
         laatijat={l.slice(page * pageSize, (page + 1) * pageSize)}
@@ -179,8 +183,8 @@
             queryStringFn={page => `/laatijahaku?${[...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []), ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []), ...[['filterPatevyydet', filterPatevyydet].join('=')], ...[['page', page].join('=')]].join('&')}`} />
         </div>
       </TableLaatijahaku>
-  {:catch error}
-    <span>{$_('SERVER_ERROR')}</span>
-  {/await}
+    {:catch error}
+      <span>{$_('SERVER_ERROR')}</span>
+    {/await}
   </div>
 </Container>
