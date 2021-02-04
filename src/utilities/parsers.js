@@ -1,4 +1,5 @@
 import parseISO from 'date-fns/parseISO';
+import parse from 'date-fns/parse';
 
 export const match = (exp, value) => {
   const m = value.match(exp);
@@ -12,8 +13,11 @@ export const parseInteger = value =>
 
 export const parseDate = value => {
   try {
-    return parseISO(value.trim());
+    let date = parseISO(value.trim());
+    if (isNaN(date))
+      date = parse(value, 'dd.MM.yyyy', new Date());
+    return date;
   } catch (e) {
-    return '';
+    return null;
   }
 };
