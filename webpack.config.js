@@ -142,7 +142,7 @@ module.exports = {
       filename: '[name].[contenthash].css'
     }),
     new HtmlWebpackPlugin({
-      title: 'ETP - public',
+      title: 'Energiatodistusrekisteri',
       template: './src/template.html',
       favicon: './assets/favicon.png'
     })
