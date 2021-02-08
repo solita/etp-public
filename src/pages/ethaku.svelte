@@ -90,10 +90,7 @@
         'perustiedot.valmistumisvuosi_min'
       ](
         1000,
-        numberOrDefault(
-          new Date().getFullYear(),
-          searchmodel['perustiedot.valmistumisvuosi_max']
-        )
+        numberOrDefault(2900, searchmodel['perustiedot.valmistumisvuosi_max'])
       ),
       'perustiedot.valmistumisvuosi_max': validationModel[
         'perustiedot.valmistumisvuosi_max'
