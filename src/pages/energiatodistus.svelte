@@ -895,24 +895,27 @@
           <p class="w-full">{$_('ET_ELUKU_PERUSTUU')}</p>
         </div>
 
-        <div
-          class="w-full flex flex-col mx-auto items-start space-y-6 my-6 pbi-avoid">
-          <h2 class="w-full text-green uppercase text-xl">
-            {$_('ET_ENERGIATEHOKKUUTTA_PARANTAVIA')}
-          </h2>
-          <span
-            class="w-full bg-ashblue text-white uppercase px-4 py-3 my-4 print:text-sm">{$_('ET_LASKETTU_KOKONAIS')}</span>
-          <p class="w-full">
-            {selectByLocaleOrAvailable($locale, energiatodistus.perustiedot['keskeiset-suositukset-fi'], energiatodistus.perustiedot['keskeiset-suositukset-sv'])}
-          </p>
-          <div class="w-full">
-            <Button {...buttonStyles.green} on:click={() => window.print()}>
-              <span
-                class="material-icons align-middle"
-                aria-hidden="true">print</span>
-              <span class="whitespace-no-wrap"> {$_('TULOSTA_KOOSTE')} </span>
-            </Button>
+        {#if energiatodistus.perustiedot?.['keskeiset-suositukset-fi'] || energiatodistus.perustiedot?.['keskeiset-suositukset-sv']}
+          <div
+            class="w-full flex flex-col mx-auto items-start space-y-6 my-6 pbi-avoid">
+            <h2 class="w-full text-green uppercase text-xl">
+              {$_('ET_ENERGIATEHOKKUUTTA_PARANTAVIA')}
+            </h2>
+            <span
+              class="w-full bg-ashblue text-white uppercase px-4 py-3 my-4 print:text-sm">{$_('ET_LASKETTU_KOKONAIS')}</span>
+            <p class="w-full">
+              {selectByLocaleOrAvailable($locale, energiatodistus.perustiedot?.['keskeiset-suositukset-fi'], energiatodistus.perustiedot?.['keskeiset-suositukset-sv'])}
+            </p>
           </div>
+        {/if}
+
+        <div class="w-full mx-auto my-6">
+          <Button {...buttonStyles.green} on:click={() => window.print()}>
+            <span
+              class="material-icons align-middle"
+              aria-hidden="true">print</span>
+            <span class="whitespace-no-wrap"> {$_('TULOSTA_KOOSTE')} </span>
+          </Button>
         </div>
       {:catch error}
         <div class="px-3 pb-8 md:p-8 xl:p-16 w-full">{$_('SERVER_ERROR')}</div>
