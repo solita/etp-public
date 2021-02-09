@@ -134,7 +134,7 @@
   "ET_RAKENNUKSEN_E_LUOKKA": "Den här byggnadens E-klass",
   "ET_ELUKU_PERUSTUU": "E-talet grundar sig på byggnadens beräknade förbrukning och energiformsfaktorer. Förbrukningen har beräknats för den uppvärmda nettoarean för användning, så att E-talen för olika byggnader är sinsemellan jämförbara. På grund av den standardiserade användningen lämpar sig E-talet inte för jämförelse av en enskild byggnads faktiska och kalkylmässiga förbrukning. I E-talet ingår energiförbrukningen för byggnadens uppvärmning, ventilation och kylning samt från konsumentutrustning och belysning. Förbrukningen utanför byggnaden, såsom eluttag för bilvärmare, frostskydd och utebelysning ingår inte i E-talet.",
   "ET_ENERGIATEHOKKUUTTA_PARANTAVIA": "Åtgärder som förbättrar energieffektiviteten",
-  "ET_LASKETTU_KOKONAIS": "Beräknad total energiförbrukning och förbrukning av köpt energi",
+  "ET_LASKETTU_KOKONAIS": "Centrala rekommendationer angående åtgärder som förbättrar energiprestandan",
   "ET_RAJA_TOP": "Normnivån för",
   "ET_RAJA_BOTTOM": "nybyggnader 2012",
   "INFO_TITLE": "Använd endast ett officiellt energicertifikat",

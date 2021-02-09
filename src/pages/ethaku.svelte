@@ -90,15 +90,15 @@
         'perustiedot.valmistumisvuosi_min'
       ](
         1000,
-        numberOrDefault(2900, searchmodel['perustiedot.valmistumisvuosi_max'])
+        numberOrDefault(
+          new Date().getFullYear(),
+          searchmodel['perustiedot.valmistumisvuosi_max']
+        )
       ),
       'perustiedot.valmistumisvuosi_max': validationModel[
         'perustiedot.valmistumisvuosi_max'
       ](
-        numberOrDefault(
-          new Date().getFullYear(),
-          searchmodel['perustiedot.valmistumisvuosi_min']
-        ),
+        numberOrDefault(1000, searchmodel['perustiedot.valmistumisvuosi_min']),
         2900
       ),
       allekirjoitusaika_min: validationModel['allekirjoitusaika_min'](
