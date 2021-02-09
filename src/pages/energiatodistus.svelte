@@ -41,7 +41,11 @@
   const selectByLocaleOrAvailable = (prefix, property) => {
     if ($locale === 'sv' && property?.[prefix + '-sv'])
       return property[prefix + '-sv'];
-    else if ($locale === 'fi' && !property?.[prefix + '-fi'])
+    else if (
+      $locale === 'fi' &&
+      !property?.[prefix + '-fi'] &&
+      property?.[prefix + '-sv']
+    )
       return property[prefix + '-sv'];
     else if (property?.[prefix + '-fi']) return property[prefix + '-fi'];
     else return '';
