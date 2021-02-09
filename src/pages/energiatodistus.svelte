@@ -38,10 +38,12 @@
     );
   };
 
-  const selectByLocaleOrAvailable = (lang, fiLabel, svLabel) => {
-    if (lang === 'sv' && svLabel) return svLabel;
-    else if (lang === 'fi' && !fiLabel) return fiLabel;
-    else if (fiLabel) return fiLabel;
+  const selectByLocaleOrAvailable = (prefix, property) => {
+    if ($locale === 'sv' && property?.[prefix + '-sv'])
+      return property[prefix + '-sv'];
+    else if ($locale === 'fi' && !property?.[prefix + '-fi'])
+      return property[prefix + '-sv'];
+    else if (property?.[prefix + '-fi']) return property[prefix + '-fi'];
     else return '';
   };
 
@@ -393,9 +395,9 @@
             <span
               class="w-full md:w-1/2 text-ashblue">{$_('ET_RAKENNUS_NIMI')}:</span>
             <span
-              class="w-full md:w-1/2">{`${energiatodistus.perustiedot.nimi}, ${selectByLocaleOrAvailable($locale, energiatodistus.perustiedot['katuosoite-fi'], energiatodistus.perustiedot['katuosoite-sv'])}, ${GeoUtils.padPostinumero(energiatodistus.perustiedot.postinumero)} `}
+              class="w-full md:w-1/2">{`${energiatodistus.perustiedot.nimi}, ${selectByLocaleOrAvailable('katuosoite', energiatodistus.perustiedot)}, ${GeoUtils.padPostinumero(energiatodistus.perustiedot.postinumero)} `}
               <span
-                class="capitalize">{selectByLocaleOrAvailable($locale, postinumero['label-fi'], postinumero['label-sv'])}</span>
+                class="capitalize">{selectByLocaleOrAvailable('label', postinumero)}</span>
             </span>
           </div>
           <div
@@ -403,7 +405,7 @@
             <span
               class="w-full md:w-1/2 text-ashblue">{$_('ET_RAKENNUS_KAYTTOTARKOITUS')}:</span>
             <span
-              class="w-full md:w-1/2">{selectByLocaleOrAvailable($locale, alakayttotarkoitusluokka['label-fi'], alakayttotarkoitusluokka['label-sv'])}</span>
+              class="w-full md:w-1/2">{selectByLocaleOrAvailable('label', alakayttotarkoitusluokka)}</span>
           </div>
           <div
             class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
@@ -418,7 +420,7 @@
               <span
                 class="w-full md:w-1/2 text-ashblue">{$_('ET_LAATIMISVAIHE')}:</span>
               <span
-                class="w-full md:w-1/2">{selectByLocaleOrAvailable($locale, laatimisvaihe['label-fi'], laatimisvaihe['label-sv'])}</span>
+                class="w-full md:w-1/2">{selectByLocaleOrAvailable('label', laatimisvaihe)}</span>
             </div>
             {#if laatimisvaihe.id === 2}
               <div
@@ -667,11 +669,11 @@
                 class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_KUVAUS')}:</span>
               {#if lammitysmuoto1 && lammitysmuoto1.id !== 9}
                 <span class="w-full md:w-1/2">
-                  {selectByLocaleOrAvailable($locale, lammitysmuoto1['label-fi'], lammitysmuoto1['label-sv'])}
+                  {selectByLocaleOrAvailable('label', lammitysmuoto1)}
                 </span>
               {:else}
                 <span class="w-full md:w-1/2">
-                  {selectByLocaleOrAvailable($locale, energiatodistus.lahtotiedot.lammitys['lammitysmuoto-1']?.['kuvaus-fi'], energiatodistus.lahtotiedot.lammitys['lammitysmuoto-1']?.['kuvaus-sv'])}
+                  {selectByLocaleOrAvailable('kuvaus', energiatodistus.lahtotiedot.lammitys['lammitysmuoto-1'])}
                 </span>
               {/if}
             </div>
@@ -684,11 +686,11 @@
                 class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_2')}:</span>
               {#if lammitysmuoto2 && lammitysmuoto2.id !== 9}
                 <span class="w-full md:w-1/2">
-                  {selectByLocaleOrAvailable($locale, lammitysmuoto2['label-fi'], lammitysmuoto2['label-sv'])}
+                  {selectByLocaleOrAvailable('label', lammitysmuoto2)}
                 </span>
               {:else}
                 <span class="w-full md:w-1/2">
-                  {selectByLocaleOrAvailable($locale, energiatodistus.lahtotiedot.lammitys['lammitysmuoto-2']?.['kuvaus-fi'], energiatodistus.lahtotiedot.lammitys['lammitysmuoto-2']?.['kuvaus-sv'])}
+                  {selectByLocaleOrAvailable('kuvaus', energiatodistus.lahtotiedot.lammitys['lammitysmuoto-2'])}
                 </span>
               {/if}
             </div>
@@ -701,11 +703,11 @@
                 class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_LAMMONJAKO')}:</span>
               {#if lammonjako && lammonjako.id !== 12}
                 <span class="w-full md:w-1/2">
-                  {selectByLocaleOrAvailable($locale, lammonjako['label-fi'], lammonjako['label-sv'])}
+                  {selectByLocaleOrAvailable('label', lammonjako)}
                 </span>
               {:else}
                 <span class="w-full md:w-1/2">
-                  {selectByLocaleOrAvailable($locale, energiatodistus.lahtotiedot.lammitys.lammonjako?.['kuvaus-fi'], energiatodistus.lahtotiedot.lammitys.lammonjako?.['kuvaus-sv'])}
+                  {selectByLocaleOrAvailable('kuvaus', energiatodistus.lahtotiedot.lammitys.lammonjako)}
                 </span>
               {/if}
             </div>
@@ -718,11 +720,11 @@
                 class="w-full md:w-1/2 text-ashblue">{$_('ET_ILMANVAIHTO_KUVAUS')}:</span>
               {#if ilmanvaihtotyyppi && ilmanvaihtotyyppi.id !== 6}
                 <span class="w-full md:w-1/2">
-                  {selectByLocaleOrAvailable($locale, ilmanvaihtotyyppi['label-fi'], ilmanvaihtotyyppi['label-sv'])}
+                  {selectByLocaleOrAvailable('label', ilmanvaihtotyyppi)}
                 </span>
               {:else}
                 <span class="w-full md:w-1/2">
-                  {selectByLocaleOrAvailable($locale, energiatodistus.lahtotiedot.ilmanvaihto?.['kuvaus-fi'], energiatodistus.lahtotiedot.ilmanvaihto?.['kuvaus-sv'])}
+                  {selectByLocaleOrAvailable('kuvaus', energiatodistus.lahtotiedot.ilmanvaihto)}
                 </span>
               {/if}
             </div>
@@ -866,7 +868,7 @@
             <span
               class="w-full md:w-1/3 text-ashblue">{$_('ET_KAYTETTY_LUOKITTELU')}:</span>
             <span
-              class="w-full md:w-2/3">{selectByLocaleOrAvailable($locale, eLuokka.kayttotarkoitus['label-fi'], eLuokka.kayttotarkoitus['label-sv'])}</span>
+              class="w-full md:w-2/3">{selectByLocaleOrAvailable('label', eLuokka.kayttotarkoitus)}</span>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-start justify-start">
@@ -904,7 +906,7 @@
             <span
               class="w-full bg-ashblue text-white uppercase px-4 py-3 my-4 print:text-sm">{$_('ET_LASKETTU_KOKONAIS')}</span>
             <p class="w-full">
-              {selectByLocaleOrAvailable($locale, energiatodistus.perustiedot?.['keskeiset-suositukset-fi'], energiatodistus.perustiedot?.['keskeiset-suositukset-sv'])}
+              {selectByLocaleOrAvailable('keskeiset-suositukset', energiatodistus.perustiedot)}
             </p>
           </div>
         {/if}
