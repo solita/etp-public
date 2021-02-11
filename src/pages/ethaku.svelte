@@ -715,7 +715,7 @@
                 const qs = [
                   `${
                     !whereString.length || whereString === '[[]]'
-                      ? ''
+                      ? 'where=[[]]'
                       : `where=${whereString}`
                   }`,
                   `${keyword && keyword.length ? `keyword=${keyword}` : ''}`
