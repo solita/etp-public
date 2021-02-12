@@ -23,6 +23,7 @@
   import Saavutettavuusseloste from '@Page/saavutettavuusseloste';
   import LaatijanKirjautuminen from '@Page/laatijankirjautuminen';
   import Rekisteroitymisohjeet from '@Page/rekisteroitymisohjeet';
+  import NotFound from '@Page/not-found';
 
   let page;
   let params;
@@ -54,6 +55,8 @@
     page = Rekisteroitymisohjeet;
   });
   router('/', () => (page = Home));
+
+  router('*', () => (page = NotFound));
 
   router.start();
 </script>

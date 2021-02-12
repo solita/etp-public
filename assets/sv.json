@@ -190,5 +190,6 @@
   "REOHJ_SIIRRY_DVV": "Gå till MDB:s webbplats",
   "REOHJ_KORTINLUKULAITTEEN": "Kortläsare kan köpas i elektronikbutiker.\n mPollux Digisign-kortläsarprogrammet kan laddas ner och installeras från Myndigheten för digitalisering och befolkningsdata.",
   "REOHJ_SIIRRY_OHJELMISTON": "Gå till programmets sida på dvv.fi",
-  "SERVER_ERROR": "Data kunde inte hämtas. Försök igen om ett ögonblick."
+  "SERVER_ERROR": "Data kunde inte hämtas. Försök igen om ett ögonblick.",
+  "PAGE_NOT_FOUND_ERROR": "Hakemaasi sivua ei löydy. SV?"
 }

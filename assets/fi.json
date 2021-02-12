@@ -190,5 +190,6 @@
   "REOHJ_SIIRRY_DVV": "Siirry DVV:n sivuille",
   "REOHJ_KORTINLUKULAITTEEN": "Kortinlukulaitteen voi ostaa elektroniikkaliikkeistä.\n mPollux Digisign -kortinlukuohjelmiston voi ladata ja asentaa Digi- ja väestötietovirastosta.",
   "REOHJ_SIIRRY_OHJELMISTON": "Siirry ohjelmiston sivulle dvv.fi:ssä",
-  "SERVER_ERROR": "Tietoja ei pystytty hakemaan. Yritä hetken kuluttua uudelleen."
+  "SERVER_ERROR": "Tietoja ei pystytty hakemaan. Yritä hetken kuluttua uudelleen.",
+  "PAGE_NOT_FOUND_ERROR": "Hakemaasi sivua ei löydy."
 }
