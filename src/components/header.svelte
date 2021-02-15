@@ -48,28 +48,26 @@
             {$_('ENERGIATODISTUSREKISTERI')}
           </h1>
         </a>
-        {#if $activePath !== '/energiatodistus'}
-          <nav
-            class="font-semibold text-ashblue justify-start ml-4 mr-auto hidden lg:block">
-            <button
-              lang="fi"
-              class="font-semibold"
-              class:underline={$locale == 'sv'}
-              class:text-darkgreen={$locale == 'sv'}
-              on:click={() => setLocale('fi')}>
-              suomeksi
-            </button>
-            |
-            <button
-              lang="sv"
-              class="font-semibold"
-              class:underline={$locale == 'fi'}
-              class:text-darkgreen={$locale == 'fi'}
-              on:click={() => setLocale('sv')}>
-              på svenska
-            </button>
-          </nav>
-        {/if}
+        <nav
+          class="font-semibold text-ashblue justify-start ml-4 mr-auto hidden lg:block">
+          <button
+            lang="fi"
+            class="font-semibold"
+            class:underline={$locale == 'sv'}
+            class:text-darkgreen={$locale == 'sv'}
+            on:click={() => setLocale('fi')}>
+            suomeksi
+          </button>
+          |
+          <button
+            lang="sv"
+            class="font-semibold"
+            class:underline={$locale == 'fi'}
+            class:text-darkgreen={$locale == 'fi'}
+            on:click={() => setLocale('sv')}>
+            på svenska
+          </button>
+        </nav>
         <a
           class="text-ashblue items-center hidden lg:flex"
           href="/rekisteroitymisohjeet"><span
@@ -116,33 +114,31 @@
         <span class="material-icons" aria-hidden="true"> chevron_right </span>
       </a>
 
-      {#if $activePath !== '/energiatodistus'}
-        <nav class="font-semibold text-ashblue p-3 text-center mx-auto bg-grey">
-          <button
-            lang="fi"
-            class="p-2 font-semibold"
-            class:underline={$locale == 'sv'}
-            class:text-darkgreen={$locale == 'sv'}
-            on:click={() => {
-              closeMobileNav();
-              setLocale('fi');
-            }}>
-            suomeksi
-          </button>
-          |
-          <button
-            lang="sv"
-            class="p-2 font-semibold"
-            class:underline={$locale == 'fi'}
-            class:text-darkgreen={$locale == 'fi'}
-            on:click={() => {
-              closeMobileNav();
-              setLocale('sv');
-            }}>
-            på svenska
-          </button>
-        </nav>
-      {/if}
+      <nav class="font-semibold text-ashblue p-3 text-center mx-auto bg-grey">
+        <button
+          lang="fi"
+          class="p-2 font-semibold"
+          class:underline={$locale == 'sv'}
+          class:text-darkgreen={$locale == 'sv'}
+          on:click={() => {
+            closeMobileNav();
+            setLocale('fi');
+          }}>
+          suomeksi
+        </button>
+        |
+        <button
+          lang="sv"
+          class="p-2 font-semibold"
+          class:underline={$locale == 'fi'}
+          class:text-darkgreen={$locale == 'fi'}
+          on:click={() => {
+            closeMobileNav();
+            setLocale('sv');
+          }}>
+          på svenska
+        </button>
+      </nav>
     </div>
   {/if}
 
