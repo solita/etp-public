@@ -120,7 +120,8 @@
     GeoApi.postinumerot(fetch),
     EtApi.lammonjako(fetch),
     EtApi.lammitysmuoto(fetch),
-    EtApi.ilmanvaihtotyyppi(fetch)
+    EtApi.ilmanvaihtotyyppi(fetch),
+    $_
   ]).then(
     ([
       energiatodistus,
@@ -362,14 +363,14 @@
             class="w-full flex flex-col md:flex-row justify-between items-center">
             <h1 class="text-xl uppercase text-ashblue my-0">
               {$_('ENERGIATODISTUS')}
-              {energiatodistus.versio}
+              {energiatodistus?.versio || versio}
               -
               {$_('ET_KOOSTE')}
             </h1>
             <ButtonLink
               {...buttonStyles.ashblue}
               target="_blank"
-              href={energiatodistus.versio == '2013' ? VirallinenMalli2013 : VirallinenMalli2018}>
+              href={energiatodistus?.versio == '2013' ? VirallinenMalli2013 : VirallinenMalli2018}>
               <span
                 class="material-icons"
                 aria-hidden="true">picture_as_pdf</span>
@@ -385,7 +386,7 @@
               class="w-full md:w-1/2 text-ashblue">{$_('ET_TODISTETUNNUS')}:</span>
             <span class="w-full md:w-1/2">{energiatodistus.id}</span>
           </div>
-          {#if versio == '2018' && energiatodistus?.perustiedot?.rakennustunnus}
+          {#if energiatodistus?.versio == '2018' && energiatodistus?.perustiedot?.rakennustunnus}
             <div
               class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
               <span
@@ -418,7 +419,7 @@
             <span
               class="w-full md:w-1/2">{energiatodistus.perustiedot.valmistumisvuosi}</span>
           </div>
-          {#if energiatodistus.versio == '2018'}
+          {#if energiatodistus?.versio == '2018'}
             <div
               class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
               <span
@@ -426,7 +427,7 @@
               <span
                 class="w-full md:w-1/2">{selectByLocaleOrAvailable('label', laatimisvaihe)}</span>
             </div>
-            {#if laatimisvaihe.id === 2}
+            {#if laatimisvaihe?.id === 2}
               <div
                 class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
                 <span
@@ -456,12 +457,12 @@
               </div>
               <div
                 class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
-                {#if energiatodistus.tulokset['e-luokka'] == 'A'}
+                {#if energiatodistus?.tulokset['e-luokka'] == 'A'}
                   <div class="arrow-left" />
                   <div
                     class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
                     <span class="font-bold">A</span><span
-                      class="text-sm">{versio}</span>
+                      class="text-sm">{energiatodistus?.versio || versio}</span>
                   </div>
                 {/if}
               </div>
@@ -480,12 +481,12 @@
               </div>
               <div
                 class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
-                {#if energiatodistus.tulokset['e-luokka'] == 'B'}
+                {#if energiatodistus?.tulokset['e-luokka'] == 'B'}
                   <div class="arrow-left" />
                   <div
                     class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white align-top">
                     <span class="font-bold">B</span><span
-                      class="text-sm">{versio}</span>
+                      class="text-sm">{energiatodistus?.versio || versio}</span>
                   </div>
                 {/if}
               </div>
@@ -503,12 +504,12 @@
               </div>
               <div
                 class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
-                {#if energiatodistus.tulokset['e-luokka'] == 'C'}
+                {#if energiatodistus?.tulokset['e-luokka'] == 'C'}
                   <div class="arrow-left" />
                   <div
                     class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
                     <span class="font-bold">C</span><span
-                      class="text-sm">{versio}</span>
+                      class="text-sm">{energiatodistus?.versio || versio}</span>
                   </div>
                 {/if}
               </div>
@@ -526,12 +527,12 @@
               </div>
               <div
                 class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
-                {#if energiatodistus.tulokset['e-luokka'] == 'D'}
+                {#if energiatodistus?.tulokset['e-luokka'] == 'D'}
                   <div class="arrow-left" />
                   <div
                     class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
                     <span class="font-bold">D</span><span
-                      class="text-sm">{versio}</span>
+                      class="text-sm">{energiatodistus?.versio || versio}</span>
                   </div>
                 {/if}
               </div>
@@ -549,12 +550,12 @@
               </div>
               <div
                 class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 print:py-2 md:pl-10">
-                {#if energiatodistus.tulokset['e-luokka'] == 'E'}
+                {#if energiatodistus?.tulokset['e-luokka'] == 'E'}
                   <div class="arrow-left" />
                   <div
                     class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
                     <span class="font-bold">E</span><span
-                      class="text-sm">{versio}</span>
+                      class="text-sm">{energiatodistus?.versio || versio}</span>
                   </div>
                 {/if}
               </div>
@@ -572,12 +573,12 @@
               </div>
               <div
                 class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
-                {#if energiatodistus.tulokset['e-luokka'] == 'F'}
+                {#if energiatodistus?.tulokset['e-luokka'] == 'F'}
                   <div class="arrow-left" />
                   <div
                     class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
                     <span class="font-bold">F</span><span
-                      class="text-sm">{versio}</span>
+                      class="text-sm">{energiatodistus?.versio || versio}</span>
                   </div>
                 {/if}
               </div>
@@ -595,12 +596,12 @@
               </div>
               <div
                 class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
-                {#if energiatodistus.tulokset['e-luokka'] == 'G'}
+                {#if energiatodistus?.tulokset['e-luokka'] == 'G'}
                   <div class="arrow-left" />
                   <div
                     class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
                     <span class="font-bold">G</span><span
-                      class="text-sm">{versio}</span>
+                      class="text-sm">{energiatodistus?.versio || versio}</span>
                   </div>
                 {/if}
               </div>
@@ -616,15 +617,15 @@
             class="flex flex-col md:flex-row space-x-2 w-full items-start justify-start">
             <span class="w-full md:w-2/3 text-ashblue">{$_('ET_ELUKU')}:</span>
             <span
-              class="w-full md:w-1/3">{`${formats.formatNumber(energiatodistus.tulokset['e-luku'])} ${$_('ET_ELUKU_F')}`}</span>
+              class="w-full md:w-1/3">{`${formats.formatNumber(energiatodistus?.tulokset['e-luku'])} ${$_('ET_ELUKU_F')}`}</span>
           </div>
-          {#if energiatodistus.versio == '2018'}
+          {#if versio == '2018'}
             <div
               class="flex flex-col md:flex-row space-x-2 w-full items-start justify-start">
               <span
                 class="w-full md:w-2/3 text-ashblue">{$_('ET_VAATIMUSTASO')}:</span>
               <span
-                class="w-full md:w-1/3">{`≤ ${eLuokka['raja-uusi-2018']} ${$_('ET_ELUKU_VAATIMUS_F')}`}</span>
+                class="w-full md:w-1/3">{`≤ ${eLuokka?.['raja-uusi-2018']} ${$_('ET_ELUKU_VAATIMUS_F')}`}</span>
             </div>
           {/if}
           <div
@@ -894,14 +895,14 @@
             <span
               class="w-full md:w-1/3 text-ashblue">{$_('ET_RAKENNUKSEN_E_LUOKKA')}</span>
             <div class="w-full md:w-2/3">
-              <strong>{energiatodistus.tulokset['e-luokka']}</strong>
+              <strong>{energiatodistus?.tulokset['e-luokka']}</strong>
               <span>({energiatodistus.tulokset['e-luku']})</span>
             </div>
           </div>
           <p class="w-full">{$_('ET_ELUKU_PERUSTUU')}</p>
         </div>
 
-        {#if energiatodistus.perustiedot?.['keskeiset-suositukset-fi'] || energiatodistus.perustiedot?.['keskeiset-suositukset-sv']}
+        {#if energiatodistus?.perustiedot?.['keskeiset-suositukset-fi'] || energiatodistus?.perustiedot?.['keskeiset-suositukset-sv']}
           <div
             class="w-full flex flex-col mx-auto items-start space-y-6 my-6 pbi-avoid">
             <h2 class="w-full text-green uppercase text-xl">
