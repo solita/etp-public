@@ -3,7 +3,7 @@
 
   let box;
   let image;
-
+  let alt;
   let width = 0;
   let height = 0;
 </script>
@@ -36,5 +36,5 @@
       height = evt.target.height;
     }}
     {src}
-    alt="" />
+    {alt} />
 </div>

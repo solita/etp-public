@@ -48,7 +48,7 @@
         <div
           class="flex justify-center lg:justify-start"
           bind:this={scrollOnAloita}>
-          <BorderImage src={EtHakuImage} />
+          <BorderImage src={EtHakuImage} alt={$_('HOME_ETHAKU_IMG_ALT')} />
         </div>
         <div>
           <h2 class="mb-4">{$_('HOME_ENERGIATODISTUSHAKU')}</h2>
@@ -100,7 +100,9 @@
         class="lg:w-1/2 justify-between sm:px-16 flex flex-col flex-auto mt-16
         lg:mt-0">
         <div class="flex justify-center lg:justify-start">
-          <BorderImage src={LaatijaHakuImage} />
+          <BorderImage
+            src={LaatijaHakuImage}
+            alt={$_('HOME_LAATIJAHAKU_IMG_ALT')} />
         </div>
         <div>
           <h2 class="mb-4">{$_('HOME_LAATIJAHAKU')}</h2>
