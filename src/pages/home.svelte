@@ -28,7 +28,7 @@
 
 <style>
   h3 {
-    @apply text-green uppercase tracking-wider font-bold;
+    @apply uppercase tracking-wider font-bold;
   }
 </style>
 
@@ -159,6 +159,7 @@
         <ButtonLink {...buttonStyles.white} href={ETMalli} target="_blank">
           <span class="material-icons" aria-hidden="true">picture_as_pdf</span>
           <span>{$_('INFO_ENERGIATODISTUSMALLI')}</span>
+          <span class="sr-only">(pdf)</span>
         </ButtonLink>
       </div>
     </section>
