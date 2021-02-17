@@ -27,7 +27,7 @@
 </style>
 
 <fieldset class="flex flex-row flex-wrap sm:justify-between items-center">
-  <legend class="hidden">{$_('ET_LUOKKA')}:</legend>
+  <legend class="sr-only">{$_('ET_LUOKKA')}:</legend>
   {#each luokat as luokka}
     <label class="checkbox-container flex items-center px-3 py-2 md:p-0">
       <input on:change {name} type="checkbox" bind:group value={luokka} />
