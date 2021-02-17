@@ -28,6 +28,7 @@
 </style>
 
 <fieldset class="flex justify-start">
+  <legend class="hidden">{$_('ETHAKU_VERSIO')}:</legend>
   <label class="checkbox-container flex items-center p-2 md:p-0">
     <input {name} on:change type="radio" bind:group={versio} value={'0'} />
     <span class="material-icons checked text-green" aria-hidden="true">
