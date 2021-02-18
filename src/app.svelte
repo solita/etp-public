@@ -21,7 +21,7 @@
 </style>
 
 <Localization>
-  <div class="applicationcontainer font-body font-medium w-full">
+  <div class="applicationcontainer flex flex-col font-body font-medium w-full">
     {#await configPromise then config}
       {#if config.showTestEnvNotification}
         <Container {...containerStyles.red}>
@@ -32,7 +32,7 @@
 
     <Header />
 
-    <main>
+    <main class="flex-grow">
       <Router />
     </main>
 

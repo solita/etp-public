@@ -1,5 +1,6 @@
 <script>
-  import Localization, { _ } from '@Localization/localization';
+  import { _ } from '@Localization/localization';
+  import Container, { styles as containerStyles } from '@Component/container';
 
   import Seo from '@Component/seo';
 </script>
@@ -9,4 +10,8 @@
   noindex={true}
   nofollow={true} />
 
-<div class="flex"><span>{$_('PAGE_NOT_FOUND_ERROR')}</span></div>
+<Container {...containerStyles.white}>
+  <div class="flex flex-col px-16 mt-16">
+    <span class="text-6xl">404</span><span>{$_('PAGE_NOT_FOUND_ERROR')}</span>
+  </div>
+</Container>
