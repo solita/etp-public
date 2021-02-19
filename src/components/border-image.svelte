@@ -1,9 +1,9 @@
 <script>
   export let src;
+  export let alt;
 
   let box;
   let image;
-
   let width = 0;
   let height = 0;
 </script>
@@ -36,5 +36,5 @@
       height = evt.target.height;
     }}
     {src}
-    alt="" />
+    {alt} />
 </div>

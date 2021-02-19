@@ -23,7 +23,6 @@
   export let link;
   export let text;
   export let background;
-  export let iconLeft;
   export let click = () => {};
 
   import { activePath } from '@Router/router';
@@ -33,14 +32,9 @@
   a {
     transition: box-shadow 0.1s;
   }
-  .icon {
-    width: 2.5em;
-    height: 2.5em;
-  }
 </style>
 
 <!-- purgecss: 
-dark 
 bg-lightgreen 
 bg-green 
 bg-altgreen 
@@ -68,16 +62,12 @@ border-white
   class:shadow-lightgreen={$activePath === link && background === 'lightgreen'}
   class:shadow-green={$activePath === link && background === 'green'}
   class:shadow-altgreen={$activePath === link && background === 'altgreen'}
-  class:shadow-ashblue ={$activePath === link && background === 'ashblue'}
+  class:shadow-ashblue={$activePath === link && background === 'ashblue'}
   href={link}
   on:click={click}>
-  {#if iconLeft}
-    <img
-      class="icon inline-block flex-none mx-2"
-      class:dark={text === 'black'}
-      src={iconLeft}
-      alt="Icon" />
-  {/if}
+  <div class="inline-block items-start justify-end flex-shrink mx-2">
+    <slot name="iconleft" />
+  </div>
   <div class="flex flex-col ml-2 flex-1 flex-grow items-start justify-start">
     <slot name="title" />
     <slot name="subtitle" />

@@ -28,7 +28,7 @@
 
 <style>
   h3 {
-    @apply text-green uppercase tracking-wider font-bold;
+    @apply uppercase tracking-wider font-bold;
   }
 </style>
 
@@ -48,7 +48,7 @@
         <div
           class="flex justify-center lg:justify-start"
           bind:this={scrollOnAloita}>
-          <BorderImage src={EtHakuImage} />
+          <BorderImage src={EtHakuImage} alt="" />
         </div>
         <div>
           <h2 class="mb-4">{$_('HOME_ENERGIATODISTUSHAKU')}</h2>
@@ -100,7 +100,7 @@
         class="lg:w-1/2 justify-between sm:px-16 flex flex-col flex-auto mt-16
         lg:mt-0">
         <div class="flex justify-center lg:justify-start">
-          <BorderImage src={LaatijaHakuImage} />
+          <BorderImage src={LaatijaHakuImage} alt="" />
         </div>
         <div>
           <h2 class="mb-4">{$_('HOME_LAATIJAHAKU')}</h2>
@@ -157,6 +157,7 @@
         <ButtonLink {...buttonStyles.white} href={ETMalli} target="_blank">
           <span class="material-icons" aria-hidden="true">picture_as_pdf</span>
           <span>{$_('INFO_ENERGIATODISTUSMALLI')}</span>
+          <span class="sr-only">(pdf)</span>
         </ButtonLink>
       </div>
     </section>

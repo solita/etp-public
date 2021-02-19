@@ -27,7 +27,7 @@
       <section class="md:w-1/3 py-4 md:py-0">
         <h2 class="mb-4">{$_('FOOTER_LAKI')}</h2>
         <p>{$_('FOOTER_ARA_VIRANOMAINEN')}</p>
-        <br>
+        <br />
         <a
           href="https://www.ara.fi"
           class="underline text-darkgreen">{$_('FOOTER_ARA_LINKKI')}</a>
@@ -41,9 +41,9 @@
             class="underline text-darkgreen">energiatodistus@ara.fi</a>
         </address>
         <address class="not-italic flex flex-col">
-            <span>{$_('FOOTER_OSOITE_1')}</span>
-            <span>PL 30</span>
-            <span>15141 LAHTI</span>
+          <span>{$_('FOOTER_OSOITE_1')}</span>
+          <span>PL 30</span>
+          <span>15141 LAHTI</span>
         </address>
         <address class="not-italic">
           <span>{$_('PUHELINVAIHDE')}:</span>
@@ -60,7 +60,10 @@
             <ButtonLink
               href={config.privateSiteUrl}
               {...buttonLinkStyles.ashblue}>
-              <img src={IconLogin} alt="Login icon" class="h-6" />
+              <img
+                src={IconLogin}
+                alt={$_('FOOTER_ICON_ALT_LOGIN')}
+                class="h-6" />
               <span>{$_('KIRJAUDU')}</span>
             </ButtonLink>
           {/await}
@@ -70,7 +73,10 @@
           <ButtonLink
             href={'https://www.ara.fi/fi-FI/ARA/Yhteystiedot/Anna_palautetta(1280)?r=10559'}
             {...buttonStyles.green}>
-            <img src={IconChat} alt="Palaute icon" class="h-6" />
+            <img
+              src={IconChat}
+              alt={$_('FOOTER_ICON_ALT_PALAUTE')}
+              class="h-6" />
             <span>{$_('FOOTER_LAHETA_PALAUTETTA')}</span>
           </ButtonLink>
         </section>
@@ -78,10 +84,7 @@
     </article>
 
     <div class="my-16 border-t-2 border-gray-400 pt-3">
-      <img
-        class="pt-8"
-        src={ImgLogo}
-        alt="Asumisen rahoitus-ja kehittämiskeskuksen (ARA) logo." />
+      <img class="pt-8" src={ImgLogo} alt={$_('FOOTER_ARA_LOGO_ALT')} />
     </div>
   </footer>
 </Container>

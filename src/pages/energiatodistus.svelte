@@ -375,6 +375,7 @@
                 class="material-icons"
                 aria-hidden="true">picture_as_pdf</span>
               <span class="whitespace-no-wrap"> {$_('ET_VIRALLINEN')}</span>
+              <span class="sr-only">(pdf)</span>
             </ButtonLink>
           </div>
         </div>
@@ -738,7 +739,7 @@
 
         <div class="overflow-x-auto w-full pbi-avoid">
           <table class="table-fixed mx-auto my-8 font-normal text-center">
-            <thead class="bg-lightbeige text-green align-center py-4">
+            <thead class="bg-lightbeige text-black align-center py-4">
               <tr>
                 <th class="font-normal py-4 w-1/5 pl-2 text-left" rowspan="2">
                   {$_('ET_ENERGIAMUOTO')}

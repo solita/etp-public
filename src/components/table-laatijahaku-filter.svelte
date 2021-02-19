@@ -73,6 +73,7 @@
 </style>
 
 <fieldset class="flex flex-col md:flex-row">
+  <legend class="sr-only">{$_('LAATIJA_PATEVYYSTASO')}:</legend>
   <div class="flex items-start space-x-1 py-3 md:py-0 mr-3">
     <label class="radio-container">
       <input
