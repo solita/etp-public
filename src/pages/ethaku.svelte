@@ -162,7 +162,7 @@
   let result;
   let etTotalcount;
   $: {
-    if (where) {
+    if (where || keyword) {
       result = EtApi.energiatodistukset(fetch, {
         where: EtHakuUtils.whereQuery(
           EtHakuUtils.where(
@@ -215,16 +215,16 @@
       !Object.keys(deserializedWhere).filter(item => item !== 'id').length > 0
     ) {
       setTimeout(() => {
-        resultsElement?.scrollIntoView({ behavior: 'smooth' });
+        resultsElement?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, animationDuration + 1);
     } else {
-      resultsElement?.scrollIntoView({ behavior: 'smooth' });
+      resultsElement?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   };
 
   onMount(() => {
     if (keyword || page > 0 || (where && where != '[[]]')) {
-      resultsElement?.scrollIntoView({ behavior: 'smooth' });
+      resultsElement?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   });
 </script>
@@ -679,7 +679,7 @@
   </form>
 </Container>
 
-{#if where}
+{#if where || keyword}
   <Container {...containerStyles.white}>
     <div
       class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full"
