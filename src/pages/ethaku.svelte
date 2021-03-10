@@ -215,16 +215,16 @@
       !Object.keys(deserializedWhere).filter(item => item !== 'id').length > 0
     ) {
       setTimeout(() => {
-        resultsElement?.scrollIntoView({ behavior: 'smooth' });
+        resultsElement?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, animationDuration + 1);
     } else {
-      resultsElement?.scrollIntoView({ behavior: 'smooth' });
+      resultsElement?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   };
 
   onMount(() => {
     if (keyword || page > 0 || (where && where != '[[]]')) {
-      resultsElement?.scrollIntoView({ behavior: 'smooth' });
+      resultsElement?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   });
 </script>
