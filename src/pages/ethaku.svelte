@@ -162,7 +162,7 @@
   let result;
   let etTotalcount;
   $: {
-    if (where) {
+    if (where || keyword) {
       result = EtApi.energiatodistukset(fetch, {
         where: EtHakuUtils.whereQuery(
           EtHakuUtils.where(
@@ -679,7 +679,7 @@
   </form>
 </Container>
 
-{#if where}
+{#if where || keyword}
   <Container {...containerStyles.white}>
     <div
       class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full"
