@@ -6,11 +6,14 @@
   import Container, { styles as containerStyles } from '@Component/container';
   import IconLogin from '@Asset/icons/login-light.svg';
   import IconChat from '@Asset/icons/chat.svg';
-  import ImgLogo from '@Asset/ara_logo.png';
+  import ImgLogoBlack from '@Asset/ara_logo_black.png';
+  import ImgLogoBlackSwe from '@Asset/ara_swe_logo_black.png';
 
-  import { _ } from '@Localization/localization';
+  import { _, locale } from '@Localization/localization';
 
   const configPromise = fetch('config.json').then(response => response.json());
+
+  $: logo = $locale === 'fi' ? ImgLogoBlack : ImgLogoBlackSwe;
 </script>
 
 <style>
@@ -18,6 +21,11 @@
     footer {
       display: none;
     }
+  }
+
+  .logo {
+    height: 140px;
+    width: auto;
   }
 </style>
 
@@ -84,7 +92,7 @@
     </article>
 
     <div class="my-16 border-t-2 border-gray-400 pt-3">
-      <img class="pt-8" src={ImgLogo} alt={$_('FOOTER_ARA_LOGO_ALT')} />
+      <img class="logo pt-8" src={logo} alt={$_('FOOTER_ARA_LOGO_ALT')} />
     </div>
   </footer>
 </Container>
