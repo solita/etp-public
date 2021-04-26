@@ -92,7 +92,9 @@
     </article>
 
     <div class="my-16 border-t-2 border-gray-400 pt-3">
-      <img class="logo pt-8" src={logo} alt={$_('FOOTER_ARA_LOGO_ALT')} />
+      <a href="https://www.ara.fi">
+        <img class="logo pt-8" src={logo} alt={$_('FOOTER_ARA_LOGO_ALT')} />
+      </a>
     </div>
   </footer>
 </Container>
