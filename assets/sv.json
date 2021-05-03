@@ -104,7 +104,7 @@
   "ET_RAKENNUS_KAYTTOTARKOITUS": "Byggnadens användningskategori",
   "ET_RAKENNUS_VUOSI": "Byggnadens byggår",
   "ET_LAATIMISVAIHE": "Utarbetande",
-  "ET_HAVANNOINTI": "Datum för observationsbesöket",
+  "ET_HAVAINNOINTI": "Datum för observationsbesöket",
   "ET_LUOKKA": "Energiprestandaklass",
   "ET_VUOSI": "år",
   "ET_M2VUOSI": "m²år",
