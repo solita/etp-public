@@ -3,6 +3,7 @@
   import Button, { styles as buttonStyles } from '@Component/button';
   import ButtonLink from '@Component/buttonlink';
   import LineText from '@Component/et-line-text';
+  import KWhE from '@Component/kwhe';
   import Spinner from '@Component/spinner';
   import { onMount } from 'svelte';
   import { backReferred } from '@/router/router';
@@ -579,7 +580,7 @@
             class="flex flex-col md:flex-row space-x-2 w-full items-start justify-start">
             <span class="w-full md:w-2/3 text-ashblue">{$_('ET_ELUKU')}:</span>
             <span
-              class="w-full md:w-1/3">{`${formats.formatNumber(energiatodistus?.tulokset['e-luku'])} ${$_('ET_ELUKU_F')}`}</span>
+              class="w-full md:w-1/3"><KWhE value={formats.formatNumber(energiatodistus?.tulokset['e-luku'])}/>/({$_('ET_M2VUOSI')})</span>
           </div>
           {#if versio == '2018'}
             <div
@@ -587,7 +588,7 @@
               <span
                 class="w-full md:w-2/3 text-ashblue">{$_('ET_VAATIMUSTASO')}:</span>
               <span
-                class="w-full md:w-1/3">{`≤ ${eLuokka?.['raja-uusi-2018']} ${$_('ET_ELUKU_VAATIMUS_F')}`}</span>
+                class="w-full md:w-1/3"><KWhE value={`≤ ${eLuokka?.['raja-uusi-2018']}`} />/({$_('ET_M2VUOSI')})</span>
             </div>
           {/if}
           <div
@@ -626,7 +627,7 @@
             <span
               class="w-full md:w-1/2 text-ashblue">{$_('ET_NETTOALA')}:</span>
             <span
-              class="w-full md:w-1/2">{formats.formatNumber(energiatodistus.lahtotiedot['lammitetty-nettoala'])}</span>
+              class="w-full md:w-1/2">{formats.formatNumber(energiatodistus.lahtotiedot['lammitetty-nettoala'])} m²</span>
           </div>
 
           {#if lammitysmuoto1 || energiatodistus?.lahtotiedot?.lammitys?.['lammitysmuoto-1']?.['kuvaus-fi'] || energiatodistus?.lahtotiedot?.lammitys?.['lammitysmuoto-1']?.['kuvaus-sv']}
@@ -716,7 +717,7 @@
                 </th>
               </tr>
               <tr>
-                <th class="font-normal pb-4">{$_('ET_ILMANVAIHTO_1')}</th>
+                <th class="font-normal pb-4"><KWhE value='' />/{$_('ET_VUOSI')}</th>
                 <th class="font-normal pb-4">{$_('ET_ILMANVAIHTO_2')}</th>
               </tr>
             </thead>
