@@ -451,7 +451,7 @@
               value={searchmodel['perustiedot.nimi']}
               name={'perustiedot.nimi'}
               validation={validationModel['perustiedot.nimi']}
-              invalidMessage={'Nimi voi olla korkeintaan 100 merkkiä'} />
+              invalidMessage={$_('ETHAKU_INVALID_RAKENNUKSEN_NIMI')} />
           </div>
         </div>
         <div
@@ -467,7 +467,7 @@
               value={searchmodel['perustiedot.rakennustunnus']}
               name={'perustiedot.rakennustunnus'}
               validation={validationModel['perustiedot.rakennustunnus']}
-              invalidMessage={'Syötetty arvo ei ole oikeamuotoinen rakennustunnus'} />
+              invalidMessage={$_('ETHAKU_INVALID_RAKENNUSTUNNUS')} />
           </div>
         </div>
         <div
@@ -488,7 +488,7 @@
                 name={'perustiedot.valmistumisvuosi_min'}
                 step="1"
                 validation={validationModel['perustiedot.valmistumisvuosi_min'](0, numberOrDefault(10000000000, searchmodel['perustiedot.valmistumisvuosi_max']))}
-                invalidMessage={'Arvon tulee olla loppuarvoa pienempi'} />
+                invalidMessage={$_('ETHAKU_INVALID_VUOSI_MIN')} />
             </div>
             <span class="material-icons text-darkgrey" aria-hidden="true">
               horizontal_rule
@@ -504,7 +504,7 @@
                 max="10000000000"
                 step="1"
                 validation={validationModel['perustiedot.valmistumisvuosi_max'](numberOrDefault(0, searchmodel['perustiedot.valmistumisvuosi_min']), 10000000000)}
-                invalidMessage={'Arvon tulee olla alkuarvoa suurempi'} />
+                invalidMessage={$_('ETHAKU_INVALID_VUOSI_MAX')} />
             </div>
           </div>
         </div>
@@ -525,7 +525,7 @@
                 placeholder={'pp.kk.vvvv'}
                 max={searchmodel['allekirjoitusaika_max']}
                 validation={validationModel['allekirjoitusaika_min']('', searchmodel['allekirjoitusaika_max'])}
-                invalidMessage={'Alkupäivämäärän tulee olla ennen loppupäivämäärää'} />
+                invalidMessage={$_('ETHAKU_INVALID_ALLEKIRJOITUSAIKA_MIN')} />
             </div>
             <span
               class="material-icons text-darkgrey w-full md:w-auto select-none"
@@ -541,7 +541,7 @@
                 placeholder={'pp.kk.vvvv'}
                 min={searchmodel['allekirjoitusaika_min']}
                 validation={validationModel['allekirjoitusaika_max'](searchmodel['allekirjoitusaika_min'], '')}
-                invalidMessage={'Loppupäivämäärän tulee olla alkupäivämäärän jälkeen'} />
+                invalidMessage={$_('ETHAKU_INVALID_ALLEKIRJOITUSAIKA_MAX')} />
             </div>
           </div>
         </div>
@@ -561,8 +561,8 @@
                 model={searchmodel}
                 name={'voimassaolo-paattymisaika_min'}
                 max={searchmodel['voimassaolo-paattymisaika_max']}
-                invalidMessage={'Alkupäivämäärän tulee olla ennen loppupäivämäärää'}
-                validation={validationModel['voimassaolo-paattymisaika_min']('', searchmodel['voimassaolo-paattymisaika_max'])} />
+                validation={validationModel['voimassaolo-paattymisaika_min']('', searchmodel['voimassaolo-paattymisaika_max'])}
+                invalidMessage={$_('ETHAKU_INVALID_VOIMASSAOLO_MIN')} />
             </div>
             <span
               class="material-icons text-darkgrey w-full md:w-auto select-none"
@@ -577,8 +577,8 @@
                 model={searchmodel}
                 name={'voimassaolo-paattymisaika_max'}
                 min={searchmodel['voimassaolo-paattymisaika_min']}
-                invalidMessage={'Loppupäivämäärän tulee olla alkupäivämäärän jälkeen'}
-                validation={validationModel['voimassaolo-paattymisaika_max'](searchmodel['voimassaolo-paattymisaika_min'], '')} />
+                validation={validationModel['voimassaolo-paattymisaika_max'](searchmodel['voimassaolo-paattymisaika_min'], '')}
+                invalidMessage={$_('ETHAKU_INVALID_VOIMASSAOLO_MAX')} />
             </div>
           </div>
         </div>
@@ -599,7 +599,7 @@
                 name={'tulokset.e-luku_min'}
                 step="1"
                 validation={validationModel['tulokset.e-luku_min'](0, numberOrDefault(10000000000, searchmodel['tulokset.e-luku_max']))}
-                invalidMessage={'Arvon tulee olla loppuarvoa pienempi'} />
+                invalidMessage={$_('ETHAKU_INVALID_E_LUKU_MIN')} />
             </div>
             <span class="material-icons text-darkgrey" aria-hidden="true">
               horizontal_rule
@@ -614,7 +614,7 @@
                 name={'tulokset.e-luku_max'}
                 step="1"
                 validation={validationModel['tulokset.e-luku_max'](numberOrDefault(1, searchmodel['tulokset.e-luku_min']), 10000000000)}
-                invalidMessage={'Arvon tulee olla alkuarvoa suurempi'} />
+                invalidMessage={$_('ETHAKU_INVALID_E_LUKU_MAX')} />
             </div>
           </div>
         </div>
@@ -646,7 +646,7 @@
                 model={searchmodel}
                 name={'lahtotiedot.lammitetty-nettoala_min'}
                 validation={validationModel['lahtotiedot.lammitetty-nettoala_min'](0, numberOrDefault(10000000000, searchmodel['lahtotiedot.lammitetty-nettoala_max']))}
-                invalidMessage={'Arvon tulee olla loppuarvoa pienempi'} />
+                invalidMessage={$_('ETHAKU_INVALID_NETTOALA_MIN')} />
             </div>
             <span class="material-icons text-darkgrey" aria-hidden="true">
               horizontal_rule
@@ -661,7 +661,7 @@
                 name={'lahtotiedot.lammitetty-nettoala_max'}
                 set={setter('lahtotiedot.lammitetty-nettoala_max')}
                 validation={validationModel['lahtotiedot.lammitetty-nettoala_max'](numberOrDefault(0, searchmodel['lahtotiedot.lammitetty-nettoala_min']), 10000000000)}
-                invalidMessage={'Arvon tulee olla alkuarvoa suurempi'} />
+                invalidMessage={$_('ETHAKU_INVALID_NETTOALA_MAX')} />
             </div>
           </div>
         </div>
