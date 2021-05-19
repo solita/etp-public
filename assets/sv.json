@@ -123,7 +123,7 @@
   "ET_ENERGIAMUOTO": "Använd energiform",
   "ET_OSTOENERGIA": "Köpt energi beräknad med standardiserad användning",
   "ET_ENERGIAMUODON_KERROIN": "Energiformsfaktor",
-  "ET_ENERGIAMUODON_PAINOTETTU": "Energi viktad med energiformsfaktor kWh/(m²/år)",
+  "ET_ENERGIAMUODON_PAINOTETTU": "Energi viktad med energiformsfaktor",
   "ET_ILMANVAIHTO_2": "kWh/(m²/år)",
   "ET_SAHKO": "El",
   "ET_KAUKOLAMPO": "Fjärrvärme",

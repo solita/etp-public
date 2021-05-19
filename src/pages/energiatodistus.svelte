@@ -713,12 +713,12 @@
                   {$_('ET_ENERGIAMUODON_KERROIN')}
                 </th>
                 <th class="font-normal py-4 w-1/5" rowspan="2">
-                  {$_('ET_ENERGIAMUODON_PAINOTETTU')}
+                  {$_('ET_ENERGIAMUODON_PAINOTETTU')} <KWhE value='' />/({$_('ET_M2VUOSI')})
                 </th>
               </tr>
               <tr>
-                <th class="font-normal pb-4"><KWhE value='' />/{$_('ET_VUOSI')}</th>
-                <th class="font-normal pb-4">{$_('ET_ILMANVAIHTO_2')}</th>
+                <th class="font-normal pb-4">kWh/{$_('ET_VUOSI')}</th>
+                <th class="font-normal pb-4">kWh/({$_('ET_M2VUOSI')})</th>
               </tr>
             </thead>
             <tbody>

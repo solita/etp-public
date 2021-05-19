@@ -123,7 +123,7 @@
   "ET_ENERGIAMUOTO": "Käytettävä energiamuoto",
   "ET_OSTOENERGIA": "Vakioidulla käytöllä laskettu ostoenergia",
   "ET_ENERGIAMUODON_KERROIN": "Energiamuodon kerroin",
-  "ET_ENERGIAMUODON_PAINOTETTU": "Energiamuodon kertoimella painotettu energia kWh/(m²/vuosi)",
+  "ET_ENERGIAMUODON_PAINOTETTU": "Energiamuodon kertoimella painotettu energia",
   "ET_ILMANVAIHTO_2": "kWh/(m²/vuosi)",
   "ET_SAHKO": "Sähkö",
   "ET_KAUKOLAMPO": "Kaukolämpö",
