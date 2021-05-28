@@ -24,9 +24,11 @@
   <div class="applicationcontainer flex flex-col font-body font-medium w-full">
     {#await configPromise then config}
       {#if config.showTestEnvNotification}
-        <Container {...containerStyles.red}>
-          <Disclaimer>{$_('DISCLAIMER_WIP')}</Disclaimer>
-        </Container>
+        <div class="print:hidden">
+          <Container {...containerStyles.red}>
+            <Disclaimer>{$_('DISCLAIMER_WIP')}</Disclaimer>
+          </Container>
+        </div>
       {/if}
     {/await}
 
