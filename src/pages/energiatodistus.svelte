@@ -849,7 +849,7 @@
               {/each}
               <div>
                 <strong>G</strong>
-                <span>({eLuokka['raja-asteikko'][eLuokka['raja-asteikko'].length - 1][0]}-)</span>
+                <span>({eLuokka['raja-asteikko'][eLuokka['raja-asteikko'].length - 1][0] + 1}-)</span>
               </div>
             </div>
           </div>
