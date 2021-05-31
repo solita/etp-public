@@ -324,22 +324,24 @@
   descriptionFi={$locale == 'fi' ? $_('ENERGIATODISTUS') : undefined}
   descriptionSv={$locale == 'sv' ? $_('ENERGIATODISTUS') : undefined} />
 <div bind:this={component}>
-  <Container {...containerStyles.beige}>
-    <div
-      class="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0 md:space-x-2 items-left sm:px-16 sm:py-8 px-4 py-4">
-      <Button
-        {...buttonStyles.green}
-        on:click={() => {
-          backReferred(ref ? '/ethaku?' + ref : '/ethaku');
-        }}>
-        <span
-          class="material-icons align-middle"
-          aria-hidden="true">arrow_back</span>
-        <span class="whitespace-no-wrap">{$_('ET_BACK')}</span>
-      </Button>
-      <span class="flex-grow mr-2"> {$_('ET_KUVAUS')} </span>
-    </div>
-  </Container>
+  <div class="print:hidden">
+    <Container {...containerStyles.beige}>
+      <div
+        class="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0 md:space-x-2 items-left sm:px-16 sm:py-8 px-4 py-4">
+        <Button
+          {...buttonStyles.green}
+          on:click={() => {
+            backReferred(ref ? '/ethaku?' + ref : '/ethaku');
+          }}>
+          <span
+            class="material-icons align-middle"
+            aria-hidden="true">arrow_back</span>
+          <span class="whitespace-no-wrap">{$_('ET_BACK')}</span>
+        </Button>
+        <span class="flex-grow mr-2"> {$_('ET_KUVAUS')} </span>
+      </div>
+    </Container>
+  </div>
   <Container {...containerStyles.white}>
     <div class="sm:px-16 sm:py-8 px-4 py-4 text-lg print:text-sm">
       {#await energiatodistusPromise}
