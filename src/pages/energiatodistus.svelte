@@ -27,6 +27,8 @@
   let ref = '';
   let component = null;
 
+  const classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+
   const parseValues = model => {
     const parseModel = EtHakuUtils.parseModel();
 
@@ -435,143 +437,31 @@
                 <span class="text-green text-lg">{$_('ET_LUOKKA')}</span>
               </div>
             </div>
-            <div class="w-full flex border-black border-b">
-              <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
-                <span
-                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-a pr-1 md:pr-auto">A</span>
-                <div class="arrow-right" />
+            {#each classes as cls}
+              <div class="w-full flex border-black {energiatodistus?.versio === 2013 && cls === 'C' ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
+                <div
+                  class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
+                  <span
+                    class="inline-block font-bold py-1 px-4 text-2xl graph-color-{cls.toLowerCase()} pr-1 md:pr-auto">{cls}</span>
+                  <div class="arrow-right" />
+                </div>
+                <div
+                  class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
+                  {#if energiatodistus?.tulokset['e-luokka'] == cls}
+                    <div class="arrow-left" />
+                    <div
+                      class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
+                      <span class="font-bold">{cls}</span><span
+                        class="text-sm">{energiatodistus?.versio || versio}</span>
+                    </div>
+                  {/if}
+                </div>
               </div>
-              <div
-                class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
-                {#if energiatodistus?.tulokset['e-luokka'] == 'A'}
-                  <div class="arrow-left" />
-                  <div
-                    class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
-                    <span class="font-bold">A</span><span
-                      class="text-sm">{energiatodistus?.versio || versio}</span>
-                  </div>
-                {/if}
-              </div>
-            </div>
-            <div class="w-full flex border-black border-b">
-              <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
-                <span
-                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-b pr-1 md:pr-auto">B</span>
-                <div class="arrow-right" />
-              </div>
-              <div
-                class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
-                {#if energiatodistus?.tulokset['e-luokka'] == 'B'}
-                  <div class="arrow-left" />
-                  <div
-                    class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white align-top">
-                    <span class="font-bold">B</span><span
-                      class="text-sm">{energiatodistus?.versio || versio}</span>
-                  </div>
-                {/if}
-              </div>
-            </div>
-            <div
-              class="w-full flex border-black {energiatodistus?.versio === 2013 ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
-              <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
-                <span
-                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-c pr-1 md:pr-auto">C</span>
-                <div class="arrow-right" />
-              </div>
-              <div
-                class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
-                {#if energiatodistus?.tulokset['e-luokka'] == 'C'}
-                  <div class="arrow-left" />
-                  <div
-                    class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
-                    <span class="font-bold">C</span><span
-                      class="text-sm">{energiatodistus?.versio || versio}</span>
-                  </div>
-                {/if}
-              </div>
-            </div>
-            {#if energiatodistus?.versio === 2013}
-              <LineText />
-            {/if}
-            <div class="w-full flex border-black border-b">
-              <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
-                <span
-                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-d pr-1 md:pr-auto">D</span>
-                <div class="arrow-right" />
-              </div>
-              <div
-                class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
-                {#if energiatodistus?.tulokset['e-luokka'] == 'D'}
-                  <div class="arrow-left" />
-                  <div
-                    class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
-                    <span class="font-bold">D</span><span
-                      class="text-sm">{energiatodistus?.versio || versio}</span>
-                  </div>
-                {/if}
-              </div>
-            </div>
-            <div class="w-full flex border-black border-b">
-              <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
-                <span
-                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-e pr-1 md:pr-auto">E</span>
-                <div class="arrow-right" />
-              </div>
-              <div
-                class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 print:py-2 md:pl-10">
-                {#if energiatodistus?.tulokset['e-luokka'] == 'E'}
-                  <div class="arrow-left" />
-                  <div
-                    class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
-                    <span class="font-bold">E</span><span
-                      class="text-sm">{energiatodistus?.versio || versio}</span>
-                  </div>
-                {/if}
-              </div>
-            </div>
-            <div class="w-full flex border-black border-b">
-              <div
-                class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
-                <span
-                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-f pr-1 md:pr-auto">F</span>
-                <div class="arrow-right" />
-              </div>
-              <div
-                class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
-                {#if energiatodistus?.tulokset['e-luokka'] == 'F'}
-                  <div class="arrow-left" />
-                  <div
-                    class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
-                    <span class="font-bold">F</span><span
-                      class="text-sm">{energiatodistus?.versio || versio}</span>
-                  </div>
-                {/if}
-              </div>
-            </div>
-            <div class="w-full flex border-black border-b">
-              <div
-                class="graph-row flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-2">
-                <span
-                  class="inline-block font-bold py-1 px-4 text-2xl graph-color-g pr-1 md:pr-auto">G</span>
-                <div class="arrow-right" />
-              </div>
-              <div
-                class="flex items-center justify-end md:justify-start w-1/2 px-2 py-4 md:pl-10">
-                {#if energiatodistus?.tulokset['e-luokka'] == 'G'}
-                  <div class="arrow-left" />
-                  <div
-                    class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white">
-                    <span class="font-bold">G</span><span
-                      class="text-sm">{energiatodistus?.versio || versio}</span>
-                  </div>
-                {/if}
-              </div>
-            </div>
+              {#if energiatodistus?.versio === 2013 && cls === 'C' }
+                <LineText />
+              {/if}
+
+            {/each}
           </div>
         </div>
         <div
