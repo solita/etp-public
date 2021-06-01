@@ -582,7 +582,7 @@
             <span
               class="w-full md:w-1/3"><KWhE value={formats.formatNumber(energiatodistus?.tulokset['e-luku'])}/>/({$_('ET_M2VUOSI')})</span>
           </div>
-          {#if versio == '2018'}
+          {#if energiatodistus?.versio === 2018}
             <div
               class="flex flex-col md:flex-row space-x-2 w-full items-start justify-start">
               <span
