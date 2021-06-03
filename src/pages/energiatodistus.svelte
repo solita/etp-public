@@ -370,7 +370,7 @@
           <Spinner />
         </div>
       {:then [energiatodistus, laatimisvaihe, alakayttotarkoitusluokka, postinumero, lammonjako, lammitysmuoto1, lammitysmuoto2, ilmanvaihtotyyppi, eLuokka]}
-        <div class="w-full flex mx-auto mb-8 print:mb-2">
+        <div class="w-full flex mx-auto mb-8">
           <div
             class="w-full flex flex-col md:flex-row justify-between items-center">
             <h1 class="text-xl uppercase text-ashblue my-0">
