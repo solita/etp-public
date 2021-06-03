@@ -224,6 +224,11 @@
   strong {
     page-break-inside: avoid;
   }
+  .et-perustuu-bottom {
+    font-size: 12px;
+    position: absolute;
+    bottom: 0;
+  }
   .graph-color-a {
     background-color: #1d8c38;
   }
@@ -306,6 +311,9 @@
     h2 {
       font-size: 16px;
     }
+  }
+  @page {
+    size: A4;
   }
   @media screen and (min-width: 640px) {
     .graph-color-a {
@@ -520,6 +528,8 @@
             </div>
           </div>
         </div>
+
+        <p class="w-full hidden print:block et-perustuu-bottom py-4 pr-10">{$_('ET_ELUKU_PERUSTUU')}</p>
 
         <h2 class="w-full text-green uppercase text-xl mt-8 pbi-avoid pbb-always">
           {$_('ET_YHTEENVETO')}
