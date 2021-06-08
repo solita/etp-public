@@ -1,0 +1,754 @@
+<script>
+  import Container, { styles as containerStyles } from '@Component/container';
+  import InfoBlock from '@Component/info-block';
+  import Input from '@Component/input-search';
+  import InputNumber from '@Component/input-number';
+  import InputSelect from '@Component/input-select';
+  import Button, { styles as buttonStyles } from '@Component/button';
+  import { onMount, tick } from 'svelte';
+  import { navigate } from '@/router/router';
+  import { _, locale } from '@Localization/localization';
+  import Seo from '@Component/seo';
+  import * as api from '@/api/tilastot-api';
+  import * as EtApi from '@/api/energiatodistus-api';
+
+  import {
+    Chart,
+    ArcElement,
+    LineElement,
+    BarElement,
+    PointElement,
+    BarController,
+    BubbleController,
+    DoughnutController,
+    LineController,
+    PieController,
+    PolarAreaController,
+    RadarController,
+    ScatterController,
+    CategoryScale,
+    LinearScale,
+    LogarithmicScale,
+    RadialLinearScale,
+    TimeScale,
+    TimeSeriesScale,
+    Decimation,
+    Filler,
+    Legend,
+    Title,
+    Tooltip
+  } from 'chart.js';
+
+  Chart.register(
+    ArcElement,
+    LineElement,
+    BarElement,
+    PointElement,
+    BarController,
+    BubbleController,
+    DoughnutController,
+    LineController,
+    PieController,
+    PolarAreaController,
+    RadarController,
+    ScatterController,
+    CategoryScale,
+    LinearScale,
+    LogarithmicScale,
+    RadialLinearScale,
+    TimeScale,
+    TimeSeriesScale,
+    Decimation,
+    Filler,
+    Legend,
+    Title,
+    Tooltip
+  );
+
+  let component;
+  let searchmodel;
+  let vuosiminInput, vuosimaxInput, nettoalaminInput, nettoalamaxInput;
+
+  export let keyword = '';
+  export let vuosimin = '';
+  export let vuosimax = '';
+  export let nettoalamin = '';
+  export let nettoalamax = '';
+
+  let resultKeyword = '';
+  let resultVuosimin = '';
+  let resultVuosimax = '';
+  let resultNettoalamin = '';
+  let resultNettoalamax = '';
+  let results;
+  let lammitysmuodot;
+  let ilmanvaihtotyypit;
+
+  let chart2018, chart2013, chartCanvas1, chartCanvas2;
+
+  let total2013 = 0;
+  let total2018 = 0;
+
+  const selectByLocaleOrAvailable = (prefix, property) => {
+    if ($locale === 'sv' && property?.[prefix + '-sv'])
+      return property[prefix + '-sv'];
+    else if (
+      $locale === 'fi' &&
+      !property?.[prefix + '-fi'] &&
+      property?.[prefix + '-sv']
+    )
+      return property[prefix + '-sv'];
+    else if (property?.[prefix + '-fi']) return property[prefix + '-fi'];
+    else return '';
+  };
+
+  const commitSearch = evt => {
+    const qs = [
+      ...(keyword ? [['keyword', keyword].join('=')] : []),
+      ...(vuosimin ? [['vuosimin', vuosimin].join('=')] : []),
+      ...(vuosimax ? [['vuosimax', vuosimax].join('=')] : []),
+      ...(nettoalamin ? [['nettoalamin', nettoalamin].join('=')] : []),
+      ...(nettoalamax ? [['nettoalamax', nettoalamax].join('=')] : [])
+    ].join('&');
+
+    navigate(`/tilastot${qs ? '?' + qs : ''}`);
+    Promise.all([
+      api.statistics(fetch, {
+        keyword: keyword,
+        'valmistumisvuosi-min': vuosimin,
+        'valmistumisvuosi-max': vuosimax,
+        'lammitetty-nettoala-min': nettoalamin,
+        'lammitetty-nettoala-max': nettoalamax
+      }),
+      EtApi.lammitysmuoto(fetch),
+      EtApi.ilmanvaihtotyyppi(fetch)
+    ]).then(
+      ([
+        statisticsPromise,
+        lammitysmuodotPromise,
+        ilmanvaihtotyypitPromise
+      ]) => {
+        results = statisticsPromise;
+        lammitysmuodot = lammitysmuodotPromise;
+        ilmanvaihtotyypit = ilmanvaihtotyypitPromise;
+
+        resultKeyword = keyword;
+        resultVuosimin = vuosimin;
+        resultVuosimax = vuosimax;
+        resultNettoalamin = nettoalamin;
+        resultNettoalamax = nettoalamax;
+
+        console.log('results: ', results);
+
+        total2018 = 0;
+        total2013 = 0;
+        for (let key in results?.['counts']?.['2018']?.['e-luokka']) {
+          total2018 += results?.['counts']?.['2018']?.['e-luokka'][key];
+        }
+
+        for (let key in results?.['counts']?.['2013']?.['e-luokka']) {
+          total2013 += results?.['counts']?.['2013']?.['e-luokka'][key];
+        }
+        let eLuokka2018, eLuokka2013;
+
+        eLuokka2018 = [
+          (results?.['counts']?.['2018']?.['e-luokka']?.A || 0) / total2018,
+          (results?.['counts']?.['2018']?.['e-luokka']?.B || 0) / total2018,
+          (results?.['counts']?.['2018']?.['e-luokka']?.C || 0) / total2018,
+          (results?.['counts']?.['2018']?.['e-luokka']?.D || 0) / total2018,
+          (results?.['counts']?.['2018']?.['e-luokka']?.E || 0) / total2018,
+          (results?.['counts']?.['2018']?.['e-luokka']?.F || 0) / total2018,
+          (results?.['counts']?.['2018']?.['e-luokka']?.G || 0) / total2018
+        ];
+        eLuokka2013 = [
+          (results?.['counts']?.['2013']?.['e-luokka']?.A || 0) / total2013,
+          (results?.['counts']?.['2013']?.['e-luokka']?.B || 0) / total2013,
+          (results?.['counts']?.['2013']?.['e-luokka']?.C || 0) / total2013,
+          (results?.['counts']?.['2013']?.['e-luokka']?.D || 0) / total2013,
+          (results?.['counts']?.['2013']?.['e-luokka']?.E || 0) / total2013,
+          (results?.['counts']?.['2013']?.['e-luokka']?.F || 0) / total2013,
+          (results?.['counts']?.['2013']?.['e-luokka']?.G || 0) / total2013
+        ];
+
+        tick().then(() => {
+          drawCharts(eLuokka2018, eLuokka2013);
+        });
+
+        resetForm();
+      }
+    );
+  };
+
+  const resetForm = async () => {
+    await tick();
+    keyword = '';
+    vuosimin = '';
+    vuosimax = '';
+    nettoalamin = '';
+    nettoalamax = '';
+  };
+
+  onMount(() => {
+    // component.scrollIntoView();
+
+    if (keyword || vuosimin || vuosimax || nettoalamin || nettoalamax) {
+      commitSearch();
+    }
+  });
+
+  const drawCharts = (data2018, data2013) => {
+    const options = {
+      responsive: true,
+      scales: {
+        yAxis: [
+          {
+            type: 'percentage',
+            ticks: {
+              min: 0,
+              max: 100,
+              callback: function (value) {
+                return value * 100 + '%';
+              }
+            },
+            scaleLabel: {
+              display: true,
+              labelString: 'Percentage'
+            }
+          }
+        ]
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false }
+      }
+    };
+    const colors = [
+      '#1d8c38',
+      '#72a42f',
+      '#c3cc16',
+      '#ffe900',
+      '#e5ac00',
+      '#c95a00',
+      '#bc000b'
+    ];
+    const labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+    if (chart2018 && data2018) {
+      chart2018.data.datasets.forEach(dataset => {
+        dataset.data.push(data2018);
+      });
+    } else if (chartCanvas1) {
+      chart2018 = new Chart(chartCanvas1, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              data: data2018,
+              yAxisID: 'yAxis',
+              backgroundColor: colors
+            }
+          ]
+        },
+        options: options
+      });
+    }
+    if (chart2013 && data2013) {
+      chart2013.data.datasets.forEach(dataset => {
+        dataset.data.push(data2013);
+      });
+    } else if (chartCanvas2) {
+      chart2013 = new Chart(chartCanvas2, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              data: data2013,
+              yAxisID: 'yAxis',
+              backgroundColor: colors
+            }
+          ]
+        },
+        options: options
+      });
+    }
+  };
+</script>
+
+<style>
+  * {
+    color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .pbb-always {
+    page-break-before: always;
+    /* page-break-inside: avoid; */
+  }
+  .pbi-avoid,
+  h1,
+  h2,
+  span {
+    page-break-inside: avoid;
+  }
+
+  .chart-parent {
+    width: 99%;
+  }
+</style>
+
+<Seo
+  title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('TILASTOT')}"
+  descriptionFi={$locale == 'fi' ? $_('TILASTOT') : undefined}
+  descriptionSv={$locale == 'sv' ? $_('TILASTOT') : undefined} />
+<div bind:this={component}>
+  <Container {...containerStyles.beige}>
+    <InfoBlock title={$_('TILASTOT_INFO_TITLE')}>
+      {$_('TILASTOT_INFO_TEXT')}
+    </InfoBlock>
+  </Container>
+
+  <Container {...containerStyles.white}>
+    <div class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto flex flex-col">
+      <!-- SEARTCH FORM -->
+      <div class="flex flex-col w-full print:hidden">
+        <form
+          on:change={async evt => {
+            switch (evt.target.name) {
+              case 'tilastot.alue':
+                keyword = evt.target.value;
+                break;
+              case 'tilastot.valmistumisvuosi_min':
+                vuosimin = evt.target.value;
+                break;
+              case 'tilastot.valmistumisvuosi_max':
+                vuosimax = evt.target.value;
+                break;
+              case 'tilastot.nettoala_min':
+                nettoalamin = evt.target.value;
+                break;
+              case 'tilastot.nettoala_max':
+                nettoalamax = evt.target.value;
+                break;
+              default:
+                searchmodel = { ...searchmodel, [evt.target.name]: evt.target.value };
+            }
+
+            await tick();
+
+            // validate?
+          }}
+          on:submit|preventDefault={evt => {
+            commitSearch(evt.target);
+          }}
+          on:reset={resetForm}>
+          <!-- MAIN HAKU -->
+          <div class="flex flex-col lg:flex-row w-full items-end justify-start">
+            <div class="flex flex-col w-full lg:w-7/12">
+              <aside class="font-normal text-xs italic">
+                {$_('TILASTOT_HAE_ASIDE')}
+              </aside>
+              <div class="flex">
+                <div class="w-full lg:w-11/12">
+                  <Input
+                    label={$_('TILASTOT_HAE_ALUEELLA')}
+                    name="tilastot.alue"
+                    value={keyword} />
+                </div>
+              </div>
+            </div>
+
+            <aside
+              class="w-full mt-4 lg:mt-0 lg:w-5/12 lg:pl-4 lg:border-l-8 border-ashblue text-ashblue italic text-sm">
+              {$_('TILASTOT_ASIDE')}
+            </aside>
+          </div>
+          <!-- TARKENNETTU HAKU -->
+          <div
+            class="w-full lg:w-5/6 flex flex-col my-4 py-4 border-t-2 border-b-2 border-green space-y-2">
+            <div
+              class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
+              <span
+                class="tarkennettu-label w-full md:w-1/2 tracking-widest text-ashblue">
+                {$_('TILASTOT_TYYPPI_KAYTTOTARKOITUS')}
+              </span>
+              <div class="w-full md:w-1/2">
+                <InputSelect
+                  name={'tilastot.kayttotarkoitus'}
+                  disabled={true}
+                  options={['Kaikki']}
+                  label={$_('TILASTOT_TYYPPI_KAYTTOTARKOITUS')}
+                  value={0} />
+              </div>
+            </div>
+            <div
+              class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
+              <span
+                class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
+                {$_('TILASTOT_RAKENNUSVUOSI')}
+              </span>
+              <div class="w-full md:w-1/2 flex justify-between items-center">
+                <div class="w-2/5">
+                  <InputNumber
+                    bind:this={vuosiminInput}
+                    label={$_('TILASTOT_RAKENNUSVUOSI')}
+                    placeholder={'vvvv'}
+                    min={0}
+                    max={3000}
+                    value={vuosimin}
+                    name={'tilastot.valmistumisvuosi_min'}
+                    step="1"
+                    invalidMessage={$_('TILASTOT_INVALID_VUOSI_MIN')} />
+                </div>
+                <span class="material-icons text-darkgrey" aria-hidden="true">
+                  horizontal_rule
+                </span>
+                <div class="w-2/5">
+                  <InputNumber
+                    bind:this={vuosimaxInput}
+                    label={$_('TILASTOT_RAKENNUSVUOSI')}
+                    placeholder={'vvvv'}
+                    min={0}
+                    max={3000}
+                    value={vuosimax}
+                    name={'tilastot.valmistumisvuosi_max'}
+                    step="1"
+                    invalidMessage={$_('TILASTOT_INVALID_VUOSI_MAX')} />
+                </div>
+              </div>
+            </div>
+            <div
+              class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
+              <span
+                class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
+                {$_('TILASTOT_LAMMITETTY_NETTOALA')}
+              </span>
+              <div class="w-full md:w-1/2 flex justify-between items-center">
+                <div class="w-2/5">
+                  <InputNumber
+                    bind:this={nettoalaminInput}
+                    label={$_('TILASTOT_LAMMITETTY_NETTOALA')}
+                    placeholder={'m²'}
+                    min="0"
+                    max={nettoalamax || 999999}
+                    value={nettoalamin}
+                    name={'tilastot.nettoala_min'}
+                    step="1"
+                    invalidMessage={$_('TILASTOT_INVALID_NETTOALA_MIN')} />
+                </div>
+                <span class="material-icons text-darkgrey" aria-hidden="true">
+                  horizontal_rule
+                </span>
+                <div class="w-2/5">
+                  <InputNumber
+                    bind:this={nettoalamaxInput}
+                    label={$_('TILASTOT_LAMMITETTY_NETTOALA')}
+                    placeholder={'m²'}
+                    min={nettoalamin || 0}
+                    max={999999}
+                    value={nettoalamax}
+                    name={'tilastot.nettoala_max'}
+                    step="1"
+                    invalidMessage={$_('TILASTOT_INVALID_NETTOALA_MAX')} />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- BUTTONS -->
+          <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
+            <Button type={'submit'} {...buttonStyles.green}>
+              {$_('TILASTOT_HAE')}
+            </Button>
+            <Button type={'reset'} {...buttonStyles.ashblue}>
+              {$_('TILASTOT_TYHJENNA')}
+            </Button>
+          </div>
+        </form>
+      </div>
+      {#if results}
+        <div class="flex flex-col w-full my-8">
+          <!-- GENERAL, GRAPHS-->
+          <span class="uppercase font-bold w-full my-2">
+            {$_('TILASTOT_TULOKSIA')}
+            {' '}
+            {total2013 + total2018 || '< 5'}
+          </span>
+          <!-- GENERAL -->
+          <div
+            class="pbb-always flex flex-col md:flex-row space-y-2 md:space-x-16 md:space-y-0 justify-evenly">
+            <div class="w-full flex flex-col space-y-2">
+              {#if resultKeyword}
+                <div class="w-full space-x-2">
+                  <span class="font-bold">{$_('TILASTOT_ALUE')}</span>
+                  <span>{resultKeyword}</span>
+                </div>
+              {/if}
+              <div class="w-full space-x-2">
+                <span class="font-bold">{$_('TILASTOT_TYYPPI')}</span>
+                <span>Kaikki</span>
+              </div>
+            </div>
+            <div class="w-full flex flex-col space-y-2">
+              {#if resultVuosimin || resultVuosimax}
+                <div class="w-full space-x-2">
+                  <span class="font-bold">{$_('TILASTOT_RAKENNUSVUOSI')}</span>
+                  <span>{resultVuosimin} - {resultVuosimax}</span>
+                </div>
+              {/if}
+              <div class="w-full space-x-2">
+                <span
+                  class="font-bold">{$_('TILASTOT_LAMMITETTY_NETTOALA_T')}</span>
+                <span>{`${resultNettoalamin || 0} m² - ${resultNettoalamax || '∞'} m²`}</span>
+              </div>
+            </div>
+          </div>
+          {#if total2013 + total2018 > 0}
+            <!-- GRAPHS -->
+            <div
+              class="my-8 flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
+              <div class="w-full flex flex-col space-y-2">
+                {#if total2018 > 0}
+                  <h1 class="w-full">
+                    {$_('TILASTOT_ET_2018')}
+                    {` (${total2018} kpl)`}
+                  </h1>
+                  <div class="pbi-avoid w-full flex flex-col">
+                    <h2 class="my-4 text-green">{$_('TILASTOT_ET_LUOKKA')}</h2>
+                    <div class="chart-parent">
+                      <canvas bind:this={chartCanvas1} />
+                    </div>
+                  </div>
+                  <div class="w-full flex flex-col">
+                    <h2 class="my-4 text-green">{$_('TILASTOT_E_LUKU')}</h2>
+
+                    <div class="w-full flex justify-between">
+                      <span> {$_('TILASTOT_KESKIARVO')} </span>
+                      <span>
+                        {results?.['e-luku-statistics']?.['2018']?.avg.toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}
+                      </span>
+                    </div>
+                    <div class="w-full flex justify-between">
+                      <span> {$_('TILASTOT_PARAS_15')} </span>
+                      <span>
+                        {results?.['e-luku-statistics']?.['2018']?.['percentile-15'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
+                    </div>
+                    <div class="w-full flex justify-between">
+                      <span> {$_('TILASTOT_HEIKOIN_15')} </span>
+                      <span>
+                        {results?.['e-luku-statistics']?.['2018']?.['percentile-15'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
+                    </div>
+                  </div>
+                {:else}
+                  <div class="flex">
+                    <span class="material-icons mr-1" aria-hidden="true">
+                      info
+                    </span>
+                    <span> {$_('TILASTOT_NO_2018')} </span>
+                  </div>
+                {/if}
+              </div>
+              <div class="w-full flex flex-col space-y-2">
+                {#if total2013 > 0}
+                  <h1 class="w-full">
+                    {$_('TILASTOT_ET_2013')}
+                    {` (${total2013} kpl)`}
+                  </h1>
+                  <div class="pbi-avoid w-full flex flex-col">
+                    <h2 class="my-4 text-green">{$_('TILASTOT_ET_LUOKKA')}</h2>
+                    <div class="chart-parent">
+                      <canvas bind:this={chartCanvas2} />
+                    </div>
+                  </div>
+                  <div class="w-full flex flex-col">
+                    <h2 class="my-4 text-green">{$_('TILASTOT_E_LUKU')}</h2>
+
+                    <div class="w-full flex justify-between">
+                      <span>{$_('TILASTOT_KESKIARVO')}</span>
+                      <span>{results?.['e-luku-statistics']?.['2013']?.avg.toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
+                    </div>
+                    <div class="w-full flex justify-between">
+                      <span>{$_('TILASTOT_PARAS_15')}</span>
+                      <span>{results?.['e-luku-statistics']?.['2013']?.['percentile-15'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
+                    </div>
+                    <div class="w-full flex justify-between">
+                      <span>{$_('TILASTOT_HEIKOIN_15')}</span>
+                      <span>{results?.['e-luku-statistics']?.['2013']?.['percentile-15'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
+                    </div>
+                  </div>
+                {:else}
+                  <div class="flex">
+                    <span class="material-icons mr-1"> info </span>
+                    <span> {$_('TILASTOT_NO_2013')} </span>
+                  </div>
+                {/if}
+              </div>
+            </div>
+            <!-- MOLEMMILLE TUNNUSLUVUT-->
+            <h1 class="pbb-always w-full my-4">
+              {$_('TILASTOT_TUNNUSLUVUT_MOLEMMILLE')}
+              {` (${total2013 + total2018} kpl)`}
+            </h1>
+            <div
+              class="flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
+              <div class="w-full flex flex-col space-y-2">
+                <div class="w-full flex flex-col">
+                  <h2 class="my-4 text-green">
+                    {$_('TILASTOT_RAKENNUSVAIPPA')}
+                  </h2>
+                  <div class="w-full flex flex-col">
+                    <div class="w-full flex justify-between">
+                      <span>{$_('TILASTOT_ILMANVUOTOLUKU')}</span>
+                      <span>{results?.['common-averages']?.['ilmanvuotoluku']}</span>
+                    </div>
+                    <span class="w-full mt-4 font-bold">
+                      {$_('TILASTOT_U_ARVOT')}
+                    </span>
+                    <div class="w-full flex justify-between">
+                      <span>{$_('TILASTOT_ULKOSEINAT')}</span>
+                      <span>{results?.['common-averages']?.['ulkoseinat-u']}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+                    </div>
+                    <div class="w-full flex justify-between">
+                      <span>{$_('TILASTOT_YLAPOHJA')}</span>
+                      <span>{results?.['common-averages']?.['ylapohja-u']}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+                    </div>
+                    <div class="w-full flex justify-between">
+                      <span>{$_('TILASTOT_ALAPOHJA')}</span>
+                      <span>{results?.['common-averages']?.['alapohja-u']}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+                    </div>
+                    <div class="w-full flex justify-between">
+                      <span>{$_('TILASTOT_IKKUNAT')}</span>
+                      <span>{results?.['common-averages']?.['ikkunat-u']}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+                    </div>
+                    <div class="w-full flex justify-between">
+                      <span>{$_('TILASTOT_ULKOOVET')}</span>
+                      <span>{results?.['common-averages']?.['ulkoovet-u']}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full flex flex-col space-y-2">
+                <div class="w-full flex flex-col">
+                  <h2 class="my-4 text-green">{$_('TILASTOT_LAMMITYS')}</h2>
+                  <div class="w-full flex justify-between">
+                    <span>{$_('TILASTOT_VARAAVIEN')}</span>
+                    <span>{results?.['common-averages']?.['takka']}{$_('TILASTOT_KPL')}</span>
+                  </div>
+                  <div class="w-full flex justify-between">
+                    <span>{$_('TILASTOT_LISALAMPOPUMPPOJEN')}</span>
+                    <span>{results?.['common-averages']?.['ilmalampopumppu']}{$_('TILASTOT_KPL')}</span>
+                  </div>
+
+                  <div class="w-full flex justify-between mt-4">
+                    <span>{$_('TILASTOT_LAMPOPUMPUN')}</span>
+                    <span />
+                  </div>
+                  <div class="w-full flex justify-between pl-4">
+                    <span>{$_('TILASTOT_TILOJEN')}</span>
+                    <span>{results?.['common-averages']?.['tilat-ja-iv-lampokerroin']}</span>
+                  </div>
+                  <div class="w-full flex justify-between pl-4">
+                    <span>{$_('TILASTOT_LAMPIMAN')}</span>
+                    <span>{results?.['common-averages']?.['lammin-kayttovesi-lampokerroin']}</span>
+                  </div>
+
+                  <h2 class="my-4 text-green">{$_('TILASTOT_ILMANVAIHTO')}</h2>
+                  <div class="w-full flex justify-between">
+                    <span>{$_('TILASTOT_LAMMONTALTEENOTON')}</span>
+                    <span>{results?.['common-averages']?.['lto-vuosihyotysuhde']}</span>
+                  </div>
+                  <div class="w-full flex justify-between">
+                    <span>{$_('TILASTOT_SFP_LUKU')}</span>
+                    <span>{results?.['common-averages']?.['ivjarjestelma-sfp']}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 2018 TUNNUSLUVUT-->
+
+            {#if total2018 > 0}
+              <h1 class="pbb-always w-full my-4">
+                {$_('TILASTOT_TUNNUSLUVUT_2018')}
+                {` (${total2018} kpl)`}
+              </h1>
+              <div
+                class="flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
+                <div class="w-full flex flex-col space-y-2">
+                  {#if results?.['counts']?.['2018']?.['lammitysmuoto']}
+                    <div class="w-full flex flex-col">
+                      <h2 class="my-4 text-green">
+                        {$_('TILASTOT_LAMMITYSJARJESTELMA')}
+                      </h2>
+                      <div class="w-full flex flex-col">
+                        {#each Object.entries(results?.['counts']?.['2018']?.['lammitysmuoto']) as obj}
+                          <div class="w-full flex justify-between">
+                            <span>{selectByLocaleOrAvailable( 'label', lammitysmuodot.find(lm => lm.id === parseInt(obj[0], 10)) )}</span>
+                            <span>{((parseInt(obj[1]) / total2018) * 100).toFixed(0)}{'%'}</span>
+                          </div>
+                        {/each}
+                      </div>
+                    </div>
+                  {/if}
+                </div>
+                <div class="w-full flex flex-col space-y-2">
+                  {#if results?.['counts']?.['2018']?.['ilmanvaihto']}
+                    <div class="w-full flex flex-col">
+                      <h2 class="my-4 text-green">
+                        {$_('TILASTOT_ILMANVAIHTOJARJESTELMA')}
+                      </h2>
+                      {#each Object.entries(results?.['counts']?.['2018']?.['ilmanvaihto']) as obj}
+                        <div class="w-full flex justify-between">
+                          <span>{selectByLocaleOrAvailable( 'label', ilmanvaihtotyypit.find(lm => lm.id === parseInt(obj[0], 10)) )}</span>
+                          <span>{((parseInt(obj[1]) / total2018) * 100).toFixed(0)}{'%'}</span>
+                        </div>
+                      {/each}
+                    </div>
+                  {/if}
+                </div>
+              </div>
+              <div
+                class="flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
+                <div class="w-full flex flex-col">
+                  <h2 class="my-4 text-green">{$_('TILASTOT_UUSIUTUVIEN')}</h2>
+                  <div class="w-full flex justify-between">
+                    <span>{$_('TILASTOT_AURINKOSAHKO')}</span>
+                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkosahko']) / total2018) * 100).toFixed(0)}{'%'}</span>
+                  </div>
+                  <div class="w-full flex justify-between">
+                    <span>{$_('TILASTOT_AURINKOLAMPO')}</span>
+                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkolampo']) / total2018) * 100).toFixed(0)}{'%'}</span>
+                  </div>
+                  <div class="w-full flex justify-between">
+                    <span>{$_('TILASTOT_TUULISAHKO')}</span>
+                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['tuulisahko']) / total2018) * 100).toFixed(0)}{'%'}</span>
+                  </div>
+                  <div class="w-full flex justify-between">
+                    <span>{$_('TILASTOT_LAMPOPUMPPU')}</span>
+                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['lampopumppu']) / total2018) * 100).toFixed(0)}{'%'}</span>
+                  </div>
+                  <div class="w-full flex justify-between">
+                    <span>{$_('TILASTOT_MUU_SAHKO')}</span>
+                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muusahko']) / total2018) * 100).toFixed(0)}{'%'}</span>
+                  </div>
+                  <div class="w-full flex justify-between">
+                    <span>{$_('TILASTOT_MUU_LAMPO')}</span>
+                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muulampo']) / total2018) * 100).toFixed(0)}{'%'}</span>
+                  </div>
+                </div>
+                <div class="w-full flex flex-col" />
+              </div>
+            {/if}
+          {/if}
+          <!-- PRINT -->
+          <div class="w-full mx-auto my-8">
+            <Button {...buttonStyles.green} on:click={() => window.print()}>
+              <span
+                class="material-icons align-middle"
+                aria-hidden="true">print</span>
+              <span class="whitespace-no-wrap"> {$_('TILASTOT_TULOSTA')} </span>
+            </Button>
+          </div>
+        </div>
+      {/if}
+    </div>
+  </Container>
+</div>
