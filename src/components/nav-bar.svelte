@@ -2,8 +2,7 @@
   import IconHome from '@Asset/icons/home.svg';
   import IconSearchFile from '@Asset/icons/search_file-light.svg';
   import IconSearchPerson from '@Asset/icons/search_person-light.svg';
-  import IconLogin from '@Asset/icons/login-light.svg';
-  import IconStatistics from '@Asset/icons/search_file-light.svg';
+  import IconStatistics from '@Asset/icons/login-light.svg';
 
   import NavButton, { styles as navbuttonStyles } from '@Component/nav-button';
   import Container, { styles as containerStyles } from '@Component/container';

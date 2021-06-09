@@ -14,58 +14,22 @@
 
   import {
     Chart,
-    ArcElement,
-    LineElement,
     BarElement,
-    PointElement,
     BarController,
-    BubbleController,
-    DoughnutController,
-    LineController,
-    PieController,
-    PolarAreaController,
-    RadarController,
-    ScatterController,
     CategoryScale,
     LinearScale,
-    LogarithmicScale,
-    RadialLinearScale,
-    TimeScale,
-    TimeSeriesScale,
-    Decimation,
-    Filler,
-    Legend,
-    Title,
     Tooltip
   } from 'chart.js';
 
   Chart.register(
-    ArcElement,
-    LineElement,
     BarElement,
-    PointElement,
     BarController,
-    BubbleController,
-    DoughnutController,
-    LineController,
-    PieController,
-    PolarAreaController,
-    RadarController,
-    ScatterController,
     CategoryScale,
     LinearScale,
-    LogarithmicScale,
-    RadialLinearScale,
-    TimeScale,
-    TimeSeriesScale,
-    Decimation,
-    Filler,
-    Legend,
-    Title,
     Tooltip
   );
 
-  let component;
+  let resultsElem;
   let searchmodel;
   let vuosiminInput, vuosimaxInput, nettoalaminInput, nettoalamaxInput;
 
@@ -138,8 +102,6 @@
         resultNettoalamin = nettoalamin;
         resultNettoalamax = nettoalamax;
 
-        console.log('results: ', results);
-
         total2018 = 0;
         total2013 = 0;
         for (let key in results?.['counts']?.['2018']?.['e-luokka']) {
@@ -175,6 +137,7 @@
         });
 
         resetForm();
+        resultsElem?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     );
   };
@@ -189,8 +152,6 @@
   };
 
   onMount(() => {
-    // component.scrollIntoView();
-
     if (keyword || vuosimin || vuosimax || nettoalamin || nettoalamax) {
       commitSearch();
     }
@@ -199,27 +160,31 @@
   const drawCharts = (data2018, data2013) => {
     const options = {
       responsive: true,
+      // animation: {
+      //   duration: 1,
+      //   onComplete: ctx => {
+      //   }
+      // },
       scales: {
-        yAxis: [
-          {
-            type: 'percentage',
-            ticks: {
-              min: 0,
-              max: 100,
-              callback: function (value) {
-                return value * 100 + '%';
-              }
-            },
-            scaleLabel: {
-              display: true,
-              labelString: 'Percentage'
+        y: {
+          ticks: {
+            callback: value => {
+              return value * 100 + '%';
             }
           }
-        ]
+        }
       },
       plugins: {
         legend: { display: false },
-        tooltip: { enabled: false }
+        tooltip: {
+          enabled: true,
+          displayColors: false,
+          callbacks: {
+            label: ctx => {
+              return (ctx.raw * 100).toFixed(0) + '%';
+            }
+          }
+        }
       }
     };
     const colors = [
@@ -236,6 +201,7 @@
       chart2018.data.datasets.forEach(dataset => {
         dataset.data.push(data2018);
       });
+      chart2018.update();
     } else if (chartCanvas1) {
       chart2018 = new Chart(chartCanvas1, {
         type: 'bar',
@@ -244,7 +210,6 @@
           datasets: [
             {
               data: data2018,
-              yAxisID: 'yAxis',
               backgroundColor: colors
             }
           ]
@@ -256,6 +221,8 @@
       chart2013.data.datasets.forEach(dataset => {
         dataset.data.push(data2013);
       });
+
+      chart2013.update();
     } else if (chartCanvas2) {
       chart2013 = new Chart(chartCanvas2, {
         type: 'bar',
@@ -264,7 +231,6 @@
           datasets: [
             {
               data: data2013,
-              yAxisID: 'yAxis',
               backgroundColor: colors
             }
           ]
@@ -301,7 +267,7 @@
   title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('TILASTOT')}"
   descriptionFi={$locale == 'fi' ? $_('TILASTOT') : undefined}
   descriptionSv={$locale == 'sv' ? $_('TILASTOT') : undefined} />
-<div bind:this={component}>
+<div>
   <Container {...containerStyles.beige}>
     <InfoBlock title={$_('TILASTOT_INFO_TITLE')}>
       {$_('TILASTOT_INFO_TEXT')}
@@ -335,8 +301,6 @@
             }
 
             await tick();
-
-            // validate?
           }}
           on:submit|preventDefault={evt => {
             commitSearch(evt.target);
@@ -465,8 +429,8 @@
           </div>
         </form>
       </div>
-      {#if results}
-        <div class="flex flex-col w-full my-8">
+      <div class="flex flex-col w-full my-8" bind:this={resultsElem}>
+        {#if results}
           <!-- GENERAL, GRAPHS-->
           <span class="uppercase font-bold w-full my-2">
             {$_('TILASTOT_TULOKSIA')}
@@ -507,11 +471,11 @@
             <div
               class="my-8 flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
               <div class="w-full flex flex-col space-y-2">
+                <h1 class="w-full">
+                  {$_('TILASTOT_ET_2018')}
+                  {` (${total2018 || '< 5'} kpl)`}
+                </h1>
                 {#if total2018 > 0}
-                  <h1 class="w-full">
-                    {$_('TILASTOT_ET_2018')}
-                    {` (${total2018} kpl)`}
-                  </h1>
                   <div class="pbi-avoid w-full flex flex-col">
                     <h2 class="my-4 text-green">{$_('TILASTOT_ET_LUOKKA')}</h2>
                     <div class="chart-parent">
@@ -527,16 +491,20 @@
                         {results?.['e-luku-statistics']?.['2018']?.avg.toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}
                       </span>
                     </div>
-                    <div class="w-full flex justify-between">
-                      <span> {$_('TILASTOT_PARAS_15')} </span>
-                      <span>
-                        {results?.['e-luku-statistics']?.['2018']?.['percentile-15'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
-                    </div>
-                    <div class="w-full flex justify-between">
-                      <span> {$_('TILASTOT_HEIKOIN_15')} </span>
-                      <span>
-                        {results?.['e-luku-statistics']?.['2018']?.['percentile-15'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
-                    </div>
+                    {#if results?.['e-luku-statistics']?.['2018']?.['percentile-15']}
+                      <div class="w-full flex justify-between">
+                        <span> {$_('TILASTOT_PARAS_15')} </span>
+                        <span>
+                          {results?.['e-luku-statistics']?.['2018']?.['percentile-15'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
+                      </div>
+                    {/if}
+                    {#if results?.['e-luku-statistics']?.['2018']?.['percentile-85']}
+                      <div class="w-full flex justify-between">
+                        <span> {$_('TILASTOT_HEIKOIN_15')} </span>
+                        <span>
+                          {results?.['e-luku-statistics']?.['2018']?.['percentile-85'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
+                      </div>
+                    {/if}
                   </div>
                 {:else}
                   <div class="flex">
@@ -548,11 +516,11 @@
                 {/if}
               </div>
               <div class="w-full flex flex-col space-y-2">
+                <h1 class="w-full">
+                  {$_('TILASTOT_ET_2013')}
+                  {` (${total2013 || '< 5'} kpl)`}
+                </h1>
                 {#if total2013 > 0}
-                  <h1 class="w-full">
-                    {$_('TILASTOT_ET_2013')}
-                    {` (${total2013} kpl)`}
-                  </h1>
                   <div class="pbi-avoid w-full flex flex-col">
                     <h2 class="my-4 text-green">{$_('TILASTOT_ET_LUOKKA')}</h2>
                     <div class="chart-parent">
@@ -566,14 +534,18 @@
                       <span>{$_('TILASTOT_KESKIARVO')}</span>
                       <span>{results?.['e-luku-statistics']?.['2013']?.avg.toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
                     </div>
-                    <div class="w-full flex justify-between">
-                      <span>{$_('TILASTOT_PARAS_15')}</span>
-                      <span>{results?.['e-luku-statistics']?.['2013']?.['percentile-15'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
-                    </div>
-                    <div class="w-full flex justify-between">
-                      <span>{$_('TILASTOT_HEIKOIN_15')}</span>
-                      <span>{results?.['e-luku-statistics']?.['2013']?.['percentile-15'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
-                    </div>
+                    {#if results?.['e-luku-statistics']?.['2013']?.['percentile-15']}
+                      <div class="w-full flex justify-between">
+                        <span>{$_('TILASTOT_PARAS_15')}</span>
+                        <span>{results?.['e-luku-statistics']?.['2013']?.['percentile-15'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
+                      </div>
+                    {/if}
+                    {#if results?.['e-luku-statistics']?.['2013']?.['percentile-85']}
+                      <div class="w-full flex justify-between">
+                        <span>{$_('TILASTOT_HEIKOIN_15')}</span>
+                        <span>{results?.['e-luku-statistics']?.['2013']?.['percentile-85'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
+                      </div>
+                    {/if}
                   </div>
                 {:else}
                   <div class="flex">
@@ -664,7 +636,6 @@
               </div>
             </div>
             <!-- 2018 TUNNUSLUVUT-->
-
             {#if total2018 > 0}
               <h1 class="pbb-always w-full my-4">
                 {$_('TILASTOT_TUNNUSLUVUT_2018')}
@@ -747,8 +718,8 @@
               <span class="whitespace-no-wrap"> {$_('TILASTOT_TULOSTA')} </span>
             </Button>
           </div>
-        </div>
-      {/if}
+        {/if}
+      </div>
     </div>
   </Container>
 </div>
