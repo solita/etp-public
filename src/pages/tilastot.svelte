@@ -495,6 +495,7 @@
                       <div class="w-full flex justify-between">
                         <span> {$_('TILASTOT_PARAS_15')} </span>
                         <span>
+                          {$_('TILASTOT_ALLE')}
                           {results?.['e-luku-statistics']?.['2018']?.['percentile-15'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
                       </div>
                     {/if}
@@ -502,6 +503,7 @@
                       <div class="w-full flex justify-between">
                         <span> {$_('TILASTOT_HEIKOIN_15')} </span>
                         <span>
+                          {$_('TILASTOT_YLI')}
                           {results?.['e-luku-statistics']?.['2018']?.['percentile-85'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
                       </div>
                     {/if}
@@ -537,13 +539,17 @@
                     {#if results?.['e-luku-statistics']?.['2013']?.['percentile-15']}
                       <div class="w-full flex justify-between">
                         <span>{$_('TILASTOT_PARAS_15')}</span>
-                        <span>{results?.['e-luku-statistics']?.['2013']?.['percentile-15'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
+                        <span>
+                          {$_('TILASTOT_ALLE')}
+                          {results?.['e-luku-statistics']?.['2013']?.['percentile-15'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
                       </div>
                     {/if}
                     {#if results?.['e-luku-statistics']?.['2013']?.['percentile-85']}
                       <div class="w-full flex justify-between">
                         <span>{$_('TILASTOT_HEIKOIN_15')}</span>
-                        <span>{results?.['e-luku-statistics']?.['2013']?.['percentile-85'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
+                        <span>
+                          {$_('TILASTOT_YLI')}
+                          {results?.['e-luku-statistics']?.['2013']?.['percentile-85'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
                       </div>
                     {/if}
                   </div>

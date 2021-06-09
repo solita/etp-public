@@ -280,5 +280,7 @@
   "TILASTOT_POISTOILMALAMPO": "Poistoilmalämpöpumppu (vain käyttötarkoitusluokka 1)",
   "TILASTOT_PAINOVOIMAINEN_POISTO": "Painovoimainen/koneellinen poisto",
   "TILASTOT_PAINOVOIMAINEN_TULO_POISTO": "Painovoimainen/koneellinen tulo- ja poisto",
+  "TILASTOT_ALLE": "Alle",
+  "TILASTOT_YLI": "Yli",
   "TILASTOT_TULOSTA": "Tulosta"
 }
