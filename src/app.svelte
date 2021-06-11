@@ -18,6 +18,20 @@
   :global(h2) {
     @apply uppercase tracking-widest font-bold;
   }
+  @media print {
+    #testi-disclaimer {
+      display: flex;
+      position: fixed;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+      font-size: 14rem;
+      opacity: 50%;
+      transform: rotate(-45deg);
+    }
+  }
 </style>
 
 <Localization>
@@ -29,6 +43,8 @@
             <Disclaimer>{$_('DISCLAIMER_WIP')}</Disclaimer>
           </Container>
         </div>
+
+        <div id="testi-disclaimer" class="hidden">Testi</div>
       {/if}
     {/await}
 
