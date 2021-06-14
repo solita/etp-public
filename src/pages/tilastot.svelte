@@ -365,7 +365,7 @@
             <!-- MOLEMMILLE TUNNUSLUVUT-->
             <h1 class="pbb-always w-full my-4">
               {$_('TILASTOT_TUNNUSLUVUT_MOLEMMILLE')}
-              {` (${total2013 + total2018} kpl)`}
+              {` (${total2013 + total2018} ${$_('TILASTOT_KPL')})`}
             </h1>
             <div
               class="flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
@@ -446,7 +446,7 @@
             {#if total2018 > 0}
               <h1 class="pbb-always w-full my-4">
                 {$_('TILASTOT_TUNNUSLUVUT_2018')}
-                {` (${total2018} kpl)`}
+                {` (${total2018} ${$_('TILASTOT_KPL')})`}
               </h1>
               <div
                 class="flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
