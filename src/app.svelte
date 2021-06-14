@@ -46,16 +46,15 @@
 
         <div id="testi-disclaimer" class="hidden">Testi</div>
       {/if}
-    {/await}
 
-    <Header />
+      <Header {config} />
+    {/await}
 
     <main class="flex-grow">
       <Router />
     </main>
-
-    <Footer />
-    <!-- {#await configPromise then config}
+    {#await configPromise then config}
+      <Footer {config} />
       {#if config.showTestEnvNotification}
         <div class="sticky bottom-0">
           <Container {...containerStyles.red}>
@@ -63,6 +62,6 @@
           </Container>
         </div>
       {/if}
-    {/await} -->
+    {/await}
   </div>
 </Localization>

@@ -5,8 +5,11 @@
   import Container, { styles as containerStyles } from '@Component/container';
   import { setLocale, locale, _ } from '@Localization/localization';
 
+  export let config;
+
   let mobileNavShown = false;
 
+  const configPromise = fetch('config.json').then(response => response.json());
   const closeMobileNav = () => {
     mobileNavShown = false;
   };
@@ -67,10 +70,16 @@
         <a
           class="text-ashblue items-center hidden lg:flex"
           href="/rekisteroitymisohjeet"><span
-            class="font-bold underline">{$_('REKISTEROITYMISOHJEET')}</span>
-          <span class="material-icons" aria-hidden="true">
-            chevron_right
-          </span></a>
+            class="font-bold hover:underline">{$_('REKISTEROITYMISOHJEET')}</span></a>
+        {#if config}
+          <a
+            class="text-green items-center hidden ml-4 lg:flex"
+            href={config.privateSiteUrl}><span
+              class="font-bold hover:underline">{$_('NAVBAR_KIRJAUTUMINEN')}</span>
+            <span class="material-icons" aria-hidden="true">
+              chevron_right
+            </span></a>
+        {/if}
       </div>
       <button
         class="flex items-center lg:hidden focus:outline-none rounded-md text-green"
@@ -106,9 +115,18 @@
       <a
         class="text-ashblue items-center justify-center flex py-4 bg-white"
         href="/rekisteroitymisohjeet">
-        <span class="font-bold underline">{$_('REKISTEROITYMISOHJEET')}</span>
-        <span class="material-icons" aria-hidden="true"> chevron_right </span>
-      </a>
+        <span
+          class="font-bold hover:underline">{$_('REKISTEROITYMISOHJEET')}</span>
+        <span class="material-icons ml-1" aria-hidden="true"> info </span></a>
+      {#await configPromise then config}
+        <a
+          class="text-green items-center justify-center flex py-4 bg-white"
+          href={config.privateSiteUrl}><span
+            class="font-bold hover:underline">{$_('NAVBAR_KIRJAUTUMINEN')}</span>
+          <span class="material-icons" aria-hidden="true">
+            chevron_right
+          </span></a>
+      {/await}
 
       <nav class="font-semibold text-ashblue p-3 text-center mx-auto bg-grey">
         <button
