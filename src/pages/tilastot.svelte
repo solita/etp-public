@@ -4,7 +4,6 @@
   import Input from '@Component/input-search';
   import InputNumber from '@Component/input-number';
   import InputSelect from '@Component/input-select';
-  import TilastotList from '@Component/tilastot-list';
   import TilastotEntriesList from '@Component/tilastot-entries-list';
   import TilastotEtVersion from '@Component/tilastot-et-version-block';
   import Button, { styles as buttonStyles } from '@Component/button';
@@ -464,10 +463,33 @@
               </div>
               <div
                 class="flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
-                <TilastotList
-                  title={$_('TILASTOT_UUSIUTUVIEN')}
-                  labels={[$_('TILASTOT_AURINKOSAHKO'), $_('TILASTOT_AURINKOLAMPO'), $_('TILASTOT_TUULISAHKO'), $_('TILASTOT_LAMPOPUMPPU'), $_('TILASTOT_MUU_SAHKO'), $_('TILASTOT_MUU_LAMPO')]}
-                  items={[((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkosahko']) / total2018) * 100).toFixed(0) + '%', ((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkolampo']) / total2018) * 100).toFixed(0) + '%', ((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['tuulisahko']) / total2018) * 100).toFixed(0) + '%', ((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['lampopumppu']) / total2018) * 100).toFixed(0) + '%', ((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muusahko']) / total2018) * 100).toFixed(0) + '%', ((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muulampo']) / total2018) * 100).toFixed(0) + '%']} />
+                <div class="w-full flex flex-col">
+                  <h2 class="my-4 text-green">{$_('TILASTOT_UUSIUTUVIEN')}</h2>
+                  <div class="w-full flex justify-between">
+                    <span>{$_('TILASTOT_AURINKOSAHKO')}</span>
+                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkosahko']) / total2018) * 100).toFixed(0)}{'%'}</span>
+                  </div>
+                  <div class="w-full flex justify-between">
+                    <span>{$_('TILASTOT_AURINKOLAMPO')}</span>
+                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkolampo']) / total2018) * 100).toFixed(0)}{'%'}</span>
+                  </div>
+                  <div class="w-full flex justify-between">
+                    <span>{$_('TILASTOT_TUULISAHKO')}</span>
+                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['tuulisahko']) / total2018) * 100).toFixed(0)}{'%'}</span>
+                  </div>
+                  <div class="w-full flex justify-between">
+                    <span>{$_('TILASTOT_LAMPOPUMPPU')}</span>
+                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['lampopumppu']) / total2018) * 100).toFixed(0)}{'%'}</span>
+                  </div>
+                  <div class="w-full flex justify-between">
+                    <span>{$_('TILASTOT_MUU_SAHKO')}</span>
+                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muusahko']) / total2018) * 100).toFixed(0)}{'%'}</span>
+                  </div>
+                  <div class="w-full flex justify-between">
+                    <span>{$_('TILASTOT_MUU_LAMPO')}</span>
+                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muulampo']) / total2018) * 100).toFixed(0)}{'%'}</span>
+                  </div>
+                </div>
                 <div class="w-full" />
               </div>
             {/if}
