@@ -5,6 +5,8 @@
   import Container, { styles as containerStyles } from '@Component/container';
   import { setLocale, locale, _ } from '@Localization/localization';
 
+  export let config;
+
   let mobileNavShown = false;
 
   const configPromise = fetch('config.json').then(response => response.json());
@@ -69,7 +71,7 @@
           class="text-ashblue items-center hidden lg:flex"
           href="/rekisteroitymisohjeet"><span
             class="font-bold hover:underline">{$_('REKISTEROITYMISOHJEET')}</span></a>
-        {#await configPromise then config}
+        {#if config}
           <a
             class="text-green items-center hidden ml-4 lg:flex"
             href={config.privateSiteUrl}><span
@@ -77,7 +79,7 @@
             <span class="material-icons" aria-hidden="true">
               chevron_right
             </span></a>
-        {/await}
+        {/if}
       </div>
       <button
         class="flex items-center lg:hidden focus:outline-none rounded-md text-green"

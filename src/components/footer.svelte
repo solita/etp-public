@@ -11,7 +11,7 @@
 
   import { _, locale } from '@Localization/localization';
 
-  const configPromise = fetch('config.json').then(response => response.json());
+  export let config;
 
   $: logo = $locale === 'fi' ? ImgLogoBlack : ImgLogoBlackSwe;
 </script>
@@ -64,7 +64,7 @@
       <div class="md:w-1/3 flex flex-col py-4 md:py-0">
         <section>
           <h2 class="mb-4">{$_('LAATIJOIDEN_PALVELU')}</h2>
-          {#await configPromise then config}
+          {#if config}
             <ButtonLink
               href={config.privateSiteUrl}
               {...buttonLinkStyles.ashblue}>
@@ -74,7 +74,7 @@
                 class="h-6" />
               <span>{$_('KIRJAUDU')}</span>
             </ButtonLink>
-          {/await}
+          {/if}
         </section>
         <section class="py-4">
           <h2 class="mb-4">{$_('FOOTER_PALAUTE')}</h2>
