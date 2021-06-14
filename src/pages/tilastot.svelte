@@ -4,6 +4,9 @@
   import Input from '@Component/input-search';
   import InputNumber from '@Component/input-number';
   import InputSelect from '@Component/input-select';
+  import TilastotList from '@Component/tilastot-list';
+  import TilastotEntriesList from '@Component/tilastot-entries-list';
+  import TilastotEtVersion from '@Component/tilastot-et-version-block';
   import Button, { styles as buttonStyles } from '@Component/button';
   import { onMount, tick } from 'svelte';
   import { navigate } from '@/router/router';
@@ -11,23 +14,6 @@
   import Seo from '@Component/seo';
   import * as api from '@/api/tilastot-api';
   import * as EtApi from '@/api/energiatodistus-api';
-
-  import {
-    Chart,
-    BarElement,
-    BarController,
-    CategoryScale,
-    LinearScale,
-    Tooltip
-  } from 'chart.js';
-
-  Chart.register(
-    BarElement,
-    BarController,
-    CategoryScale,
-    LinearScale,
-    Tooltip
-  );
 
   let resultsElem;
   let searchmodel;
@@ -48,23 +34,10 @@
   let lammitysmuodot;
   let ilmanvaihtotyypit;
 
-  let chart2018, chart2013, chartCanvas1, chartCanvas2;
+  let chartData2018, chartData2013;
 
   let total2013 = 0;
   let total2018 = 0;
-
-  const selectByLocaleOrAvailable = (prefix, property) => {
-    if ($locale === 'sv' && property?.[prefix + '-sv'])
-      return property[prefix + '-sv'];
-    else if (
-      $locale === 'fi' &&
-      !property?.[prefix + '-fi'] &&
-      property?.[prefix + '-sv']
-    )
-      return property[prefix + '-sv'];
-    else if (property?.[prefix + '-fi']) return property[prefix + '-fi'];
-    else return '';
-  };
 
   const commitSearch = evt => {
     const qs = [
@@ -111,9 +84,8 @@
         for (let key in results?.['counts']?.['2013']?.['e-luokka']) {
           total2013 += results?.['counts']?.['2013']?.['e-luokka'][key];
         }
-        let eLuokka2018, eLuokka2013;
 
-        eLuokka2018 = [
+        chartData2018 = [
           (results?.['counts']?.['2018']?.['e-luokka']?.A || 0) / total2018,
           (results?.['counts']?.['2018']?.['e-luokka']?.B || 0) / total2018,
           (results?.['counts']?.['2018']?.['e-luokka']?.C || 0) / total2018,
@@ -122,7 +94,7 @@
           (results?.['counts']?.['2018']?.['e-luokka']?.F || 0) / total2018,
           (results?.['counts']?.['2018']?.['e-luokka']?.G || 0) / total2018
         ];
-        eLuokka2013 = [
+        chartData2013 = [
           (results?.['counts']?.['2013']?.['e-luokka']?.A || 0) / total2013,
           (results?.['counts']?.['2013']?.['e-luokka']?.B || 0) / total2013,
           (results?.['counts']?.['2013']?.['e-luokka']?.C || 0) / total2013,
@@ -131,10 +103,6 @@
           (results?.['counts']?.['2013']?.['e-luokka']?.F || 0) / total2013,
           (results?.['counts']?.['2013']?.['e-luokka']?.G || 0) / total2013
         ];
-
-        tick().then(() => {
-          drawCharts(eLuokka2018, eLuokka2013);
-        });
 
         resetForm();
         resultsElem?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -156,89 +124,6 @@
       commitSearch();
     }
   });
-
-  const drawCharts = (data2018, data2013) => {
-    const options = {
-      responsive: true,
-      // animation: {
-      //   duration: 1,
-      //   onComplete: ctx => {
-      //   }
-      // },
-      scales: {
-        y: {
-          ticks: {
-            callback: value => {
-              return value * 100 + '%';
-            }
-          }
-        }
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          enabled: true,
-          displayColors: false,
-          callbacks: {
-            label: ctx => {
-              return (ctx.raw * 100).toFixed(0) + '%';
-            }
-          }
-        }
-      }
-    };
-    const colors = [
-      '#1d8c38',
-      '#72a42f',
-      '#c3cc16',
-      '#ffe900',
-      '#e5ac00',
-      '#c95a00',
-      '#bc000b'
-    ];
-    const labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
-    if (chart2018 && data2018) {
-      chart2018.data.datasets.forEach(dataset => {
-        dataset.data.push(data2018);
-      });
-      chart2018.update();
-    } else if (chartCanvas1) {
-      chart2018 = new Chart(chartCanvas1, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [
-            {
-              data: data2018,
-              backgroundColor: colors
-            }
-          ]
-        },
-        options: options
-      });
-    }
-    if (chart2013 && data2013) {
-      chart2013.data.datasets.forEach(dataset => {
-        dataset.data.push(data2013);
-      });
-
-      chart2013.update();
-    } else if (chartCanvas2) {
-      chart2013 = new Chart(chartCanvas2, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [
-            {
-              data: data2013,
-              backgroundColor: colors
-            }
-          ]
-        },
-        options: options
-      });
-    }
-  };
 </script>
 
 <style>
@@ -256,10 +141,6 @@
   h2,
   span {
     page-break-inside: avoid;
-  }
-
-  .chart-parent {
-    width: 99%;
   }
 </style>
 
@@ -469,97 +350,18 @@
           {#if total2013 + total2018 > 0}
             <!-- GRAPHS -->
             <div
-              class="my-8 flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
-              <div class="w-full flex flex-col space-y-2">
-                <h1 class="w-full">
-                  {$_('TILASTOT_ET_2018')}
-                  {` (${total2018 || '< 5'} kpl)`}
-                </h1>
-                {#if total2018 > 0}
-                  <div class="pbi-avoid w-full flex flex-col">
-                    <h2 class="my-4 text-green">{$_('TILASTOT_ET_LUOKKA')}</h2>
-                    <div class="chart-parent">
-                      <canvas bind:this={chartCanvas1} />
-                    </div>
-                  </div>
-                  <div class="w-full flex flex-col">
-                    <h2 class="my-4 text-green">{$_('TILASTOT_E_LUKU')}</h2>
+              class="pbi-avoid my-8 flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
+              <TilastotEtVersion
+                version="2018"
+                count={total2018}
+                eLukuData={results?.['e-luku-statistics']?.['2018']}
+                chartData={chartData2018} />
 
-                    <div class="w-full flex justify-between">
-                      <span> {$_('TILASTOT_KESKIARVO')} </span>
-                      <span>
-                        {results?.['e-luku-statistics']?.['2018']?.avg.toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}
-                      </span>
-                    </div>
-                    {#if results?.['e-luku-statistics']?.['2018']?.['percentile-15']}
-                      <div class="w-full flex justify-between">
-                        <span> {$_('TILASTOT_PARAS_15')} </span>
-                        <span>
-                          {$_('TILASTOT_ALLE')}
-                          {results?.['e-luku-statistics']?.['2018']?.['percentile-15'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
-                      </div>
-                    {/if}
-                    {#if results?.['e-luku-statistics']?.['2018']?.['percentile-85']}
-                      <div class="w-full flex justify-between">
-                        <span> {$_('TILASTOT_HEIKOIN_15')} </span>
-                        <span>
-                          {$_('TILASTOT_YLI')}
-                          {results?.['e-luku-statistics']?.['2018']?.['percentile-85'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
-                      </div>
-                    {/if}
-                  </div>
-                {:else}
-                  <div class="flex">
-                    <span class="material-icons mr-1" aria-hidden="true">
-                      info
-                    </span>
-                    <span> {$_('TILASTOT_NO_2018')} </span>
-                  </div>
-                {/if}
-              </div>
-              <div class="w-full flex flex-col space-y-2">
-                <h1 class="w-full">
-                  {$_('TILASTOT_ET_2013')}
-                  {` (${total2013 || '< 5'} kpl)`}
-                </h1>
-                {#if total2013 > 0}
-                  <div class="pbi-avoid w-full flex flex-col">
-                    <h2 class="my-4 text-green">{$_('TILASTOT_ET_LUOKKA')}</h2>
-                    <div class="chart-parent">
-                      <canvas bind:this={chartCanvas2} />
-                    </div>
-                  </div>
-                  <div class="w-full flex flex-col">
-                    <h2 class="my-4 text-green">{$_('TILASTOT_E_LUKU')}</h2>
-
-                    <div class="w-full flex justify-between">
-                      <span>{$_('TILASTOT_KESKIARVO')}</span>
-                      <span>{results?.['e-luku-statistics']?.['2013']?.avg.toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
-                    </div>
-                    {#if results?.['e-luku-statistics']?.['2013']?.['percentile-15']}
-                      <div class="w-full flex justify-between">
-                        <span>{$_('TILASTOT_PARAS_15')}</span>
-                        <span>
-                          {$_('TILASTOT_ALLE')}
-                          {results?.['e-luku-statistics']?.['2013']?.['percentile-15'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
-                      </div>
-                    {/if}
-                    {#if results?.['e-luku-statistics']?.['2013']?.['percentile-85']}
-                      <div class="w-full flex justify-between">
-                        <span>{$_('TILASTOT_HEIKOIN_15')}</span>
-                        <span>
-                          {$_('TILASTOT_YLI')}
-                          {results?.['e-luku-statistics']?.['2013']?.['percentile-85'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
-                      </div>
-                    {/if}
-                  </div>
-                {:else}
-                  <div class="flex">
-                    <span class="material-icons mr-1"> info </span>
-                    <span> {$_('TILASTOT_NO_2013')} </span>
-                  </div>
-                {/if}
-              </div>
+              <TilastotEtVersion
+                version="2013"
+                count={total2013}
+                eLukuData={results?.['e-luku-statistics']?.['2013']}
+                chartData={chartData2013} />
             </div>
             <!-- MOLEMMILLE TUNNUSLUVUT-->
             <h1 class="pbb-always w-full my-4">
@@ -575,7 +377,7 @@
                   </h2>
                   <div class="w-full flex flex-col">
                     <div class="w-full flex justify-between">
-                      <span>{$_('TILASTOT_ILMANVUOTOLUKU')}</span>
+                      <span>{$_('TILASTOT_ILMANVUOTOLUKU')}{' q'}<sub>50</sub></span>
                       <span>{results?.['common-averages']?.['ilmanvuotoluku']}</span>
                     </div>
                     <span class="w-full mt-4 font-bold">
@@ -649,69 +451,24 @@
               </h1>
               <div
                 class="flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
-                <div class="w-full flex flex-col space-y-2">
-                  {#if results?.['counts']?.['2018']?.['lammitysmuoto']}
-                    <div class="w-full flex flex-col">
-                      <h2 class="my-4 text-green">
-                        {$_('TILASTOT_LAMMITYSJARJESTELMA')}
-                      </h2>
-                      <div class="w-full flex flex-col">
-                        {#each Object.entries(results?.['counts']?.['2018']?.['lammitysmuoto']) as obj}
-                          <div class="w-full flex justify-between">
-                            <span>{selectByLocaleOrAvailable( 'label', lammitysmuodot.find(lm => lm.id === parseInt(obj[0], 10)) )}</span>
-                            <span>{((parseInt(obj[1]) / total2018) * 100).toFixed(0)}{'%'}</span>
-                          </div>
-                        {/each}
-                      </div>
-                    </div>
-                  {/if}
-                </div>
-                <div class="w-full flex flex-col space-y-2">
-                  {#if results?.['counts']?.['2018']?.['ilmanvaihto']}
-                    <div class="w-full flex flex-col">
-                      <h2 class="my-4 text-green">
-                        {$_('TILASTOT_ILMANVAIHTOJARJESTELMA')}
-                      </h2>
-                      {#each Object.entries(results?.['counts']?.['2018']?.['ilmanvaihto']) as obj}
-                        <div class="w-full flex justify-between">
-                          <span>{selectByLocaleOrAvailable( 'label', ilmanvaihtotyypit.find(lm => lm.id === parseInt(obj[0], 10)) )}</span>
-                          <span>{((parseInt(obj[1]) / total2018) * 100).toFixed(0)}{'%'}</span>
-                        </div>
-                      {/each}
-                    </div>
-                  {/if}
-                </div>
+                <TilastotEntriesList
+                  title={$_('TILASTOT_LAMMITYSJARJESTELMA')}
+                  labels={lammitysmuodot}
+                  items={results?.['counts']?.['2018']?.['lammitysmuoto']}
+                  total={total2018} />
+                <TilastotEntriesList
+                  title={$_('TILASTOT_ILMANVAIHTOJARJESTELMA')}
+                  labels={ilmanvaihtotyypit}
+                  items={results?.['counts']?.['2018']?.['ilmanvaihto']}
+                  total={total2018} />
               </div>
               <div
                 class="flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
-                <div class="w-full flex flex-col">
-                  <h2 class="my-4 text-green">{$_('TILASTOT_UUSIUTUVIEN')}</h2>
-                  <div class="w-full flex justify-between">
-                    <span>{$_('TILASTOT_AURINKOSAHKO')}</span>
-                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkosahko']) / total2018) * 100).toFixed(0)}{'%'}</span>
-                  </div>
-                  <div class="w-full flex justify-between">
-                    <span>{$_('TILASTOT_AURINKOLAMPO')}</span>
-                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkolampo']) / total2018) * 100).toFixed(0)}{'%'}</span>
-                  </div>
-                  <div class="w-full flex justify-between">
-                    <span>{$_('TILASTOT_TUULISAHKO')}</span>
-                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['tuulisahko']) / total2018) * 100).toFixed(0)}{'%'}</span>
-                  </div>
-                  <div class="w-full flex justify-between">
-                    <span>{$_('TILASTOT_LAMPOPUMPPU')}</span>
-                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['lampopumppu']) / total2018) * 100).toFixed(0)}{'%'}</span>
-                  </div>
-                  <div class="w-full flex justify-between">
-                    <span>{$_('TILASTOT_MUU_SAHKO')}</span>
-                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muusahko']) / total2018) * 100).toFixed(0)}{'%'}</span>
-                  </div>
-                  <div class="w-full flex justify-between">
-                    <span>{$_('TILASTOT_MUU_LAMPO')}</span>
-                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muulampo']) / total2018) * 100).toFixed(0)}{'%'}</span>
-                  </div>
-                </div>
-                <div class="w-full flex flex-col" />
+                <TilastotList
+                  title={$_('TILASTOT_UUSIUTUVIEN')}
+                  labels={[$_('TILASTOT_AURINKOSAHKO'), $_('TILASTOT_AURINKOLAMPO'), $_('TILASTOT_TUULISAHKO'), $_('TILASTOT_LAMPOPUMPPU'), $_('TILASTOT_MUU_SAHKO'), $_('TILASTOT_MUU_LAMPO')]}
+                  items={[((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkosahko']) / total2018) * 100).toFixed(0) + '%', ((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkolampo']) / total2018) * 100).toFixed(0) + '%', ((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['tuulisahko']) / total2018) * 100).toFixed(0) + '%', ((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['lampopumppu']) / total2018) * 100).toFixed(0) + '%', ((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muusahko']) / total2018) * 100).toFixed(0) + '%', ((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muulampo']) / total2018) * 100).toFixed(0) + '%']} />
+                <div class="w-full" />
               </div>
             {/if}
           {/if}
