@@ -9,7 +9,6 @@
 
   let mobileNavShown = false;
 
-  const configPromise = fetch('config.json').then(response => response.json());
   const closeMobileNav = () => {
     mobileNavShown = false;
   };
@@ -70,8 +69,10 @@
         <a
           class="text-ashblue items-center hidden lg:flex"
           href="/rekisteroitymisohjeet"><span
-            class="font-bold hover:underline">{$_('REKISTEROITYMISOHJEET')}</span></a>
-        {#if config}
+            class="font-bold hover:underline">{$_('REKISTEROITYMISOHJEET')}</span>
+          <span class="material-icons" aria-hidden="true"> chevron_right </span>
+        </a>
+        <!-- {#if config}
           <a
             class="text-green items-center hidden ml-4 lg:flex"
             href={config.privateSiteUrl}><span
@@ -79,7 +80,7 @@
             <span class="material-icons" aria-hidden="true">
               chevron_right
             </span></a>
-        {/if}
+        {/if} -->
       </div>
       <button
         class="flex items-center lg:hidden focus:outline-none rounded-md text-green"
@@ -111,14 +112,14 @@
   </Container>
   {#if mobileNavShown}
     <div transition:slide class="lg:hidden">
-      <NavBar navButtonClicked={closeMobileNav} />
+      <NavBar navButtonClicked={closeMobileNav} {config} />
       <a
         class="text-ashblue items-center justify-center flex py-4 bg-white"
         href="/rekisteroitymisohjeet">
         <span
           class="font-bold hover:underline">{$_('REKISTEROITYMISOHJEET')}</span>
         <span class="material-icons ml-1" aria-hidden="true"> info </span></a>
-      {#await configPromise then config}
+      <!-- {#if config}
         <a
           class="text-green items-center justify-center flex py-4 bg-white"
           href={config.privateSiteUrl}><span
@@ -126,7 +127,7 @@
           <span class="material-icons" aria-hidden="true">
             chevron_right
           </span></a>
-      {/await}
+      {/if} -->
 
       <nav class="font-semibold text-ashblue p-3 text-center mx-auto bg-grey">
         <button
@@ -157,6 +158,6 @@
   {/if}
 
   <div class="hidden lg:block">
-    <NavBar />
+    <NavBar {config} />
   </div>
 </header>
