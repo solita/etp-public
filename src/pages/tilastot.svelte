@@ -148,6 +148,39 @@
   descriptionFi={$locale == 'fi' ? $_('TILASTOT') : undefined}
   descriptionSv={$locale == 'sv' ? $_('TILASTOT') : undefined} />
 <div>
+  <!-- DISCLAIMER 1 - TOP -->
+  <div class="sticky w-full">
+    <Container {...containerStyles.red}>
+      <div class="flex flex-col items-center text-white py-4">
+        <strong class="uppercase">{$_('DISCLAIMER_KEHITYSVERSIO')}</strong>
+        <p>
+          Tämä sivu on kehityksen alla. Toiminnallisuudet ja data eivät ole
+          lopullisia.
+        </p>
+        <p>
+          Denna sida är under utveckling. Funktioner och data är inte
+          slutgiltiga.
+        </p>
+      </div>
+    </Container>
+  </div>
+  <!-- DISCLAIMER 2 - BOTTOM -->
+  <div class="fixed bottom-0 w-full z-10">
+    <Container {...containerStyles.red}>
+      <div class="flex flex-col items-center text-white py-4">
+        <strong class="uppercase">{$_('DISCLAIMER_KEHITYSVERSIO')}</strong>
+        <p>
+          Tämä sivu on kehityksen alla. Toiminnallisuudet ja data eivät ole
+          lopullisia.
+        </p>
+        <p>
+          Denna sida är under utveckling. Funktioner och data är inte
+          slutgiltiga.
+        </p>
+      </div>
+    </Container>
+  </div>
+
   <Container {...containerStyles.beige}>
     <InfoBlock title={$_('TILASTOT_INFO_TITLE')}>
       {$_('TILASTOT_INFO_TEXT')}

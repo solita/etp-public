@@ -1,5 +1,5 @@
 <script>
-  import { onMount, tick } from 'svelte';
+  import { tick } from 'svelte';
   import {
     Chart,
     BarElement,
@@ -33,11 +33,6 @@
 
   const options = {
     responsive: true,
-    // animation: {
-    //   duration: 1,
-    //   onComplete: ctx => {
-    //   }
-    // },
     scales: {
       y: {
         ticks: {
@@ -89,10 +84,6 @@
       drawChart(data);
     });
   }
-
-  onMount(() => {
-    console.log('chart mount');
-  });
 </script>
 
 <style>
