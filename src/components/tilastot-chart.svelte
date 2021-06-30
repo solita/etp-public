@@ -1,5 +1,6 @@
 <script>
   import { tick } from 'svelte';
+  import { _ } from '@Localization/localization';
   import {
     Chart,
     BarElement,
@@ -19,7 +20,20 @@
 
   export let data = [];
   export let labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+  let ariaLabelText;
   let chartCanvas, chartInstance;
+
+  $: {
+    ariaLabelText = $_('TILASTOT_CHART_ALT') + ' ';
+
+    labels.forEach((label, index) => {
+      ariaLabelText += `${label}: ${Math.round(data?.[index] * 100)}%`;
+
+      if (index < labels.length - 1) {
+        ariaLabelText += ', ';
+      }
+    });
+  }
 
   const colors = [
     '#1d8c38',
@@ -92,4 +106,6 @@
   }
 </style>
 
-<div class="chart-parent"><canvas bind:this={chartCanvas} /></div>
+<div class="chart-parent">
+  <canvas bind:this={chartCanvas} aria-label={ariaLabelText} role="img" />
+</div>
