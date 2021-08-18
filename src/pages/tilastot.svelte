@@ -141,6 +141,14 @@
   span {
     page-break-inside: avoid;
   }
+
+  div.statistics :global(h1) {
+    @apply text-green;
+  }
+
+  div.statistics :global(h2) {
+    @apply text-ashblue normal-case;
+  }
 </style>
 
 <Seo
@@ -342,7 +350,7 @@
           </div>
         </form>
       </div>
-      <div class="flex flex-col w-full my-8" bind:this={resultsElem}>
+      <div class="statistics flex flex-col w-full my-8" bind:this={resultsElem}>
         {#if results}
           <!-- GENERAL, GRAPHS-->
           <span class="uppercase font-bold w-full my-2">
