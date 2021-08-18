@@ -149,6 +149,16 @@
   div.statistics :global(h2) {
     @apply text-ashblue normal-case;
   }
+
+  .only-print {
+    display: none;
+  }
+
+  @media print {
+    .only-print {
+      display: block;
+    }
+  }
 </style>
 
 <Seo
@@ -249,8 +259,7 @@
             </aside>
           </div>
           <!-- TARKENNETTU HAKU -->
-          <div
-            class="w-full lg:w-5/6 flex flex-col my-4 py-4 border-t-2 border-b-2 border-green space-y-2">
+          <div class="w-full lg:w-5/6 flex flex-col my-4 py-4 space-y-2">
             <div
               class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
               <span
@@ -360,7 +369,7 @@
           </span>
           <!-- GENERAL -->
           <div
-            class="pbb-always flex flex-col md:flex-row space-y-2 md:space-x-16 md:space-y-0 justify-evenly">
+            class="only-print pbb-always flex flex-col md:flex-row space-y-2 md:space-x-16 md:space-y-0 justify-evenly">
             <div class="w-full flex flex-col space-y-2">
               {#if resultKeyword}
                 <div class="w-full space-x-2">
