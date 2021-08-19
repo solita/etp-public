@@ -91,7 +91,7 @@
   <slot />
   {#if tooltip.length}
     <div
-      class="relative info-container"
+      class="relative info-container hidden md:block"
       aria-haspopup="true"
       on:mouseover={() => (open = true)}
       on:mouseout={() => (open = false)}>
