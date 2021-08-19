@@ -103,6 +103,7 @@
         {#each tooltip.split('\n') as paragraph}
           <p>{paragraph}</p>
         {/each}
+        <slot name="custom" />
       </div>
     </div>
   {/if}

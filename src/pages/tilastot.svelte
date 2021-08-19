@@ -263,10 +263,15 @@
           <div class="w-full lg:w-5/6 flex flex-col my-4 py-4 space-y-2">
             <div
               class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
-              <span
-                class="tarkennettu-label w-full md:w-1/2 tracking-widest text-ashblue">
-                {$_('TILASTOT_TYYPPI_KAYTTOTARKOITUS')}
-              </span>
+              <div class="w-full md:w-1/2">
+                <InfoTooltip
+                  tooltip={$_('TILASTOT_TYYPPI_KAYTTOTARKOITUS_TOOLTIP')}
+                  title={$_('TILASTOT_TYYPPI_KAYTTOTARKOITUS')}>
+                  <span class="tarkennettu-label tracking-widest text-ashblue">
+                    {$_('TILASTOT_TYYPPI_KAYTTOTARKOITUS')}
+                  </span>
+                </InfoTooltip>
+              </div>
               <div class="w-full md:w-1/2">
                 <InputSelect
                   name={'tilastot.kayttotarkoitus'}
@@ -278,10 +283,15 @@
             </div>
             <div
               class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
-              <span
-                class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
-                {$_('TILASTOT_RAKENNUSVUOSI')}
-              </span>
+              <div class="w-full md:w-1/2">
+                <InfoTooltip
+                  tooltip={$_('TILASTOT_RAKENNUSVUOSI_TOOLTIP')}
+                  title={$_('TILASTOT_RAKENNUSVUOSI')}>
+                  <span class="tarkennettu-label text-ashblue tracking-widest">
+                    {$_('TILASTOT_RAKENNUSVUOSI')}
+                  </span>
+                </InfoTooltip>
+              </div>
               <div class="w-full md:w-1/2 flex justify-between items-center">
                 <div class="w-2/5">
                   <InputNumber
@@ -314,10 +324,15 @@
             </div>
             <div
               class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
-              <span
-                class="tarkennettu-label w-full md:w-1/2 text-ashblue tracking-widest">
-                {$_('TILASTOT_LAMMITETTY_NETTOALA')}
-              </span>
+              <div class="w-full md:w-1/2">
+                <InfoTooltip
+                  tooltip={$_('TILASTOT_LAMMITETTY_NETTOALA_TOOLTIP')}
+                  title={$_('TILASTOT_LAMMITETTY_NETTOALA')}>
+                  <span class="tarkennettu-label text-ashblue tracking-widest">
+                    {$_('TILASTOT_LAMMITETTY_NETTOALA')}
+                  </span>
+                </InfoTooltip>
+              </div>
               <div class="w-full md:w-1/2 flex justify-between items-center">
                 <div class="w-2/5">
                   <InputNumber
