@@ -1,7 +1,10 @@
 <script>
   import { _, locale } from '@Localization/localization';
+  import InfoTooltip, { AnchorPosition } from '@Component/info-tooltip';
 
   export let title = '';
+  export let tooltip = '';
+  export let tooltipAnchor = AnchorPosition.bottomLeft;
   export let labels;
   export let items;
   export let total;
@@ -23,7 +26,11 @@
 <div class="w-full flex flex-col space-y-2">
   {#if items}
     <div class="w-full flex flex-col">
-      <h2 class="my-4 text-green">{title}</h2>
+      <div class="my-4">
+        <InfoTooltip anchor={tooltipAnchor} {title} {tooltip}>
+          <h2>{title}</h2>
+        </InfoTooltip>
+      </div>
       <div class="w-full flex flex-col">
         {#each Object.entries(items) as obj}
           <div class="w-full flex justify-between">

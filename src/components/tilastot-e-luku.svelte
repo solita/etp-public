@@ -1,11 +1,21 @@
 <script>
   import { _ } from '@Localization/localization';
+  import InfoTooltip, { AnchorPosition } from '@Component/info-tooltip';
 
   export let data;
+  export let tooltip = '';
+  export let tooltipAnchorPosition = AnchorPosition.bottomLeft;
 </script>
 
 <div class="w-full flex flex-col">
-  <h2 class="my-4 text-green">{$_('TILASTOT_E_LUKU')}</h2>
+  <div class="my-4">
+    <InfoTooltip
+      anchor={tooltipAnchorPosition}
+      title={$_('TILASTOT_E_LUKU')}
+      {tooltip}>
+      <h2>{$_('TILASTOT_E_LUKU')}</h2>
+    </InfoTooltip>
+  </div>
 
   <div class="w-full flex justify-between">
     <span>{$_('TILASTOT_KESKIARVO')}</span>
