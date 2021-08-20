@@ -25,6 +25,8 @@
   export let nettoalamin = '';
   export let nettoalamax = '';
 
+  const format = new Intl.NumberFormat('fi-FI', {}).format;
+
   let resultKeyword = '';
   let resultVuosimin = '';
   let resultVuosimax = '';
@@ -451,7 +453,7 @@
                         tooltip={$_('TILASTOT_ILMANVUOTOLUKU_TOOLTIP')}>
                         <span>{$_('TILASTOT_ILMANVUOTOLUKU')}{' q'}<sub>50</sub></span>
                       </InfoTooltip>
-                      <span>{results?.['common-averages']?.['ilmanvuotoluku']}</span>
+                      <span>{format(results?.['common-averages']?.['ilmanvuotoluku'])}</span>
                     </div>
                     <div class="mt-4">
                       <InfoTooltip
@@ -462,23 +464,23 @@
                     </div>
                     <div class="w-full flex justify-between">
                       <span>{$_('TILASTOT_ULKOSEINAT')}</span>
-                      <span>{results?.['common-averages']?.['ulkoseinat-u']}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+                      <span>{format(results?.['common-averages']?.['ulkoseinat-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
                     </div>
                     <div class="w-full flex justify-between">
                       <span>{$_('TILASTOT_YLAPOHJA')}</span>
-                      <span>{results?.['common-averages']?.['ylapohja-u']}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+                      <span>{format(results?.['common-averages']?.['ylapohja-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
                     </div>
                     <div class="w-full flex justify-between">
                       <span>{$_('TILASTOT_ALAPOHJA')}</span>
-                      <span>{results?.['common-averages']?.['alapohja-u']}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+                      <span>{format(results?.['common-averages']?.['alapohja-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
                     </div>
                     <div class="w-full flex justify-between">
                       <span>{$_('TILASTOT_IKKUNAT')}</span>
-                      <span>{results?.['common-averages']?.['ikkunat-u']}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+                      <span>{format(results?.['common-averages']?.['ikkunat-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
                     </div>
                     <div class="w-full flex justify-between">
                       <span>{$_('TILASTOT_ULKOOVET')}</span>
-                      <span>{results?.['common-averages']?.['ulkoovet-u']}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+                      <span>{format(results?.['common-averages']?.['ulkoovet-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
                     </div>
                   </div>
                 </div>
@@ -488,11 +490,11 @@
                   <h2 class="my-4 text-green">{$_('TILASTOT_LAMMITYS')}</h2>
                   <div class="w-full flex justify-between">
                     <span>{$_('TILASTOT_VARAAVIEN')}</span>
-                    <span>{results?.['common-averages']?.['takka']}{$_('TILASTOT_KPL')}</span>
+                    <span>{format(results?.['common-averages']?.['takka'])}{$_('TILASTOT_KPL')}</span>
                   </div>
                   <div class="w-full flex justify-between">
                     <span>{$_('TILASTOT_LISALAMPOPUMPPOJEN')}</span>
-                    <span>{results?.['common-averages']?.['ilmalampopumppu']}{$_('TILASTOT_KPL')}</span>
+                    <span>{format(results?.['common-averages']?.['ilmalampopumppu'])}{$_('TILASTOT_KPL')}</span>
                   </div>
 
                   <div class="mt-4">
@@ -505,17 +507,17 @@
                   </div>
                   <div class="w-full flex justify-between pl-4">
                     <span>{$_('TILASTOT_TILOJEN')}</span>
-                    <span>{results?.['common-averages']?.['tilat-ja-iv-lampokerroin']}</span>
+                    <span>{format(results?.['common-averages']?.['tilat-ja-iv-lampokerroin'])}</span>
                   </div>
                   <div class="w-full flex justify-between pl-4">
                     <span>{$_('TILASTOT_LAMPIMAN')}</span>
-                    <span>{results?.['common-averages']?.['lammin-kayttovesi-lampokerroin']}</span>
+                    <span>{format(results?.['common-averages']?.['lammin-kayttovesi-lampokerroin'])}</span>
                   </div>
 
                   <h2 class="my-4 text-green">{$_('TILASTOT_ILMANVAIHTO')}</h2>
                   <div class="w-full flex justify-between">
                     <span>{$_('TILASTOT_LAMMONTALTEENOTON')}</span>
-                    <span>{results?.['common-averages']?.['lto-vuosihyotysuhde']}</span>
+                    <span>{format(results?.['common-averages']?.['lto-vuosihyotysuhde'])}</span>
                   </div>
                   <div class="w-full flex justify-between">
                     <InfoTooltip
@@ -524,7 +526,7 @@
                       tooltip={$_('TILASTOT_SFP_LUKU_TOOLTIP')}>
                       <span>{$_('TILASTOT_SFP_LUKU')}</span>
                     </InfoTooltip>
-                    <span>{results?.['common-averages']?.['ivjarjestelma-sfp']}</span>
+                    <span>{format(results?.['common-averages']?.['ivjarjestelma-sfp'])}</span>
                   </div>
                 </div>
               </div>
