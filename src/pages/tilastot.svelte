@@ -10,16 +10,17 @@
   import Button, { styles as buttonStyles } from '@Component/button';
   import { onMount, tick } from 'svelte';
   import { navigate } from '@/router/router';
-  import { _, locale } from '@Localization/localization';
+  import { _, locale, labelLocale } from '@Localization/localization';
   import Seo from '@Component/seo';
   import * as api from '@/api/tilastot-api';
   import * as EtApi from '@/api/energiatodistus-api';
+  import Spinner from '@Component/spinner';
 
   let resultsElem;
-  let searchmodel;
   let vuosiminInput, vuosimaxInput, nettoalaminInput, nettoalamaxInput;
 
   export let keyword = '';
+  export let kayttotarkoitus = '';
   export let vuosimin = '';
   export let vuosimax = '';
   export let nettoalamin = '';
@@ -27,7 +28,17 @@
 
   const format = new Intl.NumberFormat('fi-FI', {}).format;
 
+  let searchmodel = {
+    keyword,
+    kayttotarkoitus,
+    vuosimin,
+    vuosimax,
+    nettoalamin,
+    nettoalamax
+  };
+
   let resultKeyword = '';
+  let resultKayttotarkoitus = '';
   let resultVuosimin = '';
   let resultVuosimax = '';
   let resultNettoalamin = '';
@@ -43,21 +54,36 @@
 
   const commitSearch = evt => {
     const qs = [
-      ...(keyword ? [['keyword', keyword].join('=')] : []),
-      ...(vuosimin ? [['vuosimin', vuosimin].join('=')] : []),
-      ...(vuosimax ? [['vuosimax', vuosimax].join('=')] : []),
-      ...(nettoalamin ? [['nettoalamin', nettoalamin].join('=')] : []),
-      ...(nettoalamax ? [['nettoalamax', nettoalamax].join('=')] : [])
+      ...(searchmodel.keyword
+        ? [['keyword', searchmodel.keyword].join('=')]
+        : []),
+      ...(searchmodel.kayttotarkoitus
+        ? [['kayttotarkoitus', searchmodel.kayttotarkoitus].join('=')]
+        : []),
+
+      ...(searchmodel.vuosimin
+        ? [['vuosimin', searchmodel.vuosimin].join('=')]
+        : []),
+      ...(searchmodel.vuosimax
+        ? [['vuosimax', searchmodel.vuosimax].join('=')]
+        : []),
+      ...(searchmodel.nettoalamin
+        ? [['nettoalamin', searchmodel.nettoalamin].join('=')]
+        : []),
+      ...(searchmodel.nettoalamax
+        ? [['nettoalamax', searchmodel.nettoalamax].join('=')]
+        : [])
     ].join('&');
 
     navigate(`/tilastot${qs ? '?' + qs : ''}`);
     Promise.all([
       api.statistics(fetch, {
-        keyword: keyword,
-        'valmistumisvuosi-min': vuosimin,
-        'valmistumisvuosi-max': vuosimax,
-        'lammitetty-nettoala-min': nettoalamin,
-        'lammitetty-nettoala-max': nettoalamax
+        keyword: searchmodel.keyword,
+        'kayttotarkoitus-id': searchmodel.kayttotarkoitus,
+        'valmistumisvuosi-min': searchmodel.vuosimin,
+        'valmistumisvuosi-max': searchmodel.vuosimax,
+        'lammitetty-nettoala-min': searchmodel.nettoalamin,
+        'lammitetty-nettoala-max': searchmodel.nettoalamax
       }),
       EtApi.lammitysmuoto(fetch),
       EtApi.ilmanvaihtotyyppi(fetch)
@@ -71,11 +97,12 @@
         lammitysmuodot = lammitysmuodotPromise;
         ilmanvaihtotyypit = ilmanvaihtotyypitPromise;
 
-        resultKeyword = keyword;
-        resultVuosimin = vuosimin;
-        resultVuosimax = vuosimax;
-        resultNettoalamin = nettoalamin;
-        resultNettoalamax = nettoalamax;
+        resultKeyword = searchmodel.keyword;
+        resultKayttotarkoitus = searchmodel.kayttotarkoitus;
+        resultVuosimin = searchmodel.vuosimin;
+        resultVuosimax = searchmodel.vuosimax;
+        resultNettoalamin = searchmodel.nettoalamin;
+        resultNettoalamax = searchmodel.nettoalamax;
 
         total2018 = 0;
         total2013 = 0;
@@ -106,7 +133,6 @@
           (results?.['counts']?.['2013']?.['e-luokka']?.G || 0) / total2013
         ];
 
-        resetForm();
         resultsElem?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     );
@@ -114,18 +140,19 @@
 
   const resetForm = async () => {
     await tick();
-    keyword = '';
-    vuosimin = '';
-    vuosimax = '';
-    nettoalamin = '';
-    nettoalamax = '';
+    searchmodel = Object.keys(searchmodel).reduce(
+      (acc, key) => ({ ...acc, [key]: '' }),
+      {}
+    );
   };
 
   onMount(() => {
-    if (keyword || vuosimin || vuosimax || nettoalamin || nettoalamax) {
+    if (Object.values(searchmodel).some(item => item.length)) {
       commitSearch();
     }
   });
+
+  const kayttotarkoituksetPromise = api.kayttotarkoitukset(fetch);
 </script>
 
 <style>
@@ -214,26 +241,7 @@
       <div class="flex flex-col w-full print:hidden">
         <form
           on:change={async evt => {
-            switch (evt.target.name) {
-              case 'tilastot.alue':
-                keyword = evt.target.value;
-                break;
-              case 'tilastot.valmistumisvuosi_min':
-                vuosimin = evt.target.value;
-                break;
-              case 'tilastot.valmistumisvuosi_max':
-                vuosimax = evt.target.value;
-                break;
-              case 'tilastot.nettoala_min':
-                nettoalamin = evt.target.value;
-                break;
-              case 'tilastot.nettoala_max':
-                nettoalamax = evt.target.value;
-                break;
-              default:
-                searchmodel = { ...searchmodel, [evt.target.name]: evt.target.value };
-            }
-
+            searchmodel = { ...searchmodel, [evt.target.name]: evt.target.value };
             await tick();
           }}
           on:submit|preventDefault={evt => {
@@ -250,8 +258,8 @@
                 <div class="w-full lg:w-11/12">
                   <Input
                     label={$_('TILASTOT_HAE_ALUEELLA')}
-                    name="tilastot.alue"
-                    value={keyword} />
+                    name="keyword"
+                    value={searchmodel.keyword} />
                 </div>
               </div>
             </div>
@@ -262,119 +270,131 @@
             </aside>
           </div>
           <!-- TARKENNETTU HAKU -->
-          <div class="w-full lg:w-5/6 flex flex-col my-4 py-4 space-y-2">
-            <div
-              class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
-              <div class="w-full md:w-1/2">
-                <InfoTooltip
-                  tooltip={$_('TILASTOT_TYYPPI_KAYTTOTARKOITUS_TOOLTIP')}
-                  title={$_('TILASTOT_TYYPPI_KAYTTOTARKOITUS')}>
-                  <span class="tarkennettu-label tracking-widest text-ashblue">
-                    {$_('TILASTOT_TYYPPI_KAYTTOTARKOITUS')}
-                  </span>
-                </InfoTooltip>
+          {#await kayttotarkoituksetPromise}
+            <div class="w-full my-4 py-4 justify-center">
+              <Spinner />
+            </div>
+          {:then kayttotarkoitukset}
+            <div class="w-full lg:w-5/6 flex flex-col my-4 py-4 space-y-2">
+              <div
+                class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
+                <div class="w-full md:w-1/2">
+                  <InfoTooltip
+                    tooltip={$_('TILASTOT_TYYPPI_KAYTTOTARKOITUS_TOOLTIP')}
+                    title={$_('TILASTOT_TYYPPI_KAYTTOTARKOITUS')}>
+                    <span
+                      class="tarkennettu-label tracking-widest text-ashblue">
+                      {$_('TILASTOT_TYYPPI_KAYTTOTARKOITUS')}
+                    </span>
+                  </InfoTooltip>
+                </div>
+                <div class="w-full md:w-1/2">
+                  <InputSelect
+                    name={'kayttotarkoitus'}
+                    options={['', ...kayttotarkoitukset.map(item => `${item['id']}`)]}
+                    format={id => {
+                      if (id === '') return $_('KAIKKI');
+                      return labelLocale( $locale, kayttotarkoitukset.find(item => item.id === parseInt(id, 10)) );
+                    }}
+                    label={$_('TILASTOT_TYYPPI_KAYTTOTARKOITUS')}
+                    value={searchmodel.kayttotarkoitus} />
+                </div>
               </div>
-              <div class="w-full md:w-1/2">
-                <InputSelect
-                  name={'tilastot.kayttotarkoitus'}
-                  disabled={true}
-                  options={['Kaikki']}
-                  label={$_('TILASTOT_TYYPPI_KAYTTOTARKOITUS')}
-                  value={0} />
+              <div
+                class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
+                <div class="w-full md:w-1/2">
+                  <InfoTooltip
+                    tooltip={$_('TILASTOT_RAKENNUSVUOSI_TOOLTIP')}
+                    title={$_('TILASTOT_RAKENNUSVUOSI')}>
+                    <span
+                      class="tarkennettu-label text-ashblue tracking-widest">
+                      {$_('TILASTOT_RAKENNUSVUOSI')}
+                    </span>
+                  </InfoTooltip>
+                </div>
+                <div class="w-full md:w-1/2 flex justify-between items-center">
+                  <div class="w-2/5">
+                    <InputNumber
+                      bind:this={vuosiminInput}
+                      label={$_('TILASTOT_RAKENNUSVUOSI')}
+                      placeholder={'vvvv'}
+                      min={0}
+                      max={3000}
+                      model={searchmodel}
+                      name={'vuosimin'}
+                      step="1"
+                      invalidMessage={$_('TILASTOT_INVALID_VUOSI_MIN')} />
+                  </div>
+                  <span class="material-icons text-darkgrey" aria-hidden="true">
+                    horizontal_rule
+                  </span>
+                  <div class="w-2/5">
+                    <InputNumber
+                      bind:this={vuosimaxInput}
+                      label={$_('TILASTOT_RAKENNUSVUOSI')}
+                      placeholder={'vvvv'}
+                      min={0}
+                      max={3000}
+                      model={searchmodel}
+                      name={'vuosimax'}
+                      step="1"
+                      invalidMessage={$_('TILASTOT_INVALID_VUOSI_MAX')} />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
+                <div class="w-full md:w-1/2">
+                  <InfoTooltip
+                    tooltip={$_('TILASTOT_LAMMITETTY_NETTOALA_TOOLTIP')}
+                    title={$_('TILASTOT_LAMMITETTY_NETTOALA')}>
+                    <span
+                      class="tarkennettu-label text-ashblue tracking-widest">
+                      {$_('TILASTOT_LAMMITETTY_NETTOALA')}
+                    </span>
+                  </InfoTooltip>
+                </div>
+                <div class="w-full md:w-1/2 flex justify-between items-center">
+                  <div class="w-2/5">
+                    <InputNumber
+                      bind:this={nettoalaminInput}
+                      label={$_('TILASTOT_LAMMITETTY_NETTOALA')}
+                      placeholder={'m²'}
+                      min="0"
+                      max={searchmodel.nettoalamax || 999999}
+                      model={searchmodel}
+                      name={'nettoalamin'}
+                      step="1"
+                      invalidMessage={$_('TILASTOT_INVALID_NETTOALA_MIN')} />
+                  </div>
+                  <span class="material-icons text-darkgrey" aria-hidden="true">
+                    horizontal_rule
+                  </span>
+                  <div class="w-2/5">
+                    <InputNumber
+                      bind:this={nettoalamaxInput}
+                      label={$_('TILASTOT_LAMMITETTY_NETTOALA')}
+                      placeholder={'m²'}
+                      min={searchmodel.nettoalamin || 0}
+                      max={999999}
+                      model={searchmodel}
+                      name={'nettoalamax'}
+                      step="1"
+                      invalidMessage={$_('TILASTOT_INVALID_NETTOALA_MAX')} />
+                  </div>
+                </div>
               </div>
             </div>
-            <div
-              class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
-              <div class="w-full md:w-1/2">
-                <InfoTooltip
-                  tooltip={$_('TILASTOT_RAKENNUSVUOSI_TOOLTIP')}
-                  title={$_('TILASTOT_RAKENNUSVUOSI')}>
-                  <span class="tarkennettu-label text-ashblue tracking-widest">
-                    {$_('TILASTOT_RAKENNUSVUOSI')}
-                  </span>
-                </InfoTooltip>
-              </div>
-              <div class="w-full md:w-1/2 flex justify-between items-center">
-                <div class="w-2/5">
-                  <InputNumber
-                    bind:this={vuosiminInput}
-                    label={$_('TILASTOT_RAKENNUSVUOSI')}
-                    placeholder={'vvvv'}
-                    min={0}
-                    max={3000}
-                    value={vuosimin}
-                    name={'tilastot.valmistumisvuosi_min'}
-                    step="1"
-                    invalidMessage={$_('TILASTOT_INVALID_VUOSI_MIN')} />
-                </div>
-                <span class="material-icons text-darkgrey" aria-hidden="true">
-                  horizontal_rule
-                </span>
-                <div class="w-2/5">
-                  <InputNumber
-                    bind:this={vuosimaxInput}
-                    label={$_('TILASTOT_RAKENNUSVUOSI')}
-                    placeholder={'vvvv'}
-                    min={0}
-                    max={3000}
-                    value={vuosimax}
-                    name={'tilastot.valmistumisvuosi_max'}
-                    step="1"
-                    invalidMessage={$_('TILASTOT_INVALID_VUOSI_MAX')} />
-                </div>
-              </div>
+            <!-- BUTTONS -->
+            <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
+              <Button type={'submit'} {...buttonStyles.green}>
+                {$_('TILASTOT_HAE')}
+              </Button>
+              <Button type={'reset'} {...buttonStyles.ashblue}>
+                {$_('TILASTOT_TYHJENNA')}
+              </Button>
             </div>
-            <div
-              class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
-              <div class="w-full md:w-1/2">
-                <InfoTooltip
-                  tooltip={$_('TILASTOT_LAMMITETTY_NETTOALA_TOOLTIP')}
-                  title={$_('TILASTOT_LAMMITETTY_NETTOALA')}>
-                  <span class="tarkennettu-label text-ashblue tracking-widest">
-                    {$_('TILASTOT_LAMMITETTY_NETTOALA')}
-                  </span>
-                </InfoTooltip>
-              </div>
-              <div class="w-full md:w-1/2 flex justify-between items-center">
-                <div class="w-2/5">
-                  <InputNumber
-                    bind:this={nettoalaminInput}
-                    label={$_('TILASTOT_LAMMITETTY_NETTOALA')}
-                    placeholder={'m²'}
-                    min="0"
-                    max={nettoalamax || 999999}
-                    value={nettoalamin}
-                    name={'tilastot.nettoala_min'}
-                    step="1"
-                    invalidMessage={$_('TILASTOT_INVALID_NETTOALA_MIN')} />
-                </div>
-                <span class="material-icons text-darkgrey" aria-hidden="true">
-                  horizontal_rule
-                </span>
-                <div class="w-2/5">
-                  <InputNumber
-                    bind:this={nettoalamaxInput}
-                    label={$_('TILASTOT_LAMMITETTY_NETTOALA')}
-                    placeholder={'m²'}
-                    min={nettoalamin || 0}
-                    max={999999}
-                    value={nettoalamax}
-                    name={'tilastot.nettoala_max'}
-                    step="1"
-                    invalidMessage={$_('TILASTOT_INVALID_NETTOALA_MAX')} />
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- BUTTONS -->
-          <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
-            <Button type={'submit'} {...buttonStyles.green}>
-              {$_('TILASTOT_HAE')}
-            </Button>
-            <Button type={'reset'} {...buttonStyles.ashblue}>
-              {$_('TILASTOT_TYHJENNA')}
-            </Button>
-          </div>
+          {/await}
         </form>
       </div>
       <div class="statistics flex flex-col w-full my-8" bind:this={resultsElem}>
@@ -395,10 +415,19 @@
                   <span>{resultKeyword}</span>
                 </div>
               {/if}
-              <div class="w-full space-x-2">
-                <span class="font-bold">{$_('TILASTOT_TYYPPI')}</span>
-                <span>Kaikki</span>
-              </div>
+              {#if resultKayttotarkoitus}
+                {#await kayttotarkoituksetPromise then kayttotarkoitukset}
+                  <div class="w-full space-x-2">
+                    <span class="font-bold">{$_('TILASTOT_TYYPPI')}</span>
+                    <span>{labelLocale( $locale, kayttotarkoitukset.find(item => item.id === parseInt(resultKayttotarkoitus, 10)) )}</span>
+                  </div>
+                {/await}
+              {:else}
+                <div class="w-full space-x-2">
+                  <span class="font-bold">{$_('TILASTOT_TYYPPI')}</span>
+                  <span>Kaikki</span>
+                </div>
+              {/if}
             </div>
             <div class="w-full flex flex-col space-y-2">
               {#if resultVuosimin || resultVuosimax}
