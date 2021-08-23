@@ -454,6 +454,7 @@
                 chartData={chartData2018} />
 
               <TilastotEtVersion
+                tooltipAnchorPosition={AnchorPosition.bottomRight}
                 version="2013"
                 count={total2013}
                 eLukuData={results?.['e-luku-statistics']?.['2013']}
