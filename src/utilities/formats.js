@@ -19,3 +19,5 @@ export const formatNumber = n => Intl.NumberFormat('fi').format(n);
 
 export const formatDateISO = date =>
   !isNaN(date.getTime()) ? formatISO(date, { representation: 'date' }) : '';
+
+export const formatPercent = number => `${number} %`;

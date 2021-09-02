@@ -21,3 +21,5 @@ export const parseDate = value => {
     return null;
   }
 };
+
+export const parsePercent = (total, str) => ((parseInt(str) / total) * 100).toFixed(0);
