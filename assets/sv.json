@@ -252,7 +252,7 @@
   "TILASTOT_PARAS_15": "Paras 15% SV?",
   "TILASTOT_HEIKOIN_15": "Heikoin 15% SV?",
   "TILASTOT_E_LUKU_UNIT": " kWh/m²/vuosi SV?",
-  "TILASTOT_U_ARVOT_UNIT": " W/(m² K) SV?",
+  "TILASTOT_U_ARVOT_UNIT": " W/(m² K)",
   "TILASTOT_KPL": " ST",
   "TILASTOT_TUNNUSLUVUT_MOLEMMILLE": "Molemmille lain versioille lasketut tunnusluvut SV?",
   "TILASTOT_RAKENNUSVAIPPA": "Klimatskal",
@@ -285,7 +285,7 @@
   "TILASTOT_PUU": "Puu SV?",
   "TILASTOT_PELLETTI": "Pelletti SV?",
   "TILASTOT_OLJY": "Öljy SV?",
-  "TILASTOT_KAASU": "Kaasu",
+  "TILASTOT_KAASU": "Kaasu SV?",
   "TILASTOT_MAALAMPOPUMPPU": "Maalämpöpumppu SV?",
   "TILASTOT_VESIILMALAMPOPUMPPU": "Vesi-ilmalämpöpumppu SV?",
   "TILASTOT_POISTOILMALAMPOPUMPPU": "Poistoilmalämpöpumppu SV?",
@@ -310,5 +310,5 @@
   "TILASTOT_PAINOVOIMAINEN_TULO_POISTO": "Painovoimainen/koneellinen tulo- ja poisto SV?",
   "TILASTOT_ALLE": "Alle SV?",
   "TILASTOT_YLI": "Yli SV?",
-  "TILASTOT_TULOSTA": "Tulosta"
+  "TILASTOT_TULOSTA": "Tulosta SV?"
 }
