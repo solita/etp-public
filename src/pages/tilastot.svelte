@@ -15,6 +15,8 @@
   import * as api from '@/api/tilastot-api';
   import * as EtApi from '@/api/energiatodistus-api';
   import Spinner from '@Component/spinner';
+  import * as Formats from '@/utilities/formats';
+  import * as Parsers from '@/utilities/parsers';
 
   let resultsElem;
   let vuosiminInput, vuosimaxInput, nettoalaminInput, nettoalamaxInput;
@@ -153,6 +155,8 @@
   });
 
   const kayttotarkoituksetPromise = api.kayttotarkoitukset(fetch);
+
+  const parseAndFormatPercent = (total, str) => Formats.formatPercent(Parsers.parsePercent(total, str));
 </script>
 
 <style>
@@ -595,27 +599,27 @@
                   </div>
                   <div class="w-full flex justify-between">
                     <span>{$_('TILASTOT_AURINKOSAHKO')}</span>
-                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkosahko']) / total2018) * 100).toFixed(0)}{'%'}</span>
+                    <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkosahko'])}</span>
                   </div>
                   <div class="w-full flex justify-between">
                     <span>{$_('TILASTOT_AURINKOLAMPO')}</span>
-                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkolampo']) / total2018) * 100).toFixed(0)}{'%'}</span>
+                    <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkolampo'])}</span>
                   </div>
                   <div class="w-full flex justify-between">
                     <span>{$_('TILASTOT_TUULISAHKO')}</span>
-                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['tuulisahko']) / total2018) * 100).toFixed(0)}{'%'}</span>
+                    <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['tuulisahko'])}</span>
                   </div>
                   <div class="w-full flex justify-between">
                     <span>{$_('TILASTOT_LAMPOPUMPPU')}</span>
-                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['lampopumppu']) / total2018) * 100).toFixed(0)}{'%'}</span>
+                    <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['lampopumppu'])}</span>
                   </div>
                   <div class="w-full flex justify-between">
                     <span>{$_('TILASTOT_MUU_SAHKO')}</span>
-                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muusahko']) / total2018) * 100).toFixed(0)}{'%'}</span>
+                    <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muusahko'])}</span>
                   </div>
                   <div class="w-full flex justify-between">
                     <span>{$_('TILASTOT_MUU_LAMPO')}</span>
-                    <span>{((parseInt(results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muulampo']) / total2018) * 100).toFixed(0)}{'%'}</span>
+                    <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muulampo'])}</span>
                   </div>
                 </div>
                 <div class="w-full" />
