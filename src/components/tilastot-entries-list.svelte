@@ -9,7 +9,7 @@
   export let items;
   export let total;
 
-  const selectByLocaleOrAvailable = (prefix, property) => {
+  $: selectByLocaleOrAvailable = (prefix, property) => {
     if ($locale === 'sv' && property?.[prefix + '-sv'])
       return property[prefix + '-sv'];
     else if (
