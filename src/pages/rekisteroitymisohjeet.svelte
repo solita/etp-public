@@ -12,13 +12,15 @@
   h2 {
     @apply mb-2;
   }
+  a {
+    @apply underline text-darkgreen;
+  }
 </style>
 
 <Seo
   title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('REKISTEROITYMISOHJEET')}"
   descriptionFi={$locale == 'fi' ? $_('REOHJ_INFO_TITLE') : undefined}
-  descriptionSv={$locale == 'sv' ? $_('REOHJ_INFO_TITLE') : undefined}
-/>
+  descriptionSv={$locale == 'sv' ? $_('REOHJ_INFO_TITLE') : undefined} />
 
 <Container {...containerStyles.beige}>
   <InfoBlock title={$_('REOHJ_INFO_TITLE')}>{$_('REOHJ_INFO_TEXT')}</InfoBlock>
@@ -50,21 +52,16 @@
       <div class="my-4">
         <div class="flex flex-col md:flex-row md:space-x-1">
           <span>{$_('REOHJ_POLIISILTA')}</span>
-          <a
-            class="text-darkgreen"
-            href="https://poliisi.fi/etusivu">{$_('REOHJ_SIIRRY_POLIISIN')}</a>
+          <a href="https://poliisi.fi/etusivu">{$_('REOHJ_SIIRRY_POLIISIN')}</a>
         </div>
         <div class="flex flex-col md:flex-row md:space-x-1">
           <span>{$_('REOHJ_LISATIETOJA')}</span>
-          <a
-            class="text-darkgreen"
-            href="https://dvv.fi/varmenteet">{$_('REOHJ_SIIRRY_DVV')}</a>
+          <a href="https://dvv.fi/varmenteet">{$_('REOHJ_SIIRRY_DVV')}</a>
         </div>
       </div>
       <div>
         <p>{$_('REOHJ_KORTINLUKULAITTEEN')}</p>
         <a
-          class="text-darkgreen"
           href="https://dvv.fi/kortinlukijaohjelmisto">{$_('REOHJ_SIIRRY_OHJELMISTON')}</a>
       </div>
     </div>
