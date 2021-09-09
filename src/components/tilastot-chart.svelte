@@ -19,7 +19,9 @@
   );
 
   export let data = [];
+  export let printing;
   export let labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+  let labelsVisual = labels;
   let ariaLabelText;
   let chartCanvas, chartInstance;
 
@@ -27,6 +29,7 @@
     ariaLabelText = $_('TILASTOT_CHART_ALT') + ' ';
 
     labels.forEach((label, index) => {
+      labelsVisual[index] = `${label} (${Math.round(data?.[index] * 100)}%)`;
       ariaLabelText += `${label}: ${Math.round(data?.[index] * 100)}%`;
 
       if (index < labels.length - 1) {
@@ -47,6 +50,7 @@
 
   const options = {
     responsive: true,
+    maintainAspectRatio: true,
     scales: {
       y: {
         ticks: {
@@ -80,7 +84,7 @@
       chartInstance = new Chart(chartCanvas, {
         type: 'bar',
         data: {
-          labels: labels,
+          labels: labelsVisual,
           datasets: [
             {
               data: data,
@@ -94,6 +98,17 @@
   };
 
   $: {
+    if (printing) {
+      console.log('printing');
+      // options.responsive = false;
+      // for (const i in labels) {
+      //   labelsVisual[i] = labels[i] + ' (' + Math.round(data?.[i] * 100) + '%)';
+      // }
+    } else {
+      console.log('not printing');
+      // labelsVisual = labels;
+      options.responsive = true;
+    }
     tick().then(() => {
       drawChart(data);
     });
@@ -104,8 +119,17 @@
   .chart-parent {
     width: 99%;
   }
+
+  .printing {
+    width: 440px !important;
+    height: 220px;
+  }
+  canvas {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
 </style>
 
-<div class="chart-parent">
+<div class:printing class:chart-parent={!printing}>
   <canvas bind:this={chartCanvas} aria-label={ariaLabelText} role="img" />
 </div>

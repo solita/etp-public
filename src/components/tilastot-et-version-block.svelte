@@ -5,6 +5,7 @@
   import StatChart from '@Component/tilastot-chart';
   import InfoTooltip, { AnchorPosition } from '@Component/info-tooltip';
 
+  export let printing;
   export let version;
   export let count;
   export let eLukuData;
@@ -22,7 +23,7 @@
   <h1 class="w-full">{title}</h1>
   {#if count > 0}
     <div class="w-full flex flex-col">
-      <div class="my-4">
+      <div class="my-4 print:my-0">
         <InfoTooltip
           anchor={tooltipAnchorPosition}
           title={$_('TILASTOT_ET_LUOKKA')}
@@ -30,7 +31,7 @@
           <h2>{$_('TILASTOT_ET_LUOKKA')}</h2>
         </InfoTooltip>
       </div>
-      <StatChart data={chartData} />
+      <StatChart data={chartData} {printing} />
     </div>
     <StatELuku
       data={eLukuData}
