@@ -22,18 +22,18 @@
   export let printing;
   export let labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
   let labelsVisual = labels;
-  let ariaLabelText;
+  let ariaLabelText = $_('TILASTOT_CHART_ALT') + ' ';
+  let ariaLabelStats = '';
   let chartCanvas, chartInstance;
+  const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
   $: {
-    ariaLabelText = $_('TILASTOT_CHART_ALT') + ' ';
-
     labels.forEach((label, index) => {
       labelsVisual[index] = `${label} (${Math.round(data?.[index] * 100)}%)`;
-      ariaLabelText += `${label}: ${Math.round(data?.[index] * 100)}%`;
+      ariaLabelStats += `${label}: ${Math.round(data?.[index] * 100)}%`;
 
       if (index < labels.length - 1) {
-        ariaLabelText += ', ';
+        ariaLabelStats += ', ';
       }
     });
   }
@@ -98,17 +98,6 @@
   };
 
   $: {
-    if (printing) {
-      console.log('printing');
-      // options.responsive = false;
-      // for (const i in labels) {
-      //   labelsVisual[i] = labels[i] + ' (' + Math.round(data?.[i] * 100) + '%)';
-      // }
-    } else {
-      console.log('not printing');
-      // labelsVisual = labels;
-      options.responsive = true;
-    }
     tick().then(() => {
       drawChart(data);
     });
@@ -130,6 +119,15 @@
   }
 </style>
 
-<div class:printing class:chart-parent={!printing}>
-  <canvas bind:this={chartCanvas} aria-label={ariaLabelText} role="img" />
+<div
+  class:printing
+  class:chart-parent={!printing}
+  class={isFirefox ? 'print:hidden' : ''}>
+  <canvas
+    bind:this={chartCanvas}
+    aria-label={ariaLabelText + ariaLabelStats}
+    role="img" />
 </div>
+{#if isFirefox}
+  <div class="mt-2 mb-4 hidden print:block"><span>{ariaLabelStats}</span></div>
+{/if}

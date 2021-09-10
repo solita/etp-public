@@ -161,11 +161,9 @@
     Formats.formatPercent(Parsers.parsePercent(total, str));
 
   window.onbeforeprint = () => {
-    console.log('onbeforeprint');
     printing = true;
   };
   window.onafterprint = () => {
-    console.log('onafterprint');
     printing = false;
   };
 </script>
@@ -179,7 +177,6 @@
   .pbb-always {
     page-break-before: always;
     break-before: always;
-    /* page-break-inside: avoid; */
   }
   .pbi-avoid,
   h1,
@@ -428,7 +425,7 @@
           </span>
           <!-- GENERAL -->
           <div
-            class="only-print pbb-always flex flex-col md:flex-row space-y-2 md:space-x-16 md:space-y-0 justify-evenly">
+            class="only-print flex flex-col md:flex-row space-y-2 md:space-x-16 md:space-y-0 justify-evenly">
             <div class="w-full flex flex-col space-y-2">
               {#if resultKeyword}
                 <div class="w-full space-x-2">
@@ -468,23 +465,19 @@
             <!-- GRAPHS -->
             <div
               class="my-8 flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
-              <div class="flex w-full">
-                <TilastotEtVersion
-                  {printing}
-                  version="2018"
-                  count={total2018}
-                  eLukuData={results?.['e-luku-statistics']?.['2018']}
-                  chartData={chartData2018} />
-              </div>
-              <div class="pbb-always flex w-full">
-                <TilastotEtVersion
-                  {printing}
-                  tooltipAnchorPosition={AnchorPosition.bottomRight}
-                  version="2013"
-                  count={total2013}
-                  eLukuData={results?.['e-luku-statistics']?.['2013']}
-                  chartData={chartData2013} />
-              </div>
+              <TilastotEtVersion
+                {printing}
+                version="2018"
+                count={total2018}
+                eLukuData={results?.['e-luku-statistics']?.['2018']}
+                chartData={chartData2018} />
+              <TilastotEtVersion
+                {printing}
+                tooltipAnchorPosition={AnchorPosition.bottomRight}
+                version="2013"
+                count={total2013}
+                eLukuData={results?.['e-luku-statistics']?.['2013']}
+                chartData={chartData2013} />
             </div>
             <!-- MOLEMMILLE TUNNUSLUVUT-->
             <div class="pbb-always">
@@ -594,62 +587,64 @@
             </div>
             <!-- 2018 TUNNUSLUVUT-->
             {#if total2018 > 0}
-              <h1 class="w-full my-4">
-                {$_('TILASTOT_TUNNUSLUVUT_2018')}
-                {` (${total2018} ${$_('TILASTOT_KPL')})`}
-              </h1>
-              <div
-                class="flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
-                <TilastotEntriesList
-                  title={$_('TILASTOT_LAMMITYSJARJESTELMA')}
-                  tooltip={$_('TILASTOT_LAMMITYSJARJESTELMA_TOOLTIP')}
-                  labels={lammitysmuodot}
-                  items={results?.['counts']?.['2018']?.['lammitysmuoto']}
-                  total={total2018} />
-                <TilastotEntriesList
-                  title={$_('TILASTOT_ILMANVAIHTOJARJESTELMA')}
-                  tooltip={$_('TILASTOT_ILMANVAIHTOJARJESTELMA_TOOLTIP')}
-                  tooltipAnchor={AnchorPosition.bottomRight}
-                  labels={ilmanvaihtotyypit}
-                  items={results?.['counts']?.['2018']?.['ilmanvaihto']}
-                  total={total2018} />
-              </div>
-              <div
-                class="flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
-                <div class="w-full flex flex-col">
-                  <div class="my-4">
-                    <InfoTooltip
-                      title={$_('TILASTOT_UUSIUTUVIEN')}
-                      tooltip={$_('TILASTOT_UUSIUTUVIEN_TOOLTIP')}>
-                      <h2>{$_('TILASTOT_UUSIUTUVIEN')}</h2>
-                    </InfoTooltip>
-                  </div>
-                  <div class="w-full flex justify-between">
-                    <span>{$_('TILASTOT_AURINKOSAHKO')}</span>
-                    <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkosahko'])}</span>
-                  </div>
-                  <div class="w-full flex justify-between">
-                    <span>{$_('TILASTOT_AURINKOLAMPO')}</span>
-                    <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkolampo'])}</span>
-                  </div>
-                  <div class="w-full flex justify-between">
-                    <span>{$_('TILASTOT_TUULISAHKO')}</span>
-                    <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['tuulisahko'])}</span>
-                  </div>
-                  <div class="w-full flex justify-between">
-                    <span>{$_('TILASTOT_LAMPOPUMPPU')}</span>
-                    <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['lampopumppu'])}</span>
-                  </div>
-                  <div class="w-full flex justify-between">
-                    <span>{$_('TILASTOT_MUU_SAHKO')}</span>
-                    <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muusahko'])}</span>
-                  </div>
-                  <div class="w-full flex justify-between">
-                    <span>{$_('TILASTOT_MUU_LAMPO')}</span>
-                    <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muulampo'])}</span>
+              <div>
+                <h1 class="w-full my-4">
+                  {$_('TILASTOT_TUNNUSLUVUT_2018')}
+                  {` (${total2018} ${$_('TILASTOT_KPL')})`}
+                </h1>
+                <div
+                  class="flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
+                  <TilastotEntriesList
+                    title={$_('TILASTOT_LAMMITYSJARJESTELMA')}
+                    tooltip={$_('TILASTOT_LAMMITYSJARJESTELMA_TOOLTIP')}
+                    labels={lammitysmuodot}
+                    items={results?.['counts']?.['2018']?.['lammitysmuoto']}
+                    total={total2018} />
+                  <TilastotEntriesList
+                    title={$_('TILASTOT_ILMANVAIHTOJARJESTELMA')}
+                    tooltip={$_('TILASTOT_ILMANVAIHTOJARJESTELMA_TOOLTIP')}
+                    tooltipAnchor={AnchorPosition.bottomRight}
+                    labels={ilmanvaihtotyypit}
+                    items={results?.['counts']?.['2018']?.['ilmanvaihto']}
+                    total={total2018} />
+                </div>
+                <div
+                  class="flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
+                  <div class="w-full flex flex-col">
+                    <div class="my-4">
+                      <InfoTooltip
+                        title={$_('TILASTOT_UUSIUTUVIEN')}
+                        tooltip={$_('TILASTOT_UUSIUTUVIEN_TOOLTIP')}>
+                        <h2>{$_('TILASTOT_UUSIUTUVIEN')}</h2>
+                      </InfoTooltip>
+                    </div>
+                    <div class="w-full flex justify-between">
+                      <span>{$_('TILASTOT_AURINKOSAHKO')}</span>
+                      <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkosahko'])}</span>
+                    </div>
+                    <div class="w-full flex justify-between">
+                      <span>{$_('TILASTOT_AURINKOLAMPO')}</span>
+                      <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkolampo'])}</span>
+                    </div>
+                    <div class="w-full flex justify-between">
+                      <span>{$_('TILASTOT_TUULISAHKO')}</span>
+                      <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['tuulisahko'])}</span>
+                    </div>
+                    <div class="w-full flex justify-between">
+                      <span>{$_('TILASTOT_LAMPOPUMPPU')}</span>
+                      <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['lampopumppu'])}</span>
+                    </div>
+                    <div class="w-full flex justify-between">
+                      <span>{$_('TILASTOT_MUU_SAHKO')}</span>
+                      <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muusahko'])}</span>
+                    </div>
+                    <div class="w-full flex justify-between">
+                      <span>{$_('TILASTOT_MUU_LAMPO')}</span>
+                      <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muulampo'])}</span>
+                    </div>
+                    <div class="w-full" />
                   </div>
                 </div>
-                <div class="w-full" />
               </div>
             {/if}
           {/if}

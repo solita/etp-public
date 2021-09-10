@@ -214,7 +214,7 @@
   }
   .pbb-always {
     page-break-before: always;
-    /* page-break-inside: avoid; */
+    break-before: always;
   }
   .pbi-avoid,
   p,
@@ -223,11 +223,12 @@
   span,
   strong {
     page-break-inside: avoid;
+    break-inside: avoid;
   }
   .et-perustuu-bottom {
     font-size: 12px;
-    position: absolute;
-    bottom: 0;
+    /* position: absolute;
+    bottom: 0; */
   }
   .graph-color-a {
     background-color: #1d8c38;
@@ -451,9 +452,9 @@
             {/if}
           {/if}
         </div>
-        <div class="w-full my-8 print:my-0 pbi-avoid graph-container">
+        <div class="w-full my-8 print:my-0 graph-container">
           <div class="w-full flex flex-col bg-white">
-            <div class="w-full flex border-b border-black pbb-always">
+            <div class="w-full flex border-b border-black">
               <div class="w-0 md:w-1/2 md:border-r border-black p-2" />
               <div
                 class="w-full md:w-1/2 px-2 py-4 flex justify-end md:justify-start md:pl-10">
@@ -461,7 +462,8 @@
               </div>
             </div>
             {#each classes as cls}
-              <div class="w-full flex border-black {energiatodistus?.versio === 2013 && cls === 'C' ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
+              <div
+                class="w-full flex border-black {energiatodistus?.versio === 2013 && cls === 'C' ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
                 <div
                   class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-1">
                   <span
@@ -480,10 +482,9 @@
                   {/if}
                 </div>
               </div>
-              {#if energiatodistus?.versio === 2013 && cls === 'C' }
+              {#if energiatodistus?.versio === 2013 && cls === 'C'}
                 <LineText />
               {/if}
-
             {/each}
           </div>
         </div>
@@ -491,9 +492,11 @@
           class="w-full flex flex-col mx-auto items-center space-y-6 print:space-y-2">
           <div
             class="flex flex-col md:flex-row print:flex-row space-x-2 w-full">
-            <span class="w-full md:w-2/3 text-ashblue print:w-2/3">{$_('ET_ELUKU')}:</span>
+            <span
+              class="w-full md:w-2/3 text-ashblue print:w-2/3">{$_('ET_ELUKU')}:</span>
             <span class="w-full md:w-1/3 print:w-1/3">
-              <KWhE value={formats.formatNumber(energiatodistus?.tulokset['e-luku'])}/>/({$_('ET_M2VUOSI')})
+              <KWhE
+                value={formats.formatNumber(energiatodistus?.tulokset['e-luku'])} />/({$_('ET_M2VUOSI')})
             </span>
           </div>
           {#if versio == '2018'}
@@ -501,8 +504,8 @@
               class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
               <span
                 class="w-full md:w-2/3 print:w-2/3 text-ashblue">{$_('ET_VAATIMUSTASO')}:</span>
-              <span
-                class="w-full md:w-1/3 print:w-1/3"><KWhE value={`≤ ${eLuokka?.['raja-uusi-2018']}`} />/({$_('ET_M2VUOSI')})</span>
+              <span class="w-full md:w-1/3 print:w-1/3"><KWhE
+                  value={`≤ ${eLuokka?.['raja-uusi-2018']}`} />/({$_('ET_M2VUOSI')})</span>
             </div>
           {/if}
           <div
@@ -529,21 +532,25 @@
           </div>
         </div>
 
-        <p class="w-full hidden print:block et-perustuu-bottom py-4 pr-10">{$_('ET_ELUKU_PERUSTUU')}</p>
+        <p class="w-full hidden print:block text-xs py-2">
+          {$_('ET_ELUKU_PERUSTUU')}
+        </p>
 
-        <h2 class="w-full text-green uppercase text-xl mt-8 pbi-avoid pbb-always">
+        <h2 class="w-full text-green uppercase text-xl mt-8 pbb-always">
           {$_('ET_YHTEENVETO')}
         </h2>
         <span
-          class="w-full flex bg-ashblue text-white uppercase px-4 py-3 print:py-2 my-4 print:my-2 print:text-sm pbi-avoid">
+          class="w-full flex bg-ashblue text-white uppercase px-4 py-3 my-4 print:py-1 print:px-2 print:my-1 print:text-sm print:bg-white print:text-black print:border-ashblue print:border">
           {$_('ET_LASKETTU_KOKONAISENERGIA')}</span>
-        <div class="w-full flex flex-col mx-auto items-start space-y-6 print:space-y-2 my-8 print:my-2">
+        <div
+          class="w-full flex flex-col mx-auto items-start space-y-6 print:space-y-2 my-8 print:my-2">
           <div
             class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
             <span
               class="w-full md:w-1/2 text-ashblue">{$_('ET_NETTOALA')}:</span>
             <span
-              class="w-full md:w-1/2">{formats.formatNumber(energiatodistus.lahtotiedot['lammitetty-nettoala'])} m²</span>
+              class="w-full md:w-1/2">{formats.formatNumber(energiatodistus.lahtotiedot['lammitetty-nettoala'])}
+              m²</span>
           </div>
 
           {#if lammitysmuoto1 || energiatodistus?.lahtotiedot?.lammitys?.['lammitysmuoto-1']?.['kuvaus-fi'] || energiatodistus?.lahtotiedot?.lammitys?.['lammitysmuoto-1']?.['kuvaus-sv']}
@@ -615,11 +622,15 @@
           {/if}
         </div>
 
-        <div class="overflow-x-auto w-full pbi-avoid">
-          <table class="table-fixed mx-auto my-8 print:my-2 font-normal text-center">
-            <thead class="bg-lightbeige text-black align-center py-4 print:py-1">
+        <div class="overflow-x-auto w-full">
+          <table
+            class="table-fixed mx-auto my-8 print:my-2 font-normal text-center">
+            <thead
+              class="bg-lightbeige text-black align-center py-4 print:py-1">
               <tr>
-                <th class="font-normal py-4 print:py-1 w-1/5 pl-2 text-left" rowspan="2">
+                <th
+                  class="font-normal py-4 print:py-1 w-1/5 pl-2 text-left"
+                  rowspan="2">
                   {$_('ET_ENERGIAMUOTO')}
                 </th>
                 <th class="font-normal py-4 print:py-1 w-2/5" colspan="2">
@@ -629,18 +640,23 @@
                   {$_('ET_ENERGIAMUODON_KERROIN')}
                 </th>
                 <th class="font-normal py-4 print:py-1 w-1/5" rowspan="2">
-                  {$_('ET_ENERGIAMUODON_PAINOTETTU')} <KWhE value='' />/({$_('ET_M2VUOSI')})
+                  {$_('ET_ENERGIAMUODON_PAINOTETTU')}
+                  <KWhE value="" />/({$_('ET_M2VUOSI')})
                 </th>
               </tr>
               <tr>
                 <th class="font-normal pb-4 print:pb1">kWh/{$_('ET_VUOSI')}</th>
-                <th class="font-normal pb-4 print:pb1">kWh/({$_('ET_M2VUOSI')})</th>
+                <th class="font-normal pb-4 print:pb1">
+                  kWh/({$_('ET_M2VUOSI')})
+                </th>
               </tr>
             </thead>
             <tbody>
               {#if path(['tulokset', 'kaytettavat-energiamuodot', 'sahko'], energiatodistus)}
                 <tr>
-                  <td class="py-4 print:py-1 pl-2 text-left">{$_('ET_SAHKO')}</td>
+                  <td class="py-4 print:py-1 pl-2 text-left">
+                    {$_('ET_SAHKO')}
+                  </td>
                   <td class="py-4 print:py-1">
                     {formats.formatNumber(energiatodistus.tulokset['kaytettavat-energiamuodot'].sahko)}
                   </td>
@@ -657,7 +673,9 @@
               {/if}
               {#if path(['tulokset', 'kaytettavat-energiamuodot', 'kaukolampo'], energiatodistus)}
                 <tr>
-                  <td class="py-4 print:py-1 pl-2 text-left">{$_('ET_KAUKOLAMPO')}</td>
+                  <td class="py-4 print:py-1 pl-2 text-left">
+                    {$_('ET_KAUKOLAMPO')}
+                  </td>
                   <td class="py-4 print:py-1">
                     {formats.formatNumber(energiatodistus.tulokset['kaytettavat-energiamuodot'].kaukolampo)}
                   </td>
@@ -714,7 +732,9 @@
 
               {#if path(['tulokset', 'kaytettavat-energiamuodot', 'kaukojaahdytys'], energiatodistus)}
                 <tr>
-                  <td class="py-4 print:py-1 pl-2 text-left">{$_('ET_KAUKOJAAHDYTYS')}</td>
+                  <td class="py-4 print:py-1 pl-2 text-left">
+                    {$_('ET_KAUKOJAAHDYTYS')}
+                  </td>
                   <td class="py-4 print:py-1">
                     {formats.formatNumber(energiatodistus.tulokset['kaytettavat-energiamuodot']['kaukojaahdytys'])}
                   </td>
@@ -730,7 +750,9 @@
                 </tr>
               {/if}
               <tr class="border-t border-grey font-bold">
-                <td class="py-4 print:py-1 w-4/5 justify-end text-right" colspan="4">
+                <td
+                  class="py-4 print:py-1 w-4/5 justify-end text-right"
+                  colspan="4">
                   {$_('ET_VERTAILULUKU')}
                 </td>
                 <td class="py-4 print:py-1">
@@ -742,11 +764,12 @@
         </div>
 
         <span
-          class="w-full flex bg-ashblue text-white uppercase px-4 py-3 print:py-2 my-4 print:py-2 print:text-sm pbi-avoid">
+          class="w-full flex bg-ashblue text-white uppercase px-4 py-3 print:py-1 print:px-2 print:my-1 print:text-sm print:bg-white print:text-black print:border-ashblue print:border">
           {$_('ET_RAKENNUKSEN_ET_LUOKKA')}
         </span>
 
-        <div class="w-full flex flex-col mx-auto items-start space-y-6 my-8">
+        <div
+          class="w-full flex flex-col mx-auto items-start space-y-6 my-8 print:my-2">
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-start justify-start">
             <span
@@ -782,13 +805,12 @@
         </div>
 
         {#if energiatodistus?.perustiedot?.['keskeiset-suositukset-fi'] || energiatodistus?.perustiedot?.['keskeiset-suositukset-sv']}
-          <div
-            class="w-full flex flex-col mx-auto items-start space-y-6 my-6 pbi-avoid">
+          <div class="w-full flex flex-col mx-auto items-start space-y-6 my-6">
             <h2 class="w-full text-green uppercase text-xl">
               {$_('ET_ENERGIATEHOKKUUTTA_PARANTAVIA')}
             </h2>
             <span
-              class="w-full bg-ashblue text-white uppercase px-4 py-3 print:py-2 my-4 print:my-2 print:text-sm">{$_('ET_LASKETTU_KOKONAIS')}</span>
+              class="w-full flex bg-ashblue text-white uppercase px-4 py-3 print:py-1 print:px-2 print:my-1 print:text-sm print:bg-white print:text-black print:border-ashblue print:border">{$_('ET_LASKETTU_KOKONAIS')}</span>
             <p class="w-full">
               {selectByLocaleOrAvailable('keskeiset-suositukset', energiatodistus.perustiedot)}
             </p>
