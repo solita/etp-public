@@ -588,7 +588,7 @@
             <!-- 2018 TUNNUSLUVUT-->
             {#if total2018 > 0}
               <div>
-                <h1 class="w-full my-4">
+                <h1 class="w-full my-4 pbb-always">
                   {$_('TILASTOT_TUNNUSLUVUT_2018')}
                   {` (${total2018} ${$_('TILASTOT_KPL')})`}
                 </h1>
