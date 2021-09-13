@@ -21,7 +21,7 @@
   export let data = [];
   export let printing;
   export let labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
-  let labelsVisual = labels;
+  let labelsVisual = [];
   let ariaLabelText = $_('TILASTOT_CHART_ALT') + ' ';
   let ariaLabelStats = '';
   let chartCanvas, chartInstance;
@@ -67,7 +67,8 @@
         displayColors: false,
         callbacks: {
           label: ctx => {
-            return (ctx.raw * 100).toFixed(0) + '%';
+            // return (ctx.raw * 100).toFixed(0) + '%';
+            return '';
           }
         }
       }
