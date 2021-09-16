@@ -19,18 +19,21 @@
   );
 
   export let data = [];
+  export let printing;
   export let labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
-  let ariaLabelText;
+  let labelsVisual = [];
+  let ariaLabelText = $_('TILASTOT_CHART_ALT') + ' ';
+  let ariaLabelStats = '';
   let chartCanvas, chartInstance;
+  const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
   $: {
-    ariaLabelText = $_('TILASTOT_CHART_ALT') + ' ';
-
     labels.forEach((label, index) => {
-      ariaLabelText += `${label}: ${Math.round(data?.[index] * 100)}%`;
+      labelsVisual[index] = `${label} (${Math.round(data?.[index] * 100)}%)`;
+      ariaLabelStats += `${label}: ${Math.round(data?.[index] * 100)}%`;
 
       if (index < labels.length - 1) {
-        ariaLabelText += ', ';
+        ariaLabelStats += ', ';
       }
     });
   }
@@ -47,6 +50,7 @@
 
   const options = {
     responsive: true,
+    maintainAspectRatio: true,
     scales: {
       y: {
         ticks: {
@@ -63,7 +67,8 @@
         displayColors: false,
         callbacks: {
           label: ctx => {
-            return (ctx.raw * 100).toFixed(0) + '%';
+            // return (ctx.raw * 100).toFixed(0) + '%';
+            return '';
           }
         }
       }
@@ -80,7 +85,7 @@
       chartInstance = new Chart(chartCanvas, {
         type: 'bar',
         data: {
-          labels: labels,
+          labels: labelsVisual,
           datasets: [
             {
               data: data,
@@ -104,8 +109,26 @@
   .chart-parent {
     width: 99%;
   }
+
+  .printing {
+    width: 440px !important;
+    height: 220px;
+  }
+  canvas {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
 </style>
 
-<div class="chart-parent">
-  <canvas bind:this={chartCanvas} aria-label={ariaLabelText} role="img" />
+<div
+  class:printing
+  class:chart-parent={!printing}
+  class={isFirefox ? 'print:hidden' : ''}>
+  <canvas
+    bind:this={chartCanvas}
+    aria-label={ariaLabelText + ariaLabelStats}
+    role="img" />
 </div>
+{#if isFirefox}
+  <div class="mt-2 mb-4 hidden print:block"><span>{ariaLabelStats}</span></div>
+{/if}
