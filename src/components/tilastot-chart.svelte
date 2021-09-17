@@ -28,6 +28,7 @@
   const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
   $: {
+    ariaLabelStats = '';
     labels.forEach((label, index) => {
       labelsVisual[index] = `${label} (${Math.round(data?.[index] * 100)}%)`;
       ariaLabelStats += `${label}: ${Math.round(data?.[index] * 100)}%`;
