@@ -33,6 +33,12 @@
     left: 1rem;
   }
 
+  @supports (-moz-appearance: none) {
+    .info-popup::after {
+      bottom: -35px;
+    }
+  }
+
   .radio-container {
     padding-left: 25px;
     @apply select-none block relative;
