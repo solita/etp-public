@@ -14,7 +14,8 @@
     @apply relative;
   }
 
-  .icon-container:hover .info-popup {
+  .icon-container:hover .info-popup,
+  .icon-container:focus .info-popup {
     bottom: 135%;
     left: -1rem;
     @apply block absolute z-10 bg-white text-black border border-black rounded-lg p-2 whitespace-pre;
@@ -55,8 +56,15 @@
     border-radius: 50%;
     @apply bg-lightgrey absolute;
   }
+
+  .radio-container input:focus ~ .radio-visual,
+  .radio-container:focus input ~ .radio-visual,
   .radio-container:hover input ~ .radio-visual {
     @apply bg-darkgrey;
+  }
+  .radio-container input:checked:focus ~ .radio-visual,
+  .radio-container:focus input:focus ~ .radio-visual {
+    @apply bg-black;
   }
   .radio-container input:checked ~ .radio-visual {
     @apply bg-green;
@@ -92,7 +100,7 @@
       {$_('LHAKU_FILTER_KAIKKI')}
     </label>
 
-    <div class="icon-container hidden md:block">
+    <div class="icon-container hidden md:block" tabindex="0">
       <span
         class="material-icons text-green"
         aria-hidden="true">error_outline</span>
@@ -113,7 +121,7 @@
       <span class="radio-visual" />
       {labelLocale($locale, patevyydet[0])}
     </label>
-    <div class="icon-container hidden md:block">
+    <div class="icon-container hidden md:block" tabindex="0">
       <span
         class="material-icons text-green"
         aria-hidden="true">error_outline</span>
@@ -134,7 +142,7 @@
       <span class="radio-visual" />
       {labelLocale($locale, patevyydet[1])}
     </label>
-    <div class="icon-container hidden md:block">
+    <div class="icon-container hidden md:block" tabindex="0">
       <span
         class="material-icons text-green"
         aria-hidden="true">error_outline</span>
