@@ -10,6 +10,9 @@
   .checkbox-container input:focus ~ .checkbox-text {
     @apply underline;
   }
+  .checkbox-container input:focus ~ .material-icons {
+    @apply text-green;
+  }
   .checkbox-container input {
     @apply absolute opacity-0 cursor-pointer select-none outline-none pointer-events-none;
   }
