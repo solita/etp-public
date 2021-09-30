@@ -22,6 +22,22 @@
     font-size: 2em;
     @apply border-green text-green;
   }
+
+  button:focus-within .menu-icon {
+    animation: animate 1s linear infinite;
+  }
+  @keyframes animate {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(0.8);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
   button:focus span {
     @apply text-ashblue;
   }
@@ -83,7 +99,7 @@
         {/if} -->
       </div>
       <button
-        class="flex items-center lg:hidden focus:outline-none rounded-md text-green"
+        class="flex items-center lg:hidden focus:outline-none focus:text-black rounded-md text-green"
         on:click={() => {
           mobileNavShown = !mobileNavShown;
         }}>
