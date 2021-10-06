@@ -342,7 +342,7 @@
     </div>
     <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
       <button
-        class="inline-flex items-center self-center ml-4 text-green focus:text-ashblue focus:outline-none"
+        class="inline-flex items-center self-center ml-4 text-green focus:text-black focus:outline-none"
         aria-expanded={tarkennettuShown}
         type="button"
         on:click={() => {
