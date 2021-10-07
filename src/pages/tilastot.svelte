@@ -459,7 +459,8 @@
               <div class="w-full flex flex-col space-y-2">
                 {#if resultVuosimin || resultVuosimax}
                   <div class="w-full space-x-2">
-                    <span class="font-bold"> {$_'TILASTOT_RAKENNUSVUOSI')} 
+                    <span class="font-bold">
+                      {$_('TILASTOT_RAKENNUSVUOSI')}
                     </span>
                     <span>{resultVuosimin} - {resultVuosimax}</span>
                   </div>
