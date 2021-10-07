@@ -452,7 +452,7 @@
                 {:else}
                   <div class="w-full space-x-2">
                     <span class="font-bold">{$_('TILASTOT_TYYPPI')}</span>
-                    <span>Kaikki</span>
+                    <span>{$_('KAIKKI')}</span>
                   </div>
                 {/if}
               </div>
