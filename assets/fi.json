@@ -310,6 +310,5 @@
   "TILASTOT_PAINOVOIMAINEN_TULO_POISTO": "Painovoimainen/koneellinen tulo- ja poisto",
   "TILASTOT_ALLE": "Alle",
   "TILASTOT_YLI": "Yli",
-  "TILASTOT_TULOSTA": "Tulosta",
-  "TILASTOT_ERROR": "Tilastohakuun ei saatu yhteyttä. Yritä hetken kuluttua uudelleen."
+  "TILASTOT_TULOSTA": "Tulosta"
 }

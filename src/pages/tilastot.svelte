@@ -268,32 +268,33 @@
           }}
           on:reset={resetForm}>
           <!-- MAIN HAKU -->
-          <div class="flex flex-col lg:flex-row w-full items-end justify-start">
-            <div class="flex flex-col w-full lg:w-7/12">
-              <aside class="font-normal text-xs italic">
-                {$_('TILASTOT_HAE_ASIDE')}
-              </aside>
-              <div class="flex">
-                <div class="w-full lg:w-11/12">
-                  <Input
-                    label={$_('TILASTOT_HAE_ALUEELLA')}
-                    name="keyword"
-                    value={searchmodel.keyword} />
-                </div>
-              </div>
-            </div>
-
-            <aside
-              class="w-full mt-4 lg:mt-0 lg:w-5/12 lg:pl-4 lg:border-l-8 border-ashblue text-ashblue italic text-sm">
-              {$_('TILASTOT_ASIDE')}
-            </aside>
-          </div>
-          <!-- TARKENNETTU HAKU -->
           {#await kayttotarkoituksetPromise}
             <div class="w-full my-4 py-4 justify-center">
               <Spinner />
             </div>
           {:then kayttotarkoitukset}
+            <div
+              class="flex flex-col lg:flex-row w-full items-end justify-start">
+              <div class="flex flex-col w-full lg:w-7/12">
+                <aside class="font-normal text-xs italic">
+                  {$_('TILASTOT_HAE_ASIDE')}
+                </aside>
+                <div class="flex">
+                  <div class="w-full lg:w-11/12">
+                    <Input
+                      label={$_('TILASTOT_HAE_ALUEELLA')}
+                      name="keyword"
+                      value={searchmodel.keyword} />
+                  </div>
+                </div>
+              </div>
+
+              <aside
+                class="w-full mt-4 lg:mt-0 lg:w-5/12 lg:pl-4 lg:border-l-8 border-ashblue text-ashblue italic text-sm">
+                {$_('TILASTOT_ASIDE')}
+              </aside>
+            </div>
+            <!-- TARKENNETTU HAKU -->
             <div class="w-full lg:w-5/6 flex flex-col my-4 py-4 space-y-2">
               <div
                 class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
@@ -414,7 +415,7 @@
               </Button>
             </div>
           {:catch}
-            <div class="my-4"><span>{$_('TILASTOT_ERROR')}</span></div>
+            <div class="my-4"><span>{$_('SERVER_ERROR')}</span></div>
           {/await}
         </form>
       </div>
