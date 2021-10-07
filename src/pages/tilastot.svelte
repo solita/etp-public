@@ -46,9 +46,10 @@
   let resultVuosimax = '';
   let resultNettoalamin = '';
   let resultNettoalamax = '';
-  let results = new Promise(() => {});
-  let lammitysmuodot = new Promise(() => {});
-  let ilmanvaihtotyypit = new Promise(() => {});
+  let tilastotSearchPromise = new Promise(() => {});
+  let results;
+  let lammitysmuodot;
+  let ilmanvaihtotyypit;
 
   let chartData2018, chartData2013;
 
@@ -57,9 +58,7 @@
 
   const commitSearch = evt => {
     searchCommitted = true;
-    results = new Promise(() => {});
-    lammitysmuodot = new Promise(() => {});
-    ilmanvaihtotyypit = new Promise(() => {});
+    tilastotSearchPromise = new Promise(() => {});
 
     const qs = [
       ...(searchmodel.keyword
@@ -84,7 +83,7 @@
     ].join('&');
 
     navigate(`/tilastot${qs ? '?' + qs : ''}`);
-    Promise.all([
+    tilastotSearchPromise = Promise.all([
       api.statistics(fetch, {
         keyword: searchmodel.keyword,
         'kayttotarkoitus-id': searchmodel.kayttotarkoitus,
@@ -414,6 +413,8 @@
                 {$_('TILASTOT_TYHJENNA')}
               </Button>
             </div>
+          {:catch}
+            <div class="my-4"><span>{$_('TILASTOT_ERROR')}</span></div>
           {/await}
         </form>
       </div>
@@ -421,11 +422,11 @@
         class="statistics flex flex-col w-full my-8 print:my-0"
         bind:this={resultsElem}>
         {#if searchCommitted}
-          {#await Promise.all([results, lammitysmuodot, ilmanvaihtotyypit])}
+          {#await tilastotSearchPromise}
             <div class="flex justify-center">
               <Spinner />
             </div>
-          {:then [results, lammitysmuodot, ilmanvaihtotyypit]}
+          {:then search}
             <!-- GENERAL, GRAPHS-->
             <span class="uppercase font-bold w-full my-2">
               {$_('TILASTOT_TULOKSIA')}

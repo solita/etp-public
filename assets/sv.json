@@ -310,5 +310,6 @@
   "TILASTOT_PAINOVOIMAINEN_TULO_POISTO": "Painovoimainen/koneellinen tulo- ja poisto SV?",
   "TILASTOT_ALLE": "Alle SV?",
   "TILASTOT_YLI": "Yli SV?",
-  "TILASTOT_TULOSTA": "Tulosta SV?"
+  "TILASTOT_TULOSTA": "Tulosta SV?",
+  "TILASTOT_ERROR": "Tilastohakuun ei saatu yhteyttä. Yritä hetken kuluttua uudelleen. SV?"
 }
