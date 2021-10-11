@@ -137,6 +137,12 @@
 
     return value;
   };
+  const scrollToResults = async delay => {
+    let block = (await etTotalcount) < 1 ? 'end' : 'start';
+    setTimeout(() => {
+      resultsElement?.scrollIntoView({ behavior: 'smooth', block: block });
+    }, delay);
+  };
 
   $: deserializedWhere = EtHakuUtils.deserializeWhere(
     EtHakuUtils.defaultSearchModel(),
@@ -214,19 +220,17 @@
       tarkennettuShown &&
       !Object.keys(deserializedWhere).filter(item => item !== 'id').length > 0
     ) {
-      setTimeout(() => {
-        resultsElement?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, animationDuration + 1);
+      scrollToResults(animationDuration + 1);
     } else {
-      resultsElement?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      scrollToResults(100);
     }
   };
 
-  onMount(() => {
-    if (keyword || page > 0 || (where && where != '[[]]')) {
-      resultsElement?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  $: {
+    if (keyword || where || page) {
+      scrollToResults(100);
     }
-  });
+  }
 </script>
 
 <style>

@@ -25,7 +25,6 @@
   export let id;
   export let versio;
   let ref = '';
-  let component = null;
 
   const classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
 
@@ -192,7 +191,11 @@
   );
 
   onMount(() => {
-    component.scrollIntoView();
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
 
     ref = window.history.state.path.includes('&ref=')
       ? decodeURIComponent(window.history.state.path.split('&ref=')[1])
@@ -345,7 +348,7 @@
   title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('ENERGIATODISTUS')}"
   descriptionFi={$locale == 'fi' ? $_('ENERGIATODISTUS') : undefined}
   descriptionSv={$locale == 'sv' ? $_('ENERGIATODISTUS') : undefined} />
-<div bind:this={component}>
+<div>
   <div class="print:hidden">
     <Container {...containerStyles.beige}>
       <div
