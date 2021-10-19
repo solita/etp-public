@@ -37,7 +37,8 @@
         {#each Object.entries(items) as obj}
           <div class="w-full flex justify-between">
             <span>{selectByLocaleOrAvailable( 'label', labels.find(lm => lm.id === parseInt(obj[0], 10)) )}</span>
-            <span>{Formats.formatPercent(Parsers.parsePercent(total, obj[1]))}</span>
+            <span
+              class="whitespace-no-wrap">{Formats.formatPercent(Parsers.parsePercent(total, obj[1]))}</span>
           </div>
         {/each}
       </div>
