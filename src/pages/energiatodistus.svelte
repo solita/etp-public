@@ -512,13 +512,6 @@
             </div>
           {/if}
           <div
-            class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
-            <span
-              class="w-full md:w-1/2 print:w-2/3 text-ashblue">{$_('ET_LAATIJA')}:</span>
-            <span
-              class="w-full md:w-1/2 print:w-1/3">{energiatodistus['laatija-fullname']}</span>
-          </div>
-          <div
             class="flex flex-col md:flex-row print:flex-row md:space-x-2 w-full items-start justify-start">
             <div class="flex flex-col w-full md:w-1/2">
               <span
