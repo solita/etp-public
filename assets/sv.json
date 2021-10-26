@@ -51,6 +51,7 @@
   "ETHAKU_INVALID_E_LUKU_MAX": "Värdet ska vara större än startvärdet",
   "ETHAKU_INVALID_NETTOALA_MIN": "Värdet ska vara mindre än slutvärdet",
   "ETHAKU_INVALID_NETTOALA_MAX": "Värdet ska vara större än startvärdet",
+  "ETHAKU_CSV_DOWNLOAD": "Ladda ner energicertifikat som CSV-fil",
   "HERO_DESCRIPTION": "Energicertifikatregistret är Finansierings- och utvecklingscentralen för boendets (ARA) informationstjänst där du kan ansöka om upprättade energicertifikat och söka behöriga upprättare av energicertifikat.",
   "ALOITA": "Starta",
   "KAIKKI": "Alla",
