@@ -34,10 +34,18 @@
         </InfoTooltip>
       </div>
       <div class="w-full flex flex-col">
-        {#each Object.entries(items) as obj}
+        {#each labels as label}
           <div class="w-full flex justify-between">
-            <span>{selectByLocaleOrAvailable( 'label', labels.find(lm => lm.id === parseInt(obj[0], 10)) )}</span>
-            <span>{Formats.formatPercent(Parsers.parsePercent(total, obj[1]))}</span>
+            <span>{selectByLocaleOrAvailable('label', label)}</span>
+            {#if items[label.id]}
+              <span class="whitespace-no-wrap">
+                {Formats.formatPercent(Parsers.parsePercent(total, items[label.id]))}
+              </span>
+            {:else}
+              <span class="whitespace-no-wrap">
+                {Formats.formatPercent(0)}
+              </span>
+            {/if}
           </div>
         {/each}
       </div>

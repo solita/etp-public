@@ -297,8 +297,8 @@
             <!-- TARKENNETTU HAKU -->
             <div class="w-full lg:w-5/6 flex flex-col my-4 py-4 space-y-2">
               <div
-                class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
-                <div class="w-full md:w-1/2">
+                class="tarkennettu-row w-full mx-auto center flex flex-col lg:flex-row items-center">
+                <div class="w-full lg:w-1/2">
                   <InfoTooltip
                     tooltip={$_('TILASTOT_TYYPPI_KAYTTOTARKOITUS_TOOLTIP')}
                     title={$_('TILASTOT_TYYPPI_KAYTTOTARKOITUS')}>
@@ -308,7 +308,7 @@
                     </span>
                   </InfoTooltip>
                 </div>
-                <div class="w-full md:w-1/2">
+                <div class="w-full lg:w-1/2">
                   <InputSelect
                     name={'kayttotarkoitus'}
                     options={['', ...kayttotarkoitukset.map(item => `${item['id']}`)]}
@@ -321,8 +321,8 @@
                 </div>
               </div>
               <div
-                class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
-                <div class="w-full md:w-1/2">
+                class="tarkennettu-row w-full mx-auto flex flex-col lg:flex-row items-center">
+                <div class="w-full lg:w-1/2">
                   <InfoTooltip
                     tooltip={$_('TILASTOT_RAKENNUSVUOSI_TOOLTIP')}
                     title={$_('TILASTOT_RAKENNUSVUOSI')}>
@@ -332,7 +332,7 @@
                     </span>
                   </InfoTooltip>
                 </div>
-                <div class="w-full md:w-1/2 flex justify-between items-center">
+                <div class="w-full lg:w-1/2 flex justify-between items-center">
                   <div class="w-2/5">
                     <InputNumber
                       bind:this={vuosiminInput}
@@ -363,8 +363,8 @@
                 </div>
               </div>
               <div
-                class="tarkennettu-row w-full mx-auto flex flex-col md:flex-row items-center">
-                <div class="w-full md:w-1/2">
+                class="tarkennettu-row w-full mx-auto flex flex-col lg:flex-row items-center">
+                <div class="w-full lg:w-1/2">
                   <InfoTooltip
                     tooltip={$_('TILASTOT_LAMMITETTY_NETTOALA_TOOLTIP')}
                     title={$_('TILASTOT_LAMMITETTY_NETTOALA')}>
@@ -374,7 +374,7 @@
                     </span>
                   </InfoTooltip>
                 </div>
-                <div class="w-full md:w-1/2 flex justify-between items-center">
+                <div class="w-full lg:w-1/2 flex justify-between items-center">
                   <div class="w-2/5">
                     <InputNumber
                       bind:this={nettoalaminInput}
@@ -406,7 +406,7 @@
               </div>
             </div>
             <!-- BUTTONS -->
-            <div class="w-full md:w-11/12 mt-4 flex flex-col sm:flex-row">
+            <div class="w-full lg:w-11/12 mt-4 flex flex-col sm:flex-row">
               <Button type={'submit'} {...buttonStyles.green}>
                 {$_('TILASTOT_HAE')}
               </Button>
@@ -436,7 +436,7 @@
             </span>
             <!-- GENERAL -->
             <div
-              class="only-print flex flex-col md:flex-row space-y-2 md:space-x-16 md:space-y-0 justify-evenly">
+              class="only-print flex flex-col lg:flex-row space-y-2 lg:space-x-16 lg:space-y-0 justify-evenly">
               <div class="w-full flex flex-col space-y-2">
                 {#if resultKeyword}
                   <div class="w-full space-x-2">
@@ -477,7 +477,7 @@
             {#if total2013 + total2018 > 0}
               <!-- GRAPHS -->
               <div
-                class="my-8 flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
+                class="my-8 flex flex-col lg:flex-row space-y-4 lg:space-x-16 lg:space-y-0 justify-evenly">
                 <TilastotEtVersion
                   {printing}
                   version="2018"
@@ -499,7 +499,7 @@
                   {` (${total2013 + total2018} ${$_('TILASTOT_KPL')})`}
                 </h1>
                 <div
-                  class="flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
+                  class="flex flex-col lg:flex-row space-y-4 lg:space-x-16 lg:space-y-0 justify-evenly">
                   <div class="w-full flex flex-col">
                     <div class="w-full flex flex-col">
                       <div class="my-4 w-full">
@@ -606,7 +606,7 @@
                     {` (${total2018} ${$_('TILASTOT_KPL')})`}
                   </h1>
                   <div
-                    class="flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
+                    class="flex flex-col lg:flex-row space-y-4 lg:space-x-16 lg:space-y-0 justify-evenly">
                     <TilastotEntriesList
                       title={$_('TILASTOT_LAMMITYSJARJESTELMA')}
                       tooltip={$_('TILASTOT_LAMMITYSJARJESTELMA_TOOLTIP')}
@@ -622,7 +622,7 @@
                       total={total2018} />
                   </div>
                   <div
-                    class="flex flex-col md:flex-row space-y-4 md:space-x-16 md:space-y-0 justify-evenly">
+                    class="flex flex-col lg:flex-row space-y-4 lg:space-x-16 lg:space-y-0 justify-evenly">
                     <div class="w-full flex flex-col">
                       <div class="my-4">
                         <InfoTooltip
@@ -633,29 +633,38 @@
                       </div>
                       <div class="w-full flex justify-between">
                         <span>{$_('TILASTOT_AURINKOSAHKO')}</span>
-                        <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkosahko'])}</span>
+                        <span
+                          class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkosahko'])}</span>
                       </div>
                       <div class="w-full flex justify-between">
                         <span>{$_('TILASTOT_AURINKOLAMPO')}</span>
-                        <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkolampo'])}</span>
+                        <span
+                          class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkolampo'])}</span>
                       </div>
                       <div class="w-full flex justify-between">
                         <span>{$_('TILASTOT_TUULISAHKO')}</span>
-                        <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['tuulisahko'])}</span>
+                        <span
+                          class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['tuulisahko'])}</span>
                       </div>
                       <div class="w-full flex justify-between">
                         <span>{$_('TILASTOT_LAMPOPUMPPU')}</span>
-                        <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['lampopumppu'])}</span>
+                        <span
+                          class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['lampopumppu'])}</span>
                       </div>
                       <div class="w-full flex justify-between">
                         <span>{$_('TILASTOT_MUU_SAHKO')}</span>
-                        <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muusahko'])}</span>
+                        <span
+                          class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muusahko'])}</span>
                       </div>
                       <div class="w-full flex justify-between">
                         <span>{$_('TILASTOT_MUU_LAMPO')}</span>
-                        <span>{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muulampo'])}</span>
+                        <span
+                          class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muulampo'])}</span>
                       </div>
                       <div class="w-full" />
+                    </div>
+                    <div class="w-full flex flex-col">
+                      <!-- This empty div is here to keep the lonely last section the same size as the previous paired sections in large desktop windows -->
                     </div>
                   </div>
                 </div>
