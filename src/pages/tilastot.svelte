@@ -28,7 +28,10 @@
   export let nettoalamin = '';
   export let nettoalamax = '';
 
-  const format = new Intl.NumberFormat('fi-FI', {}).format;
+  const format = new Intl.NumberFormat('fi-FI', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2
+  }).format;
 
   let searchmodel = {
     keyword,
