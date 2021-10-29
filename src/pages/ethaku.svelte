@@ -213,10 +213,8 @@
           )
         ),
         keyword,
-        offset: pageSize * page,
-        limit: pageSize,
         sort: 'energiatodistus.id',
-        order: 'desc'
+        order: 'asc'
       });
     }
   }
