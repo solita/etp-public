@@ -82,7 +82,7 @@ export const energiatodistuksetCsvLink = (opts) => {
   if (
     !Object.keys(filteredOpts).some(item => ['where', 'keyword'].includes(item))
   )
-    return Promise.resolve([]);
+    return energiatodistuksetCsvUrl;
 
   if (filteredOpts?.where)
     filteredOpts.where = JSON.stringify(
