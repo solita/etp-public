@@ -1,21 +1,22 @@
 <script>
+  import { slide } from 'svelte/transition';
+  import { navigate } from '@/router/router';
+  import { _, locale } from '@Localization/localization';
+
   import EtHakuImage from '@Asset/ethaku.jpg';
   import LaatijaHakuImage from '@Asset/laatijahaku.jpg';
   import ETMalli from '@Asset/energiatodistusmalli_2018.pdf';
 
   import BorderImage from '@Component/border-image';
-
   import Hero from '@Component/hero';
   import Button, { styles as buttonStyles } from '@Component/button';
   import ButtonLink from '@Component/buttonlink';
   import Input from '@Component/input-search';
   import Container, { styles as containerStyles } from '@Component/container';
-
-  import { navigate } from '@/router/router';
-
   import Seo from '@Component/seo';
 
-  import { _, locale } from '@Localization/localization';
+  import * as EtApi from '@/api/energiatodistus-api';
+  import * as LaatijaApi from '@/api/laatija-api';
 
   let etHakuId = '';
   let etHakuKeyword = '';
@@ -24,6 +25,13 @@
   let laatijahakuAlue = '';
 
   let scrollOnAloita = null;
+
+  const etCount = EtApi.energiatodistuksetCountAll(fetch).then(result => {
+    return result.count;
+  });
+  const laatijatCount = LaatijaApi.laatijatCount(fetch).then(result => {
+    return result.count;
+  });
 </script>
 
 <style>
@@ -192,7 +200,25 @@
         </section>
         <section class="md:w-1/2 py-4 md:py-0">
           <h3 class="mb-4">{$_('LISATIETOA_TILASTOT')}</h3>
-          <div class="flex flex-col -my-2">
+          <div class="flex flex-col space-y-2">
+            {#await laatijatCount then count}
+              <div
+                class="flex space-x-2"
+                transition:slide|local={{ duration: 200 }}>
+                <span>{$_('LISATIETOA_LAATIJOITA')}</span>
+                <span>{count}</span>
+              </div>
+            {/await}
+            {#await etCount then count}
+              <div
+                class="flex space-x-2"
+                transition:slide|local={{ duration: 200 }}>
+                <span>{$_('LISATIETOA_ENERGIATODISTUKSIA')}</span>
+                <span>{count}</span>
+              </div>
+            {/await}
+          </div>
+          <div class="flex flex-col">
             <p class="block py-2">{$_('LISATIETOA_ARAN_JULKAISUT')}</p>
             <a
               href="https://www.ara.fi/fi-FI/Tietopankki/Tilastot_ja_selvitykset/Energiatodistukset"
