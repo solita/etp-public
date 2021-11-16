@@ -199,7 +199,7 @@
           </div>
         </section>
         <section class="md:w-1/2 py-4 md:py-0">
-          <h3 class="mb-4">{$_('LISATIETOA_TILASTOT')}</h3>
+          <h3 class="mb-4">{$_('LISATIETOA_TUNNUSLUVUT')}</h3>
           <div class="flex flex-col space-y-2">
             {#await laatijatCount then count}
               <div
