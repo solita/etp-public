@@ -75,8 +75,6 @@
           <strong
             class="w-full md:w-1/3 text-lg text-ashblue tracking-widest">{$_('LAATIJA_VOIMASSAOLOAIKA')}:</strong>
           <span>
-            {formats.formatDate(parseDate(laatija.toteamispaivamaara))}
-            -
             {formats.formatExclusiveEndDate(parseDate(laatija['voimassaolo-paattymisaika']))}
           </span>
         </div>
