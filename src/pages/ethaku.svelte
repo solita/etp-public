@@ -167,7 +167,6 @@
 
   let result;
   let etTotalcount;
-  let etCsvLink;
   $: {
     if (where || keyword) {
       result = EtApi.energiatodistukset(fetch, {
@@ -200,21 +199,6 @@
         keyword
       }).then(result => {
         return result.count;
-      });
-
-      etCsvLink = EtApi.energiatodistuksetCsvLink({
-        where: EtHakuUtils.whereQuery(
-          EtHakuUtils.where(
-            tarkennettuShown,
-            parseValues({
-              ...EtHakuUtils.defaultSearchModel(),
-              ...deserializedWhere
-            })
-          )
-        ),
-        keyword,
-        sort: 'energiatodistus.id',
-        order: 'asc'
       });
     }
   }
@@ -750,7 +734,7 @@
 
         <a
           class="flex justify-start items-center mt-12 text-darkgreen whitespace-no-wrap"
-          href={etCsvLink}
+          href={'/api/public/energiatodistukset/csv/energiatodistukset.csv'}
           download="ethaku.csv">
           <span class="material-icons" aria-hidden="true"> download </span>
           <span class="underline">{$_('ETHAKU_CSV_DOWNLOAD')}</span>

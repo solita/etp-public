@@ -2,7 +2,6 @@ const baseUrl = '/api/public';
 
 const energiatodistuksetUrl = `${baseUrl}/energiatodistukset`;
 const energiatodistuksetCountUrl = `${energiatodistuksetUrl}/count`;
-const energiatodistuksetCsvUrl = `${energiatodistuksetUrl}/csv/energiatodistukset.csv`;
 
 const fetchJson = (fetch, url) => fetch(url).then(response => response.json());
 
@@ -73,32 +72,6 @@ export const energiatodistuksetCount = (fetch, opts) => {
   return fetchJson(fetch, url);
 };
 
-export const energiatodistuksetCsvLink = (opts) => {
-  const filteredOpts = Object.keys(opts).reduce(
-    (acc, item) => ({ ...acc, ...(opts[item] ? { [item]: opts[item] } : {}) }),
-    {}
-  );
-
-  if (
-    !Object.keys(filteredOpts).some(item => ['where', 'keyword'].includes(item))
-  )
-    return energiatodistuksetCsvUrl;
-
-  if (filteredOpts?.where)
-    filteredOpts.where = JSON.stringify(
-      namespaceSearchParams(filteredOpts.where)
-    );
-
-  const qs = encodeURI(
-    zip(filteredOpts)
-      .map(item => item.join('='))
-      .join('&')
-  );
-
-  const url = `${energiatodistuksetCsvUrl}${qs.length ? `?${qs}` : ''}`;
-
-  return url;
-};
 
 export const kayttotarkoitusluokat = (fetch, versio) =>
   fetchJson(fetch, `${energiatodistuksetUrl}/kayttotarkoitusluokat/${versio}`);
