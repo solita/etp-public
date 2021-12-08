@@ -683,65 +683,66 @@
   </form>
 </Container>
 
-{#if where || keyword}
-  <Container {...containerStyles.white}>
-    <div
-      class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full"
-      bind:this={resultsElement}>
-      {#await Promise.all([
-        result,
-        etTotalcount,
-        Promise.resolve(parseInt(page ?? 0)),
-        $postinumerot,
-        kayttotarkoitusluokat
-      ])}
-        <div class="flex justify-center">
-          <Spinner />
-        </div>
-      {:then [et, count, page, postinumerot, kayttotarkoitusluokat]}
-        <TableEThaku
-          etCount={count}
-          eTodistukset={et}
-          let:currentPageItemCount
-          {page}
-          {postinumerot}
-          {kayttotarkoitusluokat}>
-          <div slot="pagination">
-            <Pagination
-              {page}
-              {pageSize}
-              {currentPageItemCount}
-              itemCount={count}
-              queryStringFn={page => {
-                const where = EtHakuUtils.where(tarkennettuShown, parseValues(searchmodel));
-                const whereQuery = EtHakuUtils.whereQuery(where);
-                const whereString = JSON.stringify(whereQuery);
-                const qs = [
-                  `${
-                    !whereString.length || whereString === '[[]]'
-                      ? 'where=[[]]'
-                      : `where=${whereString}`
-                  }`,
-                  `${keyword && keyword.length ? `keyword=${keyword}` : ''}`
-                ]
-                  .filter(item => item.length)
-                  .join('&');
-
-                return `/ethaku${qs.length ? `?${qs}&page=${page}` : `?page=${page}`}`;
-              }} />
+<Container {...containerStyles.white}>
+  <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
+    {#if where || keyword}
+      <div bind:this={resultsElement}>
+        {#await Promise.all([
+          result,
+          etTotalcount,
+          Promise.resolve(parseInt(page ?? 0)),
+          $postinumerot,
+          kayttotarkoitusluokat
+        ])}
+          <div class="flex justify-center">
+            <Spinner />
           </div>
-        </TableEThaku>
+        {:then [et, count, page, postinumerot, kayttotarkoitusluokat]}
+          <TableEThaku
+            etCount={count}
+            eTodistukset={et}
+            let:currentPageItemCount
+            {page}
+            {postinumerot}
+            {kayttotarkoitusluokat}>
+            <div slot="pagination">
+              <Pagination
+                {page}
+                {pageSize}
+                {currentPageItemCount}
+                itemCount={count}
+                queryStringFn={page => {
+                  const where = EtHakuUtils.where(tarkennettuShown, parseValues(searchmodel));
+                  const whereQuery = EtHakuUtils.whereQuery(where);
+                  const whereString = JSON.stringify(whereQuery);
+                  const qs = [
+                    `${
+                      !whereString.length || whereString === '[[]]'
+                        ? 'where=[[]]'
+                        : `where=${whereString}`
+                    }`,
+                    `${keyword && keyword.length ? `keyword=${keyword}` : ''}`
+                  ]
+                    .filter(item => item.length)
+                    .join('&');
 
-        <a
-          class="flex justify-start items-center mt-12 text-darkgreen whitespace-no-wrap"
-          href={'/api/public/energiatodistukset/csv/energiatodistukset.csv'}
-          download="ethaku.csv">
-          <span class="material-icons" aria-hidden="true"> download </span>
-          <span class="underline">{$_('ETHAKU_CSV_DOWNLOAD')}</span>
-        </a>
-      {:catch error}
-        <span>{$_('SERVER_ERROR')}</span>
-      {/await}
+                  return `/ethaku${qs.length ? `?${qs}&page=${page}` : `?page=${page}`}`;
+                }} />
+            </div>
+          </TableEThaku>
+        {:catch error}
+          <span>{$_('SERVER_ERROR')}</span>
+        {/await}
+      </div>
+    {/if}
+    <div class="flex mt-8">
+      <a
+        class="flex justify-start items-center mt-12 text-darkgreen whitespace-no-wrap"
+        href={'/api/public/energiatodistukset/csv/energiatodistukset.csv'}
+        download="ethaku.csv">
+        <span class="material-icons" aria-hidden="true"> download </span>
+        <span class="underline">{$_('ETHAKU_CSV_DOWNLOAD')}</span>
+      </a>
     </div>
-  </Container>
-{/if}
+  </div>
+</Container>
