@@ -167,6 +167,9 @@
   const parseAndFormatPercent = (total, str) =>
     Formats.formatPercent(Parsers.parsePercent(total, str));
 
+  const formatPercent = str =>
+    Formats.formatPercent((parseFloat(str) * 100).toFixed(0));
+
   window.onbeforeprint = () => {
     printing = true;
   };
@@ -586,7 +589,7 @@
                       </h2>
                       <div class="w-full flex justify-between">
                         <span>{$_('TILASTOT_LAMMONTALTEENOTON')}</span>
-                        <span>{format(results?.['common-averages']?.['lto-vuosihyotysuhde'])}</span>
+                        <span>{formatPercent(results?.['common-averages']?.['lto-vuosihyotysuhde'])}</span>
                       </div>
                       <div class="w-full flex justify-between">
                         <InfoTooltip
@@ -595,7 +598,7 @@
                           tooltip={$_('TILASTOT_SFP_LUKU_TOOLTIP')}>
                           <span>{$_('TILASTOT_SFP_LUKU')}</span>
                         </InfoTooltip>
-                        <span>{format(results?.['common-averages']?.['ivjarjestelma-sfp'])}</span>
+                        <span>{format(results?.['common-averages']?.['ivjarjestelma-sfp'])}{' kW/(m^3^/s)'}</span>
                       </div>
                     </div>
                   </div>
