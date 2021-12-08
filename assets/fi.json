@@ -55,6 +55,7 @@
   "ETHAKU_INVALID_E_LUKU_MAX": "Arvon tulee olla alkuarvoa suurempi",
   "ETHAKU_INVALID_NETTOALA_MIN": "Arvon tulee olla loppuarvoa pienempi",
   "ETHAKU_INVALID_NETTOALA_MAX": "Arvon tulee olla alkuarvoa suurempi",
+  "ETHAKU_CSV_DOWNLOAD": "Lataa energiatodistukset CSV-tiedostona",
   "HERO_DESCRIPTION": "Energiatodistusrekisteri on Asumisen rahoitus- ja kehittämiskeskuksen (ARA) tietopalvelu, josta voit hakea laadittuja energiatodistuksia ja pätevöityneitä energiatodistusten laatijoita.",
   "ALOITA": "Aloita",
   "KAIKKI": "Kaikki",

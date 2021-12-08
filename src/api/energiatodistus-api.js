@@ -72,6 +72,7 @@ export const energiatodistuksetCount = (fetch, opts) => {
   return fetchJson(fetch, url);
 };
 
+
 export const kayttotarkoitusluokat = (fetch, versio) =>
   fetchJson(fetch, `${energiatodistuksetUrl}/kayttotarkoitusluokat/${versio}`);
 
