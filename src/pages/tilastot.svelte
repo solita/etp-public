@@ -598,7 +598,7 @@
                           tooltip={$_('TILASTOT_SFP_LUKU_TOOLTIP')}>
                           <span>{$_('TILASTOT_SFP_LUKU')}</span>
                         </InfoTooltip>
-                        <span>{format(results?.['common-averages']?.['ivjarjestelma-sfp'])}{' kW/(m^3^/s)'}</span>
+                        <span>{format(results?.['common-averages']?.['ivjarjestelma-sfp'])}{' kW/(m³/s)'}</span>
                       </div>
                     </div>
                   </div>
