@@ -3,14 +3,12 @@
   import IconSearchFile from '@Asset/icons/search_file-light.svg';
   import IconSearchPerson from '@Asset/icons/search_person-light.svg';
   import IconStatistics from '@Asset/icons/login-light.svg';
-  import IconLogin from '@Asset/icons/login-light.svg';
 
   import NavButton, { styles as navbuttonStyles } from '@Component/nav-button';
   import Container, { styles as containerStyles } from '@Component/container';
   import { _ } from '@Localization/localization';
 
   export let navButtonClicked = () => {};
-  export let config;
 </script>
 
 <style>
@@ -60,22 +58,7 @@
         {$_('NAVBAR_LAATIJAHAKU_KUVAUS')}
       </span>
     </NavButton>
-    {#if config}
-      <NavButton
-        link={config.privateSiteUrl}
-        {...navbuttonStyles.ashblue}
-        click={navButtonClicked}>
-        <img
-          slot="iconleft"
-          src={IconLogin}
-          alt={$_('NAVBAR_ICON_ALT_KIRJAUTUMINEN')} />
-        <span slot="title" class="uppercase">{$_('NAVBAR_KIRJAUTUMINEN')}</span>
-        <span slot="subtitle" class="font-light text-sm">
-          {$_('NAVBAR_KIRJAUTUMINEN_KUVAUS')}
-        </span>
-      </NavButton>
-    {/if}
-    <!-- <NavButton
+    <NavButton
       link="/tilastot"
       {...navbuttonStyles.ashblue}
       click={navButtonClicked}>
@@ -83,10 +66,10 @@
         slot="iconleft"
         src={IconStatistics}
         alt={$_('NAVBAR_ICON_ALT_TILASTOT')} />
-      <span slot="title" class="uppercase">{$_('NAVBAR_TILASTOT')}</span>
+      <span slot="title" class="uppercase">{$_('TILASTOT')}</span>
       <span slot="subtitle" class="font-light text-sm">
-        {$_('NAVBAR_TILASTOT_KUVAUS')}
+        {$_('LISATIETOA_TILASTOT_LINKKI')}
       </span>
-    </NavButton> -->
+    </NavButton>
   </nav>
 </Container>
