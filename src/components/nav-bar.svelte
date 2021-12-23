@@ -66,9 +66,9 @@
         slot="iconleft"
         src={IconStatistics}
         alt={$_('NAVBAR_ICON_ALT_TILASTOT')} />
-      <span slot="title" class="uppercase">{$_('TILASTOT')}</span>
+      <span slot="title" class="uppercase">{$_('NAVBAR_TILASTOT')}</span>
       <span slot="subtitle" class="font-light text-sm">
-        {$_('LISATIETOA_TILASTOT_LINKKI')}
+        {$_('NAVBAR_TILASTOT_KUVAUS')}
       </span>
     </NavButton>
   </nav>
