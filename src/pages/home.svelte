@@ -220,9 +220,7 @@
           </div>
           <div class="flex flex-col">
             <p class="block py-2">{$_('LISATIETOA_ARAN_JULKAISUT')}</p>
-            <a
-              href="https://www.ara.fi/fi-FI/Tietopankki/Tilastot_ja_selvitykset/Energiatodistukset"
-              class="block py-2 underline text-darkgreen">
+            <a href="/tilastot" class="block py-2 underline text-darkgreen">
               {$_('LISATIETOA_TILASTOT_LINKKI')}
             </a>
           </div>

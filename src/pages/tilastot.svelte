@@ -176,6 +176,14 @@
   window.onafterprint = () => {
     printing = false;
   };
+
+  onMount(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  });
 </script>
 
 <style>
@@ -219,39 +227,6 @@
   descriptionFi={$locale == 'fi' ? $_('TILASTOT') : undefined}
   descriptionSv={$locale == 'sv' ? $_('TILASTOT') : undefined} />
 <div>
-  <!-- DISCLAIMER 1 - TOP -->
-  <div class="sticky w-full print:hidden">
-    <Container {...containerStyles.red}>
-      <div class="flex flex-col items-center text-white py-4">
-        <strong class="uppercase">{$_('DISCLAIMER_KEHITYSVERSIO')}</strong>
-        <p>
-          Tämä sivu on kehityksen alla. Toiminnallisuudet ja data eivät ole
-          lopullisia.
-        </p>
-        <p>
-          Denna sida är under utveckling. Funktioner och data är inte
-          slutgiltiga.
-        </p>
-      </div>
-    </Container>
-  </div>
-  <!-- DISCLAIMER 2 - BOTTOM -->
-  <div class="fixed bottom-0 w-full z-10 print:hidden">
-    <Container {...containerStyles.red}>
-      <div class="flex flex-col items-center text-white py-4">
-        <strong class="uppercase">{$_('DISCLAIMER_KEHITYSVERSIO')}</strong>
-        <p>
-          Tämä sivu on kehityksen alla. Toiminnallisuudet ja data eivät ole
-          lopullisia.
-        </p>
-        <p>
-          Denna sida är under utveckling. Funktioner och data är inte
-          slutgiltiga.
-        </p>
-      </div>
-    </Container>
-  </div>
-
   <div class="print:hidden">
     <Container {...containerStyles.beige}>
       <InfoBlock title={$_('TILASTOT_INFO_TITLE')}>
