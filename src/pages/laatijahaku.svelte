@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte';
   import * as LaatijaUtils from '@/utilities/laatija';
   import * as GeoUtils from '@/utilities/geo';
   import * as FormUtils from '@/utilities/form';
@@ -32,11 +33,9 @@
     if (nimihaku || aluehaku || page > 0)
       resultsElement?.scrollIntoView({ behavior: 'smooth' });
 
-    // TODO
-    // Quickfix to prevent an error.
     // ---
     // When navigating to laatijahaku from navbar link while filterPatevyydet is set as an URL parameter,
-    // filterPatevyydet for some reason becomes undefined and stays undefined when making LaatijaUtils.laatijatByHakukriteerit call, causing an error
+    // filterPatevyydet for some reason becomes undefined and stays undefined when making LaatijaUtils.laatijatByHakukriteerit call, causing a nasty error that breaks the site until full refresh
     // ---
     if (!filterPatevyydet) filterPatevyydet = '1,2';
   }
@@ -88,6 +87,14 @@
       $postinumerot
     ]).then(([...args]) => GeoUtils.findToimintaalueIds(...args));
   };
+
+  onMount(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  });
 </script>
 
 <svelte:window

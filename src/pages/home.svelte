@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte';
   import { slide } from 'svelte/transition';
   import { navigate } from '@/router/router';
   import { _, locale } from '@Localization/localization';
@@ -31,6 +32,14 @@
   });
   const laatijatCount = LaatijaApi.laatijatCount(fetch).then(result => {
     return result.count;
+  });
+
+  onMount(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
   });
 </script>
 

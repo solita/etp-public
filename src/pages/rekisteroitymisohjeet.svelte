@@ -1,8 +1,17 @@
 <script>
+  import { onMount } from 'svelte';
   import Container, { styles as containerStyles } from '@Component/container';
   import InfoBlock from '@Component/info-block';
   import { _, locale } from '@Localization/localization';
   import Seo from '@Component/seo';
+
+  onMount(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  });
 </script>
 
 <style>
