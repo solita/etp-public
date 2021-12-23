@@ -131,14 +131,18 @@
       <NavBar navButtonClicked={closeMobileNav} />
       <a
         class="text-ashblue items-center justify-center flex py-4 bg-white"
-        href="/rekisteroitymisohjeet">
+        href="/rekisteroitymisohjeet"
+        on:click={() => {
+          closeMobileNav();
+        }}>
         <span
           class="font-bold hover:underline">{$_('REKISTEROITYMISOHJEET')}</span>
         <span class="material-icons ml-1" aria-hidden="true"> info </span></a>
       {#if config}
         <a
           class="text-green items-center justify-center flex py-4 bg-white"
-          href={config.privateSiteUrl}><span
+          href={config.privateSiteUrl}>
+          <span
             class="font-bold hover:underline">{$_('NAVBAR_KIRJAUTUMINEN')}</span>
           <span class="material-icons" aria-hidden="true">
             chevron_right
