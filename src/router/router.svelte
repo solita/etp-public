@@ -24,6 +24,7 @@
   import LaatijanKirjautuminen from '@Page/laatijankirjautuminen';
   import Rekisteroitymisohjeet from '@Page/rekisteroitymisohjeet';
   import Tilastot from '@Page/tilastot';
+  import TilastotPrint from '@Page/tilastot-print';
   import NotFound from '@Page/not-found';
 
   let page;
@@ -57,6 +58,9 @@
   });
   router('/tilastot', () => {
     page = Tilastot;
+  });
+  router('/tilastot-print', () => {
+    page = TilastotPrint;
   });
   router('/', () => (page = Home));
 
