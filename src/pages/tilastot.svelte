@@ -192,7 +192,7 @@
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-  .pbb-always {
+  .together {
     page-break-before: always;
     break-before: always;
   }
@@ -474,7 +474,7 @@
                   chartData={chartData2013} />
               </div>
               <!-- MOLEMMILLE TUNNUSLUVUT-->
-              <div class="pbb-always">
+              <div class="together">
                 <h1 class="w-full my-4 space-x-2">
                   {$_('TILASTOT_TUNNUSLUVUT_MOLEMMILLE')}
                   {` (${total2013 + total2018} ${$_('TILASTOT_KPL')})`}
@@ -582,7 +582,7 @@
               <!-- 2018 TUNNUSLUVUT-->
               {#if total2018 > 0}
                 <div>
-                  <h1 class="w-full my-4 pbb-always">
+                  <h1 class="w-full my-4 together">
                     {$_('TILASTOT_TUNNUSLUVUT_2018')}
                     {` (${total2018} ${$_('TILASTOT_KPL')})`}
                   </h1>
