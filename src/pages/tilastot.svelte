@@ -17,6 +17,7 @@
   import Spinner from '@Component/spinner';
   import * as Formats from '@/utilities/formats';
   import * as Parsers from '@/utilities/parsers';
+  import StatChart from '@Component/tilastot-chart';
 
   let resultsElem;
   let vuosiminInput, vuosimaxInput, nettoalaminInput, nettoalamaxInput;
@@ -42,7 +43,6 @@
     nettoalamax
   };
   let searchCommitted = false;
-  let printing = false;
   let resultKeyword = '';
   let resultKayttotarkoitus = '';
   let resultVuosimin = '';
@@ -58,6 +58,9 @@
 
   let total2013 = 0;
   let total2018 = 0;
+
+  let chart2013 = null;
+  let chart2018 = null;
 
   const commitSearch = evt => {
     searchCommitted = true;
@@ -171,10 +174,11 @@
     Formats.formatPercent((parseFloat(str) * 100).toFixed(0));
 
   window.onbeforeprint = () => {
-    printing = true;
+    //chart2018.onbeforeprint();
+    //printing = true;
   };
   window.onafterprint = () => {
-    printing = false;
+    //printing = false;
   };
 
   onMount(() => {
@@ -192,9 +196,13 @@
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-  .together {
+  .togetherrrr {
     page-break-before: always;
     break-before: always;
+  }
+  .together {
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
   h1,
   h2,
@@ -226,8 +234,8 @@
   title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('TILASTOT')}"
   descriptionFi={$locale == 'fi' ? $_('TILASTOT') : undefined}
   descriptionSv={$locale == 'sv' ? $_('TILASTOT') : undefined} />
-<div>
-  <div class="print:hidden">
+<div class="print:hidden">
+  <div>
     <Container {...containerStyles.beige}>
       <InfoBlock title={$_('TILASTOT_INFO_TITLE')}>
         {$_('TILASTOT_INFO_TEXT')}
@@ -460,13 +468,13 @@
               <div
                 class="my-8 flex flex-col lg:flex-row space-y-4 lg:space-x-16 lg:space-y-0 justify-evenly">
                 <TilastotEtVersion
-                  {printing}
+                  printing={false}
                   version="2018"
                   count={total2018}
                   eLukuData={results?.['e-luku-statistics']?.['2018']}
                   chartData={chartData2018} />
                 <TilastotEtVersion
-                  {printing}
+                  printing={false}
                   tooltipAnchorPosition={AnchorPosition.bottomRight}
                   version="2013"
                   count={total2013}
@@ -669,4 +677,189 @@
       </div>
     </div>
   </Container>
+</div>
+<div class="only-print statistics" bind:this={resultsElem}>
+  <span class="uppercase font-bold">
+    {$_('TILASTOT_TULOKSIA')}
+    {' '}
+    {total2013 + total2018 || '< 5'}
+  </span>
+  <div>
+    {#if resultKeyword}
+      <div class="w-full space-x-2">
+        <span class="font-bold">{$_('TILASTOT_ALUE')}</span>
+        <span>{resultKeyword}</span>
+      </div>
+    {/if}
+    {#if resultKayttotarkoitus}
+      {#await kayttotarkoituksetPromise then kayttotarkoitukset}
+        <div class="w-full space-x-2">
+          <span class="font-bold">{$_('TILASTOT_TYYPPI')}</span>
+          <span>{labelLocale( $locale, kayttotarkoitukset.find(item => item.id === parseInt(resultKayttotarkoitus, 10)) )}</span>
+        </div>
+      {/await}
+    {:else}
+      <div class="w-full space-x-2">
+        <span class="font-bold">{$_('TILASTOT_TYYPPI')}</span>
+        <span>{$_('KAIKKI')}</span>
+      </div>
+    {/if}
+  </div>
+  <div class="w-full flex flex-col space-y-2">
+    {#if resultVuosimin || resultVuosimax}
+      <div class="w-full space-x-2">
+        <span class="font-bold">
+          {$_('TILASTOT_RAKENNUSVUOSI')}
+        </span>
+        <span>{resultVuosimin} - {resultVuosimax}</span>
+      </div>
+    {/if}
+    <div class="w-full space-x-2">
+      <span
+        class="font-bold">{$_('TILASTOT_LAMMITETTY_NETTOALA_T')}</span>
+      <span>{`${resultNettoalamin || 0} m² - ${resultNettoalamax || '∞'} m²`}</span>
+    </div>
+  </div>
+  <div class="together">
+    <StatChart data={chartData2018} printing={true} bind:this={chart2018}
+    />
+    <!--<TilastotEtVersion
+      printing={true}
+      version="2018"
+      count={total2018}
+      eLukuData={results?.['e-luku-statistics']?.['2018']}
+      chartData={chartData2018} />      -->
+  </div>
+  <div class="together">
+    <TilastotEtVersion
+      printing={true}
+      tooltipAnchorPosition={AnchorPosition.bottomRight}
+      version="2013"
+      count={total2013}
+      eLukuData={results?.['e-luku-statistics']?.['2013']}
+      chartData={chartData2013} />        
+  </div>
+  <div class="together">
+    <h1 class="w-full my-4 space-x-2">
+      {$_('TILASTOT_TUNNUSLUVUT_MOLEMMILLE')}
+      {` (${total2013 + total2018} ${$_('TILASTOT_KPL')})`}
+    </h1>
+
+    <h2>{$_('TILASTOT_RAKENNUSVAIPPA')}</h2>
+    <div class="w-full flex justify-between">
+      <span>{$_('TILASTOT_ILMANVUOTOLUKU')}{' q'}<sub>50</sub></span>
+      <span>{format(results?.['common-averages']?.['ilmanvuotoluku'])}</span>
+    </div>
+    <span class="font-bold">{$_('TILASTOT_U_ARVOT')}</span>
+    <div class="w-full flex justify-between">
+      <span>{$_('TILASTOT_ULKOSEINAT')}</span>
+      <span>{format(results?.['common-averages']?.['ulkoseinat-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+    </div>
+    <div class="w-full flex justify-between">
+      <span>{$_('TILASTOT_YLAPOHJA')}</span>
+      <span>{format(results?.['common-averages']?.['ylapohja-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+    </div>
+    <div class="w-full flex justify-between">
+      <span>{$_('TILASTOT_ALAPOHJA')}</span>
+      <span>{format(results?.['common-averages']?.['alapohja-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+    </div>
+    <div class="w-full flex justify-between">
+      <span>{$_('TILASTOT_IKKUNAT')}</span>
+      <span>{format(results?.['common-averages']?.['ikkunat-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+    </div>
+    <div class="w-full flex justify-between">
+      <span>{$_('TILASTOT_ULKOOVET')}</span>
+      <span>{format(results?.['common-averages']?.['ulkoovet-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+    </div>
+
+    <h2>{$_('TILASTOT_LAMMITYS')}</h2>
+    <div class="w-full flex justify-between">
+      <span>{$_('TILASTOT_VARAAVIEN')}</span>
+      <span>{format(results?.['common-averages']?.['takka'])}{$_('TILASTOT_KPL')}</span>
+    </div>
+    <div class="w-full flex justify-between">
+      <span>{$_('TILASTOT_LISALAMPOPUMPPOJEN')}</span>
+      <span>{format(results?.['common-averages']?.['ilmalampopumppu'])}{$_('TILASTOT_KPL')}</span>
+    </div>
+    <span>{$_('TILASTOT_LAMPOPUMPUN')}</span>
+    <div class="w-full flex justify-between">
+      <span>{$_('TILASTOT_TILOJEN')}</span>
+      <span>{format(results?.['common-averages']?.['tilat-ja-iv-lampokerroin'])}</span>
+    </div>
+    <div class="w-full flex justify-between">
+      <span>{$_('TILASTOT_LAMPIMAN')}</span>
+      <span>{format(results?.['common-averages']?.['lammin-kayttovesi-lampokerroin'])}</span>
+    </div>
+
+    <h2>{$_('TILASTOT_ILMANVAIHTO')}</h2>
+    <div class="w-full flex justify-between">
+      <span>{$_('TILASTOT_LAMMONTALTEENOTON')}</span>
+      <span>{formatPercent(results?.['common-averages']?.['lto-vuosihyotysuhde'])}</span>
+    </div>
+    <div class="w-full flex justify-between">
+      <span>{$_('TILASTOT_SFP_LUKU')}</span>
+      <span>{format(results?.['common-averages']?.['ivjarjestelma-sfp'])}{' kW/(m³/s)'}</span>
+    </div>
+  </div>
+
+  <div class="together">
+    <h1 class="w-full my-4">
+      {$_('TILASTOT_TUNNUSLUVUT_2018')}
+      {` (${total2018} ${$_('TILASTOT_KPL')})`}
+    </h1>
+    <TilastotEntriesList
+      title={$_('TILASTOT_LAMMITYSJARJESTELMA')}
+      tooltip={$_('TILASTOT_LAMMITYSJARJESTELMA_TOOLTIP')}
+      labels={lammitysmuodot}
+      items={results?.['counts']?.['2018']?.['lammitysmuoto']}
+      total={total2018} />
+    <TilastotEntriesList
+      title={$_('TILASTOT_ILMANVAIHTOJARJESTELMA')}
+      tooltip={$_('TILASTOT_ILMANVAIHTOJARJESTELMA_TOOLTIP')}
+      tooltipAnchor={AnchorPosition.bottomRight}
+      labels={ilmanvaihtotyypit}
+      items={results?.['counts']?.['2018']?.['ilmanvaihto']}
+      total={total2018} />
+  </div>
+  <div class="together">
+    <div class="w-full flex flex-col">
+      <div class="my-4">
+        <h2>{$_('TILASTOT_UUSIUTUVIEN')}</h2>
+      </div>
+      <div class="w-full flex justify-between">
+        <span>{$_('TILASTOT_AURINKOSAHKO')}</span>
+        <span
+          class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkosahko'])}</span>
+      </div>
+      <div class="w-full flex justify-between">
+        <span>{$_('TILASTOT_AURINKOLAMPO')}</span>
+        <span
+          class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkolampo'])}</span>
+      </div>
+      <div class="w-full flex justify-between">
+        <span>{$_('TILASTOT_TUULISAHKO')}</span>
+        <span
+          class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['tuulisahko'])}</span>
+      </div>
+      <div class="w-full flex justify-between">
+        <span>{$_('TILASTOT_LAMPOPUMPPU')}</span>
+        <span
+          class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['lampopumppu'])}</span>
+      </div>
+      <div class="w-full flex justify-between">
+        <span>{$_('TILASTOT_MUU_SAHKO')}</span>
+        <span
+          class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muusahko'])}</span>
+      </div>
+      <div class="w-full flex justify-between">
+        <span>{$_('TILASTOT_MUU_LAMPO')}</span>
+        <span
+          class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muulampo'])}</span>
+      </div>
+      <div class="w-full" />
+    </div>
+    <div class="w-full flex flex-col">
+      <!-- This empty div is here to keep the lonely last section the same size as the previous paired sections in large desktop windows -->
+    </div>
+  </div>
 </div>

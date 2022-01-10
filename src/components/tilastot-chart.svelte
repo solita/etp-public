@@ -21,11 +21,12 @@
   export let data = [];
   export let printing;
   export let labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+
   let labelsVisual = [];
   let ariaLabelText = $_('TILASTOT_CHART_ALT') + ' ';
   let ariaLabelStats = '';
   let chartCanvas, chartInstance;
-  const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+  const isFirefox = false && navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
   $: {
     ariaLabelStats = '';
