@@ -564,7 +564,8 @@
                       </h2>
                       <div class="w-full flex justify-between">
                         <span>{$_('TILASTOT_LAMMONTALTEENOTON')}</span>
-                        <span>{formatPercent(results?.['common-averages']?.['lto-vuosihyotysuhde'])}</span>
+                        <span
+                          class="whitespace-no-wrap">{formatPercent(results?.['common-averages']?.['lto-vuosihyotysuhde'])}</span>
                       </div>
                       <div class="w-full flex justify-between">
                         <InfoTooltip
@@ -573,7 +574,8 @@
                           tooltip={$_('TILASTOT_SFP_LUKU_TOOLTIP')}>
                           <span>{$_('TILASTOT_SFP_LUKU')}</span>
                         </InfoTooltip>
-                        <span>{format(results?.['common-averages']?.['ivjarjestelma-sfp'])}{' kW/(m³/s)'}</span>
+                        <span
+                          class="whitespace-no-wrap">{format(results?.['common-averages']?.['ivjarjestelma-sfp'])}{' kW/(m³/s)'}</span>
                       </div>
                     </div>
                   </div>
