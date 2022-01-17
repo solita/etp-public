@@ -25,7 +25,6 @@
   let ariaLabelText = $_('TILASTOT_CHART_ALT') + ' ';
   let ariaLabelStats = '';
   let chartCanvas, chartInstance;
-  const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
   $: {
     ariaLabelStats = '';
@@ -121,15 +120,9 @@
   }
 </style>
 
-<div
-  class:printing
-  class:chart-parent={!printing}
-  class={isFirefox ? 'print:hidden' : ''}>
+<div class:printing class:chart-parent={!printing}>
   <canvas
     bind:this={chartCanvas}
     aria-label={ariaLabelText + ariaLabelStats}
     role="img" />
 </div>
-{#if isFirefox}
-  <div class="mt-2 mb-4 hidden print:block"><span>{ariaLabelStats}</span></div>
-{/if}
