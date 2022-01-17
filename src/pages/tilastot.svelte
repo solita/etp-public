@@ -219,6 +219,10 @@
     .only-print {
       display: block;
     }
+
+    .results > .flex {
+      display: block;
+    }
   }
 </style>
 
@@ -409,260 +413,264 @@
               <Spinner />
             </div>
           {:then search}
-            <!-- GENERAL, GRAPHS-->
-            <span class="uppercase font-bold w-full my-2">
-              {$_('TILASTOT_TULOKSIA')}
-              {' '}
-              {total2013 + total2018 || '< 5'}
-            </span>
-            <!-- GENERAL -->
-            <div
-              class="only-print flex flex-col lg:flex-row space-y-2 lg:space-x-16 lg:space-y-0 justify-evenly">
-              <div class="w-full flex flex-col space-y-2">
-                {#if resultKeyword}
-                  <div class="w-full space-x-2">
-                    <span class="font-bold">{$_('TILASTOT_ALUE')}</span>
-                    <span>{resultKeyword}</span>
-                  </div>
-                {/if}
-                {#if resultKayttotarkoitus}
-                  {#await kayttotarkoituksetPromise then kayttotarkoitukset}
+            <div class="results">
+              <!-- RESULT COUNT-->
+              <span class="uppercase font-bold w-full my-2">
+                {$_('TILASTOT_TULOKSIA')}
+                {' '}
+                {total2013 + total2018 || '< 5'}
+              </span>
+              <!-- SEARCH PARAMS SHOWN WHEN PRINTING -->
+              <div
+                class="only-print flex flex-col lg:flex-row space-y-2 lg:space-x-16 lg:space-y-0 justify-evenly">
+                <div class="w-full flex flex-col space-y-2">
+                  {#if resultKeyword}
+                    <div class="w-full space-x-2">
+                      <span class="font-bold">{$_('TILASTOT_ALUE')}</span>
+                      <span>{resultKeyword}</span>
+                    </div>
+                  {/if}
+                  {#if resultKayttotarkoitus}
+                    {#await kayttotarkoituksetPromise then kayttotarkoitukset}
+                      <div class="w-full space-x-2">
+                        <span class="font-bold">{$_('TILASTOT_TYYPPI')}</span>
+                        <span>{labelLocale( $locale, kayttotarkoitukset.find(item => item.id === parseInt(resultKayttotarkoitus, 10)) )}</span>
+                      </div>
+                    {/await}
+                  {:else}
                     <div class="w-full space-x-2">
                       <span class="font-bold">{$_('TILASTOT_TYYPPI')}</span>
-                      <span>{labelLocale( $locale, kayttotarkoitukset.find(item => item.id === parseInt(resultKayttotarkoitus, 10)) )}</span>
+                      <span>{$_('KAIKKI')}</span>
                     </div>
-                  {/await}
-                {:else}
+                  {/if}
+                </div>
+                <div class="w-full flex flex-col space-y-2">
+                  {#if resultVuosimin || resultVuosimax}
+                    <div class="w-full space-x-2">
+                      <span class="font-bold">
+                        {$_('TILASTOT_RAKENNUSVUOSI')}
+                      </span>
+                      <span>{resultVuosimin} - {resultVuosimax}</span>
+                    </div>
+                  {/if}
                   <div class="w-full space-x-2">
-                    <span class="font-bold">{$_('TILASTOT_TYYPPI')}</span>
-                    <span>{$_('KAIKKI')}</span>
+                    <span
+                      class="font-bold">{$_('TILASTOT_LAMMITETTY_NETTOALA_T')}</span>
+                    <span>{`${resultNettoalamin || 0} m² - ${resultNettoalamax || '∞'} m²`}</span>
                   </div>
-                {/if}
-              </div>
-              <div class="w-full flex flex-col space-y-2">
-                {#if resultVuosimin || resultVuosimax}
-                  <div class="w-full space-x-2">
-                    <span class="font-bold">
-                      {$_('TILASTOT_RAKENNUSVUOSI')}
-                    </span>
-                    <span>{resultVuosimin} - {resultVuosimax}</span>
-                  </div>
-                {/if}
-                <div class="w-full space-x-2">
-                  <span
-                    class="font-bold">{$_('TILASTOT_LAMMITETTY_NETTOALA_T')}</span>
-                  <span>{`${resultNettoalamin || 0} m² - ${resultNettoalamax || '∞'} m²`}</span>
                 </div>
               </div>
-            </div>
-            {#if total2013 + total2018 > 0}
-              <!-- GRAPHS -->
-              <div
-                class="my-8 flex flex-col lg:flex-row space-y-4 lg:space-x-16 lg:space-y-0 justify-evenly">
-                <TilastotEtVersion
-                  {printing}
-                  version="2018"
-                  count={total2018}
-                  eLukuData={results?.['e-luku-statistics']?.['2018']}
-                  chartData={chartData2018} />
-                <TilastotEtVersion
-                  {printing}
-                  tooltipAnchorPosition={AnchorPosition.bottomRight}
-                  version="2013"
-                  count={total2013}
-                  eLukuData={results?.['e-luku-statistics']?.['2013']}
-                  chartData={chartData2013} />
-              </div>
-              <!-- MOLEMMILLE TUNNUSLUVUT-->
-              <div class="pbb-always">
-                <h1 class="w-full my-4 space-x-2">
-                  {$_('TILASTOT_TUNNUSLUVUT_MOLEMMILLE')}
-                  {` (${total2013 + total2018} ${$_('TILASTOT_KPL')})`}
-                </h1>
+              {#if total2013 + total2018 > 0}
+                <!-- GRAPHS -->
                 <div
-                  class="flex flex-col lg:flex-row space-y-4 lg:space-x-16 lg:space-y-0 justify-evenly">
-                  <div class="w-full flex flex-col">
-                    <div class="w-full flex flex-col">
-                      <div class="my-4 w-full">
-                        <InfoTooltip
-                          title={$_('TILASTOT_RAKENNUSVAIPPA')}
-                          tooltip={$_('TILASTOT_RAKENNUSVAIPPA_TOOLTIP')}>
-                          <h2>{$_('TILASTOT_RAKENNUSVAIPPA')}</h2>
-                        </InfoTooltip>
-                      </div>
-                      <div class="w-full flex flex-col">
-                        <div class="w-full flex justify-between">
-                          <InfoTooltip
-                            title={$_('TILASTOT_ILMANVUOTOLUKU')}
-                            tooltip={$_('TILASTOT_ILMANVUOTOLUKU_TOOLTIP')}>
-                            <span>{$_('TILASTOT_ILMANVUOTOLUKU')}{' q'}<sub>50</sub></span>
-                          </InfoTooltip>
-                          <span>{format(results?.['common-averages']?.['ilmanvuotoluku'])}</span>
-                        </div>
-                        <div class="mt-4">
-                          <InfoTooltip
-                            title={$_('TILASTOT_U_ARVOT')}
-                            tooltip={$_('TILASTOT_U_ARVOT_TOOLTIP')}>
-                            <span
-                              class="font-bold">{$_('TILASTOT_U_ARVOT')}</span>
-                          </InfoTooltip>
-                        </div>
-                        <div class="w-full flex justify-between">
-                          <span>{$_('TILASTOT_ULKOSEINAT')}</span>
-                          <span>{format(results?.['common-averages']?.['ulkoseinat-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
-                        </div>
-                        <div class="w-full flex justify-between">
-                          <span>{$_('TILASTOT_YLAPOHJA')}</span>
-                          <span>{format(results?.['common-averages']?.['ylapohja-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
-                        </div>
-                        <div class="w-full flex justify-between">
-                          <span>{$_('TILASTOT_ALAPOHJA')}</span>
-                          <span>{format(results?.['common-averages']?.['alapohja-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
-                        </div>
-                        <div class="w-full flex justify-between">
-                          <span>{$_('TILASTOT_IKKUNAT')}</span>
-                          <span>{format(results?.['common-averages']?.['ikkunat-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
-                        </div>
-                        <div class="w-full flex justify-between">
-                          <span>{$_('TILASTOT_ULKOOVET')}</span>
-                          <span>{format(results?.['common-averages']?.['ulkoovet-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="w-full flex flex-col space-y-2">
-                    <div class="w-full flex flex-col">
-                      <h2 class="my-4 text-green">{$_('TILASTOT_LAMMITYS')}</h2>
-                      <div class="w-full flex justify-between">
-                        <span>{$_('TILASTOT_VARAAVIEN')}</span>
-                        <span>{format(results?.['common-averages']?.['takka'])}{$_('TILASTOT_KPL')}</span>
-                      </div>
-                      <div class="w-full flex justify-between">
-                        <span>{$_('TILASTOT_LISALAMPOPUMPPOJEN')}</span>
-                        <span>{format(results?.['common-averages']?.['ilmalampopumppu'])}{$_('TILASTOT_KPL')}</span>
-                      </div>
-
-                      <div class="mt-4">
-                        <InfoTooltip
-                          anchor={AnchorPosition.bottomRight}
-                          title={$_('TILASTOT_LAMPOPUMPUN')}
-                          tooltip={$_('TILASTOT_LAMPOPUMPUN_TOOLTIP')}>
-                          <span>{$_('TILASTOT_LAMPOPUMPUN')}</span>
-                        </InfoTooltip>
-                      </div>
-                      <div class="w-full flex justify-between pl-4">
-                        <span>{$_('TILASTOT_TILOJEN')}</span>
-                        <span>{format(results?.['common-averages']?.['tilat-ja-iv-lampokerroin'])}</span>
-                      </div>
-                      <div class="w-full flex justify-between pl-4">
-                        <span>{$_('TILASTOT_LAMPIMAN')}</span>
-                        <span>{format(results?.['common-averages']?.['lammin-kayttovesi-lampokerroin'])}</span>
-                      </div>
-
-                      <h2 class="my-4 text-green">
-                        {$_('TILASTOT_ILMANVAIHTO')}
-                      </h2>
-                      <div class="w-full flex justify-between">
-                        <span>{$_('TILASTOT_LAMMONTALTEENOTON')}</span>
-                        <span
-                          class="whitespace-no-wrap">{formatPercent(results?.['common-averages']?.['lto-vuosihyotysuhde'])}</span>
-                      </div>
-                      <div class="w-full flex justify-between">
-                        <InfoTooltip
-                          anchor={AnchorPosition.bottomRight}
-                          title={$_('TILASTOT_SFP_LUKU')}
-                          tooltip={$_('TILASTOT_SFP_LUKU_TOOLTIP')}>
-                          <span>{$_('TILASTOT_SFP_LUKU')}</span>
-                        </InfoTooltip>
-                        <span
-                          class="whitespace-no-wrap">{format(results?.['common-averages']?.['ivjarjestelma-sfp'])}{' kW/(m³/s)'}</span>
-                      </div>
-                    </div>
-                  </div>
+                  class="my-8 flex flex-col lg:flex-row space-y-4 lg:space-x-16 lg:space-y-0 justify-evenly">
+                  <TilastotEtVersion
+                    {printing}
+                    version="2018"
+                    count={total2018}
+                    eLukuData={results?.['e-luku-statistics']?.['2018']}
+                    chartData={chartData2018} />
+                  <TilastotEtVersion
+                    {printing}
+                    tooltipAnchorPosition={AnchorPosition.bottomRight}
+                    version="2013"
+                    count={total2013}
+                    eLukuData={results?.['e-luku-statistics']?.['2013']}
+                    chartData={chartData2013} />
                 </div>
-              </div>
-              <!-- 2018 TUNNUSLUVUT-->
-              {#if total2018 > 0}
-                <div>
-                  <h1 class="w-full my-4 pbb-always">
-                    {$_('TILASTOT_TUNNUSLUVUT_2018')}
-                    {` (${total2018} ${$_('TILASTOT_KPL')})`}
+                <!-- MOLEMMILLE TUNNUSLUVUT-->
+                <div class="pbb-always">
+                  <h1 class="w-full my-4 space-x-2">
+                    {$_('TILASTOT_TUNNUSLUVUT_MOLEMMILLE')}
+                    {` (${total2013 + total2018} ${$_('TILASTOT_KPL')})`}
                   </h1>
                   <div
                     class="flex flex-col lg:flex-row space-y-4 lg:space-x-16 lg:space-y-0 justify-evenly">
-                    <TilastotEntriesList
-                      title={$_('TILASTOT_LAMMITYSJARJESTELMA')}
-                      tooltip={$_('TILASTOT_LAMMITYSJARJESTELMA_TOOLTIP')}
-                      labels={lammitysmuodot}
-                      items={results?.['counts']?.['2018']?.['lammitysmuoto']}
-                      total={total2018} />
-                    <TilastotEntriesList
-                      title={$_('TILASTOT_ILMANVAIHTOJARJESTELMA')}
-                      tooltip={$_('TILASTOT_ILMANVAIHTOJARJESTELMA_TOOLTIP')}
-                      tooltipAnchor={AnchorPosition.bottomRight}
-                      labels={ilmanvaihtotyypit}
-                      items={results?.['counts']?.['2018']?.['ilmanvaihto']}
-                      total={total2018} />
-                  </div>
-                  <div
-                    class="flex flex-col lg:flex-row space-y-4 lg:space-x-16 lg:space-y-0 justify-evenly">
                     <div class="w-full flex flex-col">
-                      <div class="my-4">
-                        <InfoTooltip
-                          title={$_('TILASTOT_UUSIUTUVIEN')}
-                          tooltip={$_('TILASTOT_UUSIUTUVIEN_TOOLTIP')}>
-                          <h2>{$_('TILASTOT_UUSIUTUVIEN')}</h2>
-                        </InfoTooltip>
+                      <div class="w-full flex flex-col">
+                        <div class="my-4 w-full">
+                          <InfoTooltip
+                            title={$_('TILASTOT_RAKENNUSVAIPPA')}
+                            tooltip={$_('TILASTOT_RAKENNUSVAIPPA_TOOLTIP')}>
+                            <h2>{$_('TILASTOT_RAKENNUSVAIPPA')}</h2>
+                          </InfoTooltip>
+                        </div>
+                        <div class="w-full flex flex-col">
+                          <div class="w-full flex justify-between">
+                            <InfoTooltip
+                              title={$_('TILASTOT_ILMANVUOTOLUKU')}
+                              tooltip={$_('TILASTOT_ILMANVUOTOLUKU_TOOLTIP')}>
+                              <span>{$_('TILASTOT_ILMANVUOTOLUKU')}{' q'}<sub>50</sub></span>
+                            </InfoTooltip>
+                            <span>{format(results?.['common-averages']?.['ilmanvuotoluku'])}</span>
+                          </div>
+                          <div class="mt-4">
+                            <InfoTooltip
+                              title={$_('TILASTOT_U_ARVOT')}
+                              tooltip={$_('TILASTOT_U_ARVOT_TOOLTIP')}>
+                              <span
+                                class="font-bold">{$_('TILASTOT_U_ARVOT')}</span>
+                            </InfoTooltip>
+                          </div>
+                          <div class="w-full flex justify-between">
+                            <span>{$_('TILASTOT_ULKOSEINAT')}</span>
+                            <span>{format(results?.['common-averages']?.['ulkoseinat-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+                          </div>
+                          <div class="w-full flex justify-between">
+                            <span>{$_('TILASTOT_YLAPOHJA')}</span>
+                            <span>{format(results?.['common-averages']?.['ylapohja-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+                          </div>
+                          <div class="w-full flex justify-between">
+                            <span>{$_('TILASTOT_ALAPOHJA')}</span>
+                            <span>{format(results?.['common-averages']?.['alapohja-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+                          </div>
+                          <div class="w-full flex justify-between">
+                            <span>{$_('TILASTOT_IKKUNAT')}</span>
+                            <span>{format(results?.['common-averages']?.['ikkunat-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+                          </div>
+                          <div class="w-full flex justify-between">
+                            <span>{$_('TILASTOT_ULKOOVET')}</span>
+                            <span>{format(results?.['common-averages']?.['ulkoovet-u'])}{$_('TILASTOT_U_ARVOT_UNIT')}</span>
+                          </div>
+                        </div>
                       </div>
-                      <div class="w-full flex justify-between">
-                        <span>{$_('TILASTOT_AURINKOSAHKO')}</span>
-                        <span
-                          class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkosahko'])}</span>
-                      </div>
-                      <div class="w-full flex justify-between">
-                        <span>{$_('TILASTOT_AURINKOLAMPO')}</span>
-                        <span
-                          class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkolampo'])}</span>
-                      </div>
-                      <div class="w-full flex justify-between">
-                        <span>{$_('TILASTOT_TUULISAHKO')}</span>
-                        <span
-                          class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['tuulisahko'])}</span>
-                      </div>
-                      <div class="w-full flex justify-between">
-                        <span>{$_('TILASTOT_LAMPOPUMPPU')}</span>
-                        <span
-                          class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['lampopumppu'])}</span>
-                      </div>
-                      <div class="w-full flex justify-between">
-                        <span>{$_('TILASTOT_MUU_SAHKO')}</span>
-                        <span
-                          class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muusahko'])}</span>
-                      </div>
-                      <div class="w-full flex justify-between">
-                        <span>{$_('TILASTOT_MUU_LAMPO')}</span>
-                        <span
-                          class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muulampo'])}</span>
-                      </div>
-                      <div class="w-full" />
                     </div>
-                    <div class="w-full flex flex-col">
-                      <!-- This empty div is here to keep the lonely last section the same size as the previous paired sections in large desktop windows -->
+                    <div class="w-full flex flex-col space-y-2">
+                      <div class="w-full flex flex-col">
+                        <h2 class="my-4 text-green">
+                          {$_('TILASTOT_LAMMITYS')}
+                        </h2>
+                        <div class="w-full flex justify-between">
+                          <span>{$_('TILASTOT_VARAAVIEN')}</span>
+                          <span>{format(results?.['common-averages']?.['takka'])}{$_('TILASTOT_KPL')}</span>
+                        </div>
+                        <div class="w-full flex justify-between">
+                          <span>{$_('TILASTOT_LISALAMPOPUMPPOJEN')}</span>
+                          <span>{format(results?.['common-averages']?.['ilmalampopumppu'])}{$_('TILASTOT_KPL')}</span>
+                        </div>
+
+                        <div class="mt-4">
+                          <InfoTooltip
+                            anchor={AnchorPosition.bottomRight}
+                            title={$_('TILASTOT_LAMPOPUMPUN')}
+                            tooltip={$_('TILASTOT_LAMPOPUMPUN_TOOLTIP')}>
+                            <span>{$_('TILASTOT_LAMPOPUMPUN')}</span>
+                          </InfoTooltip>
+                        </div>
+                        <div class="w-full flex justify-between pl-4">
+                          <span>{$_('TILASTOT_TILOJEN')}</span>
+                          <span>{format(results?.['common-averages']?.['tilat-ja-iv-lampokerroin'])}</span>
+                        </div>
+                        <div class="w-full flex justify-between pl-4">
+                          <span>{$_('TILASTOT_LAMPIMAN')}</span>
+                          <span>{format(results?.['common-averages']?.['lammin-kayttovesi-lampokerroin'])}</span>
+                        </div>
+
+                        <h2 class="my-4 text-green">
+                          {$_('TILASTOT_ILMANVAIHTO')}
+                        </h2>
+                        <div class="w-full flex justify-between">
+                          <span>{$_('TILASTOT_LAMMONTALTEENOTON')}</span>
+                          <span
+                            class="whitespace-no-wrap">{formatPercent(results?.['common-averages']?.['lto-vuosihyotysuhde'])}</span>
+                        </div>
+                        <div class="w-full flex justify-between">
+                          <InfoTooltip
+                            anchor={AnchorPosition.bottomRight}
+                            title={$_('TILASTOT_SFP_LUKU')}
+                            tooltip={$_('TILASTOT_SFP_LUKU_TOOLTIP')}>
+                            <span>{$_('TILASTOT_SFP_LUKU')}</span>
+                          </InfoTooltip>
+                          <span
+                            class="whitespace-no-wrap">{format(results?.['common-averages']?.['ivjarjestelma-sfp'])}{' kW/(m³/s)'}</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <!-- 2018 TUNNUSLUVUT-->
+                {#if total2018 > 0}
+                  <div>
+                    <h1 class="w-full my-4 pbb-always">
+                      {$_('TILASTOT_TUNNUSLUVUT_2018')}
+                      {` (${total2018} ${$_('TILASTOT_KPL')})`}
+                    </h1>
+                    <div
+                      class="flex flex-col lg:flex-row space-y-4 lg:space-x-16 lg:space-y-0 justify-evenly">
+                      <TilastotEntriesList
+                        title={$_('TILASTOT_LAMMITYSJARJESTELMA')}
+                        tooltip={$_('TILASTOT_LAMMITYSJARJESTELMA_TOOLTIP')}
+                        labels={lammitysmuodot}
+                        items={results?.['counts']?.['2018']?.['lammitysmuoto']}
+                        total={total2018} />
+                      <TilastotEntriesList
+                        title={$_('TILASTOT_ILMANVAIHTOJARJESTELMA')}
+                        tooltip={$_('TILASTOT_ILMANVAIHTOJARJESTELMA_TOOLTIP')}
+                        tooltipAnchor={AnchorPosition.bottomRight}
+                        labels={ilmanvaihtotyypit}
+                        items={results?.['counts']?.['2018']?.['ilmanvaihto']}
+                        total={total2018} />
+                    </div>
+                    <div
+                      class="flex flex-col lg:flex-row space-y-4 lg:space-x-16 lg:space-y-0 justify-evenly">
+                      <div class="w-full flex flex-col">
+                        <div class="my-4">
+                          <InfoTooltip
+                            title={$_('TILASTOT_UUSIUTUVIEN')}
+                            tooltip={$_('TILASTOT_UUSIUTUVIEN_TOOLTIP')}>
+                            <h2>{$_('TILASTOT_UUSIUTUVIEN')}</h2>
+                          </InfoTooltip>
+                        </div>
+                        <div class="w-full flex justify-between">
+                          <span>{$_('TILASTOT_AURINKOSAHKO')}</span>
+                          <span
+                            class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkosahko'])}</span>
+                        </div>
+                        <div class="w-full flex justify-between">
+                          <span>{$_('TILASTOT_AURINKOLAMPO')}</span>
+                          <span
+                            class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['aurinkolampo'])}</span>
+                        </div>
+                        <div class="w-full flex justify-between">
+                          <span>{$_('TILASTOT_TUULISAHKO')}</span>
+                          <span
+                            class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['tuulisahko'])}</span>
+                        </div>
+                        <div class="w-full flex justify-between">
+                          <span>{$_('TILASTOT_LAMPOPUMPPU')}</span>
+                          <span
+                            class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['lampopumppu'])}</span>
+                        </div>
+                        <div class="w-full flex justify-between">
+                          <span>{$_('TILASTOT_MUU_SAHKO')}</span>
+                          <span
+                            class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muusahko'])}</span>
+                        </div>
+                        <div class="w-full flex justify-between">
+                          <span>{$_('TILASTOT_MUU_LAMPO')}</span>
+                          <span
+                            class="whitespace-no-wrap">{parseAndFormatPercent(total2018, results?.['uusiutuvat-omavaraisenergiat-counts']?.['2018']?.['muulampo'])}</span>
+                        </div>
+                        <div class="w-full" />
+                      </div>
+                      <div class="w-full flex flex-col">
+                        <!-- This empty div is here to keep the lonely last section the same size as the previous paired sections in large desktop windows -->
+                      </div>
+                    </div>
+                  </div>
+                {/if}
               {/if}
-            {/if}
-            <!-- PRINT -->
-            <div class="w-full mx-auto my-8">
-              <Button {...buttonStyles.green} on:click={() => window.print()}>
-                <span
-                  class="material-icons align-middle"
-                  aria-hidden="true">print</span>
-                <span class="whitespace-no-wrap">
-                  {$_('TILASTOT_TULOSTA')}
-                </span>
-              </Button>
+              <!-- PRINT -->
+              <div class="w-full mx-auto my-8">
+                <Button {...buttonStyles.green} on:click={() => window.print()}>
+                  <span
+                    class="material-icons align-middle"
+                    aria-hidden="true">print</span>
+                  <span class="whitespace-no-wrap">
+                    {$_('TILASTOT_TULOSTA')}
+                  </span>
+                </Button>
+              </div>
             </div>
           {:catch}
             <span>{$_('SERVER_ERROR')}</span>
