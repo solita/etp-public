@@ -19,6 +19,13 @@
     version === '2018' ? $_('TILASTOT_NO_2018') : $_('TILASTOT_NO_2013');
 </script>
 
+<style>
+  .pbi-avoid {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+</style>
+
 <div class="w-full flex flex-col space-y-2">
   <h1 class="w-full">{title}</h1>
   {#if count > 0}
@@ -33,9 +40,11 @@
       </div>
       <StatChart data={chartData} {printing} />
     </div>
-    <StatELuku
-      data={eLukuData}
-      tooltip={version === '2018' ? $_('TILASTOT_E_LUKU_2018_TOOLTIP') : ''} />
+    <div class="pbi-avoid">
+      <StatELuku
+        data={eLukuData}
+        tooltip={version === '2018' ? $_('TILASTOT_E_LUKU_2018_TOOLTIP') : ''} />
+    </div>
   {:else}
     <StatNoData label={noDataLabel} />
   {/if}
