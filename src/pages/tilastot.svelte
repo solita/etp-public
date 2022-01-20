@@ -662,7 +662,14 @@
               {/if}
               <!-- PRINT -->
               <div class="w-full mx-auto my-8">
-                <Button {...buttonStyles.green} on:click={() => window.print()}>
+                <Button
+                  {...buttonStyles.green}
+                  on:click={() => {
+                    printing = true;
+                    tick().then(() => {
+                      window.print();
+                    });
+                  }}>
                   <span
                     class="material-icons align-middle"
                     aria-hidden="true">print</span>
