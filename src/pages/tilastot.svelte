@@ -415,15 +415,14 @@
           {:then search}
             <div class="results">
               <!-- RESULT COUNT-->
-              <span class="uppercase font-bold w-full my-2">
+              <span class="uppercase font-bold w-full mb-2">
                 {$_('TILASTOT_TULOKSIA')}
                 {' '}
                 {total2013 + total2018 || '< 5'}
               </span>
               <!-- SEARCH PARAMS SHOWN WHEN PRINTING -->
-              <div
-                class="only-print flex flex-col lg:flex-row space-y-2 lg:space-x-16 lg:space-y-0 justify-evenly">
-                <div class="w-full flex flex-col space-y-2">
+              <div class="only-print">
+                <div class="w-full flex flex-col space-y-1 text-sm">
                   {#if resultKeyword}
                     <div class="w-full space-x-2">
                       <span class="font-bold">{$_('TILASTOT_ALUE')}</span>
@@ -443,8 +442,7 @@
                       <span>{$_('KAIKKI')}</span>
                     </div>
                   {/if}
-                </div>
-                <div class="w-full flex flex-col space-y-2">
+
                   {#if resultVuosimin || resultVuosimax}
                     <div class="w-full space-x-2">
                       <span class="font-bold">
@@ -463,7 +461,7 @@
               {#if total2013 + total2018 > 0}
                 <!-- GRAPHS -->
                 <div
-                  class="my-8 flex flex-col lg:flex-row space-y-4 lg:space-x-16 lg:space-y-0 justify-evenly">
+                  class="my-4 flex flex-col lg:flex-row space-y-4 lg:space-x-16 lg:space-y-0 justify-evenly">
                   <TilastotEtVersion
                     {printing}
                     version="2018"
@@ -480,7 +478,7 @@
                 </div>
                 <!-- MOLEMMILLE TUNNUSLUVUT-->
                 <div class="pbb-always">
-                  <h1 class="w-full my-4 space-x-2">
+                  <h1 class="w-full mt-6 mb-2 space-x-2">
                     {$_('TILASTOT_TUNNUSLUVUT_MOLEMMILLE')}
                     {` (${total2013 + total2018} ${$_('TILASTOT_KPL')})`}
                   </h1>
@@ -591,7 +589,7 @@
                 <!-- 2018 TUNNUSLUVUT-->
                 {#if total2018 > 0}
                   <div>
-                    <h1 class="w-full my-4 pbb-always">
+                    <h1 class="w-full mt-6 mb-2 pbb-always">
                       {$_('TILASTOT_TUNNUSLUVUT_2018')}
                       {` (${total2018} ${$_('TILASTOT_KPL')})`}
                     </h1>
