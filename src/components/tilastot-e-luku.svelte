@@ -8,7 +8,7 @@
 </script>
 
 <div class="w-full flex flex-col">
-  <div class="my-4">
+  <div class="mt-4 mb-2">
     <InfoTooltip
       anchor={tooltipAnchorPosition}
       title={$_('TILASTOT_E_LUKU')}
