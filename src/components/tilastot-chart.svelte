@@ -114,6 +114,11 @@
     width: 440px !important;
     height: 220px;
   }
+
+  .printing canvas {
+    width: 440px !important;
+    height: 220px !important;
+  }
   canvas {
     break-inside: avoid;
     page-break-inside: avoid;
