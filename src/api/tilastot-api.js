@@ -2,6 +2,7 @@ const baseUrl = '/api/public';
 
 const statisticsUrl = `${baseUrl}/statistics`;
 const kayttotarkoituksetUrl = `${statisticsUrl}/kayttotarkoitukset`
+const energiatodistuksetCountUrl = `${statisticsUrl}/count`;
 
 const fetchJson = (fetch, url) => fetch(url).then(response => response.json());
 
@@ -33,3 +34,6 @@ export const statistics = (fetch, opts) => {
 
   return fetchJson(fetch, url);
 };
+
+export const energiatodistuksetCountAll = (fetch) =>
+  fetchJson(fetch, energiatodistuksetCountUrl);
