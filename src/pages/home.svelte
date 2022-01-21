@@ -16,7 +16,7 @@
   import Container, { styles as containerStyles } from '@Component/container';
   import Seo from '@Component/seo';
 
-  import * as EtApi from '@/api/energiatodistus-api';
+  import * as TilastotApi from '@/api/tilastot-api';
   import * as LaatijaApi from '@/api/laatija-api';
 
   let etHakuId = '';
@@ -27,7 +27,7 @@
 
   let scrollOnAloita = null;
 
-  const etCount = EtApi.energiatodistuksetCountAll(fetch).then(result => {
+  const etCount = TilastotApi.statisticsCount(fetch).then(result => {
     return result.count;
   });
   const laatijatCount = LaatijaApi.laatijatCount(fetch).then(result => {
