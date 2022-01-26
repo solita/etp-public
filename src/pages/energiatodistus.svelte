@@ -417,7 +417,7 @@
             <span
               class="w-full md:w-1/2 text-ashblue">{$_('ET_RAKENNUS_NIMI')}:</span>
             <span
-              class="w-full md:w-1/2">{`${energiatodistus.perustiedot.nimi}, ${selectByLocaleOrAvailable('katuosoite', energiatodistus.perustiedot)}, ${GeoUtils.padPostinumero(energiatodistus.perustiedot.postinumero)} `}
+              class="w-full md:w-1/2">{`${selectByLocaleOrAvailable('nimi', energiatodistus.perustiedot)}, ${selectByLocaleOrAvailable('katuosoite', energiatodistus.perustiedot)}, ${GeoUtils.padPostinumero(energiatodistus.perustiedot.postinumero)} `}
               <span
                 class="capitalize">{selectByLocaleOrAvailable('label', postinumero)}</span>
             </span>
