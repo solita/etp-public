@@ -221,7 +221,7 @@
   "TILASTOT_INVALID_NETTOALA_MAX": "Värdet ska vara större än startvärdet",
   "TILASTOT_HAE_ASIDE": "Du kan söka på landskap, kommun, postnummer eller postanstalt.",
   "TILASTOT_HAE_ALUEELLA": "Sök med område",
-  "TILASTOT_ASIDE": " ",
+  "TILASTOT_ASIDE": "Sökningen visar energieffektivitetsklasserna separat för energicertifikaten 2018 och 2013, eftersom energicertifikat som upprättats enligt olika bestämmelser inte är jämförbara. En del av sökresultaten visas för alla energicertifikat enligt sökvillkoren och en del visas endast för energicertifikat enligt bestämmelserna från 2018.",
   "TILASTOT_TYYPPI_KAYTTOTARKOITUS": "Klass med avseende på användningsändamål",
   "TILASTOT_RAKENNUSVUOSI": "Byggnadens byggår",
   "TILASTOT_LAMMITETTY_NETTOALA": "Uppvärmd nettoarea (m²)",
