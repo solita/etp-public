@@ -14,7 +14,7 @@
 
   $: title = `${
     version === '2018' ? $_('TILASTOT_ET_2018') : $_('TILASTOT_ET_2013')
-  } (${count || '< 5'} ${$_('TILASTOT_KPL')})`;
+  } (${count || '< 4'} ${$_('TILASTOT_KPL')})`;
   $: noDataLabel =
     version === '2018' ? $_('TILASTOT_NO_2018') : $_('TILASTOT_NO_2013');
 </script>
