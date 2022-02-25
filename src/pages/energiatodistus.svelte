@@ -745,6 +745,25 @@
                   </td>
                 </tr>
               {/if}
+              {#each path(['tulokset', 'kaytettavat-energiamuodot', 'muu'], energiatodistus) || [] as energiamuoto}
+                <tr>
+                  <td class="py-4 print:py-1 pl-2 text-left">
+                    {energiamuoto.nimi}
+                  </td>
+                  <td class="py-4 print:py-1">
+                    {formats.formatNumber(energiamuoto.ostoenergia)}
+                  </td>
+                  <td class="py-4 print:py-1">
+                    {formats.formatNumber(perLammitettyNettoala(energiatodistus, energiamuoto.ostoenergia))}
+                  </td>
+                  <td class="py-4 print:py-1 font-normal">
+                    {formats.formatNumber(energiamuoto.muotokerroin)}
+                  </td>
+                  <td class="py-4 print:py-1">
+                    {formats.formatNumber(perLammitettyNettoala(energiatodistus, energiamuoto.ostoenergia * energiamuoto.muotokerroin))}
+                  </td>
+                </tr>
+              {/each}
               <tr class="border-t border-grey font-bold">
                 <td
                   class="py-4 print:py-1 w-4/5 justify-end text-right"
