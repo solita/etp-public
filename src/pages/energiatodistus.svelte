@@ -507,8 +507,12 @@
               class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
               <span
                 class="w-full md:w-2/3 print:w-2/3 text-ashblue">{$_('ET_VAATIMUSTASO')}:</span>
-              <span class="w-full md:w-1/3 print:w-1/3"><KWhE
-                  value={`≤ ${eLuokka?.['raja-uusi-2018']}`} />/({$_('ET_M2VUOSI')})</span>
+              {#if eLuokka?.['raja-uusi-2018'] }
+                <span class="w-full md:w-1/3 print:w-1/3"><KWhE
+                    value={`≤ ${eLuokka?.['raja-uusi-2018']}`} />/({$_('ET_M2VUOSI')})</span>
+              {:else}
+                <span class="w-full md:w-1/3 print:w-1/3">{$_('ET_EI_RAJA_ARVOA')}</span>
+              {/if}
             </div>
           {/if}
           <div
