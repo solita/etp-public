@@ -418,7 +418,7 @@
               <span class="uppercase font-bold w-full mb-2">
                 {$_('TILASTOT_TULOKSIA')}
                 {' '}
-                {total2013 + total2018 || '< 5'}
+                {total2013 + total2018 || '< 4'}
               </span>
               <!-- SEARCH PARAMS SHOWN WHEN PRINTING -->
               <div class="only-print">
