@@ -111,7 +111,9 @@
   nofollow={true}
   title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('NAVBAR_LAATIJAHAKU')}"
   descriptionFi={$locale == 'fi' ? $_('NAVBAR_LAATIJAHAKU_KUVAUS') : undefined}
-  descriptionSv={$locale == 'sv' ? $_('NAVBAR_LAATIJAHAKU_KUVAUS') : undefined} />
+  descriptionSv={$locale == 'sv'
+    ? $_('NAVBAR_LAATIJAHAKU_KUVAUS')
+    : undefined} />
 
 <Container {...containerStyles.beige}>
   <InfoBlock title={$_('LHAKU_INFO_TITLE')}>{$_('LHAKU_INFO_TEXT')}</InfoBlock>
@@ -177,7 +179,15 @@
         {page}>
         <div slot="filter">
           <TableLaatijahakuFilter
-            on:change={evt => navigate(`/laatijahaku?${[...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []), ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []), ...[['filterPatevyydet', evt.target.value].join('=')], ...[['page', 0].join('=')]].join('&')}`)}
+            on:change={evt =>
+              navigate(
+                `/laatijahaku?${[
+                  ...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []),
+                  ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []),
+                  ...[['filterPatevyydet', evt.target.value].join('=')],
+                  ...[['page', 0].join('=')]
+                ].join('&')}`
+              )}
             showPatevyydet={filterPatevyydet}
             {patevyydet} />
         </div>
@@ -187,7 +197,13 @@
             {pageSize}
             {currentPageItemCount}
             itemCount={l.length}
-            queryStringFn={page => `/laatijahaku?${[...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []), ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []), ...[['filterPatevyydet', filterPatevyydet].join('=')], ...[['page', page].join('=')]].join('&')}`} />
+            queryStringFn={page =>
+              `/laatijahaku?${[
+                ...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []),
+                ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []),
+                ...[['filterPatevyydet', filterPatevyydet].join('=')],
+                ...[['page', page].join('=')]
+              ].join('&')}`} />
         </div>
       </TableLaatijahaku>
     {:catch error}
