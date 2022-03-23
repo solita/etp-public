@@ -1,5 +1,5 @@
 export const hashCode = txt => {
-  var hash = 0;
+  let hash = 0;
 
   for (let i = 0; i < txt.length; i++) {
     const ccode = txt.charCodeAt(i);
