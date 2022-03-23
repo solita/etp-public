@@ -1,6 +1,9 @@
 <script>
   import { onMount } from 'svelte';
+  import { MD5 } from 'object-hash';
+  import * as dfns from 'date-fns';
   import * as LaatijaUtils from '@/utilities/laatija';
+  import { hashCode } from '@/utilities/strings';
   import * as GeoUtils from '@/utilities/geo';
   import * as FormUtils from '@/utilities/form';
   import { navigate } from '@/router/router';
@@ -27,6 +30,11 @@
   export let aluehaku = '';
   export let page = 0;
   export let filterPatevyydet = '1,2';
+
+  const dateText = dfns.format(new Date(), 'yyyy-MM-dd');
+
+  const laatijaSort = ({ etunimi, sukunimi }) =>
+    hashCode(MD5({ etunimi, sukunimi, dateText }));
 
   let resultsElement;
   $: {
@@ -64,11 +72,16 @@
         laatijat,
         haetutToimintaalueet,
         filterPatevyydet
-      ).sort(
-        (a, b) =>
+      ).sort((a, b) => {
+        const wt =
           LaatijaUtils.calculateLaatijaWeight(haetutToimintaalueet, b) -
-          LaatijaUtils.calculateLaatijaWeight(haetutToimintaalueet, a)
-      )
+          LaatijaUtils.calculateLaatijaWeight(haetutToimintaalueet, a);
+        if (wt !== 0) {
+          return wt;
+        }
+
+        return laatijaSort(b) - laatijaSort(a);
+      })
   );
 
   const commitSearch = (nimihaku, aluehaku) => {
@@ -111,7 +124,9 @@
   nofollow={true}
   title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('NAVBAR_LAATIJAHAKU')}"
   descriptionFi={$locale == 'fi' ? $_('NAVBAR_LAATIJAHAKU_KUVAUS') : undefined}
-  descriptionSv={$locale == 'sv' ? $_('NAVBAR_LAATIJAHAKU_KUVAUS') : undefined} />
+  descriptionSv={$locale == 'sv'
+    ? $_('NAVBAR_LAATIJAHAKU_KUVAUS')
+    : undefined} />
 
 <Container {...containerStyles.beige}>
   <InfoBlock title={$_('LHAKU_INFO_TITLE')}>{$_('LHAKU_INFO_TEXT')}</InfoBlock>
@@ -177,7 +192,15 @@
         {page}>
         <div slot="filter">
           <TableLaatijahakuFilter
-            on:change={evt => navigate(`/laatijahaku?${[...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []), ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []), ...[['filterPatevyydet', evt.target.value].join('=')], ...[['page', 0].join('=')]].join('&')}`)}
+            on:change={evt =>
+              navigate(
+                `/laatijahaku?${[
+                  ...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []),
+                  ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []),
+                  ...[['filterPatevyydet', evt.target.value].join('=')],
+                  ...[['page', 0].join('=')]
+                ].join('&')}`
+              )}
             showPatevyydet={filterPatevyydet}
             {patevyydet} />
         </div>
@@ -187,7 +210,13 @@
             {pageSize}
             {currentPageItemCount}
             itemCount={l.length}
-            queryStringFn={page => `/laatijahaku?${[...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []), ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []), ...[['filterPatevyydet', filterPatevyydet].join('=')], ...[['page', page].join('=')]].join('&')}`} />
+            queryStringFn={page =>
+              `/laatijahaku?${[
+                ...(nimihaku ? [['nimihaku', nimihaku].join('=')] : []),
+                ...(aluehaku ? [['aluehaku', aluehaku].join('=')] : []),
+                ...[['filterPatevyydet', filterPatevyydet].join('=')],
+                ...[['page', page].join('=')]
+              ].join('&')}`} />
         </div>
       </TableLaatijahaku>
     {:catch error}
