@@ -15,7 +15,15 @@ export const formatExclusiveEndDate = date =>
     dateStyle: 'medium'
   }).format(subDays(date, 1));
 
-export const formatNumber = n => Intl.NumberFormat('fi').format(n);
+const numberFormatter = Intl.NumberFormat('fi', { maximumFractionDigits: 1 });
+const smallNumberFormatter = Intl.NumberFormat('fi', {
+  maximumFractionDigits: 2
+});
+
+export const formatNumber = n =>
+  Math.abs(n) >= 1.5
+    ? numberFormatter.format(n)
+    : smallNumberFormatter.format(n);
 
 export const formatDateISO = date =>
   !isNaN(date.getTime()) ? formatISO(date, { representation: 'date' }) : '';
