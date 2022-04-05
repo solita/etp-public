@@ -499,7 +499,7 @@
               class="w-full md:w-2/3 text-ashblue print:w-2/3">{$_('ET_ELUKU')}:</span>
             <span class="w-full md:w-1/3 print:w-1/3">
               <KWhE
-                value={formats.formatNumber(energiatodistus?.tulokset['e-luku'])} />/({$_('ET_M2VUOSI')})
+                value={formats.formatNumber0(energiatodistus?.tulokset['e-luku'])} />/({$_('ET_M2VUOSI')})
             </span>
           </div>
           {#if versio == '2018'}
@@ -549,7 +549,7 @@
             <span
               class="w-full md:w-1/2 text-ashblue">{$_('ET_NETTOALA')}:</span>
             <span
-              class="w-full md:w-1/2">{formats.formatNumber(energiatodistus.lahtotiedot['lammitetty-nettoala'])}
+              class="w-full md:w-1/2">{formats.formatNumber1(energiatodistus.lahtotiedot['lammitetty-nettoala'])}
               m²</span>
           </div>
 
@@ -658,16 +658,16 @@
                     {$_('ET_SAHKO')}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber(energiatodistus.tulokset['kaytettavat-energiamuodot'].sahko)}
+                    {formats.formatNumber0(energiatodistus.tulokset['kaytettavat-energiamuodot'].sahko)}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber(perLammitettyNettoala(energiatodistus, path(['tulokset', 'kaytettavat-energiamuodot', 'sahko'], energiatodistus)))}
+                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, path(['tulokset', 'kaytettavat-energiamuodot', 'sahko'], energiatodistus)))}
                   </td>
                   <td>
-                    {formats.formatNumber(energiamuotokertoimet[versio]['sahko'])}
+                    {formats.formatNumberMax2(energiamuotokertoimet[versio]['sahko'])}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber(perLammitettyNettoala(energiatodistus, energiamuotokerroinTulo(energiatodistus, 'sahko')))}
+                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, energiamuotokerroinTulo(energiatodistus, 'sahko')))}
                   </td>
                 </tr>
               {/if}
@@ -677,16 +677,16 @@
                     {$_('ET_KAUKOLAMPO')}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber(energiatodistus.tulokset['kaytettavat-energiamuodot'].kaukolampo)}
+                    {formats.formatNumber0(energiatodistus.tulokset['kaytettavat-energiamuodot'].kaukolampo)}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber(perLammitettyNettoala(energiatodistus, path(['tulokset', 'kaytettavat-energiamuodot', 'kaukolampo'], energiatodistus)))}
+                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, path(['tulokset', 'kaytettavat-energiamuodot', 'kaukolampo'], energiatodistus)))}
                   </td>
                   <td class="py-4 print:py-1 font-normal">
-                    {formats.formatNumber(energiamuotokertoimet[versio]['kaukolampo'])}
+                    {formats.formatNumberMax2(energiamuotokertoimet[versio]['kaukolampo'])}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber(perLammitettyNettoala(energiatodistus, energiamuotokerroinTulo(energiatodistus, 'kaukolampo')))}
+                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, energiamuotokerroinTulo(energiatodistus, 'kaukolampo')))}
                   </td>
                 </tr>
               {/if}
@@ -696,16 +696,16 @@
                     {$_('ET_UUDISTUVA_POLTTOAINE')}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber(energiatodistus.tulokset['kaytettavat-energiamuodot']['uusiutuva-polttoaine'])}
+                    {formats.formatNumber0(energiatodistus.tulokset['kaytettavat-energiamuodot']['uusiutuva-polttoaine'])}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber(perLammitettyNettoala(energiatodistus, path(['tulokset', 'kaytettavat-energiamuodot', 'uusiutuva-polttoaine'], energiatodistus)))}
+                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, path(['tulokset', 'kaytettavat-energiamuodot', 'uusiutuva-polttoaine'], energiatodistus)))}
                   </td>
                   <td class="py-4 print:py-1 font-normal">
-                    {formats.formatNumber(energiamuotokertoimet[versio]['uusiutuva-polttoaine'])}
+                    {formats.formatNumberMax2(energiamuotokertoimet[versio]['uusiutuva-polttoaine'])}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber(perLammitettyNettoala(energiatodistus, energiamuotokerroinTulo(energiatodistus, 'uusiutuva-polttoaine')))}
+                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, energiamuotokerroinTulo(energiatodistus, 'uusiutuva-polttoaine')))}
                   </td>
                 </tr>
               {/if}
@@ -716,16 +716,16 @@
                     {$_('ET_FOSSIILINEN_POLTTOAINE')}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber(energiatodistus.tulokset['kaytettavat-energiamuodot']['fossiilinen-polttoaine'])}
+                    {formats.formatNumber0(energiatodistus.tulokset['kaytettavat-energiamuodot']['fossiilinen-polttoaine'])}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber(perLammitettyNettoala(energiatodistus, path(['tulokset', 'kaytettavat-energiamuodot', 'fossiilinen-polttoaine'], energiatodistus)))}
+                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, path(['tulokset', 'kaytettavat-energiamuodot', 'fossiilinen-polttoaine'], energiatodistus)))}
                   </td>
                   <td class="py-4 print:py-1 font-normal">
-                    {formats.formatNumber(energiamuotokertoimet[versio]['fossiilinen-polttoaine'])}
+                    {formats.formatNumberMax2(energiamuotokertoimet[versio]['fossiilinen-polttoaine'])}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber(perLammitettyNettoala(energiatodistus, energiamuotokerroinTulo(energiatodistus, 'fossiilinen-polttoaine')))}
+                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, energiamuotokerroinTulo(energiatodistus, 'fossiilinen-polttoaine')))}
                   </td>
                 </tr>
               {/if}
@@ -736,16 +736,16 @@
                     {$_('ET_KAUKOJAAHDYTYS')}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber(energiatodistus.tulokset['kaytettavat-energiamuodot']['kaukojaahdytys'])}
+                    {formats.formatNumber0(energiatodistus.tulokset['kaytettavat-energiamuodot']['kaukojaahdytys'])}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber(perLammitettyNettoala(energiatodistus, path(['tulokset', 'kaytettavat-energiamuodot', 'kaukojaahdytys'], energiatodistus)))}
+                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, path(['tulokset', 'kaytettavat-energiamuodot', 'kaukojaahdytys'], energiatodistus)))}
                   </td>
                   <td class="py-4 print:py-1 font-normal">
-                    {formats.formatNumber(energiamuotokertoimet[versio]['kaukojaahdytys'])}
+                    {formats.formatNumberMax2(energiamuotokertoimet[versio]['kaukojaahdytys'])}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber(perLammitettyNettoala(energiatodistus, energiamuotokerroinTulo(energiatodistus, 'kaukojaahdytys')))}
+                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, energiamuotokerroinTulo(energiatodistus, 'kaukojaahdytys')))}
                   </td>
                 </tr>
               {/if}
@@ -755,16 +755,16 @@
                     {energiamuoto.nimi}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber(energiamuoto.ostoenergia)}
+                    {formats.formatNumber0(energiamuoto.ostoenergia)}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber(perLammitettyNettoala(energiatodistus, energiamuoto.ostoenergia))}
+                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, energiamuoto.ostoenergia))}
                   </td>
                   <td class="py-4 print:py-1 font-normal">
-                    {formats.formatNumber(energiamuoto.muotokerroin)}
+                    {formats.formatNumberMax2(energiamuoto.muotokerroin)}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber(perLammitettyNettoala(energiatodistus, energiamuoto.ostoenergia * energiamuoto.muotokerroin))}
+                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, energiamuoto.ostoenergia * energiamuoto.muotokerroin))}
                   </td>
                 </tr>
               {/each}
@@ -775,7 +775,7 @@
                   {$_('ET_VERTAILULUKU')}
                 </td>
                 <td class="py-4 print:py-1">
-                  {formats.formatNumber(energiatodistus.tulokset['e-luku'])}
+                  {formats.formatNumber0(energiatodistus.tulokset['e-luku'])}
                 </td>
               </tr>
             </tbody>
