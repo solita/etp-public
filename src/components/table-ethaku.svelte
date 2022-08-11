@@ -6,6 +6,7 @@
   export let eTodistukset;
   export let postinumerot;
   export let kayttotarkoitusluokat;
+  export let tuloksiaHeading;
 
   $: currentPageItemCount = eTodistukset.length;
 
@@ -46,10 +47,8 @@
 </style>
 
 <div class="table-container">
-  {#if etCount < 1}
-    <span>{$_('HAKU_TULOKSIA_EI')}</span>
-  {:else}
-    <h2>{$_('HAKU_TULOKSIA')} {etCount}</h2>
+  <h2 tabindex="-1" bind:this={tuloksiaHeading}>{etCount < 1 ? $_('HAKU_TULOKSIA_EI') : $_('HAKU_TULOKSIA') + ' ' + etCount}</h2>
+  {#if etCount >= 1}
     {#if currentPageItemCount > 0}
       <div class="w-full overflow-auto">
         <table class="w-full table-auto text-left my-2">
