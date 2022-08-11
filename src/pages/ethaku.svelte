@@ -46,9 +46,6 @@
   let eLukuMaxInput;
   let nettoalaMinInput;
   let nettoalaMaxInput;
-  let tuloksiaHeading;
-
-  $: tuloksiaHeading?.focus();
 
   let kayttotarkoitusluokat = Promise.all([
     EtApi.kayttotarkoitusluokat(fetch, 2013),
@@ -710,7 +707,6 @@
           </div>
         {:then [et, count, page, postinumerot, kayttotarkoitusluokat]}
           <TableEThaku
-            bind:tuloksiaHeading
             etCount={count}
             eTodistukset={et}
             let:currentPageItemCount
