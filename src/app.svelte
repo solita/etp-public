@@ -8,7 +8,6 @@
   import Footer from '@Component/footer';
 
   const configPromise = fetch('config.json').then(response => response.json());
-  let announceSpan;
 </script>
 
 <style>
@@ -34,10 +33,6 @@
     }
   }
 </style>
-
-<span bind:this={announceSpan}
-      class="sr-only"
-      aria-live="polite"></span>
 
 <Localization>
   <div class="applicationcontainer flex flex-col font-body font-medium w-full">

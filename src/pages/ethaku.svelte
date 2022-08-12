@@ -46,33 +46,6 @@
   let eLukuMaxInput;
   let nettoalaMinInput;
   let nettoalaMaxInput;
-  let announceSpan;
-  let resources = null;
-  let serverError = false;
-
-  $: console.log(announceSpan);
-
-  $: {
-    resources = null;
-
-    Promise.all([
-    result,
-    etTotalcount,
-    Promise.resolve(parseInt(page ?? 0)),
-    $postinumerot,
-    kayttotarkoitusluokat
-  ]).then(result => {
-    let [et, count, page, postinumerot, kayttotarkoitusluokat] = result;
-    resources = {
-      et,
-      count,
-      page,
-      postinumerot,
-      kayttotarkoitusluokat,
-    };
-
-    announceSpan.textContent = count >= 1 ? `${$_('HAKU_TULOKSIA')} ${count}` : $_('HAKU_TULOKSIA_EI');
-  })};
 
   let kayttotarkoitusluokat = Promise.all([
     EtApi.kayttotarkoitusluokat(fetch, 2013),
@@ -282,10 +255,6 @@
   title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('NAVBAR_ENERGIATODISTUSHAKU')}"
   descriptionFi={$locale == 'fi' ? $_('NAVBAR_ENERGIATODISTUSHAKU_KUVAUS') : undefined}
   descriptionSv={$locale == 'sv' ? $_('NAVBAR_ENERGIATODISTUSHAKU_KUVAUS') : undefined} />
-
-<span bind:this={announceSpan}
-      class="sr-only"
-      aria-live="polite"></span>
 
 <Container {...containerStyles.beige}>
   <InfoBlock title={$_('ETHAKU_INFO_TITLE')}>
@@ -721,30 +690,35 @@
     </div>
   </form>
 </Container>
+
 <Container {...containerStyles.white}>
   <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
     {#if where || keyword}
       <div bind:this={resultsElement}>
-        {#if serverError}
-          <span>{$_('SERVER_ERROR')}</span>
-        {:else if resources === null }
+        {#await Promise.all([
+          result,
+          etTotalcount,
+          Promise.resolve(parseInt(page ?? 0)),
+          $postinumerot,
+          kayttotarkoitusluokat
+        ])}
           <div class="flex justify-center">
             <Spinner />
           </div>
-        {:else}
+        {:then [et, count, page, postinumerot, kayttotarkoitusluokat]}
           <TableEThaku
-            etCount={resources.count}
-            eTodistukset={resources.et}
+            etCount={count}
+            eTodistukset={et}
             let:currentPageItemCount
-            page={resources.page}
-            postinumerot={resources.postinumerot}
-            kayttotarkoitusluokat={resources.kayttotarkoitusluokat}>
+            {page}
+            {postinumerot}
+            {kayttotarkoitusluokat}>
             <div slot="pagination">
               <Pagination
-                page={resources.page}
+                {page}
                 {pageSize}
                 {currentPageItemCount}
-                itemCount={resources.count}
+                itemCount={count}
                 queryStringFn={page => {
                   const where = EtHakuUtils.where(tarkennettuShown, parseValues(searchmodel));
                   const whereQuery = EtHakuUtils.whereQuery(where);
@@ -764,7 +738,9 @@
                 }} />
             </div>
           </TableEThaku>
-        {/if}
+        {:catch error}
+          <span>{$_('SERVER_ERROR')}</span>
+        {/await}
       </div>
     {/if}
     <div class="flex mt-8">
