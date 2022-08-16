@@ -10,6 +10,7 @@
   import { backReferred } from '@/router/router';
   import { parseDate } from '@/utilities/parsers';
   import * as formats from '@/utilities/formats';
+  import { announce } from '@/utilities/announce';
 
   export let id;
   let ref = '';
@@ -20,6 +21,15 @@
     if (laatijaFound) return laatijaFound;
 
     return Promise.reject('Laatijaa ei löytynyt.');
+  });
+
+  let didAnnounce = false;
+
+  $: laatijaPromise?.then((laatija) => {
+    console.log(`Should announce ${laatija} unless already did`);
+    if (!didAnnounce)
+      announce(`${$_('ET_LAATIJA')} ${id} - ${laatija.nimi}`);
+    didAnnounce = true;
   });
 
   onMount(() => {
