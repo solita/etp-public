@@ -539,9 +539,9 @@
         <h2 class="w-full text-green uppercase text-xl mt-8 pbb-always">
           {$_('ET_YHTEENVETO')}
         </h2>
-        <span
+        <h3
           class="w-full flex bg-ashblue text-white uppercase px-4 py-3 my-4 print:py-1 print:px-2 print:my-1 print:text-sm print:bg-white print:text-black print:border-ashblue print:border">
-          {$_('ET_LASKETTU_KOKONAISENERGIA')}</span>
+          {$_('ET_LASKETTU_KOKONAISENERGIA')}</h3>
         <div
           class="w-full flex flex-col mx-auto items-start space-y-6 print:space-y-2 my-8 print:my-2">
           <div
@@ -782,10 +782,10 @@
           </table>
         </div>
 
-        <span
+        <h3
           class="w-full flex bg-ashblue text-white uppercase px-4 py-3 print:py-1 print:px-2 print:my-1 print:text-sm print:bg-white print:text-black print:border-ashblue print:border">
           {$_('ET_RAKENNUKSEN_ET_LUOKKA')}
-        </span>
+        </h3>
 
         <div
           class="w-full flex flex-col mx-auto items-start space-y-6 my-8 print:my-2">
