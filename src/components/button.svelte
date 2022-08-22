@@ -8,6 +8,8 @@
 
 <script>
   export let text;
+  export let ariaLabel = "";
+
   export let bg;
   export let focus;
   export let type = 'submit';
@@ -52,6 +54,7 @@ button.bg-white:focus:not(:disabled), button.bg-white:active:not(:disabled), but
   shadow-none
 -->
 <button
+  aria-label={ariaLabel}
   on:click
   {disabled}
   {type}
