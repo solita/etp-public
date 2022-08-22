@@ -15,8 +15,6 @@
   export let type = 'submit';
 
   export let disabled = false;
-
-  export let button;
 </script>
 
 <style>
@@ -57,7 +55,6 @@ button.bg-white:focus:not(:disabled), button.bg-white:active:not(:disabled), but
 -->
 <button
   aria-label={ariaLabel}
-  bind:this={button}
   on:click
   {disabled}
   {type}
