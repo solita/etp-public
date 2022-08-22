@@ -8,11 +8,19 @@
 
 <script>
   export let text;
+  export let textForScreenreader = null;
+
   export let bg;
   export let focus;
   export let type = 'submit';
 
   export let disabled = false;
+
+  export let button;
+
+  $: if (textForScreenreader !== null) {
+    button?.setAttribute("aria-label", textForScreenreader);
+  }
 </script>
 
 <style>
@@ -52,6 +60,7 @@ button.bg-white:focus:not(:disabled), button.bg-white:active:not(:disabled), but
   shadow-none
 -->
 <button
+  bind:this={button}
   on:click
   {disabled}
   {type}

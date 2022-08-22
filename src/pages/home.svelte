@@ -108,7 +108,7 @@
                 on:change={evt => (etHakuKeyword = evt.target.value)} />
             </div>
             <div class="mt-4">
-              <Button {...buttonStyles.green}>{$_('HAE')}</Button>
+              <Button textForScreenreader={$_('HOME_ENERGIATODISTUSHAKU_HAE')}} {...buttonStyles.green}>{$_('HAE')}</Button>
             </div>
           </form>
         </div>
@@ -155,7 +155,7 @@
                 on:change={evt => (laatijahakuAlue = evt.target.value)} />
             </div>
             <div class="mt-4">
-              <Button {...buttonStyles.green}>{$_('HAE')}</Button>
+              <Button textForScreenreader={$_('HOME_LAATIJAHAKU_HAE')}} {...buttonStyles.green}>{$_('HAE')}</Button>
             </div>
           </form>
         </div>
