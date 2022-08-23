@@ -63,6 +63,7 @@ border-white
   class:shadow-green={$activePath === link && background === 'green'}
   class:shadow-altgreen={$activePath === link && background === 'altgreen'}
   class:shadow-ashblue={$activePath === link && background === 'ashblue'}
+  aria-current={$activePath === link}
   href={link}
   on:click={click}>
   <div class="inline-block items-start justify-end flex-shrink mx-2">
