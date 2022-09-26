@@ -6,6 +6,7 @@
   import { hashCode } from '@/utilities/strings';
   import * as GeoUtils from '@/utilities/geo';
   import * as FormUtils from '@/utilities/form';
+  import { announce } from '@/utilities/announce';
   import { navigate } from '@/router/router';
   import { _, locale } from '@Localization/localization';
   import {
@@ -30,6 +31,8 @@
   export let aluehaku = '';
   export let page = 0;
   export let filterPatevyydet = '1,2';
+
+  announce($_('NAVBAR_LAATIJAHAKU'));
 
   const dateText = dfns.format(new Date(), 'yyyy-MM-dd');
 
