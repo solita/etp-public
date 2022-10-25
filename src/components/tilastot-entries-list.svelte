@@ -33,22 +33,20 @@
           <h2>{title}</h2>
         </InfoTooltip>
       </div>
-      <div class="w-full flex flex-col">
+      <dl class="w-full flex flex-col">
         {#each labels as label}
           <div class="w-full flex justify-between">
-            <span>{selectByLocaleOrAvailable('label', label)}</span>
-            {#if items[label.id]}
-              <span class="whitespace-no-wrap">
+            <dt>{selectByLocaleOrAvailable('label', label)}</dt>
+            <dd class="whitespace-no-wrap">
+              {#if items[label.id]}
                 {Formats.formatPercent(Parsers.parsePercent(total, items[label.id]))}
-              </span>
-            {:else}
-              <span class="whitespace-no-wrap">
+              {:else}
                 {Formats.formatPercent(0)}
-              </span>
-            {/if}
+              {/if}
+            </dd>
           </div>
         {/each}
-      </div>
+      </dl>
     </div>
   {/if}
 </div>
