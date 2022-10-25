@@ -820,8 +820,12 @@
               <span>({energiatodistus.tulokset['e-luku']})</span>
             </dd>
           </div>
-          <p class="w-full print:hidden">{$_('ET_ELUKU_PERUSTUU')}</p>
         </dl>
+
+        <div
+          class="w-full flex flex-col mx-auto items-start space-y-6 my-8 print:my-2">
+          <p class="w-full print:hidden">{$_('ET_ELUKU_PERUSTUU')}</p>
+        </div>
 
         {#if energiatodistus?.perustiedot?.['keskeiset-suositukset-fi'] || energiatodistus?.perustiedot?.['keskeiset-suositukset-sv']}
           <div class="w-full flex flex-col mx-auto items-start space-y-6 my-6">
