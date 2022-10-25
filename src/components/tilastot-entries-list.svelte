@@ -39,7 +39,9 @@
             <dt>{selectByLocaleOrAvailable('label', label)}</dt>
             <dd class="whitespace-no-wrap">
               {#if items[label.id]}
-                {Formats.formatPercent(Parsers.parsePercent(total, items[label.id]))}
+                {Formats.formatPercent(
+                  Parsers.parsePercent(total, items[label.id])
+                )}
               {:else}
                 {Formats.formatPercent(0)}
               {/if}
