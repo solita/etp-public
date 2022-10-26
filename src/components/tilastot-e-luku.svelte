@@ -17,24 +17,26 @@
     </InfoTooltip>
   </div>
 
-  <div class="w-full flex justify-between">
-    <span>{$_('TILASTOT_KESKIARVO')}</span>
-    <span>{data?.avg.toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
-  </div>
-  {#if data?.['percentile-15']}
+  <dl>
     <div class="w-full flex justify-between">
-      <span>{$_('TILASTOT_PARAS_15')}</span>
-      <span>
-        {$_('TILASTOT_ALLE')}
-        {data?.['percentile-15'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
+      <dt>{$_('TILASTOT_KESKIARVO')}</dt>
+      <dd>{data?.avg.toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</dd>
     </div>
-  {/if}
-  {#if data?.['percentile-85']}
-    <div class="w-full flex justify-between">
-      <span>{$_('TILASTOT_HEIKOIN_15')}</span>
-      <span>
-        {$_('TILASTOT_YLI')}
-        {data?.['percentile-85'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</span>
-    </div>
-  {/if}
+    {#if data?.['percentile-15']}
+      <div class="w-full flex justify-between">
+        <dt>{$_('TILASTOT_PARAS_15')}</dt>
+        <dd>
+          {$_('TILASTOT_ALLE')}
+          {data?.['percentile-15'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</dd>
+      </div>
+    {/if}
+    {#if data?.['percentile-85']}
+      <div class="w-full flex justify-between">
+        <dt>{$_('TILASTOT_HEIKOIN_15')}</dt>
+        <dd>
+          {$_('TILASTOT_YLI')}
+          {data?.['percentile-85'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</dd>
+      </div>
+    {/if}
+  </dl>
 </div>
