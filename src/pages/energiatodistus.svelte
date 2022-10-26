@@ -491,10 +491,11 @@
             {/each}
           </div>
         </div>
+
         <dl
-          class="w-full flex flex-col mx-auto items-center space-y-6 print:space-y-2">
+          class="w-full grid grid-cols-2">
           <div
-            class="flex flex-col md:flex-row print:flex-row space-x-2 w-full">
+            class="col-span-2 mb-6 print:mb-2 flex flex-col md:flex-row print:flex-row space-x-2 w-full">
             <dt
               class="w-full md:w-2/3 text-ashblue print:w-2/3">{$_('ET_ELUKU')}:</dt>
             <dd class="w-full md:w-1/3 print:w-1/3">
@@ -504,7 +505,7 @@
           </div>
           {#if versio == '2018'}
             <div
-              class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
+              class="col-span-2 mb-6 print:mb-2 flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
               <dt
                 class="w-full md:w-2/3 print:w-2/3 text-ashblue">{$_('ET_VAATIMUSTASO')}:</dt>
               {#if eLuokka?.['raja-uusi-2018'] }
@@ -515,20 +516,17 @@
               {/if}
             </div>
           {/if}
-          <div
-            class="flex flex-col md:flex-row print:flex-row md:space-x-2 w-full items-start justify-start">
-            <div class="flex flex-col w-full md:w-1/2">
-              <dt
-                class="w-full md:w-1/2 text-ashblue">{$_('ET_LAATIMISPAIVA')}:</dt>
-              <dd
-                class="w-full md:w-1/2">{formats.formatDate(parseDate(energiatodistus['allekirjoitusaika']))}</dd>
-            </div>
-            <div class="flex flex-col w-full md:w-1/2">
-              <dt
-                class="w-full md:w-1/2 text-ashblue">{$_('ET_VOIMASSAOLOPAIVA')}:</dt>
-              <dd
-                class="w-full md:w-1/2">{formats.formatExclusiveEndDate(parseDate(energiatodistus['voimassaolo-paattymisaika']))}</dd>
-            </div>
+          <div class="col-span-2 md:col-span-1 print:col-span-1 flex flex-col w-full">
+            <dt
+              class="w-full text-ashblue">{$_('ET_LAATIMISPAIVA')}:</dt>
+            <dd
+              class="w-full">{formats.formatDate(parseDate(energiatodistus['allekirjoitusaika']))}</dd>
+          </div>
+          <div class="col-span-2 md:col-span-1 print:col-span-1 flex flex-col w-full">
+            <dt
+              class="w-full text-ashblue">{$_('ET_VOIMASSAOLOPAIVA')}:</dt>
+            <dd
+              class="w-full">{formats.formatExclusiveEndDate(parseDate(energiatodistus['voimassaolo-paattymisaika']))}</dd>
           </div>
         </dl>
 
