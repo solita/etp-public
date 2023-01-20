@@ -23,6 +23,7 @@
   import Saavutettavuusseloste from '@Page/saavutettavuusseloste';
   import LaatijanKirjautuminen from '@Page/laatijankirjautuminen';
   import Rekisteroitymisohjeet from '@Page/rekisteroitymisohjeet';
+  import AineistopalveluLiittyminen from '@Page/aineistopalvelu-liittyminen';
   import Tilastot from '@Page/tilastot';
   import NotFound from '@Page/not-found';
 
@@ -54,6 +55,9 @@
   });
   router('/rekisteroitymisohjeet', () => {
     page = Rekisteroitymisohjeet;
+  });
+  router('/aineistopalvelu-liittyminen', () => {
+    page = AineistopalveluLiittyminen;
   });
   router('/tilastot', () => {
     page = Tilastot;
