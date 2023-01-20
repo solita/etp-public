@@ -1,5 +1,5 @@
 /node_modules/
 /public/
 /.vscode/
-
+/.projectile
 .DS_Store
