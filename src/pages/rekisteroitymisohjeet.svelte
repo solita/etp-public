@@ -17,6 +17,7 @@
 <style>
   ol {
     list-style: decimal;
+    margin-left: 6;
   }
   h2 {
     @apply mb-2;
