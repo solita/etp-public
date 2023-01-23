@@ -22,7 +22,7 @@
 <Container {...containerStyles.white}>
   <div class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto" bind:this={component}>
     <div>
-      <h1 class="mb-4">{$_('SAAVUTETTAVUUSSELOSTE_TIETOA')}</h1>
+      <h1 class="mb-4">{$_('SAAVUTETTAVUUSSELOSTE')}</h1>
       {#if $locale == 'sv'}
         <a href={PdfSv} target="_blank" class="text-darkgreen">
           {$_('SAAVUTETTAVUUSSELOSTE_LINK_LABEL')}

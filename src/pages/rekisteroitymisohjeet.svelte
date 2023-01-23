@@ -71,8 +71,8 @@
       </div>
       <div>
         <p>{$_('REOHJ_KORTINLUKULAITTEEN')}</p>
-        <a
-          href="https://dvv.fi/kortinlukijaohjelmisto">{$_('REOHJ_SIIRRY_OHJELMISTON')}</a>
+        <a href="https://dvv.fi/kortinlukijaohjelmisto"
+          >{$_('REOHJ_SIIRRY_OHJELMISTON')}</a>
       </div>
     </div>
   </div>

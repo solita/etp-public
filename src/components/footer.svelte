@@ -36,9 +36,8 @@
         <h2 class="mb-4">{$_('FOOTER_LAKI')}</h2>
         <p>{$_('FOOTER_ARA_VIRANOMAINEN')}</p>
         <br />
-        <a
-          href="https://www.ara.fi"
-          class="underline text-darkgreen">{$_('FOOTER_ARA_LINKKI')}</a>
+        <a href="https://www.ara.fi" class="underline text-darkgreen"
+          >{$_('FOOTER_ARA_LINKKI')}</a>
       </section>
       <section class="md:w-1/3 flex flex-col justify-between py-4 md:py-0">
         <h2 class="mb-4">{$_('FOOTER_YHTEYSTIEDOT')}</h2>
@@ -55,9 +54,10 @@
         </address>
         <address class="not-italic">
           <span>{$_('PUHELINVAIHDE')}:</span>
-          <a href="tel:0295250800" class="underline text-darkgreen">029 525 0800</a>
+          <a href="tel:0295250800" class="underline text-darkgreen"
+            >029 525 0800</a>
         </address>
-        <a href="/saavutettavuusseloste" class="block underline text-darkgreen">
+        <a href="/tietoa-sivustosta" class="block underline text-darkgreen">
           {$_('TIETOA_SIVUSTOSTA')}
         </a>
       </section>

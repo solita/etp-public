@@ -21,6 +21,7 @@
   import LaatijaHaku from '@Page/laatijahaku';
   import Laatija from '@Page/laatija';
   import Saavutettavuusseloste from '@Page/saavutettavuusseloste';
+  import TietoaSivustosta from '@Page/tietoa-sivustosta';
   import LaatijanKirjautuminen from '@Page/laatijankirjautuminen';
   import Rekisteroitymisohjeet from '@Page/rekisteroitymisohjeet';
   import AineistopalveluLiittyminen from '@Page/aineistopalvelu-liittyminen';
@@ -46,6 +47,9 @@
   });
   router('/laatija', () => {
     page = Laatija;
+  });
+  router('/tietoa-sivustosta', () => {
+    page = TietoaSivustosta;
   });
   router('/saavutettavuusseloste', () => {
     page = Saavutettavuusseloste;
