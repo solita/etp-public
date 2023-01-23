@@ -36,6 +36,10 @@
             {$_('SAAVUTETTAVUUSSELOSTE')}
           </a>
         </li>
+        <li>
+          <a href="/aineistopalvelu-liittyminen" class="text-darkgreen"
+            >{$_('AINEISTOPALVELU_LIITTYMINEN')}</a>
+        </li>
       </ul>
     </div>
   </div>
