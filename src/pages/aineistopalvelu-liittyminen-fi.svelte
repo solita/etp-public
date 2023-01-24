@@ -16,7 +16,7 @@
     @apply mb-2;
   }
   h3 {
-    @apply underline;
+    @apply underline font-bold;
   }
   a {
     @apply underline text-darkgreen;
