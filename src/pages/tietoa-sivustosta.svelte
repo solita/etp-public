@@ -4,6 +4,8 @@
   import { _, locale } from '@Localization/localization';
   import Seo from '@Component/seo';
 
+  import TietosuojaAineistopalveluFi from '@Asset/tietosuoja-aineistopalvelu-fi.pdf';
+
   let component;
 
   onMount(() => {
@@ -35,6 +37,23 @@
           <a href="/saavutettavuusseloste" class="text-darkgreen">
             {$_('SAAVUTETTAVUUSSELOSTE')}
           </a>
+        </li>
+        <li>
+          {#if $locale == 'sv'}
+            <a
+              href={TietosuojaAineistopalveluFi}
+              target="_blank"
+              class="text-darkgreen">
+              {$_('TIETOSUOJASELOSTE_AINEISTOPALVELU_LINK_LABEL')}
+            </a>
+          {:else}
+            <a
+              href={TietosuojaAineistopalveluFi}
+              target="_blank"
+              class="text-darkgreen">
+              {$_('TIETOSUOJASELOSTE_AINEISTOPALVELU_LINK_LABEL')}
+            </a>
+          {/if}
         </li>
         <li>
           <a href="/aineistopalvelu-liittyminen" class="text-darkgreen"
