@@ -60,6 +60,11 @@
         <a href="/tietoa-sivustosta" class="block underline text-darkgreen">
           {$_('TIETOA_SIVUSTOSTA')}
         </a>
+        <a
+          href="/aineistopalvelu-liittyminen"
+          class="block underline text-darkgreen">
+          {$_('AINEISTOPALVELU_LIITTYMINEN')}
+        </a>
       </section>
       <div class="md:w-1/3 flex flex-col py-4 md:py-0">
         <section>
