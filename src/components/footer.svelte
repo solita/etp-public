@@ -60,11 +60,6 @@
         <a href="/tietoa-sivustosta" class="block underline text-darkgreen">
           {$_('TIETOA_SIVUSTOSTA')}
         </a>
-        <a
-          href="/aineistopalvelu-liittyminen"
-          class="block underline text-darkgreen">
-          {$_('AINEISTOPALVELU_LIITTYMINEN')}
-        </a>
       </section>
       <div class="md:w-1/3 flex flex-col py-4 md:py-0">
         <section>
@@ -92,6 +87,15 @@
               class="h-6" />
             <span>{$_('FOOTER_LAHETA_PALAUTETTA')}</span>
           </ButtonLink>
+        </section>
+
+        <section class="mt-12">
+          <h2 class="mb-4">{$_('FOOTER_AINEISTOPALVELU')}</h2>
+          <a
+            href="/aineistopalvelu-liittyminen"
+            class="block underline text-darkgreen">
+            {$_('AINEISTOPALVELU_LIITTYMINEN')}
+          </a>
         </section>
       </div>
     </article>
