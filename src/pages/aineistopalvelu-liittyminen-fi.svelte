@@ -150,5 +150,10 @@
         >.
       </li>
     </ol>
+    <h2>Toiminta häiriötilanteissa</h2>
+    <p>
+      Aineistopalveluun liittyvissä häiriötilanteissa ota yhteyttä sähköpostitse
+      <a href="mailto:energiatodistus@ara.fi">energiatodistus@ara.fi</a>.
+    </p>
   </div>
 </Container>
