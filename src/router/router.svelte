@@ -21,8 +21,10 @@
   import LaatijaHaku from '@Page/laatijahaku';
   import Laatija from '@Page/laatija';
   import Saavutettavuusseloste from '@Page/saavutettavuusseloste';
+  import TietoaSivustosta from '@Page/tietoa-sivustosta';
   import LaatijanKirjautuminen from '@Page/laatijankirjautuminen';
   import Rekisteroitymisohjeet from '@Page/rekisteroitymisohjeet';
+  import AineistopalveluLiittyminenFi from '@Page/aineistopalvelu-liittyminen-fi';
   import Tilastot from '@Page/tilastot';
   import NotFound from '@Page/not-found';
 
@@ -46,6 +48,9 @@
   router('/laatija', () => {
     page = Laatija;
   });
+  router('/tietoa-sivustosta', () => {
+    page = TietoaSivustosta;
+  });
   router('/saavutettavuusseloste', () => {
     page = Saavutettavuusseloste;
   });
@@ -54,6 +59,9 @@
   });
   router('/rekisteroitymisohjeet', () => {
     page = Rekisteroitymisohjeet;
+  });
+  router('/aineistopalvelu-liittyminen', () => {
+    page = AineistopalveluLiittyminenFi;
   });
   router('/tilastot', () => {
     page = Tilastot;

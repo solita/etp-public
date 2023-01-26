@@ -17,6 +17,7 @@
 <style>
   ol {
     list-style: decimal;
+    margin-left: 6;
   }
   h2 {
     @apply mb-2;
@@ -70,8 +71,8 @@
       </div>
       <div>
         <p>{$_('REOHJ_KORTINLUKULAITTEEN')}</p>
-        <a
-          href="https://dvv.fi/kortinlukijaohjelmisto">{$_('REOHJ_SIIRRY_OHJELMISTON')}</a>
+        <a href="https://dvv.fi/kortinlukijaohjelmisto"
+          >{$_('REOHJ_SIIRRY_OHJELMISTON')}</a>
       </div>
     </div>
   </div>
