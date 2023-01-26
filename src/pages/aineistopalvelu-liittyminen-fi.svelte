@@ -13,7 +13,7 @@
     @apply my-4;
   }
   h2 {
-    @apply mb-2;
+    @apply mb-2 mt-8;
   }
   h3 {
     @apply underline font-bold;
