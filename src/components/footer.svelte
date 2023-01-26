@@ -92,7 +92,7 @@
         <section class="mt-12">
           <h2 class="mb-4">{$_('FOOTER_AINEISTOPALVELU')}</h2>
           <a
-            href="/aineistopalvelu-liittyminen"
+            href="/aineistopalvelu-liittyminen#top"
             class="block underline text-darkgreen">
             {$_('AINEISTOPALVELU_LIITTYMINEN')}
           </a>
