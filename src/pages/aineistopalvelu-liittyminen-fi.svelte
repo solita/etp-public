@@ -13,7 +13,7 @@
     @apply my-4;
   }
   h2 {
-    @apply mb-2;
+    @apply mb-2 mt-8;
   }
   h3 {
     @apply underline font-bold;
@@ -150,5 +150,10 @@
         >.
       </li>
     </ol>
+    <h2>Toiminta häiriötilanteissa</h2>
+    <p>
+      Aineistopalveluun liittyvissä häiriötilanteissa ota yhteyttä sähköpostitse
+      <a href="mailto:energiatodistus@ara.fi">energiatodistus@ara.fi</a>.
+    </p>
   </div>
 </Container>
