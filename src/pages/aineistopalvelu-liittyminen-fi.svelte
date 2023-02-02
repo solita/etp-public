@@ -1,4 +1,7 @@
 <script>
+  import ButtonLink, {
+    styles as buttonLinkStyles
+  } from '@Component/buttonlink';
   import Container, { styles as containerStyles } from '@Component/container';
   import InfoBlock from '@Component/info-block';
 
@@ -30,16 +33,16 @@
 </style>
 
 <Container {...containerStyles.beige}>
-  <InfoBlock title={'Energiatodistusrekisterin aineistopalvelu'}
-    >Energiatodistusrekisterin aineistopalvelu on tarkoitettu
+  <InfoBlock title={'Energiatodistusrekisterin Aineistopalvelu'}
+    >Energiatodistusrekisterin Aineistopalvelu on tarkoitettu
     energiatodistustietojen siirtoon rajapinnan kautta rekisteristä
-    aineistopalvelun käyttäjälle.</InfoBlock>
+    Aineistopalvelun käyttäjälle.</InfoBlock>
 </Container>
 
 <Container {...containerStyles.white}>
   <div class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto">
     <p>
-      Energiatodistusrekisterin aineistopalvelu käsittää kolme eri
+      Energiatodistusrekisterin Aineistopalvelu käsittää kolme eri
       tietoaineistoa:
     </p>
     <ul class="ml-6">
@@ -98,8 +101,12 @@
     </p>
     <p>Soveltuu esimerkiksi tutkimuskäyttöön.</p>
 
-    <h2>Maksullisuus</h2>
-
+    <h2>Käyttöehdot</h2>
+    <p>
+      Aineistopalvelun käyttäminen edellyttää, että ARA on myöntänyt käyttäjälle
+      tietoluvan. Lisäksi ARA ja käyttäjä solmivat erillisen sopimuksen
+      Aineistopalvelun käytöstäa
+    </p>
     <p>
       Aineistopalveluun liittymisestä peritään liittymismaksu sekä vuosimaksu
       hinnastomme mukaisesti. Vuosimaksua ei makseta liittymisvuodelta, sillä
@@ -116,16 +123,19 @@
     </p>
     <p>
       Hinnastomme löydät <a
-        href="https://www.ara.fi/fi-FI/ARA/Yhteystiedot/Yhteystiedot(477)"
-        >ARAn sivuilta</a
-      >.
+        href="https://www.ara.fi/fi-FI/ARA/Yhteystiedot/Yhteystiedot(477)">
+        ARAn sivuilta
+      </a>.
     </p>
 
     <h2>Aineistopalveluun liittyminen</h2>
     <ol class="ml-6">
       <li>
-        Täytä <a href={TietolupaHakemuslomake} target="_blank">hakemus</a> sekä tutustu
-        <a href={SopimusTietopalvelunKaytosta} target="_blank">sopimusluonnokseen</a>.
+        Täytä <a href={TietolupaHakemuslomake} target="_blank"> hakemus </a>
+        sekä tutustu
+        <a href={SopimusTietopalvelunKaytosta} target="_blank">
+          sopimusluonnokseen
+        </a>.
       </li>
       <li>
         Lähetä hakemus sähköpostitse (kirjaamo.ara@ara.fi), jos hakemus sisältää
@@ -138,7 +148,7 @@
         Odota tietolupapäätöstä, joka toimitetaan hakemuksessa ilmoitetulle
         yhteyshenkilölle ja hakijan viralliselle edustajalle sähköpostitse. Jos
         tietolupapäätös on myönteinen, hakijan viralliselle edustajalle
-        toimitetaan myös aineistopalvelua koskeva sopimus allekirjoitettavaksi.
+        toimitetaan myös Aineistopalvelua koskeva sopimus allekirjoitettavaksi.
       </li>
       <li>
         Sopimuksen allekirjoittamisen jälkeen toimitamme API-keyn
@@ -153,6 +163,10 @@
         >.
       </li>
     </ol>
+    <ButtonLink
+      href={TietolupaHakemuslomake}
+      target="_blank"
+      {...buttonLinkStyles.green}>Hakemus</ButtonLink>
     <h2>Toiminta häiriötilanteissa</h2>
     <p>
       Aineistopalveluun liittyvissä häiriötilanteissa ota yhteyttä sähköpostitse
