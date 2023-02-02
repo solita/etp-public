@@ -1,6 +1,9 @@
 <script>
   import Container, { styles as containerStyles } from '@Component/container';
   import InfoBlock from '@Component/info-block';
+
+  import SopimusTietopalvelunKaytosta from '@Asset/sopimus-tietopalvelun-kaytosta-luonnos.pdf';
+  import TietolupaHakemuslomake from '@Asset/tietolupa-hakemuslomake.pdf';
 </script>
 
 <style>
@@ -121,8 +124,8 @@
     <h2>Aineistopalveluun liittyminen</h2>
     <ol class="ml-6">
       <li>
-        Täytä hakemus (löytyy energiatodistusrekisteristä) sekä tutustu
-        sopimusluonnokseen
+        Täytä <a href={TietolupaHakemuslomake} target="_blank">hakemus</a> sekä tutustu
+        <a href={SopimusTietopalvelunKaytosta} target="_blank">sopimusluonnokseen</a>.
       </li>
       <li>
         Lähetä hakemus sähköpostitse (kirjaamo.ara@ara.fi), jos hakemus sisältää
