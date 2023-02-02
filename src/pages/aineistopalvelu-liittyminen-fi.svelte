@@ -1,4 +1,7 @@
 <script>
+  import ButtonLink, {
+    styles as buttonLinkStyles
+  } from '@Component/buttonlink';
   import Container, { styles as containerStyles } from '@Component/container';
   import InfoBlock from '@Component/info-block';
 
@@ -160,6 +163,10 @@
         >.
       </li>
     </ol>
+    <ButtonLink
+      href={TietolupaHakemuslomake}
+      target="_blank"
+      {...buttonLinkStyles.green}>Hakemus</ButtonLink>
     <h2>Toiminta häiriötilanteissa</h2>
     <p>
       Aineistopalveluun liittyvissä häiriötilanteissa ota yhteyttä sähköpostitse
