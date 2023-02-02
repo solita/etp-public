@@ -98,8 +98,12 @@
     </p>
     <p>Soveltuu esimerkiksi tutkimuskäyttöön.</p>
 
-    <h2>Maksullisuus</h2>
-
+    <h2>Käyttöehdot</h2>
+    <p>
+      Aineistopalvelun käyttäminen edellyttää, että ARA on myöntänyt käyttäjälle
+      tietoluvan. Lisäksi ARA ja käyttäjä solmivat erillisen sopimuksen
+      Aineistopalvelun käytöstäa
+    </p>
     <p>
       Aineistopalveluun liittymisestä peritään liittymismaksu sekä vuosimaksu
       hinnastomme mukaisesti. Vuosimaksua ei makseta liittymisvuodelta, sillä
