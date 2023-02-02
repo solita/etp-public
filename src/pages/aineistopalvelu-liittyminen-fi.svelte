@@ -30,16 +30,16 @@
 </style>
 
 <Container {...containerStyles.beige}>
-  <InfoBlock title={'Energiatodistusrekisterin aineistopalvelu'}
-    >Energiatodistusrekisterin aineistopalvelu on tarkoitettu
+  <InfoBlock title={'Energiatodistusrekisterin Aineistopalvelu'}
+    >Energiatodistusrekisterin Aineistopalvelu on tarkoitettu
     energiatodistustietojen siirtoon rajapinnan kautta rekisteristä
-    aineistopalvelun käyttäjälle.</InfoBlock>
+    Aineistopalvelun käyttäjälle.</InfoBlock>
 </Container>
 
 <Container {...containerStyles.white}>
   <div class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto">
     <p>
-      Energiatodistusrekisterin aineistopalvelu käsittää kolme eri
+      Energiatodistusrekisterin Aineistopalvelu käsittää kolme eri
       tietoaineistoa:
     </p>
     <ul class="ml-6">
@@ -138,7 +138,7 @@
         Odota tietolupapäätöstä, joka toimitetaan hakemuksessa ilmoitetulle
         yhteyshenkilölle ja hakijan viralliselle edustajalle sähköpostitse. Jos
         tietolupapäätös on myönteinen, hakijan viralliselle edustajalle
-        toimitetaan myös aineistopalvelua koskeva sopimus allekirjoitettavaksi.
+        toimitetaan myös Aineistopalvelua koskeva sopimus allekirjoitettavaksi.
       </li>
       <li>
         Sopimuksen allekirjoittamisen jälkeen toimitamme API-keyn
