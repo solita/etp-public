@@ -116,16 +116,19 @@
     </p>
     <p>
       Hinnastomme löydät <a
-        href="https://www.ara.fi/fi-FI/ARA/Yhteystiedot/Yhteystiedot(477)"
-        >ARAn sivuilta</a
-      >.
+        href="https://www.ara.fi/fi-FI/ARA/Yhteystiedot/Yhteystiedot(477)">
+        ARAn sivuilta
+      </a>.
     </p>
 
     <h2>Aineistopalveluun liittyminen</h2>
     <ol class="ml-6">
       <li>
-        Täytä <a href={TietolupaHakemuslomake} target="_blank">hakemus</a> sekä tutustu
-        <a href={SopimusTietopalvelunKaytosta} target="_blank">sopimusluonnokseen</a>.
+        Täytä <a href={TietolupaHakemuslomake} target="_blank"> hakemus </a>
+        sekä tutustu
+        <a href={SopimusTietopalvelunKaytosta} target="_blank">
+          sopimusluonnokseen
+        </a>.
       </li>
       <li>
         Lähetä hakemus sähköpostitse (kirjaamo.ara@ara.fi), jos hakemus sisältää
