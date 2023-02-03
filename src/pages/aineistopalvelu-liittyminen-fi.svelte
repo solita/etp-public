@@ -105,7 +105,7 @@
     <p>
       Aineistopalvelun käyttäminen edellyttää, että ARA on myöntänyt käyttäjälle
       tietoluvan. Lisäksi ARA ja käyttäjä solmivat erillisen sopimuksen
-      Aineistopalvelun käytöstäa
+      Aineistopalvelun käytöstä.
     </p>
     <p>
       Aineistopalveluun liittymisestä peritään liittymismaksu sekä vuosimaksu
