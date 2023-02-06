@@ -55,7 +55,10 @@
 
     <p>
       Alla lyhyesti tietoaineistojen kuvaukset. Tarkemmat kenttäkohtaiset
-      aineistokuvaukset löytyvät Githubista.
+      aineistokuvaukset löytyvät <a
+        href="https://github.com/solita/etp-core/wiki/Aineistopalvelu">
+        GitHubista
+      </a>.
     </p>
 
     <h3>Suppea henkilötietoja sisältävä aineisto</h3>
@@ -158,9 +161,9 @@
       <li>
         Aineistopalvelu on käytettävissäsi. Ks. tarkemmat ohjeet rajapintaan
         liittymisestä <a
-          href="https://github.com/solita/etp-core/wiki/Aineistopalvelu"
-          >Githubissa</a
-        >.
+          href="https://github.com/solita/etp-core/wiki/Aineistopalvelu">
+          GitHubissa
+        </a>.
       </li>
     </ol>
     <ButtonLink
