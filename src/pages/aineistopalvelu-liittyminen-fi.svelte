@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte';
   import ButtonLink, {
     styles as buttonLinkStyles
   } from '@Component/buttonlink';
@@ -7,6 +8,11 @@
 
   import SopimusTietopalvelunKaytosta from '@Asset/sopimus-tietopalvelun-kaytosta-luonnos.pdf';
   import TietolupaHakemuslomake from '@Asset/tietolupa-hakemuslomake.pdf';
+
+  let component;
+  onMount(() => {
+    component?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
 </script>
 
 <style>
@@ -33,10 +39,13 @@
 </style>
 
 <Container {...containerStyles.beige}>
-  <InfoBlock title={'Energiatodistusrekisterin Aineistopalvelu'}
-    >Energiatodistusrekisterin Aineistopalvelu on tarkoitettu
-    energiatodistustietojen siirtoon rajapinnan kautta rekisteristä
-    Aineistopalvelun käyttäjälle.</InfoBlock>
+  <div bind:this={component}>
+    <InfoBlock title={'Energiatodistusrekisterin Aineistopalvelu'}>
+      Energiatodistusrekisterin Aineistopalvelu on tarkoitettu
+      energiatodistustietojen siirtoon rajapinnan kautta rekisteristä
+      Aineistopalvelun käyttäjälle.
+    </InfoBlock>
+  </div>
 </Container>
 
 <Container {...containerStyles.white}>
