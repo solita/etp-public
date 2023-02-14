@@ -1,5 +1,6 @@
 <script>
   import { onMount, tick } from 'svelte';
+  import { stringify } from 'qs';
   import { slide } from 'svelte/transition';
   import Button, { styles as buttonStyles } from '@Component/button';
   import InputSearch from '@Component/input-search';
@@ -210,12 +211,13 @@
     const where = EtHakuUtils.where(tarkennettuShown, parseValues(model));
     const whereQuery = EtHakuUtils.whereQuery(where);
     const whereString = JSON.stringify(whereQuery);
-    const qs = [
-      `${!whereString.length ? '[[]]' : `where=${whereString}`}`,
-      `${keyword && keyword.length ? `keyword=${keyword}` : ''}`
-    ]
-      .filter(item => item.length)
-      .join('&');
+
+    const query = {
+      where: whereString.length ? whereString : '[[]]',
+      ...(keyword.length ? { keyword } : {})
+    };
+
+    const qs = stringify(query);
 
     navigate(`/ethaku${qs.length ? `?${qs}` : ''}`);
 
