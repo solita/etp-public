@@ -11,6 +11,7 @@
   import TietosuojaValvontaRekisteriFi from '@Asset/Tietosuojaseloste_Energiatodistusten_valvontatietorekisteri.pdf';
   import TietosuojaValvontaRekisteriSv from '@Asset/Dataskyddsbeskrivning_Register_for_overvakningsuppgifter_om_energicertifikat.pdf';
   import TietosuojaAineistopalveluFi from '@Asset/tietosuoja-aineistopalvelu-fi.pdf';
+  import TietosuojaAineistopalveluSv from '@Asset/tietosuoja-aineistopalvelu-sv.pdf';
 
   let component;
 
@@ -29,7 +30,7 @@
           TietosuojaEtRekisteriSv,
           TietosuojaLaatijaRekisteriSv,
           TietosuojaValvontaRekisteriSv,
-          TietosuojaAineistopalveluFi
+          TietosuojaAineistopalveluSv
         ]
       : [
           TietosuojaEtRekisteriFi,
