@@ -7,7 +7,7 @@
   import InfoBlock from '@Component/info-block';
 
   import SopimusTietopalvelunKaytosta from '@Asset/sopimus-tietopalvelun-kaytosta-luonnos-sv.pdf';
-  import TietolupaHakemuslomake from '@Asset/tietolupa-hakemuslomake.pdf';
+  import TietolupaHakemuslomake from '@Asset/tietolupa-hakemuslomake-sv.pdf';
 
   let component;
   onMount(() => {
