@@ -146,6 +146,7 @@ export const deserializeWhere = (model, where) => {
 const isValidDate = date => !isNaN(date.getTime());
 
 const eq = (key, model) => ['=', key, model[key]];
+const icontains = (key, model) => ['icontains', key, model[key]];
 const lte = (key, model) => ['<=', key, model[`${key}_max`]];
 const gte = (key, model) => ['>=', key, model[`${key}_min`]];
 const lteDate = (key, model) => [
@@ -173,7 +174,7 @@ export const where = (tarkennettu, model) => [
         eq('versio', model),
         ...valueIn('perustiedot.kayttotarkoitus', model),
         eq('perustiedot.kayttotarkoitus', model),
-        eq('perustiedot.nimi', model),
+        icontains('perustiedot.nimi', model),
         eq('perustiedot.rakennustunnus', model),
         gte('perustiedot.valmistumisvuosi', model),
         lte('perustiedot.valmistumisvuosi', model),
