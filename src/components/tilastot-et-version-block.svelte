@@ -43,7 +43,9 @@
     <div class="pbi-avoid">
       <StatELuku
         data={eLukuData}
-        tooltip={version === '2018' ? $_('TILASTOT_E_LUKU_2018_TOOLTIP') : ''} />
+        tooltip={version === '2018'
+          ? $_('TILASTOT_E_LUKU_2018_TOOLTIP')
+          : ''} />
     </div>
   {:else}
     <StatNoData label={noDataLabel} />

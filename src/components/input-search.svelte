@@ -36,7 +36,7 @@
   <input
     {id}
     {name}
-    value={ value ?? ''}
+    value={value ?? ''}
     placeholder={label}
     class="w-full focus:outline-none"
     on:change />

@@ -27,7 +27,8 @@
         <dt>{$_('TILASTOT_PARAS_15')}</dt>
         <dd>
           {$_('TILASTOT_ALLE')}
-          {data?.['percentile-15'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</dd>
+          {data?.['percentile-15'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}
+        </dd>
       </div>
     {/if}
     {#if data?.['percentile-85']}
@@ -35,7 +36,8 @@
         <dt>{$_('TILASTOT_HEIKOIN_15')}</dt>
         <dd>
           {$_('TILASTOT_YLI')}
-          {data?.['percentile-85'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}</dd>
+          {data?.['percentile-85'].toFixed(0) || 0}{$_('TILASTOT_E_LUKU_UNIT')}
+        </dd>
       </div>
     {/if}
   </dl>

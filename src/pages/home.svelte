@@ -80,18 +80,20 @@
             class="w-full"
             on:submit|preventDefault={_ => {
               const id = parseInt(etHakuId, 10);
-              const idQuery = !isNaN(id) ? `where=${JSON.stringify([
-                    [['=', 'id', id]]
-                  ])}` : '';
-              const keywordQuery = etHakuKeyword.length ? `keyword=${etHakuKeyword}` : '';
+              const idQuery = !isNaN(id)
+                ? `where=${JSON.stringify([[['=', 'id', id]]])}`
+                : '';
+              const keywordQuery = etHakuKeyword.length
+                ? `keyword=${etHakuKeyword}`
+                : '';
 
               const query = [idQuery, keywordQuery]
                 .filter(item => item.length)
                 .join('&');
 
-              navigate(['/ethaku', query]
-                  .filter(item => item.length)
-                  .join('?'));
+              navigate(
+                ['/ethaku', query].filter(item => item.length).join('?')
+              );
             }}>
             <h3 class="block pt-4 pb-1">
               {$_('HOME_ENERGIATODISTUSHAKU_TITLE')}
@@ -112,8 +114,9 @@
                 on:change={evt => (etHakuKeyword = evt.target.value)} />
             </div>
             <div class="mt-4">
-              <Button ariaLabel={$_('HOME_ENERGIATODISTUSHAKU_HAE')}}
-                      {...buttonStyles.green}>{$_('HAE')}</Button>
+              <Button
+                ariaLabel="{$_('HOME_ENERGIATODISTUSHAKU_HAE')}}"
+                {...buttonStyles.green}>{$_('HAE')}</Button>
             </div>
           </form>
         </div>
@@ -132,16 +135,20 @@
           <form
             class="w-full"
             on:submit|preventDefault={_ => {
-              const nameQuery = laatijahakuNimi.length ? `nimihaku=${laatijahakuNimi}` : '';
-              const alueQuery = laatijahakuAlue.length ? `aluehaku=${laatijahakuAlue}` : '';
+              const nameQuery = laatijahakuNimi.length
+                ? `nimihaku=${laatijahakuNimi}`
+                : '';
+              const alueQuery = laatijahakuAlue.length
+                ? `aluehaku=${laatijahakuAlue}`
+                : '';
 
               const query = [nameQuery, alueQuery]
                 .filter(item => item.length)
                 .join('&');
 
-              navigate(['/laatijahaku', query]
-                  .filter(item => item.length)
-                  .join('?'));
+              navigate(
+                ['/laatijahaku', query].filter(item => item.length).join('?')
+              );
             }}>
             <h3 class="block mt-4 pb-1">{$_('HOME_LAATIJAHAKU_TITLE')}</h3>
             <div class="w-4/5">
@@ -160,8 +167,9 @@
                 on:change={evt => (laatijahakuAlue = evt.target.value)} />
             </div>
             <div class="mt-4">
-              <Button ariaLabel={$_('HOME_LAATIJAHAKU_HAE')}}
-                      {...buttonStyles.green}>{$_('HAE')}</Button>
+              <Button
+                ariaLabel="{$_('HOME_LAATIJAHAKU_HAE')}}"
+                {...buttonStyles.green}>{$_('HAE')}</Button>
             </div>
           </form>
         </div>

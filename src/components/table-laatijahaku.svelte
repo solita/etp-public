@@ -42,8 +42,8 @@
                   <a
                     class="text-darkgreen text-xl flex items-center md:text-base"
                     href="/laatija?id={laatija.id}{ref}">
-                    <span
-                      class="underline md:no-underline">{laatija.nimi || '-'}</span>
+                    <span class="underline md:no-underline"
+                      >{laatija.nimi || '-'}</span>
                     <span
                       class="material-icons px-1 md:hidden"
                       aria-hidden="true">navigate_next</span>

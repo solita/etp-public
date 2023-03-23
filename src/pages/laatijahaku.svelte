@@ -174,14 +174,7 @@
   <div
     class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full"
     bind:this={resultsElement}>
-    {#await Promise.all([
-      shownLaatijat,
-      haetutToimintaalueet,
-      $patevyydet,
-      Promise.resolve(parseInt(page ?? 0)),
-      Promise.resolve(pageSize),
-      Promise.resolve(filterPatevyydet)
-    ])}
+    {#await Promise.all( [shownLaatijat, haetutToimintaalueet, $patevyydet, Promise.resolve(parseInt(page ?? 0)), Promise.resolve(pageSize), Promise.resolve(filterPatevyydet)] )}
       <div class="flex justify-center">
         <Spinner />
       </div>

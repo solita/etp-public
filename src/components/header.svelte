@@ -84,15 +84,17 @@
         </nav>
         <a
           class="text-ashblue items-center hidden lg:flex"
-          href="/rekisteroitymisohjeet"><span
-            class="font-bold hover:underline">{$_('REKISTEROITYMISOHJEET')}</span>
+          href="/rekisteroitymisohjeet"
+          ><span class="font-bold hover:underline"
+            >{$_('REKISTEROITYMISOHJEET')}</span>
           <span class="material-icons" aria-hidden="true"> chevron_right </span>
         </a>
         {#if config}
           <a
             class="text-green items-center hidden ml-4 lg:flex"
-            href={config.privateSiteUrl}><span
-              class="font-bold hover:underline">{$_('NAVBAR_KIRJAUTUMINEN')}</span>
+            href={config.privateSiteUrl}
+            ><span class="font-bold hover:underline"
+              >{$_('NAVBAR_KIRJAUTUMINEN')}</span>
             <span class="material-icons" aria-hidden="true">
               chevron_right
             </span></a>
@@ -103,8 +105,8 @@
         on:click={() => {
           mobileNavShown = !mobileNavShown;
         }}>
-        <span
-          class="menu-label uppercase font-bold hidden sm:block mr-1">{$_('MAIN_MENU')}</span>
+        <span class="menu-label uppercase font-bold hidden sm:block mr-1"
+          >{$_('MAIN_MENU')}</span>
         <div
           class="menu-icon-border border-2 border-green rounded-full w-12 h-12 grid overflow-hidden icon-container">
           {#if mobileNavShown}
@@ -135,15 +137,15 @@
         on:click={() => {
           closeMobileNav();
         }}>
-        <span
-          class="font-bold hover:underline">{$_('REKISTEROITYMISOHJEET')}</span>
+        <span class="font-bold hover:underline"
+          >{$_('REKISTEROITYMISOHJEET')}</span>
         <span class="material-icons ml-1" aria-hidden="true"> info </span></a>
       {#if config}
         <a
           class="text-green items-center justify-center flex py-4 bg-white"
           href={config.privateSiteUrl}>
-          <span
-            class="font-bold hover:underline">{$_('NAVBAR_KIRJAUTUMINEN')}</span>
+          <span class="font-bold hover:underline"
+            >{$_('NAVBAR_KIRJAUTUMINEN')}</span>
           <span class="material-icons" aria-hidden="true">
             chevron_right
           </span></a>

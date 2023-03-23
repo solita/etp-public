@@ -2,10 +2,9 @@ const baseUrl = '/api/public';
 
 const statisticsUrl = `${baseUrl}/statistics`;
 const statisticsCountUrl = `${baseUrl}/statistics/count`;
-const kayttotarkoituksetUrl = `${statisticsUrl}/kayttotarkoitukset`
+const kayttotarkoituksetUrl = `${statisticsUrl}/kayttotarkoitukset`;
 
 const fetchJson = (fetch, url) => fetch(url).then(response => response.json());
-
 
 const zip = obj => {
   const result = [];
@@ -16,7 +15,8 @@ const zip = obj => {
   return result;
 };
 
-export const kayttotarkoitukset = fetch => fetchJson(fetch, kayttotarkoituksetUrl);
+export const kayttotarkoitukset = fetch =>
+  fetchJson(fetch, kayttotarkoituksetUrl);
 
 export const statistics = (fetch, opts) => {
   const filteredOpts = Object.keys(opts).reduce(
@@ -35,6 +35,4 @@ export const statistics = (fetch, opts) => {
   return fetchJson(fetch, url);
 };
 
-
-export const statisticsCount = (fetch) =>
-  fetchJson(fetch, statisticsCountUrl);
+export const statisticsCount = fetch => fetchJson(fetch, statisticsCountUrl);
