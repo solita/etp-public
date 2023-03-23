@@ -20,10 +20,14 @@
 
   <meta
     name="robots"
-    content={`${noindex ? 'noindex' : 'index'},${nofollow ? 'nofollow' : 'follow'}`} />
+    content={`${noindex ? 'noindex' : 'index'},${
+      nofollow ? 'nofollow' : 'follow'
+    }`} />
   <meta
     name="googlebot"
-    content={`${noindex ? 'noindex' : 'index'},${nofollow ? 'nofollow' : 'follow'}`} />
+    content={`${noindex ? 'noindex' : 'index'},${
+      nofollow ? 'nofollow' : 'follow'
+    }`} />
 
   {#if descriptionFi}
     <meta name="description" lang="fi" content={descriptionFi} />

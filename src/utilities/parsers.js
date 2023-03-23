@@ -14,12 +14,12 @@ export const parseInteger = value =>
 export const parseDate = value => {
   try {
     let date = parseISO(value.trim());
-    if (isNaN(date))
-      date = parse(value, 'dd.MM.yyyy', new Date());
+    if (isNaN(date)) date = parse(value, 'dd.MM.yyyy', new Date());
     return date;
   } catch (e) {
     return null;
   }
 };
 
-export const parsePercent = (total, str) => ((parseInt(str) / total) * 100).toFixed(0);
+export const parsePercent = (total, str) =>
+  ((parseInt(str) / total) * 100).toFixed(0);

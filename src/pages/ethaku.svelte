@@ -258,8 +258,12 @@
 <Seo
   nofollow={true}
   title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('NAVBAR_ENERGIATODISTUSHAKU')}"
-  descriptionFi={$locale == 'fi' ? $_('NAVBAR_ENERGIATODISTUSHAKU_KUVAUS') : undefined}
-  descriptionSv={$locale == 'sv' ? $_('NAVBAR_ENERGIATODISTUSHAKU_KUVAUS') : undefined} />
+  descriptionFi={$locale == 'fi'
+    ? $_('NAVBAR_ENERGIATODISTUSHAKU_KUVAUS')
+    : undefined}
+  descriptionSv={$locale == 'sv'
+    ? $_('NAVBAR_ENERGIATODISTUSHAKU_KUVAUS')
+    : undefined} />
 
 <Container {...containerStyles.beige}>
   <InfoBlock title={$_('ETHAKU_INFO_TITLE')}>
@@ -275,15 +279,27 @@
           keyword = evt.target.value;
           break;
         case 'tulokset.e-luokka_in':
-          const currentSelection = [...new Set([
+          const currentSelection = [
+            ...new Set([
               ...searchmodel['tulokset.e-luokka_in'],
               evt.target.value
-            ])];
+            ])
+          ];
 
-          searchmodel = { ...searchmodel, 'tulokset.e-luokka_in': evt.target.checked ? currentSelection : currentSelection.filter(item => item !== evt.target.value) };
+          searchmodel = {
+            ...searchmodel,
+            'tulokset.e-luokka_in': evt.target.checked
+              ? currentSelection
+              : currentSelection.filter(item => item !== evt.target.value)
+          };
           break;
         case 'versio':
-          searchmodel = { ...searchmodel, versio: evt.target.value, 'perustiedot.kayttotarkoitus_in': [], 'perustiedot.kayttotarkoitus': '' };
+          searchmodel = {
+            ...searchmodel,
+            versio: evt.target.value,
+            'perustiedot.kayttotarkoitus_in': [],
+            'perustiedot.kayttotarkoitus': ''
+          };
           break;
         case 'perustiedot.kayttotarkoitus_in':
           const alakayttotarkoitusluokat = await kayttotarkoitusluokat.then(
@@ -297,9 +313,17 @@
                 .map(item => item.id)
           );
 
-          const alakayttotarkoitusluokka = alakayttotarkoitusluokat.includes(searchmodel['perustiedot.kayttotarkoitus']) ? searchmodel['perustiedot.kayttotarkoitus'] : '';
+          const alakayttotarkoitusluokka = alakayttotarkoitusluokat.includes(
+            searchmodel['perustiedot.kayttotarkoitus']
+          )
+            ? searchmodel['perustiedot.kayttotarkoitus']
+            : '';
 
-          searchmodel = { ...searchmodel, [evt.target.name]: alakayttotarkoitusluokat, 'perustiedot.kayttotarkoitus': alakayttotarkoitusluokka };
+          searchmodel = {
+            ...searchmodel,
+            [evt.target.name]: alakayttotarkoitusluokat,
+            'perustiedot.kayttotarkoitus': alakayttotarkoitusluokka
+          };
           break;
         default:
           searchmodel = { ...searchmodel, [evt.target.name]: evt.target.value };
@@ -366,12 +390,12 @@
           tarkennettuShown = !tarkennettuShown;
         }}>
         {#if tarkennettuShown}
-          <span
-            class="uppercase font-bold">{$_('ETHAKU_HAKUEHDOT_PIILOITA')}</span>
+          <span class="uppercase font-bold"
+            >{$_('ETHAKU_HAKUEHDOT_PIILOITA')}</span>
           <span class="font-icon text-4xl">expand_less</span>
         {:else}
-          <span
-            class="uppercase font-bold">{$_('ETHAKU_HAKUEHDOT_NAYTA')}</span>
+          <span class="uppercase font-bold"
+            >{$_('ETHAKU_HAKUEHDOT_NAYTA')}</span>
           <span class="font-icon text-4xl">expand_more</span>
         {/if}
       </button>
@@ -402,7 +426,11 @@
             <div
               class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
               <span
-                class="tarkennettu-label w-full md:w-1/2 tracking-widest {searchmodel['versio'] === '0' ? 'text-darkgrey' : 'text-ashblue'}">
+                class="tarkennettu-label w-full md:w-1/2 tracking-widest {searchmodel[
+                  'versio'
+                ] === '0'
+                  ? 'text-darkgrey'
+                  : 'text-ashblue'}">
                 {$_('ETHAKU_KAYTTOTARKOITUSLUOKKA')}
               </span>
               <div class="w-full md:w-1/2">
@@ -410,21 +438,39 @@
                   name={'perustiedot.kayttotarkoitus_in'}
                   disabled={searchmodel['versio'] === '0'}
                   format={id => {
-                    if (searchmodel['versio'] === '0') return $_('ETHAKU_VALITSE_VERSIO');
+                    if (searchmodel['versio'] === '0')
+                      return $_('ETHAKU_VALITSE_VERSIO');
                     if (id === -1) return $_('KAIKKI');
-                    const item = ktluokat[searchmodel['versio']]['kayttotarkoitusluokat'].find(item => item.id === parseInt(id));
+                    const item = ktluokat[searchmodel['versio']][
+                      'kayttotarkoitusluokat'
+                    ].find(item => item.id === parseInt(id));
                     if (item) return labelLocale($locale, item);
                     return $_('KAIKKI');
                   }}
-                  options={[-1, ...ktluokat[searchmodel['versio']]['kayttotarkoitusluokat'].map(item => item['id'])]}
+                  options={[
+                    -1,
+                    ...ktluokat[searchmodel['versio']][
+                      'kayttotarkoitusluokat'
+                    ].map(item => item['id'])
+                  ]}
                   label={$_('ETHAKU_KAYTTOTARKOITUSLUOKKA')}
-                  value={ktluokat[searchmodel['versio']]['alakayttotarkoitusluokat'].find(item => item.id === searchmodel['perustiedot.kayttotarkoitus_in'][0])?.['kayttotarkoitusluokka-id'] || -1} />
+                  value={ktluokat[searchmodel['versio']][
+                    'alakayttotarkoitusluokat'
+                  ].find(
+                    item =>
+                      item.id ===
+                      searchmodel['perustiedot.kayttotarkoitus_in'][0]
+                  )?.['kayttotarkoitusluokka-id'] || -1} />
               </div>
             </div>
             <div
               class="tarkennettu-row w-full mx-auto center flex flex-col md:flex-row items-center">
               <span
-                class="tarkennettu-label w-full md:w-1/2 tracking-widest {searchmodel['versio'] === '0' ? 'text-darkgrey' : 'text-ashblue'}">
+                class="tarkennettu-label w-full md:w-1/2 tracking-widest {searchmodel[
+                  'versio'
+                ] === '0'
+                  ? 'text-darkgrey'
+                  : 'text-ashblue'}">
                 {$_('ETHAKU_ALAKAYTTOTARKOITUSLUOKKA')}
               </span>
               <div class="w-full md:w-1/2">
@@ -432,13 +478,18 @@
                   name={'perustiedot.kayttotarkoitus'}
                   disabled={searchmodel['versio'] === '0'}
                   format={id => {
-                    if (searchmodel['versio'] === '0') return $_('ETHAKU_VALITSE_VERSIO');
+                    if (searchmodel['versio'] === '0')
+                      return $_('ETHAKU_VALITSE_VERSIO');
                     if (id === '') return $_('KAIKKI');
-                    const item = ktluokat[searchmodel['versio']]['alakayttotarkoitusluokat'].find(item => item.id === id);
+                    const item = ktluokat[searchmodel['versio']][
+                      'alakayttotarkoitusluokat'
+                    ].find(item => item.id === id);
                     if (item) return labelLocale($locale, item);
                     return $_('KAIKKI');
                   }}
-                  options={['', ...ktluokat[searchmodel['versio']][
+                  options={[
+                    '',
+                    ...ktluokat[searchmodel['versio']][
                       'alakayttotarkoitusluokat'
                     ]
                       .filter(item =>
@@ -448,7 +499,8 @@
                             ].includes(item['id'])
                           : true
                       )
-                      .map(item => item['id'])]}
+                      .map(item => item['id'])
+                  ]}
                   label={$_('ETHAKU_ALAKAYTTOTARKOITUSLUOKKA')}
                   value={searchmodel['perustiedot.kayttotarkoitus']} />
               </div>
@@ -500,11 +552,20 @@
                 label={$_('ETHAKU_RAKENNUS_VUOSI')}
                 placeholder={'vvvv'}
                 min="0"
-                max={numberOrDefault(10000000000, searchmodel['perustiedot.valmistumisvuosi_max'])}
+                max={numberOrDefault(
+                  10000000000,
+                  searchmodel['perustiedot.valmistumisvuosi_max']
+                )}
                 model={searchmodel}
                 name={'perustiedot.valmistumisvuosi_min'}
                 step="1"
-                validation={validationModel['perustiedot.valmistumisvuosi_min'](0, numberOrDefault(10000000000, searchmodel['perustiedot.valmistumisvuosi_max']))}
+                validation={validationModel['perustiedot.valmistumisvuosi_min'](
+                  0,
+                  numberOrDefault(
+                    10000000000,
+                    searchmodel['perustiedot.valmistumisvuosi_max']
+                  )
+                )}
                 invalidMessage={$_('ETHAKU_INVALID_VUOSI_MIN')} />
             </div>
             <span class="material-icons text-darkgrey" aria-hidden="true">
@@ -515,12 +576,21 @@
                 bind:this={valmistumisvuosiMaxInput}
                 label={$_('ETHAKU_RAKENNUS_VUOSI')}
                 placeholder={'vvvv'}
-                min={numberOrDefault(0, searchmodel['perustiedot.valmistumisvuosi_min'])}
+                min={numberOrDefault(
+                  0,
+                  searchmodel['perustiedot.valmistumisvuosi_min']
+                )}
                 model={searchmodel}
                 name={'perustiedot.valmistumisvuosi_max'}
                 max="10000000000"
                 step="1"
-                validation={validationModel['perustiedot.valmistumisvuosi_max'](numberOrDefault(0, searchmodel['perustiedot.valmistumisvuosi_min']), 10000000000)}
+                validation={validationModel['perustiedot.valmistumisvuosi_max'](
+                  numberOrDefault(
+                    0,
+                    searchmodel['perustiedot.valmistumisvuosi_min']
+                  ),
+                  10000000000
+                )}
                 invalidMessage={$_('ETHAKU_INVALID_VUOSI_MAX')} />
             </div>
           </div>
@@ -541,7 +611,10 @@
                 label={$_('ETHAKU_LAATIMISPAIVA')}
                 placeholder={'pp.kk.vvvv'}
                 max={searchmodel['allekirjoitusaika_max']}
-                validation={validationModel['allekirjoitusaika_min']('', searchmodel['allekirjoitusaika_max'])}
+                validation={validationModel['allekirjoitusaika_min'](
+                  '',
+                  searchmodel['allekirjoitusaika_max']
+                )}
                 invalidMessage={$_('ETHAKU_INVALID_ALLEKIRJOITUSAIKA_MIN')} />
             </div>
             <span
@@ -557,7 +630,10 @@
                 label={$_('ETHAKU_LAATIMISPAIVA')}
                 placeholder={'pp.kk.vvvv'}
                 min={searchmodel['allekirjoitusaika_min']}
-                validation={validationModel['allekirjoitusaika_max'](searchmodel['allekirjoitusaika_min'], '')}
+                validation={validationModel['allekirjoitusaika_max'](
+                  searchmodel['allekirjoitusaika_min'],
+                  ''
+                )}
                 invalidMessage={$_('ETHAKU_INVALID_ALLEKIRJOITUSAIKA_MAX')} />
             </div>
           </div>
@@ -578,7 +654,10 @@
                 model={searchmodel}
                 name={'voimassaolo-paattymisaika_min'}
                 max={searchmodel['voimassaolo-paattymisaika_max']}
-                validation={validationModel['voimassaolo-paattymisaika_min']('', searchmodel['voimassaolo-paattymisaika_max'])}
+                validation={validationModel['voimassaolo-paattymisaika_min'](
+                  '',
+                  searchmodel['voimassaolo-paattymisaika_max']
+                )}
                 invalidMessage={$_('ETHAKU_INVALID_VOIMASSAOLO_MIN')} />
             </div>
             <span
@@ -594,7 +673,10 @@
                 model={searchmodel}
                 name={'voimassaolo-paattymisaika_max'}
                 min={searchmodel['voimassaolo-paattymisaika_min']}
-                validation={validationModel['voimassaolo-paattymisaika_max'](searchmodel['voimassaolo-paattymisaika_min'], '')}
+                validation={validationModel['voimassaolo-paattymisaika_max'](
+                  searchmodel['voimassaolo-paattymisaika_min'],
+                  ''
+                )}
                 invalidMessage={$_('ETHAKU_INVALID_VOIMASSAOLO_MAX')} />
             </div>
           </div>
@@ -611,11 +693,20 @@
                 bind:this={eLukuMinInput}
                 label={$_('ETHAKU_E_KOKONAISLUKU')}
                 min="0"
-                max={numberOrDefault(10000000000, searchmodel['tulokset.e-luku_max'])}
+                max={numberOrDefault(
+                  10000000000,
+                  searchmodel['tulokset.e-luku_max']
+                )}
                 model={searchmodel}
                 name={'tulokset.e-luku_min'}
                 step="1"
-                validation={validationModel['tulokset.e-luku_min'](0, numberOrDefault(10000000000, searchmodel['tulokset.e-luku_max']))}
+                validation={validationModel['tulokset.e-luku_min'](
+                  0,
+                  numberOrDefault(
+                    10000000000,
+                    searchmodel['tulokset.e-luku_max']
+                  )
+                )}
                 invalidMessage={$_('ETHAKU_INVALID_E_LUKU_MIN')} />
             </div>
             <span class="material-icons text-darkgrey" aria-hidden="true">
@@ -630,7 +721,10 @@
                 model={searchmodel}
                 name={'tulokset.e-luku_max'}
                 step="1"
-                validation={validationModel['tulokset.e-luku_max'](numberOrDefault(1, searchmodel['tulokset.e-luku_min']), 10000000000)}
+                validation={validationModel['tulokset.e-luku_max'](
+                  numberOrDefault(1, searchmodel['tulokset.e-luku_min']),
+                  10000000000
+                )}
                 invalidMessage={$_('ETHAKU_INVALID_E_LUKU_MAX')} />
             </div>
           </div>
@@ -659,10 +753,21 @@
                 bind:this={nettoalaMinInput}
                 label={$_('ETHAKU_LAMMITETTY_NETTOALA')}
                 min="0"
-                max={numberOrDefault(10000000000, searchmodel['lahtotiedot.lammitetty-nettoala_max'])}
+                max={numberOrDefault(
+                  10000000000,
+                  searchmodel['lahtotiedot.lammitetty-nettoala_max']
+                )}
                 model={searchmodel}
                 name={'lahtotiedot.lammitetty-nettoala_min'}
-                validation={validationModel['lahtotiedot.lammitetty-nettoala_min'](0, numberOrDefault(10000000000, searchmodel['lahtotiedot.lammitetty-nettoala_max']))}
+                validation={validationModel[
+                  'lahtotiedot.lammitetty-nettoala_min'
+                ](
+                  0,
+                  numberOrDefault(
+                    10000000000,
+                    searchmodel['lahtotiedot.lammitetty-nettoala_max']
+                  )
+                )}
                 invalidMessage={$_('ETHAKU_INVALID_NETTOALA_MIN')} />
             </div>
             <span class="material-icons text-darkgrey" aria-hidden="true">
@@ -672,12 +777,23 @@
               <InputNumber
                 bind:this={nettoalaMaxInput}
                 label={$_('ETHAKU_LAMMITETTY_NETTOALA')}
-                min={numberOrDefault(0, searchmodel['lahtotiedot.lammitetty-nettoala_min'])}
+                min={numberOrDefault(
+                  0,
+                  searchmodel['lahtotiedot.lammitetty-nettoala_min']
+                )}
                 max="10000000000"
                 model={searchmodel}
                 name={'lahtotiedot.lammitetty-nettoala_max'}
                 set={setter('lahtotiedot.lammitetty-nettoala_max')}
-                validation={validationModel['lahtotiedot.lammitetty-nettoala_max'](numberOrDefault(0, searchmodel['lahtotiedot.lammitetty-nettoala_min']), 10000000000)}
+                validation={validationModel[
+                  'lahtotiedot.lammitetty-nettoala_max'
+                ](
+                  numberOrDefault(
+                    0,
+                    searchmodel['lahtotiedot.lammitetty-nettoala_min']
+                  ),
+                  10000000000
+                )}
                 invalidMessage={$_('ETHAKU_INVALID_NETTOALA_MAX')} />
             </div>
           </div>
@@ -700,13 +816,7 @@
   <div class="px-3 lg:px-8 xl:px-16 pb-8 flex flex-col w-full">
     {#if where || keyword}
       <div bind:this={resultsElement}>
-        {#await Promise.all([
-          result,
-          etTotalcount,
-          Promise.resolve(parseInt(page ?? 0)),
-          $postinumerot,
-          kayttotarkoitusluokat
-        ])}
+        {#await Promise.all( [result, etTotalcount, Promise.resolve(parseInt(page ?? 0)), $postinumerot, kayttotarkoitusluokat] )}
           <div class="flex justify-center">
             <Spinner />
           </div>
@@ -725,7 +835,10 @@
                 {currentPageItemCount}
                 itemCount={count}
                 queryStringFn={page => {
-                  const where = EtHakuUtils.where(tarkennettuShown, parseValues(searchmodel));
+                  const where = EtHakuUtils.where(
+                    tarkennettuShown,
+                    parseValues(searchmodel)
+                  );
                   const whereQuery = EtHakuUtils.whereQuery(where);
                   const whereString = JSON.stringify(whereQuery);
                   const qs = [
@@ -739,7 +852,9 @@
                     .filter(item => item.length)
                     .join('&');
 
-                  return `/ethaku${qs.length ? `?${qs}&page=${page}` : `?page=${page}`}`;
+                  return `/ethaku${
+                    qs.length ? `?${qs}&page=${page}` : `?page=${page}`
+                  }`;
                 }} />
             </div>
           </TableEThaku>

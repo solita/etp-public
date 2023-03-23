@@ -30,7 +30,9 @@ border-green
 <div class="relative w-full flex flex-col pb-8">
   <label for={id} class="sr-only">{label}</label>
   <div
-    class="input-parent w-full relative inline-block border-b-2 {disabled ? 'cursor-not-allowed text-darkgrey border-grey' : 'hover:bg-grey border-darkgrey'}">
+    class="input-parent w-full relative inline-block border-b-2 {disabled
+      ? 'cursor-not-allowed text-darkgrey border-grey'
+      : 'hover:bg-grey border-darkgrey'}">
     <select
       class="w-full px-2 py-2"
       class:cursor-not-allowed={disabled}
@@ -38,7 +40,8 @@ border-green
       {name}
       {disabled}
       bind:value
-      on:blur|stopPropagation={evt => evt.target.dispatchEvent(new Event('change'))}>
+      on:blur|stopPropagation={evt =>
+        evt.target.dispatchEvent(new Event('change'))}>
       {#each options as op}
         <option value={op}>{format(op)}</option>
       {/each}

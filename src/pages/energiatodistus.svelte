@@ -89,10 +89,9 @@
     );
 
   const rajaArvot = ranges => {
-    const r = aperture(2, [
-      -1,
-      ...ranges.map(range => range[0])
-    ]).map(([head, ...tail]) => [head + 1, ...tail]);
+    const r = aperture(2, [-1, ...ranges.map(range => range[0])]).map(
+      ([head, ...tail]) => [head + 1, ...tail]
+    );
 
     return ranges.map((range, index) => [range[1], r[index].join('-')]);
   };
@@ -361,9 +360,8 @@
           on:click={() => {
             backReferred(ref ? '/ethaku?' + ref : '/ethaku');
           }}>
-          <span
-            class="material-icons align-middle"
-            aria-hidden="true">arrow_back</span>
+          <span class="material-icons align-middle" aria-hidden="true"
+            >arrow_back</span>
           <span class="whitespace-no-wrap">{$_('ET_BACK')}</span>
         </Button>
         <span class="flex-grow mr-2"> {$_('ET_KUVAUS')} </span>
@@ -389,10 +387,11 @@
             <ButtonLink
               {...buttonStyles.ashblue}
               target="_blank"
-              href={energiatodistus?.versio == '2013' ? VirallinenMalli2013 : VirallinenMalli2018}>
-              <span
-                class="material-icons"
-                aria-hidden="true">picture_as_pdf</span>
+              href={energiatodistus?.versio == '2013'
+                ? VirallinenMalli2013
+                : VirallinenMalli2018}>
+              <span class="material-icons" aria-hidden="true"
+                >picture_as_pdf</span>
               <span class="whitespace-no-wrap"> {$_('ET_VIRALLINEN')}</span>
               <span class="sr-only">(pdf)</span>
             </ButtonLink>
@@ -402,58 +401,80 @@
           class="w-full flex flex-col mx-auto items-center space-y-6 print:space-y-2">
           <div
             class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
-            <dt
-              class="w-full md:w-1/2 text-ashblue">{$_('ET_TODISTETUNNUS')}:</dt>
+            <dt class="w-full md:w-1/2 text-ashblue">
+              {$_('ET_TODISTETUNNUS')}:
+            </dt>
             <dd class="w-full md:w-1/2">{energiatodistus.id}</dd>
           </div>
           {#if energiatodistus?.versio == '2018' && energiatodistus?.perustiedot?.rakennustunnus}
             <div
               class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
-              <dt
-                class="w-full md:w-1/2 text-ashblue">{$_('ET_PYSYVA_RAKENNUSTUNNUS')}:</dt>
-              <dd
-                class="w-full md:w-1/2">{energiatodistus.perustiedot.rakennustunnus}</dd>
+              <dt class="w-full md:w-1/2 text-ashblue">
+                {$_('ET_PYSYVA_RAKENNUSTUNNUS')}:
+              </dt>
+              <dd class="w-full md:w-1/2">
+                {energiatodistus.perustiedot.rakennustunnus}
+              </dd>
             </div>
           {/if}
           <div
             class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
-            <dt
-              class="w-full md:w-1/2 text-ashblue">{$_('ET_RAKENNUS_NIMI')}:</dt>
-            <dd
-              class="w-full md:w-1/2">{`${selectByLocaleOrAvailable('nimi', energiatodistus.perustiedot)}, ${selectByLocaleOrAvailable('katuosoite', energiatodistus.perustiedot)}, ${GeoUtils.padPostinumero(energiatodistus.perustiedot.postinumero)} `}
-              <span
-                class="capitalize">{selectByLocaleOrAvailable('label', postinumero)}</span>
+            <dt class="w-full md:w-1/2 text-ashblue">
+              {$_('ET_RAKENNUS_NIMI')}:
+            </dt>
+            <dd class="w-full md:w-1/2">
+              {`${selectByLocaleOrAvailable(
+                'nimi',
+                energiatodistus.perustiedot
+              )}, ${selectByLocaleOrAvailable(
+                'katuosoite',
+                energiatodistus.perustiedot
+              )}, ${GeoUtils.padPostinumero(
+                energiatodistus.perustiedot.postinumero
+              )} `}
+              <span class="capitalize"
+                >{selectByLocaleOrAvailable('label', postinumero)}</span>
             </dd>
           </div>
           <div
             class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
-            <dt
-              class="w-full md:w-1/2 text-ashblue">{$_('ET_RAKENNUS_KAYTTOTARKOITUS')}:</dt>
-            <dd
-              class="w-full md:w-1/2">{selectByLocaleOrAvailable('label', alakayttotarkoitusluokka)}</dd>
+            <dt class="w-full md:w-1/2 text-ashblue">
+              {$_('ET_RAKENNUS_KAYTTOTARKOITUS')}:
+            </dt>
+            <dd class="w-full md:w-1/2">
+              {selectByLocaleOrAvailable('label', alakayttotarkoitusluokka)}
+            </dd>
           </div>
           <div
             class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
-            <dt
-              class="w-full md:w-1/2 text-ashblue">{$_('ET_RAKENNUS_VUOSI')}:</dt>
-            <dd
-              class="w-full md:w-1/2">{energiatodistus.perustiedot.valmistumisvuosi}</dd>
+            <dt class="w-full md:w-1/2 text-ashblue">
+              {$_('ET_RAKENNUS_VUOSI')}:
+            </dt>
+            <dd class="w-full md:w-1/2">
+              {energiatodistus.perustiedot.valmistumisvuosi}
+            </dd>
           </div>
           {#if energiatodistus?.versio == '2018'}
             <div
               class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
-              <dt
-                class="w-full md:w-1/2 text-ashblue">{$_('ET_LAATIMISVAIHE')}:</dt>
-              <dd
-                class="w-full md:w-1/2">{selectByLocaleOrAvailable('label', laatimisvaihe)}</dd>
+              <dt class="w-full md:w-1/2 text-ashblue">
+                {$_('ET_LAATIMISVAIHE')}:
+              </dt>
+              <dd class="w-full md:w-1/2">
+                {selectByLocaleOrAvailable('label', laatimisvaihe)}
+              </dd>
             </div>
             {#if laatimisvaihe?.id === 2}
               <div
                 class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
-                <dt
-                  class="w-full md:w-1/2 text-ashblue">{$_('ET_HAVAINNOINTI')}:</dt>
-                <dd
-                  class="w-full md:w-1/2">{formats.formatDate(parseDate(energiatodistus.perustiedot.havainnointikaynti))}</dd>
+                <dt class="w-full md:w-1/2 text-ashblue">
+                  {$_('ET_HAVAINNOINTI')}:
+                </dt>
+                <dd class="w-full md:w-1/2">
+                  {formats.formatDate(
+                    parseDate(energiatodistus.perustiedot.havainnointikaynti)
+                  )}
+                </dd>
               </div>
             {/if}
           {/if}
@@ -469,11 +490,15 @@
             </div>
             {#each classes as cls}
               <div
-                class="w-full flex border-black {energiatodistus?.versio === 2013 && cls === 'C' ? 'border-dotted border-b-4 pb-2' : 'border-b'}">
+                class="w-full flex border-black {energiatodistus?.versio ===
+                  2013 && cls === 'C'
+                  ? 'border-dotted border-b-4 pb-2'
+                  : 'border-b'}">
                 <div
                   class="flex items-center justify-start w-1/2 border-r border-black px-2 py-4 print:py-1">
                   <span
-                    class="inline-block font-bold py-1 px-4 text-2xl graph-color-{cls.toLowerCase()} pr-1 md:pr-auto print:text-sm">{cls}</span>
+                    class="inline-block font-bold py-1 px-4 text-2xl graph-color-{cls.toLowerCase()} pr-1 md:pr-auto print:text-sm"
+                    >{cls}</span>
                   <div class="arrow-right" />
                 </div>
                 <div
@@ -483,7 +508,8 @@
                     <div
                       class="inline-block py-1 pl-4 pr-10 text-2xl bg-black text-white print:text-sm">
                       <span class="font-bold">{cls}</span><span
-                        class="text-sm print:text-xs">{energiatodistus?.versio || versio}</span>
+                        class="text-sm print:text-xs"
+                        >{energiatodistus?.versio || versio}</span>
                     </div>
                   {/if}
                 </div>
@@ -495,41 +521,55 @@
           </div>
         </div>
 
-        <dl
-          class="w-full grid grid-cols-2">
+        <dl class="w-full grid grid-cols-2">
           <div
             class="col-span-2 mb-6 print:mb-2 flex flex-col md:flex-row print:flex-row space-x-2 w-full">
-            <dt
-              class="w-full md:w-2/3 text-ashblue print:w-2/3">{$_('ET_ELUKU')}:</dt>
+            <dt class="w-full md:w-2/3 text-ashblue print:w-2/3">
+              {$_('ET_ELUKU')}:
+            </dt>
             <dd class="w-full md:w-1/3 print:w-1/3">
               <KWhE
-                value={formats.formatNumber0(energiatodistus?.tulokset['e-luku'])} />/({$_('ET_M2VUOSI')})
+                value={formats.formatNumber0(
+                  energiatodistus?.tulokset['e-luku']
+                )} />/({$_('ET_M2VUOSI')})
             </dd>
           </div>
           {#if versio == '2018'}
             <div
               class="col-span-2 mb-6 print:mb-2 flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
-              <dt
-                class="w-full md:w-2/3 print:w-2/3 text-ashblue">{$_('ET_VAATIMUSTASO')}:</dt>
-              {#if eLuokka?.['raja-uusi-2018'] }
-                <dd class="w-full md:w-1/3 print:w-1/3"><KWhE
-                    value={`≤ ${eLuokka?.['raja-uusi-2018']}`} />/({$_('ET_M2VUOSI')})</dd>
+              <dt class="w-full md:w-2/3 print:w-2/3 text-ashblue">
+                {$_('ET_VAATIMUSTASO')}:
+              </dt>
+              {#if eLuokka?.['raja-uusi-2018']}
+                <dd class="w-full md:w-1/3 print:w-1/3">
+                  <KWhE value={`≤ ${eLuokka?.['raja-uusi-2018']}`} />/({$_(
+                    'ET_M2VUOSI'
+                  )})
+                </dd>
               {:else}
-                <dd class="w-full md:w-1/3 print:w-1/3">{$_('ET_EI_RAJA_ARVOA')}</dd>
+                <dd class="w-full md:w-1/3 print:w-1/3">
+                  {$_('ET_EI_RAJA_ARVOA')}
+                </dd>
               {/if}
             </div>
           {/if}
-          <div class="col-span-2 md:col-span-1 print:col-span-1 flex flex-col w-full">
-            <dt
-              class="w-full text-ashblue">{$_('ET_LAATIMISPAIVA')}:</dt>
-            <dd
-              class="w-full">{formats.formatDate(parseDate(energiatodistus['allekirjoitusaika']))}</dd>
+          <div
+            class="col-span-2 md:col-span-1 print:col-span-1 flex flex-col w-full">
+            <dt class="w-full text-ashblue">{$_('ET_LAATIMISPAIVA')}:</dt>
+            <dd class="w-full">
+              {formats.formatDate(
+                parseDate(energiatodistus['allekirjoitusaika'])
+              )}
+            </dd>
           </div>
-          <div class="col-span-2 md:col-span-1 print:col-span-1 flex flex-col w-full">
-            <dt
-              class="w-full text-ashblue">{$_('ET_VOIMASSAOLOPAIVA')}:</dt>
-            <dd
-              class="w-full">{formats.formatExclusiveEndDate(parseDate(energiatodistus['voimassaolo-paattymisaika']))}</dd>
+          <div
+            class="col-span-2 md:col-span-1 print:col-span-1 flex flex-col w-full">
+            <dt class="w-full text-ashblue">{$_('ET_VOIMASSAOLOPAIVA')}:</dt>
+            <dd class="w-full">
+              {formats.formatExclusiveEndDate(
+                parseDate(energiatodistus['voimassaolo-paattymisaika'])
+              )}
+            </dd>
           </div>
         </dl>
 
@@ -542,30 +582,37 @@
         </h2>
         <h3
           class="w-full flex bg-ashblue text-white uppercase px-4 py-3 my-4 print:py-1 print:px-2 print:my-1 print:text-sm print:bg-white print:text-black print:border-ashblue print:border">
-          {$_('ET_LASKETTU_KOKONAISENERGIA')}</h3>
+          {$_('ET_LASKETTU_KOKONAISENERGIA')}
+        </h3>
         <dl
           class="w-full flex flex-col mx-auto items-start space-y-6 print:space-y-2 my-8 print:my-2">
           <div
             class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
-            <dt
-              class="w-full md:w-1/2 text-ashblue">{$_('ET_NETTOALA')}:</dt>
-            <dd
-              class="w-full md:w-1/2">{formats.formatNumber1(energiatodistus.lahtotiedot['lammitetty-nettoala'])}
-              m²</dd>
+            <dt class="w-full md:w-1/2 text-ashblue">{$_('ET_NETTOALA')}:</dt>
+            <dd class="w-full md:w-1/2">
+              {formats.formatNumber1(
+                energiatodistus.lahtotiedot['lammitetty-nettoala']
+              )}
+              m²
+            </dd>
           </div>
 
           {#if lammitysmuoto1 || energiatodistus?.lahtotiedot?.lammitys?.['lammitysmuoto-1']?.['kuvaus-fi'] || energiatodistus?.lahtotiedot?.lammitys?.['lammitysmuoto-1']?.['kuvaus-sv']}
             <div
               class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
-              <dt
-                class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_KUVAUS')}:</dt>
+              <dt class="w-full md:w-1/2 text-ashblue">
+                {$_('ET_LAMMITYS_KUVAUS')}:
+              </dt>
               {#if lammitysmuoto1 && lammitysmuoto1.id !== 9}
                 <dd class="w-full md:w-1/2">
                   {selectByLocaleOrAvailable('label', lammitysmuoto1)}
                 </dd>
               {:else}
                 <dd class="w-full md:w-1/2">
-                  {selectByLocaleOrAvailable('kuvaus', energiatodistus.lahtotiedot.lammitys['lammitysmuoto-1'])}
+                  {selectByLocaleOrAvailable(
+                    'kuvaus',
+                    energiatodistus.lahtotiedot.lammitys['lammitysmuoto-1']
+                  )}
                 </dd>
               {/if}
             </div>
@@ -574,15 +621,19 @@
           {#if lammitysmuoto2 || energiatodistus?.lahtotiedot?.lammitys?.['lammitysmuoto-2']?.['kuvaus-fi'] || energiatodistus?.lahtotiedot?.lammitys?.['lammitysmuoto-2']?.['kuvaus-sv']}
             <div
               class="flex flex-col md:flex-row space-x-2 w-full items-center justify-center">
-              <dt
-                class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_2')}:</dt>
+              <dt class="w-full md:w-1/2 text-ashblue">
+                {$_('ET_LAMMITYS_2')}:
+              </dt>
               {#if lammitysmuoto2 && lammitysmuoto2.id !== 9}
                 <dd class="w-full md:w-1/2">
                   {selectByLocaleOrAvailable('label', lammitysmuoto2)}
                 </dd>
               {:else}
                 <dd class="w-full md:w-1/2">
-                  {selectByLocaleOrAvailable('kuvaus', energiatodistus.lahtotiedot.lammitys['lammitysmuoto-2'])}
+                  {selectByLocaleOrAvailable(
+                    'kuvaus',
+                    energiatodistus.lahtotiedot.lammitys['lammitysmuoto-2']
+                  )}
                 </dd>
               {/if}
             </div>
@@ -591,15 +642,19 @@
           {#if lammonjako || energiatodistus?.lahtotiedot?.lammitys?.lammonjako?.['kuvaus-fi'] || energiatodistus?.lahtotiedot?.lammitys?.lammonjako?.['kuvaus-sv']}
             <div
               class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
-              <dt
-                class="w-full md:w-1/2 text-ashblue">{$_('ET_LAMMITYS_LAMMONJAKO')}:</dt>
+              <dt class="w-full md:w-1/2 text-ashblue">
+                {$_('ET_LAMMITYS_LAMMONJAKO')}:
+              </dt>
               {#if lammonjako && lammonjako.id !== 12}
                 <dd class="w-full md:w-1/2">
                   {selectByLocaleOrAvailable('label', lammonjako)}
                 </dd>
               {:else}
                 <dd class="w-full md:w-1/2">
-                  {selectByLocaleOrAvailable('kuvaus', energiatodistus.lahtotiedot.lammitys.lammonjako)}
+                  {selectByLocaleOrAvailable(
+                    'kuvaus',
+                    energiatodistus.lahtotiedot.lammitys.lammonjako
+                  )}
                 </dd>
               {/if}
             </div>
@@ -608,15 +663,19 @@
           {#if ilmanvaihtotyyppi || energiatodistus?.lahtotiedot?.ilmanvaihto?.['kuvaus-fi'] || energiatodistus?.lahtotiedot?.ilmanvaihto?.['kuvaus-sv']}
             <div
               class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
-              <dt
-                class="w-full md:w-1/2 text-ashblue">{$_('ET_ILMANVAIHTO_KUVAUS')}:</dt>
+              <dt class="w-full md:w-1/2 text-ashblue">
+                {$_('ET_ILMANVAIHTO_KUVAUS')}:
+              </dt>
               {#if ilmanvaihtotyyppi && ilmanvaihtotyyppi.id !== 6}
                 <dd class="w-full md:w-1/2">
                   {selectByLocaleOrAvailable('label', ilmanvaihtotyyppi)}
                 </dd>
               {:else}
                 <dd class="w-full md:w-1/2">
-                  {selectByLocaleOrAvailable('kuvaus', energiatodistus.lahtotiedot.ilmanvaihto)}
+                  {selectByLocaleOrAvailable(
+                    'kuvaus',
+                    energiatodistus.lahtotiedot.ilmanvaihto
+                  )}
                 </dd>
               {/if}
             </div>
@@ -659,16 +718,34 @@
                     {$_('ET_SAHKO')}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber0(energiatodistus.tulokset['kaytettavat-energiamuodot'].sahko)}
+                    {formats.formatNumber0(
+                      energiatodistus.tulokset['kaytettavat-energiamuodot']
+                        .sahko
+                    )}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, path(['tulokset', 'kaytettavat-energiamuodot', 'sahko'], energiatodistus)))}
+                    {formats.formatNumber0(
+                      perLammitettyNettoala(
+                        energiatodistus,
+                        path(
+                          ['tulokset', 'kaytettavat-energiamuodot', 'sahko'],
+                          energiatodistus
+                        )
+                      )
+                    )}
                   </td>
                   <td>
-                    {formats.formatNumberMax2(energiamuotokertoimet[versio]['sahko'])}
+                    {formats.formatNumberMax2(
+                      energiamuotokertoimet[versio]['sahko']
+                    )}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, energiamuotokerroinTulo(energiatodistus, 'sahko')))}
+                    {formats.formatNumber0(
+                      perLammitettyNettoala(
+                        energiatodistus,
+                        energiamuotokerroinTulo(energiatodistus, 'sahko')
+                      )
+                    )}
                   </td>
                 </tr>
               {/if}
@@ -678,16 +755,38 @@
                     {$_('ET_KAUKOLAMPO')}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber0(energiatodistus.tulokset['kaytettavat-energiamuodot'].kaukolampo)}
+                    {formats.formatNumber0(
+                      energiatodistus.tulokset['kaytettavat-energiamuodot']
+                        .kaukolampo
+                    )}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, path(['tulokset', 'kaytettavat-energiamuodot', 'kaukolampo'], energiatodistus)))}
+                    {formats.formatNumber0(
+                      perLammitettyNettoala(
+                        energiatodistus,
+                        path(
+                          [
+                            'tulokset',
+                            'kaytettavat-energiamuodot',
+                            'kaukolampo'
+                          ],
+                          energiatodistus
+                        )
+                      )
+                    )}
                   </td>
                   <td class="py-4 print:py-1 font-normal">
-                    {formats.formatNumberMax2(energiamuotokertoimet[versio]['kaukolampo'])}
+                    {formats.formatNumberMax2(
+                      energiamuotokertoimet[versio]['kaukolampo']
+                    )}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, energiamuotokerroinTulo(energiatodistus, 'kaukolampo')))}
+                    {formats.formatNumber0(
+                      perLammitettyNettoala(
+                        energiatodistus,
+                        energiamuotokerroinTulo(energiatodistus, 'kaukolampo')
+                      )
+                    )}
                   </td>
                 </tr>
               {/if}
@@ -697,16 +796,42 @@
                     {$_('ET_UUDISTUVA_POLTTOAINE')}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber0(energiatodistus.tulokset['kaytettavat-energiamuodot']['uusiutuva-polttoaine'])}
+                    {formats.formatNumber0(
+                      energiatodistus.tulokset['kaytettavat-energiamuodot'][
+                        'uusiutuva-polttoaine'
+                      ]
+                    )}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, path(['tulokset', 'kaytettavat-energiamuodot', 'uusiutuva-polttoaine'], energiatodistus)))}
+                    {formats.formatNumber0(
+                      perLammitettyNettoala(
+                        energiatodistus,
+                        path(
+                          [
+                            'tulokset',
+                            'kaytettavat-energiamuodot',
+                            'uusiutuva-polttoaine'
+                          ],
+                          energiatodistus
+                        )
+                      )
+                    )}
                   </td>
                   <td class="py-4 print:py-1 font-normal">
-                    {formats.formatNumberMax2(energiamuotokertoimet[versio]['uusiutuva-polttoaine'])}
+                    {formats.formatNumberMax2(
+                      energiamuotokertoimet[versio]['uusiutuva-polttoaine']
+                    )}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, energiamuotokerroinTulo(energiatodistus, 'uusiutuva-polttoaine')))}
+                    {formats.formatNumber0(
+                      perLammitettyNettoala(
+                        energiatodistus,
+                        energiamuotokerroinTulo(
+                          energiatodistus,
+                          'uusiutuva-polttoaine'
+                        )
+                      )
+                    )}
                   </td>
                 </tr>
               {/if}
@@ -717,16 +842,42 @@
                     {$_('ET_FOSSIILINEN_POLTTOAINE')}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber0(energiatodistus.tulokset['kaytettavat-energiamuodot']['fossiilinen-polttoaine'])}
+                    {formats.formatNumber0(
+                      energiatodistus.tulokset['kaytettavat-energiamuodot'][
+                        'fossiilinen-polttoaine'
+                      ]
+                    )}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, path(['tulokset', 'kaytettavat-energiamuodot', 'fossiilinen-polttoaine'], energiatodistus)))}
+                    {formats.formatNumber0(
+                      perLammitettyNettoala(
+                        energiatodistus,
+                        path(
+                          [
+                            'tulokset',
+                            'kaytettavat-energiamuodot',
+                            'fossiilinen-polttoaine'
+                          ],
+                          energiatodistus
+                        )
+                      )
+                    )}
                   </td>
                   <td class="py-4 print:py-1 font-normal">
-                    {formats.formatNumberMax2(energiamuotokertoimet[versio]['fossiilinen-polttoaine'])}
+                    {formats.formatNumberMax2(
+                      energiamuotokertoimet[versio]['fossiilinen-polttoaine']
+                    )}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, energiamuotokerroinTulo(energiatodistus, 'fossiilinen-polttoaine')))}
+                    {formats.formatNumber0(
+                      perLammitettyNettoala(
+                        energiatodistus,
+                        energiamuotokerroinTulo(
+                          energiatodistus,
+                          'fossiilinen-polttoaine'
+                        )
+                      )
+                    )}
                   </td>
                 </tr>
               {/if}
@@ -737,16 +888,42 @@
                     {$_('ET_KAUKOJAAHDYTYS')}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber0(energiatodistus.tulokset['kaytettavat-energiamuodot']['kaukojaahdytys'])}
+                    {formats.formatNumber0(
+                      energiatodistus.tulokset['kaytettavat-energiamuodot'][
+                        'kaukojaahdytys'
+                      ]
+                    )}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, path(['tulokset', 'kaytettavat-energiamuodot', 'kaukojaahdytys'], energiatodistus)))}
+                    {formats.formatNumber0(
+                      perLammitettyNettoala(
+                        energiatodistus,
+                        path(
+                          [
+                            'tulokset',
+                            'kaytettavat-energiamuodot',
+                            'kaukojaahdytys'
+                          ],
+                          energiatodistus
+                        )
+                      )
+                    )}
                   </td>
                   <td class="py-4 print:py-1 font-normal">
-                    {formats.formatNumberMax2(energiamuotokertoimet[versio]['kaukojaahdytys'])}
+                    {formats.formatNumberMax2(
+                      energiamuotokertoimet[versio]['kaukojaahdytys']
+                    )}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, energiamuotokerroinTulo(energiatodistus, 'kaukojaahdytys')))}
+                    {formats.formatNumber0(
+                      perLammitettyNettoala(
+                        energiatodistus,
+                        energiamuotokerroinTulo(
+                          energiatodistus,
+                          'kaukojaahdytys'
+                        )
+                      )
+                    )}
                   </td>
                 </tr>
               {/if}
@@ -759,13 +936,23 @@
                     {formats.formatNumber0(energiamuoto.ostoenergia)}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, energiamuoto.ostoenergia))}
+                    {formats.formatNumber0(
+                      perLammitettyNettoala(
+                        energiatodistus,
+                        energiamuoto.ostoenergia
+                      )
+                    )}
                   </td>
                   <td class="py-4 print:py-1 font-normal">
                     {formats.formatNumberMax2(energiamuoto.muotokerroin)}
                   </td>
                   <td class="py-4 print:py-1">
-                    {formats.formatNumber0(perLammitettyNettoala(energiatodistus, energiamuoto.ostoenergia * energiamuoto.muotokerroin))}
+                    {formats.formatNumber0(
+                      perLammitettyNettoala(
+                        energiatodistus,
+                        energiamuoto.ostoenergia * energiamuoto.muotokerroin
+                      )
+                    )}
                   </td>
                 </tr>
               {/each}
@@ -792,15 +979,18 @@
           class="w-full flex flex-col mx-auto items-start space-y-6 my-8 print:my-2">
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-start justify-start">
-            <dt
-              class="w-full md:w-1/3 text-ashblue">{$_('ET_KAYTETTY_LUOKITTELU')}:</dt>
-            <dd
-              class="w-full md:w-2/3">{selectByLocaleOrAvailable('label', eLuokka.kayttotarkoitus)}</dd>
+            <dt class="w-full md:w-1/3 text-ashblue">
+              {$_('ET_KAYTETTY_LUOKITTELU')}:
+            </dt>
+            <dd class="w-full md:w-2/3">
+              {selectByLocaleOrAvailable('label', eLuokka.kayttotarkoitus)}
+            </dd>
           </div>
           <div
             class="flex flex-col md:flex-row space-x-2 w-full items-start justify-start">
-            <dt
-              class="w-full md:w-1/3 text-ashblue">{$_('ET_LUOKKIEN_RAJAT')}</dt>
+            <dt class="w-full md:w-1/3 text-ashblue">
+              {$_('ET_LUOKKIEN_RAJAT')}
+            </dt>
             <dd
               class="w-full md:w-2/3 flex flex-col md:flex-row print:flex-row md:space-x-3 print:space-x-2">
               {#each rajaArvot(eLuokka['raja-asteikko']) as arvo}
@@ -808,14 +998,18 @@
               {/each}
               <div>
                 <strong>G</strong>
-                <span>({eLuokka['raja-asteikko'][eLuokka['raja-asteikko'].length - 1][0] + 1}-)</span>
+                <span
+                  >({eLuokka['raja-asteikko'][
+                    eLuokka['raja-asteikko'].length - 1
+                  ][0] + 1}-)</span>
               </div>
             </dd>
           </div>
           <div
             class="flex flex-col md:flex-row print:flex-row space-x-2 w-full items-start justify-start">
-            <dt
-              class="w-full md:w-1/3 text-ashblue">{$_('ET_RAKENNUKSEN_E_LUOKKA')}</dt>
+            <dt class="w-full md:w-1/3 text-ashblue">
+              {$_('ET_RAKENNUKSEN_E_LUOKKA')}
+            </dt>
             <dd class="w-full md:w-2/3">
               <strong>{energiatodistus?.tulokset['e-luokka']}</strong>
               <span>({energiatodistus.tulokset['e-luku']})</span>
@@ -834,18 +1028,21 @@
               {$_('ET_ENERGIATEHOKKUUTTA_PARANTAVIA')}
             </h2>
             <span
-              class="w-full flex bg-ashblue text-white uppercase px-4 py-3 print:py-1 print:px-2 print:my-1 print:text-sm print:bg-white print:text-black print:border-ashblue print:border">{$_('ET_LASKETTU_KOKONAIS')}</span>
+              class="w-full flex bg-ashblue text-white uppercase px-4 py-3 print:py-1 print:px-2 print:my-1 print:text-sm print:bg-white print:text-black print:border-ashblue print:border"
+              >{$_('ET_LASKETTU_KOKONAIS')}</span>
             <p class="w-full">
-              {selectByLocaleOrAvailable('keskeiset-suositukset', energiatodistus.perustiedot)}
+              {selectByLocaleOrAvailable(
+                'keskeiset-suositukset',
+                energiatodistus.perustiedot
+              )}
             </p>
           </div>
         {/if}
 
         <div class="w-full mx-auto my-6">
           <Button {...buttonStyles.green} on:click={() => window.print()}>
-            <span
-              class="material-icons align-middle"
-              aria-hidden="true">print</span>
+            <span class="material-icons align-middle" aria-hidden="true"
+              >print</span>
             <span class="whitespace-no-wrap"> {$_('TULOSTA_KOOSTE')} </span>
           </Button>
         </div>

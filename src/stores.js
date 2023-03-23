@@ -25,11 +25,8 @@ export const kunnat = readable(null, set => set(GeoApi.kunnat(fetch)));
 export const laatijat = derived(
   [rawLaatijat, patevyydet, toimintaalueet, locale],
   ([$laatijat, $patevyydet, $toimintaalueet, $locale]) =>
-    Promise.all([
-      $laatijat,
-      $patevyydet,
-      $toimintaalueet
-    ]).then(([$laatijat, ...args]) =>
-      $laatijat.map(LaatijaUtils.deserialize($locale, ...args))
+    Promise.all([$laatijat, $patevyydet, $toimintaalueet]).then(
+      ([$laatijat, ...args]) =>
+        $laatijat.map(LaatijaUtils.deserialize($locale, ...args))
     )
 );

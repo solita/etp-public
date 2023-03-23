@@ -9,30 +9,40 @@
 
   $: currentPageItemCount = eTodistukset.length;
 
-  const findPostitoimipaikka = (postinumero) => {
-    let foundPostinumero = postinumerot.find(postinum => postinum.id === parseInt(postinumero));
+  const findPostitoimipaikka = postinumero => {
+    let foundPostinumero = postinumerot.find(
+      postinum => postinum.id === parseInt(postinumero)
+    );
     if (foundPostinumero) return foundPostinumero;
     else return '';
-  }
+  };
 
   const findKayttotarkoitusluokka = (kt, versio) => {
     let aktluokat;
-    if(parseInt(versio) === 2013) aktluokat = kayttotarkoitusluokat['2013'].alakayttotarkoitusluokat;
-    else if(parseInt(versio) === 2018) aktluokat = kayttotarkoitusluokat['2018'].alakayttotarkoitusluokat;
+    if (parseInt(versio) === 2013)
+      aktluokat = kayttotarkoitusluokat['2013'].alakayttotarkoitusluokat;
+    else if (parseInt(versio) === 2018)
+      aktluokat = kayttotarkoitusluokat['2018'].alakayttotarkoitusluokat;
     else return '';
 
-    let foundKayttotarkoitusluokka = aktluokat.find(aktluokka => aktluokka.id === kt);
+    let foundKayttotarkoitusluokka = aktluokat.find(
+      aktluokka => aktluokka.id === kt
+    );
     if (foundKayttotarkoitusluokka) return foundKayttotarkoitusluokka;
     else return '';
-  }
+  };
 
   const selectShownKatuosoite = (l, perustiedot) => {
-    if (l == 'sv' && perustiedot['katuosoite-sv']) return perustiedot['katuosoite-sv'];
-    else if(l == 'fi' && !perustiedot['katuosoite-fi']) return perustiedot['katuosoite-sv'];
+    if (l == 'sv' && perustiedot['katuosoite-sv'])
+      return perustiedot['katuosoite-sv'];
+    else if (l == 'fi' && !perustiedot['katuosoite-fi'])
+      return perustiedot['katuosoite-sv'];
     else return perustiedot['katuosoite-fi'];
-  }
+  };
 
-  let ref = window.history.state.path.includes("?") ? `&ref=${encodeURIComponent(window.history.state.path.split('?')[1])}` : '';
+  let ref = window.history.state.path.includes('?')
+    ? `&ref=${encodeURIComponent(window.history.state.path.split('?')[1])}`
+    : '';
 </script>
 
 <style>
@@ -40,7 +50,7 @@
   td {
     @apply p-0;
   }
-  td a{
+  td a {
     @apply px-4 py-2;
   }
 </style>
@@ -65,32 +75,67 @@
           <tbody>
             {#each eTodistukset as todistus}
               <tr>
-              <td>
-                <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}${ref}`}><span class='m-title'>{$_('ETHAKU_TH_TUNNUS')}</span>
-                {todistus.id}</a>
-              </td>
                 <td>
-                  <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}${ref}`}><span class='m-title'>{$_('ETHAKU_TH_ETLUOKKA')}</span>
-                  
+                  <a
+                    class="block"
+                    href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}${ref}`}
+                    ><span class="m-title">{$_('ETHAKU_TH_TUNNUS')}</span>
+                    {todistus.id}</a>
+                </td>
+                <td>
+                  <a
+                    class="block"
+                    href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}${ref}`}
+                    ><span class="m-title">{$_('ETHAKU_TH_ETLUOKKA')}</span>
+
                     <strong>{todistus.tulokset['e-luokka']}</strong>
                     <span class="text-xs">{todistus.versio}</span>
                   </a>
                 </td>
-              <td>
-                <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}${ref}`}><span class='m-title'>{$_('ETHAKU_TH_OSOITE')}</span>
-                {`${selectShownKatuosoite($locale, todistus.perustiedot)}, 
+                <td>
+                  <a
+                    class="block"
+                    href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}${ref}`}
+                    ><span class="m-title">{$_('ETHAKU_TH_OSOITE')}</span>
+                    {`${selectShownKatuosoite($locale, todistus.perustiedot)}, 
                   ${todistus.perustiedot.postinumero} 
-                  ${$locale == 'sv' ? findPostitoimipaikka(todistus.perustiedot.postinumero)['label-sv'] : findPostitoimipaikka(todistus.perustiedot.postinumero)['label-fi']}
+                  ${
+                    $locale == 'sv'
+                      ? findPostitoimipaikka(todistus.perustiedot.postinumero)[
+                          'label-sv'
+                        ]
+                      : findPostitoimipaikka(todistus.perustiedot.postinumero)[
+                          'label-fi'
+                        ]
+                  }
                   `}
                   </a></td>
                 <td>
-                  <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}${ref}`}><span class='m-title'>{$_('ETHAKU_TH_KAYTTOTARKOITUS')}</span>
-                    {$locale == 'sv' ? findKayttotarkoitusluokka(todistus.perustiedot.kayttotarkoitus, todistus.versio)['label-sv'] : findKayttotarkoitusluokka(todistus.perustiedot.kayttotarkoitus, todistus.versio)['label-fi']}
+                  <a
+                    class="block"
+                    href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}${ref}`}
+                    ><span class="m-title"
+                      >{$_('ETHAKU_TH_KAYTTOTARKOITUS')}</span>
+                    {$locale == 'sv'
+                      ? findKayttotarkoitusluokka(
+                          todistus.perustiedot.kayttotarkoitus,
+                          todistus.versio
+                        )['label-sv']
+                      : findKayttotarkoitusluokka(
+                          todistus.perustiedot.kayttotarkoitus,
+                          todistus.versio
+                        )['label-fi']}
                   </a>
                 </td>
                 <td class="text-center">
-                  <a class="block" href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}${ref}`}><span class='m-title'>{$_('ETHAKU_TH_VOIMASSA')}</span>
-                    {formats.formatDate(parseDate(todistus?.allekirjoitusaika))} - {formats.formatExclusiveEndDate(parseDate(todistus['voimassaolo-paattymisaika']))}
+                  <a
+                    class="block"
+                    href={`/energiatodistus?id=${todistus.id}&versio=${todistus.versio}${ref}`}
+                    ><span class="m-title">{$_('ETHAKU_TH_VOIMASSA')}</span>
+                    {formats.formatDate(parseDate(todistus?.allekirjoitusaika))}
+                    - {formats.formatExclusiveEndDate(
+                      parseDate(todistus['voimassaolo-paattymisaika'])
+                    )}
                   </a>
                 </td>
               </tr>
