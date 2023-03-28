@@ -11,6 +11,29 @@
   });
 </script>
 
+<style>
+  h2 {
+    @apply mb-2 mt-8;
+  }
+
+  ul {
+    list-style: disc;
+    @apply my-4;
+  }
+
+  h3 {
+    @apply underline font-bold;
+  }
+
+  a {
+    @apply underline text-darkgreen;
+  }
+
+  p {
+    @apply mb-4;
+  }
+</style>
+
 <Seo
   title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('SAAVUTETTAVUUSSELOSTE')}"
   descriptionFi={$locale == 'fi' ? $_('SAAVUTETTAVUUSSELOSTE') : undefined}
@@ -19,7 +42,7 @@
 <Container {...containerStyles.white}>
   <div class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto" bind:this={component}>
     <div>
-      <h1 class="mb-4">{$_('SAAVUTETTAVUUSSELOSTE')}</h1>
+      <h2 class="mb-4">{$_('SAAVUTETTAVUUSSELOSTE')}</h2>
       <p>
         ARA pyrkii takaamaan energiatodistusrekisteri.fi-palvelun
         saavutettavuuden Lain digitaalisten palvelujen tarjoamisesta 306/2019
@@ -28,12 +51,12 @@
       <p>
         Tämä saavutettavuusseloste koskee energiatodistusrekisteri.fi-sivustoa.
       </p>
-      <h2>Saavutettavuuden tila</h2>
+      <h3>Saavutettavuuden tila</h3>
       <p>
         energiatodistusrekisteri.fi täyttää Verkkosisällön
         saavutettavuusohjeiden (WCAG) 2.1 tason AA vaatimukset osittain.
       </p>
-      <h2>Ei-saavutettava sisältö</h2>
+      <h3>Ei-saavutettava sisältö</h3>
       <p>
         Jäljempänä mainittu sisältö ei ole saavutettavissa seuraavista syistä:
       </p>
@@ -41,7 +64,7 @@
         Lain digitaalisten palvelujen tarjoamisesta 306/2019 noudattamatta
         jättäminen
       </p>
-      <ul>
+      <ul class="ml-6">
         <li>
           Päävalikon linkeissä ikonin tekstivastine toistaa turhaan
           linkkitekstin sisällön (WCAG 1.1.1)
@@ -104,7 +127,7 @@
           target="_blank"
           >Lain digitaalisten palvelujen tarjoamisesta 306/2019</a> vaatimukset.
       </p>
-      <h2>Palaute ja yhteystiedot</h2>
+      <h3>Palaute ja yhteystiedot</h3>
       <!--      Pitäisikö olla ihan mailto-linkki vai ei?      -->
       <p>
         Jos huomasit saavutettavuuspuutteen, jota ei tällä sivulla ole kuvattu,
