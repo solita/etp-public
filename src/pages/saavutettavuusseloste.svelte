@@ -3,6 +3,7 @@
   import Container, { styles as containerStyles } from '@Component/container';
   import { _, locale } from '@Localization/localization';
   import Seo from '@Component/seo';
+  import Link from '@Component/Link';
 
   let component;
 
@@ -23,10 +24,6 @@
 
   h3 {
     @apply underline font-bold;
-  }
-
-  a {
-    @apply underline text-darkgreen;
   }
 
   p {
@@ -121,11 +118,14 @@
       </p>
       <p>
         Seloste perustuu ulkopuolisen asiantuntijaorganisaation (Eficode Oy)
-        toteuttamaan arviointiin siitä, täyttääkö verkkosivusto <a
+        toteuttamaan arviointiin siitä, täyttääkö verkkosivusto
+        <Link
           href="https://www.finlex.fi/fi/laki/alkup/2019/20190306"
           referrerpolicy="no-referrer"
-          target="_blank"
-          >Lain digitaalisten palvelujen tarjoamisesta 306/2019</a> vaatimukset.
+          target="_blank">
+          Lain digitaalisten palvelujen tarjoamisesta 306/2019
+        </Link>
+        vaatimukset.
       </p>
       <h3>Palaute ja yhteystiedot</h3>
       <!--      Pitäisikö olla ihan mailto-linkki vai ei?      -->
