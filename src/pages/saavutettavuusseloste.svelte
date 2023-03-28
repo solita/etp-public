@@ -3,7 +3,7 @@
   import Container, { styles as containerStyles } from '@Component/container';
   import { _, locale } from '@Localization/localization';
   import Seo from '@Component/seo';
-  import Link from '@Component/Link';
+  import Link from '@Component/link';
 
   let component;
 
