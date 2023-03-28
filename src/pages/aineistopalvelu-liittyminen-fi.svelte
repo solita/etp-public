@@ -5,7 +5,7 @@
   } from '@Component/buttonlink';
   import Container, { styles as containerStyles } from '@Component/container';
   import InfoBlock from '@Component/info-block';
-
+  import Link from '@Component/link';
   import SopimusTietopalvelunKaytosta from '@Asset/sopimus-tietopalvelun-kaytosta-luonnos.pdf';
   import TietolupaHakemuslomake from '@Asset/tietolupa-hakemuslomake.pdf';
 
@@ -20,19 +20,20 @@
     list-style: decimal;
     @apply my-4;
   }
+
   ul {
     list-style: disc;
     @apply my-4;
   }
+
   h2 {
     @apply mb-2 mt-8;
   }
+
   h3 {
     @apply underline font-bold;
   }
-  a {
-    @apply underline text-darkgreen;
-  }
+
   p {
     @apply mb-4;
   }
@@ -64,10 +65,10 @@
 
     <p>
       Alla lyhyesti tietoaineistojen kuvaukset. Tarkemmat kenttäkohtaiset
-      aineistokuvaukset löytyvät <a
-        href="https://github.com/solita/etp-core/wiki/Aineistopalvelu">
-        GitHubista
-      </a>.
+      aineistokuvaukset löytyvät
+      <Link href="https://github.com/solita/etp-core/wiki/Aineistopalvelu"
+        >GitHubista</Link
+      >.
     </p>
 
     <h3>Suppea henkilötietoja sisältävä aineisto</h3>
@@ -134,26 +135,26 @@
       ja veloitamme niistä tuntihinnastomme mukaisesti.
     </p>
     <p>
-      Hinnastomme löydät <a
+      Hinnastomme löydät <Link
         href="https://www.ara.fi/fi-FI/ARA/Yhteystiedot/Yhteystiedot(477)">
-        ARAn sivuilta
-      </a>.
+        ARAn sivuilta</Link
+      >.
     </p>
 
     <h2>Aineistopalveluun liittyminen</h2>
     <ol class="ml-6">
       <li>
-        Täytä <a href={TietolupaHakemuslomake} target="_blank"> hakemus </a>
+        Täytä <Link href={TietolupaHakemuslomake} target="_blank">hakemus</Link>
         sekä tutustu
-        <a href={SopimusTietopalvelunKaytosta} target="_blank">
-          sopimusluonnokseen
-        </a>.
+        <Link href={SopimusTietopalvelunKaytosta} target="_blank"
+          >sopimusluonnokseen</Link
+        >.
       </li>
       <li>
         Lähetä hakemus sähköpostitse (kirjaamo.ara@ara.fi), jos hakemus sisältää
-        salassa pidettävää tietoa, niin lähetä turvaposti (ohje löytyy <a
+        salassa pidettävää tietoa, niin lähetä turvaposti (ohje löytyy <Link
           href="https://www.ara.fi/fi-FI/ARA/Yhteystiedot/Yhteystiedot(477)"
-          >ARAn sivuilta</a
+          >ARAn sivuilta</Link
         >)
       </li>
       <li>
@@ -169,20 +170,22 @@
       </li>
       <li>
         Aineistopalvelu on käytettävissäsi. Ks. tarkemmat ohjeet rajapintaan
-        liittymisestä <a
+        liittymisestä <Link
           href="https://github.com/solita/etp-core/wiki/Aineistopalvelu">
-          GitHubissa
-        </a>.
+          GitHubissa</Link
+        >.
       </li>
     </ol>
     <ButtonLink
       href={TietolupaHakemuslomake}
       target="_blank"
-      {...buttonLinkStyles.green}>Hakemus</ButtonLink>
+      {...buttonLinkStyles.green}
+      >Hakemus
+    </ButtonLink>
     <h2>Toiminta häiriötilanteissa</h2>
     <p>
       Aineistopalveluun liittyvissä häiriötilanteissa ota yhteyttä sähköpostitse
-      <a href="mailto:energiatodistus@ara.fi">energiatodistus@ara.fi</a>.
+      <Link href="mailto:energiatodistus@ara.fi">energiatodistus@ara.fi</Link>.
     </p>
   </div>
 </Container>
