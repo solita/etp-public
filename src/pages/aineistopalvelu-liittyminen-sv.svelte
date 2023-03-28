@@ -5,6 +5,7 @@
   } from '@Component/buttonlink';
   import Container, { styles as containerStyles } from '@Component/container';
   import InfoBlock from '@Component/info-block';
+  import Link from '@Component/link';
 
   import SopimusTietopalvelunKaytosta from '@Asset/sopimus-tietopalvelun-kaytosta-luonnos-sv.pdf';
   import TietolupaHakemuslomake from '@Asset/tietolupa-hakemuslomake-sv.pdf';
@@ -20,19 +21,20 @@
     list-style: decimal;
     @apply my-4;
   }
+
   ul {
     list-style: disc;
     @apply my-4;
   }
+
   h2 {
     @apply mb-2 mt-8;
   }
+
   h3 {
     @apply underline font-bold;
   }
-  a {
-    @apply underline text-darkgreen;
-  }
+
   p {
     @apply mb-4;
   }
@@ -64,10 +66,10 @@
 
     <p>
       Nedan beskrivs informationsmaterialet kortfattat. Närmare fältspecifika
-      materialbeskrivningar finns i <a
+      materialbeskrivningar finns i <Link
         href="https://github.com/solita/etp-core/wiki/Aineistopalvelu">
-        GitHub
-      </a> .
+        GitHub</Link
+      >.
     </p>
 
     <h3>Begränsat material som innehåller personuppgifter</h3>
@@ -133,27 +135,29 @@
       fall till fall och debiterar för dem enligt vår timprislista.
     </p>
     <p>
-      Vår prislista finns på <a
+      Vår prislista finns på <Link
         href="https://www.ara.fi/fi-FI/ARA/Yhteystiedot/Yhteystiedot(477)">
-        ARAs webbplats
-      </a>.
+        ARAs webbplats</Link
+      >.
     </p>
 
     <h2>Anslutning till materialtjänsten</h2>
     <ol class="ml-6">
       <li>
-        Fyll i <a href={TietolupaHakemuslomake} target="_blank"> ansökan </a>
+        Fyll i <Link href={TietolupaHakemuslomake} target="_blank"
+          >ansökan</Link>
         och bekanta dig med
-        <a href={SopimusTietopalvelunKaytosta} target="_blank">
-          avtalsutkastet
-        </a>.
+        <Link href={SopimusTietopalvelunKaytosta} target="_blank">
+          avtalsutkastet</Link
+        >.
       </li>
       <li>
         Skicka ansökan per e-post (kirjaamo.ara@ara.fi), om ansökan innehåller
         sekretessbelagd information ska du skicka den som säker e-post
-        (anvisningen finna på <a
+        (anvisningen finna på <Link
           href="https://www.ara.fi/fi-FI/ARA/Yhteystiedot/Yhteystiedot(477)">
-          ARAs webbplats</a> )
+          ARAs webbplats</Link
+        >)
       </li>
       <li>
         Vänta på beslutet om datatillstånd som skickas till den kontaktperson
@@ -169,21 +173,23 @@
       </li>
       <li>
         Materialtjänsten är tillgänglig för dig. Se närmare anvisningar om
-        anslutning till gränssnittet i <a
+        anslutning till gränssnittet i <Link
           href="https://github.com/solita/etp-core/wiki/Aineistopalvelu">
-          GitHub
-        </a> .
+          GitHub</Link
+        >.
       </li>
     </ol>
     <ButtonLink
       href={TietolupaHakemuslomake}
       target="_blank"
-      {...buttonLinkStyles.green}>Ansökan</ButtonLink>
+      {...buttonLinkStyles.green}
+      >Ansökan
+    </ButtonLink>
     <h2>Åtgärder vid störningar</h2>
     <p>
       Vid störningar i materialtjänsten ska du kontakta oss per e-post på
       adressen
-      <a href="mailto:energiatodistus@ara.fi">energiatodistus@ara.fi</a>.
+      <Link href="mailto:energiatodistus@ara.fi">energiatodistus@ara.fi</Link>.
     </p>
   </div>
 </Container>
