@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import Container, { styles as containerStyles } from '@Component/container';
   import InfoBlock from '@Component/info-block';
+  import Link from '@Component/link';
   import { _, locale } from '@Localization/localization';
   import Seo from '@Component/seo';
 
@@ -21,9 +22,6 @@
   }
   h2 {
     @apply mb-2;
-  }
-  a {
-    @apply underline text-darkgreen;
   }
 </style>
 
@@ -62,17 +60,18 @@
       <div class="my-4">
         <div class="flex flex-col md:flex-row md:space-x-1">
           <span>{$_('REOHJ_POLIISILTA')}</span>
-          <a href="https://poliisi.fi/etusivu">{$_('REOHJ_SIIRRY_POLIISIN')}</a>
+          <Link href="https://poliisi.fi/etusivu"
+            >{$_('REOHJ_SIIRRY_POLIISIN')}</Link>
         </div>
         <div class="flex flex-col md:flex-row md:space-x-1">
           <span>{$_('REOHJ_LISATIETOJA')}</span>
-          <a href="https://dvv.fi/varmenteet">{$_('REOHJ_SIIRRY_DVV')}</a>
+          <Link href="https://dvv.fi/varmenteet">{$_('REOHJ_SIIRRY_DVV')}</Link>
         </div>
       </div>
       <div>
         <p>{$_('REOHJ_KORTINLUKULAITTEEN')}</p>
-        <a href="https://dvv.fi/kortinlukijaohjelmisto"
-          >{$_('REOHJ_SIIRRY_OHJELMISTON')}</a>
+        <Link href="https://dvv.fi/kortinlukijaohjelmisto"
+          >{$_('REOHJ_SIIRRY_OHJELMISTON')}</Link>
       </div>
     </div>
   </div>
