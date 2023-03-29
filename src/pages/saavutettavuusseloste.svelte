@@ -128,7 +128,6 @@
         vaatimukset.
       </p>
       <h3>Palaute ja yhteystiedot</h3>
-      <!--      Pitäisikö olla ihan mailto-linkki vai ei?      -->
       <p>
         Jos huomasit saavutettavuuspuutteen, jota ei tällä sivulla ole kuvattu,
         kerrothan sen meille. Ota yhteyttä lähettämällä sähköpostia
