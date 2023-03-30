@@ -22,6 +22,10 @@
     @apply my-4;
   }
 
+  .contact-info {
+    @apply list-none;
+  }
+
   h3 {
     @apply underline font-bold;
   }
@@ -133,6 +137,28 @@
         kerrothan sen meille. Ota yhteyttä lähettämällä sähköpostia
         osoitteeseen: viestinta.ara (at) ara.fi
       </p>
+      <p>
+        Vastaamme viestiisi niin pian kuin mahdollista. Huomaathan, että
+        vastauksessamme voi kuitenkin kulua jopa 14 päivää.
+      </p>
+
+      <h3>Täytäntöönpanomenettely</h3>
+      <p>
+        Jos huomaat sivustolla saavutettavuusongelmia, anna ensin palautetta
+        sivuston ylläpitäjälle. Vastauksessa voi mennä 14 päivää. Jos et ole
+        tyytyväinen saamaasi vastaukseen tai et saa vastausta lainkaan kahden
+        viikon aikana, voit antaa palautteen Etelä-Suomen aluehallintovirastoon.
+      </p>
+
+      <h3>Valvontaviranomaisen yhteystiedot</h3>
+      <ul class="contact-info">
+        <li>Saavutettavuuden valvonnan yksikkö</li>
+        <li>
+          <Link href="https://www.saavutettavuusvaatimukset.fi/"
+            >Saavutettavuusvaatimukset.fi</Link>
+        </li>
+        <li>saavutettavuus(at)avi.fi vaihde 0295 016 000</li>
+      </ul>
     </div>
   </div>
 </Container>
