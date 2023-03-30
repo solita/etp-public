@@ -6,6 +6,7 @@
   import Container, { styles as containerStyles } from '@Component/container';
   import Button, { styles as buttonStyles } from '@Component/button';
   import Spinner from '@Component/spinner';
+  import Link from '@Component/link';
   import { onMount } from 'svelte';
   import { backReferred } from '@/router/router';
   import { parseDate } from '@/utilities/parsers';
@@ -116,24 +117,24 @@
           <div class="flex flex-col md:flex-row text-lg space-x-2 my-1 w-full">
             <strong class="w-full md:w-1/3 text-lg text-ashblue tracking-widest"
               >{$_('LAATIJA_WWW')}:</strong>
-            <a class="text-darkgreen underline" href={laatija.wwwosoite}
-              >{laatija.wwwosoite}</a>
+            <Link class="text-darkgreen underline" href={laatija.wwwosoite}
+              >{laatija.wwwosoite}</Link>
           </div>
         {/if}
         {#if laatija.email}
           <div class="flex flex-col md:flex-row text-lg space-x-2 my-1 w-full">
             <strong class="w-full md:w-1/3 text-lg text-ashblue tracking-widest"
               >{$_('LAATIJA_EMAIL')}:</strong>
-            <a class="text-darkgreen underline" href="mailto:{laatija.email}"
-              >{laatija.email}</a>
+            <Link class="text-darkgreen underline" href="mailto:{laatija.email}"
+              >{laatija.email}</Link>
           </div>
         {/if}
         {#if laatija.puhelin}
           <div class="flex flex-col md:flex-row text-lg space-x-2 my-1 w-full">
             <strong class="w-full md:w-1/3 text-lg text-ashblue tracking-widest"
               >{$_('LAATIJA_PUH')}:</strong>
-            <a class="text-darkgreen underline" href="tel:{laatija.puhelin}"
-              >{laatija.puhelin}</a>
+            <Link class="text-darkgreen underline" href="tel:{laatija.puhelin}"
+              >{laatija.puhelin}</Link>
           </div>
         {/if}
       </div>

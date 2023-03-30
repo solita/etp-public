@@ -1,9 +1,10 @@
 <script>
-  import Button, { styles as buttonStyles } from '@Component/button';
+  import { styles as buttonStyles } from '@Component/button';
   import ButtonLink, {
     styles as buttonLinkStyles
   } from '@Component/buttonlink';
   import Container, { styles as containerStyles } from '@Component/container';
+  import Link from '@Component/link';
   import IconLogin from '@Asset/icons/login-light.svg';
   import IconChat from '@Asset/icons/chat.svg';
   import ImgLogoBlack from '@Asset/ara_logo_black.png';
@@ -36,16 +37,14 @@
         <h2 class="mb-4">{$_('FOOTER_LAKI')}</h2>
         <p>{$_('FOOTER_ARA_VIRANOMAINEN')}</p>
         <br />
-        <a href="https://www.ara.fi" class="underline text-darkgreen"
-          >{$_('FOOTER_ARA_LINKKI')}</a>
+        <Link href="https://www.ara.fi">{$_('FOOTER_ARA_LINKKI')}</Link>
       </section>
       <section class="md:w-1/3 flex flex-col justify-between py-4 md:py-0">
         <h2 class="mb-4">{$_('FOOTER_YHTEYSTIEDOT')}</h2>
         <address class="not-italic">
           <span>{$_('EMAIL')}:</span>
-          <a
-            href="mailto:energiatodistus@ara.fi"
-            class="underline text-darkgreen">energiatodistus@ara.fi</a>
+          <Link href="mailto:energiatodistus@ara.fi"
+            >energiatodistus@ara.fi</Link>
         </address>
         <address class="not-italic flex flex-col">
           <span>{$_('FOOTER_OSOITE_1')}</span>
@@ -54,8 +53,7 @@
         </address>
         <address class="not-italic">
           <span>{$_('PUHELINVAIHDE')}:</span>
-          <a href="tel:0295250800" class="underline text-darkgreen"
-            >029 525 0800</a>
+          <Link href="tel:0295250800">029 525 0800</Link>
         </address>
         <a href="/tietoa-sivustosta" class="block underline text-darkgreen">
           {$_('TIETOA_SIVUSTOSTA')}
