@@ -8,7 +8,7 @@
   let component;
 
   onMount(() => {
-    component?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    component?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 </script>
 
