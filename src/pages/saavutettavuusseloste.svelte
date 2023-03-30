@@ -154,7 +154,7 @@
       <ul class="contact-info">
         <li>Saavutettavuuden valvonnan yksikkö</li>
         <li>
-          <Link href="https://www.saavutettavuusvaatimukset.fi/"
+          <Link href="https://www.saavutettavuusvaatimukset.fi/" target="_blank"
             >Saavutettavuusvaatimukset.fi</Link>
         </li>
         <li>saavutettavuus(at)avi.fi vaihde 0295 016 000</li>
