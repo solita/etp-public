@@ -27,7 +27,7 @@
   }
 
   h3 {
-    @apply underline font-bold;
+    @apply font-bold;
   }
 
   p {
