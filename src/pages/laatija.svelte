@@ -27,7 +27,6 @@
   let didAnnounce = false;
 
   $: laatijaPromise?.then(laatija => {
-    console.log(`Should announce ${laatija} unless already did`);
     if (!didAnnounce) announce(`${$_('ET_LAATIJA')} ${id} - ${laatija.nimi}`);
     didAnnounce = true;
   });
