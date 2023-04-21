@@ -3,6 +3,7 @@
   import Container, { styles as containerStyles } from '@Component/container';
   import { _, locale } from '@Localization/localization';
   import Seo from '@Component/seo';
+  import { announce } from '@/utilities/announce';
 
   import TietosuojaEtRekisteriFi from '@Asset/Tietosuojaseloste_Energiatodistusrekisteri.pdf';
   import TietosuojaEtRekisteriSv from '@Asset/Dataskyddsbeskrivning_Energicertifikatregistret.pdf';
@@ -14,6 +15,7 @@
   import TietosuojaAineistopalveluSv from '@Asset/tietosuoja-aineistopalvelu-sv.pdf';
 
   let component;
+  announce($_('TIETOA_SIVUSTOSTA'));
 
   onMount(() => {
     component?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -51,14 +53,14 @@
 </style>
 
 <Seo
-  title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('SAAVUTETTAVUUSSELOSTE')}"
+  title="{$_('ENERGIATODISTUSREKISTERI')} - {$_('TIETOA_SIVUSTOSTA')}"
   descriptionFi={$locale == 'fi' ? $_('SAAVUTETTAVUUSSELOSTE') : undefined}
   descriptionSv={$locale == 'sv' ? $_('SAAVUTETTAVUUSSELOSTE') : undefined} />
 
 <Container {...containerStyles.white}>
   <div class="px-4 lg:px-8 xl:px-16 pt-8 pb-4 mx-auto" bind:this={component}>
     <div>
-      <h1 class="mb-4">{$_('TIETOA')}</h1>
+      <h1 class="mb-4">{$_('TIETOA_SIVUSTOSTA')}</h1>
       <ul>
         <li>
           <a href="/saavutettavuusseloste" class="text-darkgreen">

@@ -8,6 +8,10 @@
   import Link from '@Component/link';
   import SopimusTietopalvelunKaytosta from '@Asset/sopimus-tietopalvelun-kaytosta-luonnos.pdf';
   import TietolupaHakemuslomake from '@Asset/tietolupa-hakemuslomake.pdf';
+  import { announce } from '@/utilities/announce';
+
+  const title = 'Energiatodistusrekisterin aineistopalvelu';
+  announce(title);
 
   let component;
   onMount(() => {
@@ -41,7 +45,7 @@
 
 <Container {...containerStyles.beige}>
   <div bind:this={component}>
-    <InfoBlock title={'Energiatodistusrekisterin Aineistopalvelu'}>
+    <InfoBlock {title}>
       Energiatodistusrekisterin Aineistopalvelu on tarkoitettu
       energiatodistustietojen siirtoon rajapinnan kautta rekisteristä
       Aineistopalvelun käyttäjälle.
