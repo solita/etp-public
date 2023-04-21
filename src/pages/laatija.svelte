@@ -112,6 +112,16 @@
             </span>
           </div>
         {/if}
+        {#if laatija.jakeluosoite === undefined && laatija.postinumero}
+          <div class="flex flex-col md:flex-row text-lg space-x-2 my-1 w-full">
+            <strong class="w-full md:w-1/3 text-lg text-ashblue tracking-widest"
+              >{$_('LAATIJA_POSTINUMERO')}:</strong>
+            <span>
+              {laatija.postinumero}
+              {laatija.postitoimipaikka}
+            </span>
+          </div>
+        {/if}
         {#if laatija.wwwosoite}
           <div class="flex flex-col md:flex-row text-lg space-x-2 my-1 w-full">
             <strong class="w-full md:w-1/3 text-lg text-ashblue tracking-widest"
