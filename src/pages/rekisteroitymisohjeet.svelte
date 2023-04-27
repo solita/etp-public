@@ -5,6 +5,7 @@
   import Link from '@Component/link';
   import { _, locale } from '@Localization/localization';
   import Seo from '@Component/seo';
+  import { announceAssertively } from '@/utilities/announce';
 
   onMount(() => {
     window.scrollTo({
@@ -13,6 +14,8 @@
       behavior: 'smooth'
     });
   });
+
+  announceAssertively($_('REKISTEROITYMISOHJEET'));
 </script>
 
 <style>

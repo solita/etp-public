@@ -225,7 +225,6 @@
   "REOHJ_SIIRRY_OHJELMISTON": "Gå till programmets sida på dvv.fi",
   "SERVER_ERROR": "Data kunde inte hämtas. Försök igen om ett ögonblick.",
   "PAGE_NOT_FOUND_ERROR": "Sidan du sökte hittades inte.  ",
-  "TIETOA": "Information om webbplatsen",
   "TILASTOT_INVALID_VUOSI_MIN": "Startåret ska vara mindre än slutåret",
   "TILASTOT_INVALID_VUOSI_MAX": "Slutåret ska vara större än startåret",
   "TILASTOT_INVALID_NETTOALA_MIN": "Värdet ska vara mindre än slutvärdet",

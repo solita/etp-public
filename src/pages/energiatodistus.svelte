@@ -13,7 +13,7 @@
   import { parseDate } from '@/utilities/parsers';
   import * as formats from '@/utilities/formats';
   import * as fxmath from '@/utilities/fxmath';
-  import { announce } from '@/utilities/announce';
+  import { announceAssertively } from '@/utilities/announce';
 
   import * as EtHakuUtils from '@/utilities/ethaku';
   import * as EtApi from '@/api/energiatodistus-api';
@@ -27,7 +27,7 @@
   export let versio;
   let ref = '';
 
-  announce(`${$_('ENERGIATODISTUS')} ${id}`);
+  announceAssertively(`${$_('ENERGIATODISTUS')} ${id}`);
 
   const classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
 

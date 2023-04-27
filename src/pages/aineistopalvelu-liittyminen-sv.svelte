@@ -9,6 +9,10 @@
 
   import SopimusTietopalvelunKaytosta from '@Asset/sopimus-tietopalvelun-kaytosta-luonnos-sv.pdf';
   import TietolupaHakemuslomake from '@Asset/tietolupa-hakemuslomake-sv.pdf';
+  import { announceAssertively } from '@/utilities/announce';
+
+  const title = 'Energicertifikatregistrets materialtjänst';
+  announceAssertively(title);
 
   let component;
   onMount(() => {
@@ -42,7 +46,7 @@
 
 <Container {...containerStyles.beige}>
   <div bind:this={component}>
-    <InfoBlock title={'Energicertifikatregistrets materialtjänst'}>
+    <InfoBlock {title}>
       Energicertifikatregistrets materialtjänst är avsedd för överföring av
       energicertifikatuppgifter från registret via gränssnittet till
       materialtjänstens användare.

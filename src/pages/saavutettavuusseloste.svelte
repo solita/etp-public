@@ -3,9 +3,11 @@
   import Container, { styles as containerStyles } from '@Component/container';
   import { _, locale } from '@Localization/localization';
   import Seo from '@Component/seo';
+  import { announceAssertively } from '@/utilities/announce';
   import Link from '@Component/link';
 
   let component;
+  announceAssertively($_('SAAVUTETTAVUUSSELOSTE'));
 
   onMount(() => {
     component?.scrollIntoView({ behavior: 'smooth', block: 'start' });

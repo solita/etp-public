@@ -17,7 +17,7 @@
   import Spinner from '@Component/spinner';
   import * as Formats from '@/utilities/formats';
   import * as Parsers from '@/utilities/parsers';
-  import { announce } from '@/utilities/announce';
+  import { announceAssertively } from '@/utilities/announce';
 
   let resultsElem;
   let vuosiminInput, vuosimaxInput, nettoalaminInput, nettoalamaxInput;
@@ -29,7 +29,7 @@
   export let nettoalamin = '';
   export let nettoalamax = '';
 
-  announce($_('TILASTOT'));
+  announceAssertively($_('TILASTOT'));
 
   const format = new Intl.NumberFormat('fi-FI', {
     minimumFractionDigits: 0,

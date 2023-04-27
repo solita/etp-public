@@ -228,7 +228,6 @@
   "REOHJ_SIIRRY_OHJELMISTON": "Siirry ohjelmiston sivulle dvv.fi:ssä",
   "SERVER_ERROR": "Tietoja ei pystytty hakemaan. Yritä hetken kuluttua uudelleen.",
   "PAGE_NOT_FOUND_ERROR": "Hakemaasi sivua ei löydy.",
-  "TIETOA": "Tietoa sivustosta",
   "TILASTOT": "Tilastot",
   "TILASTOT_INFO_TITLE": "Vertaa rakennuksen energiatehokkuutta muihin samankaltaisiin rakennuksiin",
   "TILASTOT_INFO_TEXT": "Tällä vertailutyökalulla voit verrata vaikka oman talosi energiatehokkuusluokkaa saman ikäisiin, kokoisiin tai samalta alueelta löytyviin taloihin. Vertailu näyttää rakennuksen energiatehokkuusluokan ja muita energiatodistuksesta löytyviä tietoja, jotka kertovat rakennusten ominaisuuksista. Näet esimerkiksi alueen rakennuksista rakenteiden keskimääräiset lämmönläpäisykertoimet tai kuinka monessa rakennuksessa on hyödynnetty aurinkoenergiaa. Voit tarkastella asuinrakennuksia tai muita rakennuksia. Rakennusten käyttötarkoitusluokat ovat energiatodistuslainsäädännön käyttötarkoitusluokkien mukaiset. Haku näyttää tulokset, jos haun mukaisia rakennuksia on 4 tai enemmän.",

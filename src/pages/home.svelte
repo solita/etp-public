@@ -19,9 +19,9 @@
   import * as TilastotApi from '@/api/tilastot-api';
   import * as LaatijaApi from '@/api/laatija-api';
 
-  import { announce } from '@/utilities/announce';
+  import { announceAssertively } from '@/utilities/announce';
 
-  announce($_('NAVBAR_ETUSIVU'));
+  announceAssertively($_('NAVBAR_ETUSIVU'));
 
   let etHakuId = '';
   let etHakuKeyword = '';

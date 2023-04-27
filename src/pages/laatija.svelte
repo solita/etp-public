@@ -11,7 +11,7 @@
   import { backReferred } from '@/router/router';
   import { parseDate } from '@/utilities/parsers';
   import * as formats from '@/utilities/formats';
-  import { announce } from '@/utilities/announce';
+  import { announceAssertively } from '@/utilities/announce';
 
   export let id;
   let ref = '';
@@ -27,7 +27,8 @@
   let didAnnounce = false;
 
   $: laatijaPromise?.then(laatija => {
-    if (!didAnnounce) announce(`${$_('ET_LAATIJA')} ${id} - ${laatija.nimi}`);
+    if (!didAnnounce)
+      announceAssertively(`${$_('ET_LAATIJA')} ${id} - ${laatija.nimi}`);
     didAnnounce = true;
   });
 
