@@ -23,7 +23,7 @@
   import * as EtHakuUtils from '@/utilities/ethaku';
   import * as EtApi from '@/api/energiatodistus-api';
   import * as parsers from '@/utilities/parsers';
-  import { announce } from '@/utilities/announce';
+  import { announceAssertively } from '@/utilities/announce';
 
   export let where = '';
   export let keyword = '';
@@ -49,7 +49,7 @@
   let nettoalaMinInput;
   let nettoalaMaxInput;
 
-  announce($_('NAVBAR_ENERGIATODISTUSHAKU'));
+  announceAssertively($_('NAVBAR_ENERGIATODISTUSHAKU'));
 
   let kayttotarkoitusluokat = Promise.all([
     EtApi.kayttotarkoitusluokat(fetch, 2013),

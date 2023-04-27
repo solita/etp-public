@@ -9,10 +9,10 @@
 
   import SopimusTietopalvelunKaytosta from '@Asset/sopimus-tietopalvelun-kaytosta-luonnos-sv.pdf';
   import TietolupaHakemuslomake from '@Asset/tietolupa-hakemuslomake-sv.pdf';
-  import { announce } from '@/utilities/announce';
+  import { announceAssertively } from '@/utilities/announce';
 
   const title = 'Energicertifikatregistrets materialtjänst';
-  announce(title);
+  announceAssertively(title);
 
   let component;
   onMount(() => {

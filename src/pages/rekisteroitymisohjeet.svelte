@@ -5,7 +5,7 @@
   import Link from '@Component/link';
   import { _, locale } from '@Localization/localization';
   import Seo from '@Component/seo';
-  import { announce } from '@/utilities/announce';
+  import { announceAssertively } from '@/utilities/announce';
 
   onMount(() => {
     window.scrollTo({
@@ -15,7 +15,7 @@
     });
   });
 
-  announce($_('REKISTEROITYMISOHJEET'));
+  announceAssertively($_('REKISTEROITYMISOHJEET'));
 </script>
 
 <style>

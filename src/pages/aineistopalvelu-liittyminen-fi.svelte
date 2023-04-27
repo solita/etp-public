@@ -8,10 +8,10 @@
   import Link from '@Component/link';
   import SopimusTietopalvelunKaytosta from '@Asset/sopimus-tietopalvelun-kaytosta-luonnos.pdf';
   import TietolupaHakemuslomake from '@Asset/tietolupa-hakemuslomake.pdf';
-  import { announce } from '@/utilities/announce';
+  import { announceAssertively } from '@/utilities/announce';
 
   const title = 'Energiatodistusrekisterin aineistopalvelu';
-  announce(title);
+  announceAssertively(title);
 
   let component;
   onMount(() => {

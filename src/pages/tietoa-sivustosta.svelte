@@ -3,7 +3,7 @@
   import Container, { styles as containerStyles } from '@Component/container';
   import { _, locale } from '@Localization/localization';
   import Seo from '@Component/seo';
-  import { announce } from '@/utilities/announce';
+  import { announceAssertively } from '@/utilities/announce';
 
   import TietosuojaEtRekisteriFi from '@Asset/Tietosuojaseloste_Energiatodistusrekisteri.pdf';
   import TietosuojaEtRekisteriSv from '@Asset/Dataskyddsbeskrivning_Energicertifikatregistret.pdf';
@@ -15,7 +15,7 @@
   import TietosuojaAineistopalveluSv from '@Asset/tietosuoja-aineistopalvelu-sv.pdf';
 
   let component;
-  announce($_('TIETOA_SIVUSTOSTA'));
+  announceAssertively($_('TIETOA_SIVUSTOSTA'));
 
   onMount(() => {
     component?.scrollIntoView({ behavior: 'smooth', block: 'center' });
