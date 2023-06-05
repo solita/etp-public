@@ -45,17 +45,12 @@
     </div>
     <div class="border-b border-grey pb-8 mb-8">
       <h2>{$_('REOHJ_KUINKA_KAYTTAMAAN')}</h2>
-      <strong>{$_('REOHJ_TEHNYT_KOKEEN_JALKEEN')}</strong>
       <ol class="ml-6">
         <li>{$_('REOHJ_JALKEEN_1')}</li>
         <li>{$_('REOHJ_JALKEEN_2')}</li>
       </ol>
 
       <p class="my-4">{$_('REOHJ_KIRJAUTUMINEN_EI_ONNISTU')}</p>
-
-      <strong>{$_('REOHJ_TEHNYT_KOKEEN_ENNEN')}</strong>
-      <br />
-      <p>{$_('REOHJ_ENNEN')}</p>
     </div>
     <div class="mb-8">
       <h2>{$_('REOHJ_TARVITSET')}</h2>
