@@ -48,6 +48,9 @@
   let eLukuMaxInput;
   let nettoalaMinInput;
   let nettoalaMaxInput;
+  let tuloksiaHeading;
+
+  $: tuloksiaHeading?.focus();
 
   announceAssertively($_('NAVBAR_ENERGIATODISTUSHAKU'));
 
@@ -252,6 +255,14 @@
   }
   .tarkennettu-row:focus-within .tarkennettu-label {
     @apply font-bold;
+  }
+  .tuloksia {
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+  .tuloksia:focus-visible {
+    outline: none;
   }
 </style>
 
@@ -821,6 +832,7 @@
             <Spinner />
           </div>
         {:then [et, count, page, postinumerot, kayttotarkoitusluokat]}
+          <span bind:this={tuloksiaHeading} tabindex="-1" class="tuloksia">{count < 1 ? $_('HAKU_TULOKSIA_EI') : $_('HAKU_TULOKSIA')} {count}</span>
           <TableEThaku
             etCount={count}
             eTodistukset={et}
